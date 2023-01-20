@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 
-@Table(name = "USER")
+@Table(name = "user")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 public class User {
 
     // Todo 컬럼
-
     @Id
     @GeneratedValue
     @Column(name = "user_id")
@@ -61,4 +60,5 @@ public class User {
 
 
     // Todo 연결...
+
 }
