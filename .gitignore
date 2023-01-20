@@ -1,1 +1,38 @@
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+
+### Backend ###
+development/Backend/studymoim/HELP.md
+development/Backend/studymoim/target/
+!development/Backend/studymoim/.mvn/wrapper/maven-wrapper.jar
+!development/Backend/studymoim/**/src/main/**/target/
+!development/Backend/studymoim/**/src/test/**/target/
+
+
