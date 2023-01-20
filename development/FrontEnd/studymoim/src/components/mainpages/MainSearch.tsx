@@ -5,7 +5,7 @@ export default function MainSearch() {
         type="text"
         className="flex-grow-0 flex-shrink-0 w-6/12 h-[63px] relative overflow-hidden rounded-[20px] bg-[#eef] text-lg font-medium text-left"
         style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-        placeholder = "듣고 싶은 기술을 검색하세요"
+        placeholder="듣고 싶은 기술을 검색하세요"
       />
 
       <div
@@ -34,5 +34,5 @@ export default function MainSearch() {
       </p> */}
       </div>
     </>
-  )
+  );
 }

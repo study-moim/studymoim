@@ -1,19 +1,13 @@
-export default function NavBarLogIn() {
+import NavBarRouter from "./NavBarRouter";
 
+export default function NavBarLogIn() {
   return (
     <div className="flex justify-between items-center w-full gap-[616px] pr-[21px] bg-white">
       <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
-        <img
-          src="\src\assets\logo.png"
-          className="flex-grow-0 flex-shrink-0 w-[108px] h-[67px] object-cover"
-        />
-        <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-[266px] relative gap-4">
-          <p className="flex-grow-0 flex-shrink-0 text-[28px] text-left text-[#7b7474]">강좌</p>
-          <p className="flex-grow-0 flex-shrink-0 text-[28px] text-left text-[#7b7474]">스터디</p>
-          <p className="flex-grow-0 flex-shrink-0 text-[28px] text-left text-[#7b7474]">커뮤니티</p>
-        </div>
+        <NavBarRouter />
       </div>
       <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[360px] relative gap-[26px]">
+        {/* 종모양아이콘 */}
         <svg
           width={36}
           height={37}
@@ -41,6 +35,7 @@ export default function NavBarLogIn() {
             />
           </g>
         </svg>
+        {/* 메시지아이콘 */}
         <svg
           width={36}
           height={37}
@@ -69,18 +64,22 @@ export default function NavBarLogIn() {
           </g>
         </svg>
         <button
-          className="flex justify-center items-start flex-grow-0 flex-shrink-0 relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#ffe3ba]"
+          className="flex justify-center items-start flex-grow-0 flex-shrink-0 relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#f0db4f]"
           style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
         >
-          <p className="flex-grow-0 flex-shrink-0 text-xl text-left text-black">MyPage</p>
+          <p className="flex-grow-0 flex-shrink-0 text-xl text-left text-white">
+            MyPage
+          </p>
         </button>
         <button
-          className="flex justify-center items-start flex-grow relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#f4bdac]"
+          className="flex justify-center items-start flex-grow flex-shrink-0 relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#ff7262]"
           style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
         >
-          <p className="flex-grow-0 flex-shrink-0 text-xl text-left text-black">로그아웃</p>
+          <p className="flex-grow-0 flex-shrink-0 text-xl text-left text-white">
+            로그아웃
+          </p>
         </button>
       </div>
     </div>
-  )
+  );
 }
