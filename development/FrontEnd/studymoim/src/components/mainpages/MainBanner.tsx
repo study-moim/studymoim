@@ -1,3 +1,4 @@
+// TODO: 전체적으로 캐러셀로 다시 개편해야함, 현재 모양만 잡아놓은 상태
 export default function MainBanner() {
   return (
     <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-full h-[306px] relative px-[21px] bg-[#eef1ff]">

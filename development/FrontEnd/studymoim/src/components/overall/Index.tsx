@@ -1,4 +1,4 @@
-export default function skeleton() {
+export default function Index() {
   return (
     <>
     

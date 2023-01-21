@@ -2,11 +2,14 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBarNotLogIn from "./components/overall/NavBar/NavBarNotLogIn";
 import NavBarLogIn from "./components/overall/NavBar/NavBarLogIn";
-import MainPage from "./components/mainpages/MainPage";
+import MainPage from "./components/mainpages/MainPageRoot";
 import StudyRecruitMainAll from "./components/studypages/StudyRecruitMainAll";
 import CourseMain from "./components/coursepages/CourseMain";
 import CommunityMain from "./components/communitypages/CommunityMain";
 import LogInMain from "./components/loginpages/LogInMain";
+import MyPage from "./components/mypages/MyPage";
+import MailMain from "./components/overall/mailbox/MailMain";
+import FieldPage from "./components/overall/field/FieldPage";
 
 export default function App() {
   /** 간이 로그인 변수*/
@@ -22,7 +25,11 @@ export default function App() {
           <Route path="/study_main" element={<StudyRecruitMainAll />}></Route>
           <Route path="/community_main" element={<CommunityMain />}></Route>
           <Route path="/login" element={<LogInMain />}></Route>
-
+          {/* TODO: 동적라우터패쓰로 재설정 ex) /mypage/아이디 */}
+          <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/mail" element={<MailMain />}></Route>
+          {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
+          <Route path="/choice" element={<FieldPage />}></Route>
         </Routes>
       </>
     </BrowserRouter>

@@ -1,13 +1,17 @@
 // TODO: 이 화면은 로그인된 애는 못오게 해야함
+import { Link } from "react-router-dom";
 
+/** @function 로그인창 */
 export default function LogInMain() {
   return (
     <>
       <div className="flex flex-col justify-start items-center relative gap-[60px]">
+        {/* TODO: 홈화면으로 가게해야하나? */}
         <img
           src="./src/assets/logo.png"
           className="flex-grow-0 flex-shrink-0 w-[495px] h-[271px] object-cover"
         />
+        {/* TODO: 구글 소셜 연결 기능 추가, 이 버튼을 추가 컴포로 분리해야하나? */}
         <button
           className="flex-grow-0 flex-shrink-0 w-[375px] h-10 relative overflow-hidden rounded-[20px] bg-white"
           style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
@@ -33,6 +37,8 @@ export default function LogInMain() {
             </p>
           </div>
         </button>
+        {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
+        <Link to="/choice" className="text-xl">관심사 선택 테스트용 Click</Link>
       </div>
     </>
   );
