@@ -33,7 +33,13 @@ public class FreeBoard {
     private Timestamp publishTime;
 
     @Column(name = "is_deleted")
+    @NotNull
     private boolean isDeleted;
+
+    @Column(name = "hit")
+    @NotNull
     private int hit;
+
+    // Todo userId 연결
     private int userId;
 }
