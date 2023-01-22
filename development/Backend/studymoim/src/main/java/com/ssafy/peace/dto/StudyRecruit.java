@@ -3,9 +3,12 @@ package com.ssafy.peace.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * study/recruit 페이지에서 필요한 스터디 하나의 데이터
+ * StudyRecruit의 목록 형태가 study/recruit 페이지를 이룬다.
+ */
 @Data
 public class StudyRecruit {
 
@@ -29,9 +32,9 @@ public class StudyRecruit {
 
     private boolean isFinished;
 
-    private List<UserBase> members;
+    private List<UserInfo> members;
 
-    private List<CurriculumRecruit> curriculums;
+    private List<CurriculumRecruit> curriculum;
 
     private Timestamp startTime;
 
