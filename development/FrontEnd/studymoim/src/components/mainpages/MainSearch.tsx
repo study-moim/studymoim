@@ -1,8 +1,7 @@
 export default function MainSearch() {
   return (
     <div
-      className="flex-grow-0 flex-shrink-0 w-6/12 h-[63px] relative overflow-hidden rounded-[20px] bg-[#eef] mt-5"
-      style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
+      className="flex-grow-0 flex-shrink-0 w-6/12 h-[63px] relative overflow-hidden rounded-[20px] bg-[#eef] mt-5 shadow-xl"
     >
       {/* 돋보기 아이콘 */}
       <svg
@@ -11,7 +10,7 @@ export default function MainSearch() {
         viewBox="0 0 50 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-2/12 h-[50px] absolute top-1.5"
+        className="w-1/12 h-[50px] absolute top-1.5"
         preserveAspectRatio="xMidYMid meet"
       >
         <path

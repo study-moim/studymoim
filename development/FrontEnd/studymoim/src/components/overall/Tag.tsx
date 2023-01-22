@@ -1,7 +1,7 @@
 export default function Tag() {
   return (
     <>
-      <div className="flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-white border-2 border-[#b1b2ff]">
+      <button className="flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-white border-2 border-[#b1b2ff]">
         <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
           <svg
             width={58}
@@ -30,7 +30,7 @@ export default function Tag() {
             Javascript
           </p>
         </div>
-      </div>
+      </button>
     </>
   );
 }
