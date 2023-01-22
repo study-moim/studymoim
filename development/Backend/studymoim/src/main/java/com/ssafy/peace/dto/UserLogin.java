@@ -2,14 +2,13 @@ package com.ssafy.peace.dto;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public class LoginUser {
+public class UserLogin {
 
     @Size(min=5, max=50, message = "바르지 않은 email 크기 입니다")
     @NotEmpty(message="email은 빈값 일 수 없습니다")
