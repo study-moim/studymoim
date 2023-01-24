@@ -23,7 +23,7 @@ public class StudyRequest {
     @Column(name = "study_request_id")
     private int studyRequestId;
 
-    @Column(name = "notice")
+    @Column(name = "content")
     @Size(max = 255)
     @NotNull
     private String content;
