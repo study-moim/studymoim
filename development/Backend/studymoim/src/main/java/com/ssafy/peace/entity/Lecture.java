@@ -50,5 +50,5 @@ public class Lecture {
     private boolean isDeleted;
 
     // Todo 연결
-    private int course_id;
+    private int courseId;
 }
