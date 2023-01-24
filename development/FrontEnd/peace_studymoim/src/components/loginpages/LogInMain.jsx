@@ -8,7 +8,7 @@ export default function LogInMain() {
       <div className="flex flex-col justify-start items-center relative gap-[60px]">
         {/* TODO: 홈화면으로 가게해야하나? */}
         <img
-          src="./src/assets/logo.png"
+          src="\src\assets\logo.png"
           className="flex-grow-0 flex-shrink-0 w-[495px] h-[271px] object-cover"
         />
         {/* TODO: 구글 소셜 연결 기능 추가, 이 버튼을 추가 컴포로 분리해야하나? */}

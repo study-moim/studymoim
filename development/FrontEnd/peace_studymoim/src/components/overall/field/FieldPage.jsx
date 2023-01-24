@@ -25,21 +25,21 @@ export default function FieldPage() {
 
   return (
     <>
-      <div className="container mx-auto my-auto">
-        <p className="absolute left-[465px] top-[207px] text-[40px] font-bold text-left text-black">
+      <div className="container mx-auto my-auto flex flex-col justify-center items-center">
+        <p className="text-[40px] font-bold text-black my-5">
           관심있는 분야를 선택해주세요!
         </p>
         {/* 
           TODO1 버튼을 누르면 내 관심사가 업데이트 되게 해야함 - BACKEND와 소통하는 변수만들어야함 
           TODO2 가운데로 정렬해야함
         */}
-        <div className="grid grid-cols-4 gap-4 justify-center items-center h-[290px] absolute left-[345px] top-[367px]">
+        <div className="grid grid-cols-4 gap-4 my-5">
           {fieldList.map((field, idx) => (
             <FieldButton key={idx} field={field} />
           ))}
         </div>
         <Link to="/">
-          <button className="w-[526px] h-10 absolute left-[470px] top-[843px] overflow-hidden rounded-[20px] bg-[#b1b2ff] text-sm font-bold text-center text-white hover:bg-blend-darken">
+          <button className="mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
             홈으로 이동하기
           </button>
         </Link>

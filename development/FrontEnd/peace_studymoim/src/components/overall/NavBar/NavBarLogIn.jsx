@@ -6,7 +6,7 @@ import MailIcon from "./MailIcon";
 /** @function 로그인된상태네비게이션바 */
 export default function NavBarLogIn() {
   return (
-    <div className="flex justify-between items-center w-full gap-[616px] bg-white px-[200px]">
+    <div className="flex justify-between items-center w-full gap-[616px] bg-white">
       <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
         <NavBarRouter />
       </div>

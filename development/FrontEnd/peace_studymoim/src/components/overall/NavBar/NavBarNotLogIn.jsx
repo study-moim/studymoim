@@ -4,7 +4,7 @@ import NavBarRouter from "./NavBarRouter";
 /** @function 비로그인상태네비게이션바 */
 export default function NavBarNotLogIn() {
   return (
-    <div className="flex justify-between items-center w-full px-[100px] bg-white">
+    <div className="flex justify-between items-center w-full bg-white">
       <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-3">
         <NavBarRouter />
       </div>
