@@ -22,12 +22,12 @@ public class Note {
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User userId;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "lecture_id")
-    private Lecture lecture;
+    private Lecture lectureId;
 
     @Column(name = "content")
     @NotNull
@@ -39,6 +39,6 @@ public class Note {
 
     @Column(name = "is_deleted")
     @NotNull
-    private int isDeleted;
+    private boolean isDeleted;
 
 }
