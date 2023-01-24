@@ -39,6 +39,6 @@ public class Note {
 
     @Column(name = "is_deleted")
     @NotNull
-    private int isDeleted;
+    private boolean isDeleted;
 
 }
