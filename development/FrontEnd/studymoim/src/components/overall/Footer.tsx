@@ -1,17 +1,17 @@
 export default function Footer() {
   return (
-    <div className="w-full h-[334px] mt-44 bg-[#4e4e4e]">
+    <div className="w-full h-[334px] mt-96 bg-[#4e4e4e]">
       <div className="flex justify-center items-start left-0 top-0">
         <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
           <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[243px] w-[545px] relative gap-2.5 px-[100px] pt-5">
             <img
-              src="로고1-2_최종-1.png"
+              src="src\assets\logo.png"
               className="flex-grow-0 flex-shrink-0 w-[354px] h-[197px] object-cover"
             />
           </div>
           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[545px] h-[91px] relative gap-2.5 p-2.5">
             <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-white">
-              © 2023 moim | All rights reserved
+              © 2023 moim | All rights reserved 
             </p>
           </div>
         </div>

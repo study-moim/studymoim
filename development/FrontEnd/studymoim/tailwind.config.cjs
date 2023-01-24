@@ -4,6 +4,9 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       boxShadow: {
         'innerUp': 'inset 5px 5px 5px 0 rgb(0 0 0 / 0.2)',

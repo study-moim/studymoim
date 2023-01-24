@@ -11,16 +11,15 @@ import LogInMain from "./components/loginpages/LogInMain";
 import MyPage from "./components/mypages/MyPage";
 import MailMain from "./components/overall/mailbox/MailMain";
 import FieldPage from "./components/overall/field/FieldPage";
-import Footer from "./components/overall/footer";
+import Footer from "./components/overall/Footer";
 
 export default function App() {
-  // /** 간이 로그인 변수 01/23자 삭제*/
-  // const logOn: boolean = true;
+
   const { ID, logIn } = userInfo();
   return (
     <BrowserRouter>
       {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
-      {logIn ? <NavBarLogIn /> : <NavBarNotLogIn />}
+      {!logIn ? <NavBarLogIn /> : <NavBarNotLogIn />}
       <Routes>
         <Route path="/" element={<MainPage />}></Route>
         <Route path="/lecture_main" element={<CourseMain />}></Route>

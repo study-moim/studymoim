@@ -6,8 +6,8 @@ interface FieldType {
   selectedField: string;
 }
 
-export default function FieldPage(): ReactElement {
-  // TODOD: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
+export default function FieldPage() {
+  // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
   const [selectedField, selectField] = useState<FieldType[]>([]);
 
   const fieldList: string[] = [
@@ -28,7 +28,7 @@ export default function FieldPage(): ReactElement {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto my-auto">
         <p className="absolute left-[465px] top-[207px] text-[40px] font-bold text-left text-black">
           관심있는 분야를 선택해주세요!
         </p>
@@ -42,7 +42,7 @@ export default function FieldPage(): ReactElement {
           ))}
         </div>
         <Link to="/">
-          <button className="w-[526px] h-10 absolute left-[470px] top-[843px] overflow-hidden rounded-[20px] bg-[#b1b2ff] text-sm font-bold text-center text-white">
+          <button className="w-[526px] h-10 absolute left-[470px] top-[843px] overflow-hidden rounded-[20px] bg-[#b1b2ff] text-sm font-bold text-center text-white hover:bg-blend-darken">
             홈으로 이동하기
           </button>
         </Link>
