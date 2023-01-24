@@ -21,7 +21,7 @@ public class Course {
     @Id
     @GeneratedValue
     @Column(name = "course_id")
-    private int course_id;
+    private int courseId;
 
     @Column(name = "title")
     @Size(max = 255)
