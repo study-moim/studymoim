@@ -34,8 +34,7 @@ DROP TABLE IF EXISTS `user_like_category`;
 -- 테이블 생성, 초기 세팅
 CREATE TABLE IF NOT EXISTS `user` (
 	`user_id`					int				NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`email`						varchar(50)		NOT NULL,
-	`password`					varchar(20)		NOT NULL,
+	`email`                     varchar(50)     NOT NULL,
 	`nickname`					varchar(10)		NOT NULL DEFAULT "unknown",
 	`save_name`					varchar(255)	NULL,
 	`register_date`				timestamp		NOT NULL DEFAULT now(),
@@ -45,17 +44,17 @@ CREATE TABLE IF NOT EXISTS `user` (
 );
 
 
-INSERT INTO `user` (email, password, nickname)  VALUES ("ssafy1@ssafy.com", "ssafy1", "김싸피");
-INSERT INTO `user` (email, password, nickname, last_access_time)  VALUES ("ssafy2@ssafy.com", "ssafy2", "박싸피", now());
-INSERT INTO `user` (email, password, nickname, save_name, last_access_time)  VALUES ("ssafy3@ssafy.com", "ssafy3", "이싸피", "ssafy3@ssafy.com_image1_2023-01-31", now());
-INSERT INTO `user` (email, password, nickname, save_name, last_access_time, is_quit, quit_time)  VALUES ("ssafy4@ssafy.com", "ssafy4", "정싸피", "ssafy4@ssafy.com_image3_2023-01-31", now(), 1, now());
+INSERT INTO `user` (email, nickname)  VALUES ("ssafy1@ssafy.com", "김싸피");
+INSERT INTO `user` (email, nickname, last_access_time)  VALUES ("ssafy2@ssafy.com", "박싸피", now());
+INSERT INTO `user` (email, nickname, save_name, last_access_time)  VALUES ("ssafy3@ssafy.com", "이싸피", "ssafy3@ssafy.com_image1_2023-01-31", now());
+INSERT INTO `user` (email, nickname, save_name, last_access_time, is_quit, quit_time)  VALUES ("ssafy4@ssafy.com", "정싸피", "ssafy4@ssafy.com_image3_2023-01-31", now(), 1, now());
 
 
 
 CREATE TABLE IF NOT EXISTS `course` (
 	`course_id`					int				NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`title`						varchar(255)	NOT NULL,
-	`content`					text			NOT NULL,
+	`content`					text			NULL,
 	`last_update_date`			timestamp		NOT NULL,
 	`is_deleted`				boolean			NOT NULL DEFAULT false,
 	`course_provider_id`		int				NOT NULL
@@ -65,6 +64,12 @@ INSERT INTO `course` (title, content, last_update_date, course_provider_id)  VAL
 INSERT INTO `course` (title, content, last_update_date, course_provider_id, is_deleted)  VALUES ("스프링부트 심화", "현업 스프링", now(), 1, true);
 INSERT INTO `course` (title, content, last_update_date, course_provider_id)  VALUES ("리액트 기초", "쉽게 배우는 리액트", now(), 2);
 INSERT INTO `course` (title, content, last_update_date, course_provider_id, is_deleted)  VALUES ("리액트 심화", "현업 리액트", now(), 2, true);
+INSERT INTO `course` (title, content, last_update_date, course_provider_id, is_deleted)  VALUES ("리액트 배포하기", "배포하기", now(), 2, true);
+INSERT INTO `course` (title, last_update_date, course_provider_id)  VALUES ("WEB1- HTML & Internet", now(), 9);
+INSERT INTO `course` (title, content, last_update_date, course_provider_id)  VALUES ("1분 파이썬", "빠르게 파이썬을 배우고 싶다면? 딱 1분만 투자하세요.", now(), 10);
+
+
+
 
 
 
@@ -80,6 +85,9 @@ INSERT INTO `course_category` (name, parent_category_id)  VALUES ("뷰", 1);
 INSERT INTO `course_category` (name, parent_category_id)  VALUES ("리액트", 1);
 INSERT INTO `course_category` (name, parent_category_id)  VALUES ("스프링", 2);
 INSERT INTO `course_category` (name, parent_category_id)  VALUES ("장고", 2);
+INSERT INTO `course_category` (name, parent_category_id)  VALUES ("도커", 2);
+
+
 
 
 
@@ -102,6 +110,16 @@ INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id)  VALUE
 INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id)  VALUES ("리액트 기초 2강", 60*24 + 30, "imagelink6", "쉽게 머시기머시기 기초 2강 내용", "영상url", 3);
 INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id)  VALUES ("리액트 심화 1강", 60*24 + 30, "imagelink7", "쉽게 머시기머시기 심화 1강 내용", "영상url", 4);
 INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id, is_deleted)  VALUES ("리액트 심화 2강", 60*24 + 30, "imagelink8", "쉽게 머시기머시기 심화 2강 내용", "영상url", 4, true);
+
+INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id)
+VALUES ("파이썬 무료 강의 100분 완성 (1분 파이썬 모음)", 60*60*1 + 46*60 + 25, "https://i.ytimg.com/vi/T6z-0dpXPvU/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLAuRxKitGW8UQgoJxwACmYFVzg7yw", "1분 파이썬 모음집입니다.
+비전공자도 이해할 수 있도록 실습 대신 이론 위주의 컨텐츠로 구성하여 100분 만에 빠르게 파이썬을 학습하실 수 있습니다. ^^","v=T6z-0dpXPvU&list=PLMsa_0kAjjrcxiSJnHNfzBN71D3zpYtkX" , 6);
+
+INSERT INTO `lecture` (title, length, thumbnail, content, url, course_id)
+VALUES ("1분 파이썬 - (1) 소개", 60*1 + 10, "https://i.ytimg.com/vi/sj4vexbygKA/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLAhekc2OD9zZbtkPLi3uVVMkJKNrQ", "2022학년도 코딩능력시험 문제를 출제합니다.
+하루 1분만 투자해서 가볍게 파이썬을 배우고,
+시험 문제를 통해 배운 내용을 복습하세요 ^^", "v=sj4vexbygKA&list=PLMsa_0kAjjrcxiSJnHNfzBN71D3zpYtkX", 6);
+
 
 
 
@@ -130,6 +148,9 @@ INSERT INTO `course_type` (course_id, course_category_id)  VALUES (1, 5); -- 강
 INSERT INTO `course_type` (course_id, course_category_id)  VALUES (2, 5);
 INSERT INTO `course_type` (course_id, course_category_id)  VALUES (3, 4); -- 강좌3 리액트
 INSERT INTO `course_type` (course_id, course_category_id)  VALUES (4, 4);
+INSERT INTO `course_type` (course_id, course_category_id)  VALUES (5, 4);
+INSERT INTO `course_type` (course_id, course_category_id)  VALUES (5, 7);
+
 
 
 
@@ -241,6 +262,10 @@ CREATE TABLE IF NOT EXISTS `course_provider` (
 INSERT INTO `course_provider` (url, platform_id, channel_id)  VALUES ("url1", 1, 1);
 INSERT INTO `course_provider` (url, platform_id, channel_id)  VALUES ("url2", 1, 2);
 INSERT INTO `course_provider` (url, platform_id, channel_id)  VALUES ("url3", 1, 3);
+INSERT INTO `course_provider` (url, platform_id, channel_id)  VALUES ("coohde", 1, 9);
+INSERT INTO `course_provider` (url, platform_id, channel_id)  VALUES ("nadocoding", 1, 10);
+
+
 
 
 
@@ -348,6 +373,10 @@ INSERT INTO `channel` (name, platform_id)  VALUES ("뷰 채널1", 1);
 INSERT INTO `channel` (name, platform_id)  VALUES ("뷰 채널2", 1);
 INSERT INTO `channel` (name, platform_id)  VALUES ("장고 채널1", 1);
 INSERT INTO `channel` (name, platform_id)  VALUES ("장고 채널1", 1);
+INSERT INTO `channel` (name, platform_id)  VALUES ("생활 코딩", 1);
+INSERT INTO `channel` (name, platform_id)  VALUES ("나도 코딩", 1);
+
+
 
 
 
@@ -385,7 +414,6 @@ CREATE TABLE IF NOT EXISTS `study_community` (
 	`study_community_id`		int				NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`content`					text			NOT NULL,
 	`publish_time`				timestamp		NOT NULL DEFAULT now(),
-	`is_deleted`				boolean			NOT NULL DEFAULT false,
 	`user_id`					int				NOT NULL,
 	`study_id`					int				NOT NULL
 );
@@ -396,7 +424,7 @@ INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 �
 INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글4", 4, 4);
 INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글5", 1, 5);
 INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글6", 1, 6);
-INSERT INTO `study_community` (content, user_id, study_id, is_deleted)  VALUES ("스터디 글7", 2, 1, true);
+INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글7", 2, 1);
 INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글8", 3, 1);
 INSERT INTO `study_community` (content, user_id, study_id)  VALUES ("스터디 글9", 4, 1);
 
