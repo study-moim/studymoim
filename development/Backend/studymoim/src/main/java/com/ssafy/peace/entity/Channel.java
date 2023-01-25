@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Table(name = "channel")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,10 +18,8 @@ public class Channel {
 
     @Id
     @GeneratedValue
-    @Column(name = "channel_id")
     private int channelId;
 
-    @Column(name = "name")
     @Size(max = 50)
     @NotNull
     private String name;
