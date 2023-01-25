@@ -25,6 +25,7 @@
 ```
 > sudo docker pull jenkins/jenkins:lts-jdk11
 > sudo docker pull ubuntu:22.04
+> sudo docker pull mysql:8.0.32-debian
 ```
 
 # 2. Jenkins 컨테이너 실행
