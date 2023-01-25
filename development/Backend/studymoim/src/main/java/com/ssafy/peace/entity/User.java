@@ -7,58 +7,37 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
+
+@Table(name = "USER")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
+//@TypeD
 public class User {
 
-    // Todo 컬럼
     @Id
     @GeneratedValue
+    @Column(name = "user_id", length = 64, unique = true)
+    @NotNull
+    @Size(max = 64)
     private int userId;
 
-    @Size(max = 50)
-    @NotNull
     private String email;
 
-    @Size(max = 20)
-    @NotNull
     private String password;
 
-    @Size(max = 10)
-    @NotNull
     private String nickname;
 
-    @Size(max = 255)
     private String saveName;
 
-    @NotNull
     private Timestamp registerDate;
 
     private Timestamp lastAccessTime;
 
-    @NotNull
     private boolean isQuit;
 
     private Timestamp quitTime;
 
-
-
-
-    // Todo 연결...
-
-    // Builder
-
-
-    public User(String email, String password, String nickname, String saveName, Timestamp registerDate, Timestamp lastAccessTime, boolean isQuit) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.saveName = saveName;
-        this.registerDate = registerDate;
-        this.lastAccessTime = lastAccessTime;
-        this.isQuit = isQuit;
-    }
 }
