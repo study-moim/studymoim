@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "User_like_course")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +18,9 @@ import javax.persistence.*;
 public class UserLikeCourse {
 
     @Id
-    @Column(name = "user_id")
     private int userId;
 
     @Id
-    @Column(name = "course_id")
     private int courseId;
 
 }

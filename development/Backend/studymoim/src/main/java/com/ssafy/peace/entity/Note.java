@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Table(name = "note")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,15 +28,12 @@ public class Note {
     @JoinColumn(name = "lecture_id")
     private Lecture lectureId;
 
-    @Column(name = "content")
     @NotNull
     private int content;
 
-    @Column(name = "last_modified_date")
     @NotNull
     private int lastModifiedDate;
 
-    @Column(name = "is_deleted")
     @NotNull
     private boolean isDeleted;
 
