@@ -47,6 +47,18 @@
       "user_name": "독기가득준",
       "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s",
       "id": 4
+    },
+    {
+      "free_board_id": 5,
+      "title": "안녕하세요",
+      "content": "새로운 글 입니다.",
+      "publish_time": "2022-04-28T05:40:55.183+00:00",
+      "is_deleted": false,
+      "hit": 0,
+      "user_id": 1,
+      "user_name": "독기가득준",
+      "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s",
+      "id": 5
     }
   ]
 }

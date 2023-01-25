@@ -18,22 +18,18 @@ export default function NavBarLogIn() {
         </Link>
         <Link to="/mypage">
           <button
-            className="flex justify-center items-start flex-shrink-0 relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#f0db4f]"
+            className="text-[11px] text-white px-3.5 py-[11px] rounded-[14px] bg-[#f0db4f] hover:bg-[#ebd43c] hover:scale-90"
             style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
           >
-            <p className="flex-grow-0 flex-shrink-0 text-[11px] text-left text-white">
-              MyPage
-            </p>
+            MyPage
           </button>
         </Link>
         {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
         <button
-          className="flex justify-center items-start flex-shrink-0 relative gap-2.5 px-3.5 py-[11px] rounded-[14px] bg-[#ff7262]"
+          className="px-3.5 py-[11px] rounded-[14px] text-[11px] text-white bg-[#ff7262] hover:bg-[#ff5441] hover:scale-90"
           style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
         >
-          <p className="flex-grow-0 flex-shrink-0 text-[11px] text-left text-white">
-            로그아웃
-          </p>
+          로그아웃
         </button>
       </div>
     </div>

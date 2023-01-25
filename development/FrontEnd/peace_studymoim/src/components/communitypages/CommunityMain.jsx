@@ -7,6 +7,7 @@ export default function CommunityMain() {
   const [currentClick, setCurrentClick] = useState("all");
   const [prevClick, setPrevClick] = useState(null);
 
+  // 누르면 전체/강의/자유 색이 바뀜
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
   };
@@ -86,7 +87,7 @@ export default function CommunityMain() {
               </select>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
+          <div className="flex flex-col justify-center items-center w-full border-x-2 border-b-2 border-black ">
             {freeArticles.map((freeArticle) => (
               <div
                 className="cursor-pointer hover:scale-105"

@@ -32,10 +32,10 @@ export default function CommunityCreateForm() {
         // body : 수정을 위한 정보를 넣어줘야함
         // + JSON 문자열로도 변환시켜줌
         body: JSON.stringify({
-          free_board_id: 4,
+          free_board_id: 5,
           title: titleRef.current.value,
           content: contentRef.current.value,
-          publish_time: "2022-04-27T05:40:55.183+00:00",
+          publish_time: "2022-04-28T05:40:55.183+00:00",
           is_deleted: false,
           hit: 0,
           user_id: 1,
@@ -66,7 +66,7 @@ export default function CommunityCreateForm() {
             placeholder="제목을 입력하세요"
             ref={titleRef}
           />
-          <button className="w-[104px] px-4 py-2 rounded bg-[#7b61ff] text-lg font-bold text-center text-[#f2f2f2]">
+          <button className="w-[104px] px-4 py-2 rounded bg-[#7b61ff] text-lg font-bold text-center text-[#f2f2f2] hover:bg-[#5f44e8] hover:scale-95">
             작성하기
           </button>
         </div>
