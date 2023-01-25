@@ -1,9 +1,40 @@
 package com.ssafy.peace.entity;
 
+import com.ssafy.peace.entity.key.NoteId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Entity
+@IdClass(NoteId.class)
 public class Note {
-    private int userId;
-    private int lectureId;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "lecture_id")
+    private Lecture lectureId;
+
+    @NotNull
     private int content;
+
+    @NotNull
     private int lastModifiedDate;
-    private int isDeleted;
+
+    @NotNull
+    private boolean isDeleted;
+
 }
