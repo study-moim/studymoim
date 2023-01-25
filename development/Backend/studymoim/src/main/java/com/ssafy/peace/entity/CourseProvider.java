@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Table(name = "course_provider")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,15 +18,12 @@ public class CourseProvider {
 
     @Id
     @GeneratedValue
-    @Column(name = "course_provider_id")
     private int courseProviderId;
 
-    @Column(name = "url")
     @Size(max = 255)
     @NotNull
     private String url;
 
-    @Column(name = "platform_id")
     @NotNull
     private int platformId;
 
