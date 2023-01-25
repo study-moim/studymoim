@@ -12,6 +12,7 @@ import MyPage from "./components/mypages/MyPage";
 import MailMain from "./components/overall/mailbox/MailMain";
 import FieldPage from "./components/overall/field/FieldPage";
 import Footer from "./components/overall/Footer";
+import StudyMakePage from "./components/studypages/StudyMakePage";
 
 export default function App() {
   const { ID, logIn } = userInfo();
@@ -30,7 +31,9 @@ export default function App() {
           <Route path="/mypage" element={<MyPage />}></Route>
           <Route path="/mail" element={<MailMain />}></Route>
           {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
-          <Route path="/choice" element={<FieldPage />}></Route>
+          <Route path="/choice" element={<FieldPage />}></Route> 
+          {/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
+          <Route path="/study_recruit_form" element={<StudyMakePage/>} ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
