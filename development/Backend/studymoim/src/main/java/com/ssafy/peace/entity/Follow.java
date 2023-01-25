@@ -15,15 +15,13 @@ public class Follow {
     @Column(name = "follow_id")
     private int followId;
 
-
-    // Todo 연결
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="from_user_id")
-    private User fromUserId;
+    private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="to_user_id")
-    private User toUserId;
+    private User toUser;
 
 
 }

@@ -27,6 +27,4 @@ public class Banner {
     @Size(max = 255)
     private int url;
 
-    // Todo Banner Entity 연결...
-
 }
