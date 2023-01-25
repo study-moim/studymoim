@@ -8,13 +8,13 @@ export default function NavBarRouter() {
         <img src="\src\assets\logo.png" />
       </Link>
       <div className="flex w-[266px] gap-4">
-        <Link to="/lecture_main" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
+        <Link to="/lecture" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
           <b>강좌</b>
         </Link>
-        <Link to="/study_main" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
+        <Link to="/study" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
           <b>스터디</b>
         </Link>
-        <Link to="/community_main" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
+        <Link to="/community" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
           <b>커뮤니티</b>
         </Link>
       </div>

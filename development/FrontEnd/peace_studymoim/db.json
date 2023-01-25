@@ -1,0 +1,52 @@
+{
+  "community": [
+    {
+      "id": 1,
+      "free_board_id": 1,
+      "title": "커뮤니티 첫 자유 게시글 제목",
+      "content": "커뮤니티 첫 자유 게시글 내용, 커뮤니티 첫 자유 게시글 내용, 커뮤니티 첫 자유 게시글 내용",
+      "publish_time": "2022-04-22T05:40:55.183+00:00",
+      "is_deleted": false,
+      "hit": 123,
+      "user_id": 1,
+      "user_name": "독기가득준",
+      "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s"
+    },
+    {
+      "id": 2,
+      "free_board_id": 2,
+      "title": "222 자유 게시글 제목",
+      "content": "커뮤니티 222 자유 게시글 내용, 커뮤니티 222 자유 게시글 내용, 커뮤니티 222 자유 게시글 내용",
+      "publish_time": "2022-04-23T05:40:55.183+00:00",
+      "is_deleted": false,
+      "hit": 1234,
+      "user_id": 2,
+      "user_name": "배배서연",
+      "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXMhoojQTh9ruKTzlUO8FmvEXldw8r6yu-tyPPm9Y0&s"
+    },
+    {
+      "id": 3,
+      "free_board_id": 3,
+      "title": "333333 자유 게시글 제목",
+      "content": "커뮤니티 333333 자유 게시글 내용, 커뮤니티 333333 자유 게시글 내용, 커뮤니티 333333 자유 게시글 내용",
+      "publish_time": "2022-04-25T05:40:55.183+00:00",
+      "is_deleted": false,
+      "hit": 12345,
+      "user_id": 1,
+      "user_name": "독기가득준",
+      "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s"
+    },
+    {
+      "free_board_id": 4,
+      "title": "sadasd",
+      "content": "sdadasdasd",
+      "publish_time": "2022-04-27T05:40:55.183+00:00",
+      "is_deleted": false,
+      "hit": 0,
+      "user_id": 1,
+      "user_name": "독기가득준",
+      "user_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s",
+      "id": 4
+    }
+  ]
+}
