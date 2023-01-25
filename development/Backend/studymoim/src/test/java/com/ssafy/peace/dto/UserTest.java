@@ -1,6 +1,5 @@
 package com.ssafy.peace.dto;
 
-import com.ssafy.peace.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,15 +7,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserLoginTest {
+public class UserTest {
 
     private Validator validator;
 
@@ -28,7 +23,7 @@ public class UserLoginTest {
 
     @Test
     void userLoginValidationTest() {
-        UserLogin userLogin = UserLogin.builder().
+        User.Login userLogin = User.Login.builder().
             //@Size(min=5, max=50, message = "바르지 않은 email 크기 입니다")
             //@NotEmpty(message="email은 빈값 일 수 없습니다")
             //@NotNull(message="email은 null 일 수 없습니다")
@@ -47,8 +42,8 @@ public class UserLoginTest {
             saveName("path/to/image").
             build();
 
-        Set<ConstraintViolation<UserLogin>> violations = validator.validate(userLogin);
-        for(ConstraintViolation<UserLogin> v : violations) {
+        Set<ConstraintViolation<User.Login>> violations = validator.validate(userLogin);
+        for(ConstraintViolation<User.Login> v : violations) {
             System.out.println(v.getMessage());
         }
         assertEquals(1, violations.size());
