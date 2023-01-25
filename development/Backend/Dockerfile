@@ -11,6 +11,6 @@ RUN \
     wget https://cdn.azul.com/zulu/bin/zulu8.68.0.21-ca-jdk8.0.362-linux_x64.tar.gz && \
     tar -xvzf zulu8.68.0.21-ca-jdk8.0.362-linux_x64.tar.gz && \
     mkdir /usr/lib/jvm && \
-    mv zulu8.68.0.21-ca-jdk8.0.362-linux_x64 /usr/lib/jvm/zulu8.68.0.21-ca-jdk8.0.362-linux_x64 && \
+    mv zulu8.68.0.21-ca-jdk8.0.362-linux_x64 /usr/lib/jvm/zulu8.68.0.21-ca-jdk8.0.362-linux_x64
 ENV JAVA_HOME=/usr/lib/jvm/zulu8.68.0.21-ca-jdk8.0.362-linux_x64
 ENV PATH=$PATH:$JAVA_HOME/bin
