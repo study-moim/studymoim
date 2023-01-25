@@ -2,6 +2,7 @@ package com.ssafy.peace.entity;
 
 
 import com.ssafy.peace.entity.key.UserLikeCategoryId;
+import com.ssafy.peace.entity.key.UserLikeCourseId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Entity
-@IdClass(UserLikeCategoryId.class)
+@IdClass(UserLikeCourseId.class)
 public class UserLikeCourse {
 
     @Id

@@ -1,10 +1,7 @@
 package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.UserLikeCategoryId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Getter
 @Entity
 @IdClass(UserLikeCategoryId.class)
