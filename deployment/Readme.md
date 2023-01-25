@@ -27,8 +27,6 @@
 > sudo docker pull ubuntu:22.04
 ```
 
-## 
-```
-> bash mvnw compile
-> bash mvnw package
-```
+# 2. Jenkins 컨테이너 실행
+
+jenkins/Readme.md
