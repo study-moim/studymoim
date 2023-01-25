@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Table(name = "study_member")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,19 +17,15 @@ import javax.validation.constraints.NotNull;
 @IdClass(StudyMemberId.class)
 public class StudyMember {
 
-    @Column(name = "user_id")
     @Id
     private int userId;
 
-    @Column(name = "study_id")
     @Id
     private int studyId;
 
-    @Column(name = "member_role")
     @NotNull
     private boolean memberRole;
 
-    @Column(name = "is_banned")
     @NotNull
     private boolean isBanned;
 

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "course_type")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +17,6 @@ public class CourseType {
 
     @Id
     @GeneratedValue
-    @Column(name = "course_type_id")
     private int courseTypeId;
 
     // Todo courseId 연결

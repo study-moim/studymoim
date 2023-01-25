@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "user_like_category")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +17,9 @@ import javax.persistence.*;
 public class UserLikeCategory {
 
     @Id
-    @Column(name = "user_id")
     private int userId;
 
     @Id
-    @Column(name = "course_category_id")
     private int courseCategoryId;
 
 }
