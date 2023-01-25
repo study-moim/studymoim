@@ -31,7 +31,7 @@ export default function CommunityMain() {
   // console.log(freeArticle);
   return (
     <>
-      <div className="w-full bg-white my-[100px]">
+      <div className="w-10/12 bg-white my-[100px] ml-[100px]">
         <div className="flex flex-row justify-between">
           <div className="w-full flex ">
             <div
@@ -87,11 +87,10 @@ export default function CommunityMain() {
               </select>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-full border-x-2 border-b-2 border-black ">
+          <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black ">
             {freeArticles.map((freeArticle) => (
               <div
-                className="cursor-pointer hover:scale-105"
-                // onClick={}
+                className="cursor-pointer hover:scale-105 w-11/12 ml-6 "
               >
                 <FreeQuestion
                   key={freeArticle.free_board_id}

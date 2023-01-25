@@ -1,5 +1,4 @@
 import "./App.css";
-import { userInfo } from "./zustand/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBarNotLogIn from "./components/overall/NavBar/NavBarNotLogIn";
 import NavBarLogIn from "./components/overall/NavBar/NavBarLogIn";
@@ -13,14 +12,15 @@ import MailMain from "./components/overall/mailbox/MailMain";
 import FieldPage from "./components/overall/field/FieldPage";
 import Footer from "./components/overall/Footer";
 import CommunityCreateForm from "./components/communitypages/CommunityCreateForm";
+import CommunityDetail from "./components/communitypages/communitydetail/CommunityDetail";
+import Navbar from "./components/overall/NavBar/NavBar";
 
 export default function App() {
-  const { ID, logIn } = userInfo();
   return (
     <div id='root'>
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
-        {logIn ? <NavBarLogIn /> : <NavBarNotLogIn />}
+        <Navbar/>
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
           <Route path="/lecture" element={<CourseMain />}></Route>
@@ -33,6 +33,7 @@ export default function App() {
           {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
           <Route path="/choice" element={<FieldPage />}></Route>
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
+          <Route path="/community/:article_id" element={<CommunityDetail />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
