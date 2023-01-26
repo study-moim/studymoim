@@ -11,7 +11,7 @@ export default function StudyRecruitDetailPage(props) {
 
   return (
     <>
-      <div>
+      <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 px-2.5 pb-5 bg-white">
           <p className="self-stretch flex-grow-0 flex-shrink-0 w-[1193px] text-[40px] font-bold text-center text-black">
             스터디 상세

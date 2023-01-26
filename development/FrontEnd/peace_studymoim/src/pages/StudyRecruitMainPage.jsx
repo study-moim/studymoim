@@ -37,12 +37,12 @@ export default function StudyRecruitMainAll() {
   }
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4">
       <h1>스터디 모집 메인 페이지</h1>
       <StudyRecruitList recruits={LoadedStudyRecruits} />
       <Link to="/study/study_recruit_form" className="btn">
         스터디 만들기
       </Link>
-    </>
+    </div>
   );
 }
