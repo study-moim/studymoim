@@ -21,10 +21,13 @@ public class Curriculum {
     private int order;
 
     @Id
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
     @Id
-    private int courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    // Todo Curriculum Entity 연결...
 }

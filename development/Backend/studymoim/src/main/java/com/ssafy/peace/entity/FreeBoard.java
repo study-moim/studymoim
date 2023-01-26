@@ -2,12 +2,19 @@ package com.ssafy.peace.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@DynamicInsert
 @Entity
 @Getter
 @NoArgsConstructor
@@ -24,15 +31,20 @@ public class FreeBoard {
     @NotNull
     private String content;
 
-    @NotNull
-    private Timestamp publishTime;
+    @CreationTimestamp
+    private LocalDateTime publishTime;
 
-    @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
     @NotNull
     private int hit;
 
-    // Todo userId 연결
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "freeBoard")
+    private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
+
 }

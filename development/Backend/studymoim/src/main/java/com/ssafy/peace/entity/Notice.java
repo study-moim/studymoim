@@ -16,6 +16,8 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 public class Notice {
+    
+    // 일단 보류
 
     @Id
     @GeneratedValue
@@ -31,5 +33,5 @@ public class Notice {
     private Timestamp publishTime;
 
     // Todo 연결
-    private int userId;
+//    private int userId;
 }
