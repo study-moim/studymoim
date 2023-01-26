@@ -13,6 +13,7 @@ import CommunityCreateForm from "./components/communitypages/CommunityCreateForm
 import CommunityDetail from "./components/communitypages/communitydetail/CommunityDetail";
 import Navbar from "./components/overall/NavBar/NavBar";
 
+
 export default function App() {
   return (
     <div id='root'>
