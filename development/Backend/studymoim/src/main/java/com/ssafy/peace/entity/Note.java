@@ -34,7 +34,6 @@ public class Note {
     @NotNull
     private int content;
 
-    @CreationTimestamp
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 

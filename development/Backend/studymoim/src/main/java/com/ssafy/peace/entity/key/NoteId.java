@@ -1,5 +1,7 @@
 package com.ssafy.peace.entity.key;
 
+import com.ssafy.peace.entity.Lecture;
+import com.ssafy.peace.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class NoteId implements Serializable {
 
-    private int userId;
+    private User user;
 
-    private int lectureId;
+    private Lecture lecture;
 }
