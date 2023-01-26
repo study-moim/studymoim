@@ -27,12 +27,12 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container_dev:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql_container_dev:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
 logging:
   level:
     web: trace
