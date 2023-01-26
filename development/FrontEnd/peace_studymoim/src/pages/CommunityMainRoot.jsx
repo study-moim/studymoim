@@ -31,7 +31,7 @@ export default function CommunityMainRoot() {
   // console.log(freeArticle);
   return (
     <>
-      <div className="w-10/12 bg-white my-[100px] ml-[100px]">
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
         <div className="flex flex-row justify-between">
           <div className="w-full flex ">
             <div

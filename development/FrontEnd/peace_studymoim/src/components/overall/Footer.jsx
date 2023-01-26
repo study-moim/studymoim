@@ -1,4 +1,5 @@
 export default function Footer() {
+  if (window.location.pathname === "/study/player") return null;
   return (
     <div className="w-full h-[334px] mt-96 bg-[#4e4e4e]">
       <div className="flex justify-center items-start left-0 top-0">
@@ -11,7 +12,7 @@ export default function Footer() {
           </div>
           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[545px] h-[91px] relative gap-2.5 p-2.5">
             <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-white">
-              © 2023 moim | All rights reserved 
+              © 2023 moim | All rights reserved
             </p>
           </div>
         </div>
