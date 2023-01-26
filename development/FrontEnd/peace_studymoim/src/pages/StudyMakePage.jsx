@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import StudyMakeForm from "./StudyMakeForm";
+import StudyMakeForm from "../components/studypages/StudyMakeForm";
 
 export default function StudyMakePage() {
   let navigate = useNavigate(); 
@@ -12,7 +12,7 @@ export default function StudyMakePage() {
         "Content-Type": "application/json",
       },
     }).then(() => {
-      navigate("/study_main");
+      navigate("/study");
     });
   }
 
