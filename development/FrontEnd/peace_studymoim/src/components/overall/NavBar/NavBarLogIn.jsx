@@ -21,7 +21,7 @@ export default function NavBarLogIn() {
       </Link>
       {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
-        className="px-3.5 py-[11px] rounded-[14px] text-[11px] text-white bg-[#ff7262] hover:bg-[#ff5441] hover:scale-90"
+        className="text-[11px] px-3.5 py-[11px] rounded-[14px] text-white bg-[#ff7262] hover:bg-[#ff5441] hover:scale-90"
         style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
       >
         로그아웃
