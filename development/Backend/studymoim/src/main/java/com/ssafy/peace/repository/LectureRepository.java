@@ -2,6 +2,7 @@ package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.Lecture;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,14 +12,14 @@ public interface LectureRepository extends JpaRepository<Lecture, Integer> {
     /*
     특정 강좌에 포함된 강의 찾기, 개수 세기
      */
-    List<Lecture> findAllByCourseIdAndDeletedIsFalse(Integer courseId);
-
-    Long countByCourseIdAndDeletedIsFalse(Integer courseId);
+//    List<Lecture> findAllByCourseIdAndDeletedIsFalse(Integer courseId);
+//
+//    Long countByCourseIdAndDeletedIsFalse(Integer courseId);
 
     /*
     특정 키워드를 포함한 강의 찾기
      */
-    List<Lecture> findAllByTitleContainingAndDeletedIsFalse(String keyword);
+//    List<Lecture> findAllByTitleContainingAndDeletedIsFalse(String keyword);
 
 
 }

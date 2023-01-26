@@ -1,5 +1,7 @@
 package com.ssafy.peace.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,7 +19,9 @@ import java.util.List;
 @DynamicInsert
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class FreeBoard {
 
     @Id

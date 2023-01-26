@@ -1,4 +1,3 @@
-
 # 1. 기본 머신 설정
 
 ## Git 설치
@@ -32,7 +31,7 @@
 
 jenkins/Readme.md
 
-# 3. Frontend/Backend 지동 배포
+# 3. Frontend/Backend 자동 배포
 
 /development/Backend/Readme.md
 
