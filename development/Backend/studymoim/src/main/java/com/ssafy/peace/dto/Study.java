@@ -14,6 +14,25 @@ public class Study {
 
     @Data
     @Builder
+    public static class Info {
+        private int studyId;
+        private Timestamp creationTime;
+        private String title;
+        private String content;
+        private String saveName;
+        private boolean isOpen;
+        private int userLimit;
+        private boolean isPublic;
+        private String notice;
+        private boolean isFinished;
+        private List<User.Info> members;
+        private List<Curriculum.Info> curriculum;
+        private Timestamp startTime;
+        private Timestamp endTime;
+    }
+
+    @Data
+    @Builder
     public static class Recruit {
         private int studyId;
         private Timestamp creationTime;
