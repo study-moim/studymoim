@@ -4,10 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,22 +26,23 @@ public class UserHistory {
     @GeneratedValue
     private int userHistoryId;
 
-    @NotNull
+    @ColumnDefault("0")
     private int startTimeline;
 
     private int endTimeline;
 
-    @NotNull
-    private int startTime;
+    @CreationTimestamp
+    private LocalDateTime startTime;
 
-    private int endTime;
+    @UpdateTimestamp
+    private LocalDateTime endTime;
 
-    @NotNull
-    private int lectureId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
 
-    @NotNull
-    private int userId;
-
-    // Todo 연결...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
 

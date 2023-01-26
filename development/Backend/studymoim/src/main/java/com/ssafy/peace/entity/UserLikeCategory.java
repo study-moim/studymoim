@@ -15,9 +15,13 @@ import javax.persistence.*;
 public class UserLikeCategory {
 
     @Id
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Id
-    private int courseCategoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_category_id")
+    private CourseCategory courseCategory;
 
 }

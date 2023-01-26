@@ -9,6 +9,13 @@ public class Curriculum {
 
     @Data
     @Builder
+    public static class Info {
+        private int order;
+        private Course.Recruit course;
+    }
+
+    @Data
+    @Builder
     public static class Recruit {
         private int order;
         private Course.Recruit course;

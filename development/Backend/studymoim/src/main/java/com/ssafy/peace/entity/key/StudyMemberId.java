@@ -1,5 +1,7 @@
 package com.ssafy.peace.entity.key;
 
+import com.ssafy.peace.entity.Study;
+import com.ssafy.peace.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class StudyMemberId implements Serializable {
 
-    private int userId;
-    private int studyId;
+    private User user;
+    private Study study;
 
 }

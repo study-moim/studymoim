@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -24,9 +26,18 @@ public class CourseCategory {
     @NotNull
     private String name;
 
-    // Todo 부모 카테고리 ID 셀프조인?? 연결??
-    private int parentCategoryId;
+    // 부모 정의
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_category_id")
+    private CourseCategory parentCategory;
 
-    // Todo CourseCategory Entity 연결...
+    // 자식 정의
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentCategory")
+    private List<CourseCategory> children;
 
+    @OneToMany(mappedBy = "courseCategory")
+    private List<CourseType> courseTypes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "courseCategory")
+    private List<UserLikeCategory> userLikeCategories = new ArrayList<>();
 }

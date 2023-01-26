@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -23,4 +25,8 @@ public class Platform {
     @Size(max = 20)
     @NotNull
     private String name;
+
+    @OneToMany(mappedBy = "platform")
+    private List<CourseProvider> courseProviders = new ArrayList<>();
+
 }

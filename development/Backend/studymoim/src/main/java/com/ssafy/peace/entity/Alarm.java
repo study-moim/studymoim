@@ -1,11 +1,14 @@
 package com.ssafy.peace.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -15,7 +18,7 @@ public class Alarm {
     @GeneratedValue
     private int alarmId;
 
-    @NotNull
+    @ColumnDefault("false")
     private boolean isChecked;
 
     @Size(max = 50)
@@ -26,9 +29,8 @@ public class Alarm {
     @NotNull
     private String url;
 
-    // Todo userId 연결
-    private int userId;
-
-    // Todo Alarm Entity 연결...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
