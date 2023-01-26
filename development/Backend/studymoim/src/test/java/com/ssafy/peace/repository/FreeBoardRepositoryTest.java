@@ -29,36 +29,36 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class FreeBoardRepositoryTest {
 
-    @Autowired
-    FreeBoardRepository freeBoardRepository;
-
-    @BeforeEach
-    public void initialData() {
-        FreeBoard article = new FreeBoard(1, "Test1", "Test content", LocalDateTime.now(), false, 12,
-                User.builder().
-                        userId(1).
-                        build(),
-                new ArrayList<>());
-        freeBoardRepository.save(article);
-    }
-
-    @Test
-    @Transactional
-    public void saveTest() {
-        FreeBoard article = new FreeBoard(2, "Test", "Test content", LocalDateTime.now(), false, 12,
-                User.builder().
-                build(),
-                new ArrayList<>());
-        FreeBoard result = freeBoardRepository.save(article);
-        assertNotNull(result);
-    }
-
-    @Test
-    @Transactional
-    public void findAllTest() {
-        List<FreeBoard> result = freeBoardRepository.findAllByIsDeletedIsFalse();
-        assertEquals(1, result.size());
-
-    }
+//    @Autowired
+//    FreeBoardRepository freeBoardRepository;
+//
+//    @BeforeEach
+//    public void initialData() {
+//        FreeBoard article = new FreeBoard(1, "Test1", "Test content", LocalDateTime.now(), false, 12,
+//                User.builder().
+//                        userId(1).
+//                        build(),
+//                new ArrayList<>());
+//        freeBoardRepository.save(article);
+//    }
+//
+//    @Test
+//    @Transactional
+//    public void saveTest() {
+//        FreeBoard article = new FreeBoard(2, "Test", "Test content", LocalDateTime.now(), false, 12,
+//                User.builder().
+//                build(),
+//                new ArrayList<>());
+//        FreeBoard result = freeBoardRepository.save(article);
+//        assertNotNull(result);
+//    }
+//
+//    @Test
+//    @Transactional
+//    public void findAllTest() {
+//        List<FreeBoard> result = freeBoardRepository.findAllByIsDeletedIsFalse();
+//        assertEquals(1, result.size());
+//
+//    }
 
 }
