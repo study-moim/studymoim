@@ -31,10 +31,6 @@ public class User {
     @NotNull
     private String email;
 
-    @Size(max = 20)
-    @NotNull
-    private String password;
-
     @Size(max = 10)
     private String nickname;
 
