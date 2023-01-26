@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,15 +21,19 @@ import javax.validation.constraints.NotNull;
 public class StudyMember {
 
     @Id
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Id
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
     @NotNull
     private boolean memberRole;
 
-    @NotNull
+    @ColumnDefault("false")
     private boolean isBanned;
 
 }

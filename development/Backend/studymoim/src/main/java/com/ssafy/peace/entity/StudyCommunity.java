@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,17 +27,16 @@ public class StudyCommunity {
     @NotNull
     private String content;
 
-    @NotNull
-    private Timestamp publishTime;
+    @CreationTimestamp
+    private LocalDateTime publishTime;
 
-    @NotNull
-    private boolean isDeleted;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @NotNull
-    private int userId;
-
-    @NotNull
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
     // TODO: 연결...
 }

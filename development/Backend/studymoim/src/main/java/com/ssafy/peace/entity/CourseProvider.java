@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -25,10 +27,13 @@ public class CourseProvider {
     private String url;
 
     @NotNull
-    private int platformId;
+    @Size(max = 50)
+    private String name;
 
-    // Todo channelId 연결
-    private int channelId;
+    @OneToMany(mappedBy = "courseProvider")
+    List<Course> courses = new ArrayList<>();
 
-    // Todo CourseProvider Entity 연결...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "platform_id")
+    private Platform platform;
 }
