@@ -17,9 +17,9 @@ export default function StudyMakePage() {
   }
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4">
       <h1>스터디 구인해용ㅋ</h1>
       <StudyMakeForm onAddMeetup={addMeetupHandler} />
-    </>
+    </div>
   );
 }
