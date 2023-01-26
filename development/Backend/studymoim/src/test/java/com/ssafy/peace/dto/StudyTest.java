@@ -62,7 +62,6 @@ public class StudyTest {
                                 title("test1").
                                 content("This is a test content").
                                 lastUpdateDate(new Timestamp(100L)).
-                                isDeleted(false).
                                 lectures(new ArrayList<Lecture.Recruit>(Arrays.asList(
                                         Lecture.Recruit.builder().build(),
                                         Lecture.Recruit.builder().build()))).
