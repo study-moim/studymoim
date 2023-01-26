@@ -30,16 +30,25 @@ public class YoutubeApiController {
 
     private final YoutubeApiService youtubeApiService;
 
-    @GetMapping("/testplaylist")
+    @GetMapping("/init")
+    public String initYoutube() {
+        String result = youtubeApiService.getCourseProvider().toString();
+        return result;
+
+    }
+
+    @GetMapping("/playlist")
     public String getLYoutubePlayList() {
         // 강좌
         String testChannelId = "UCvc8kv-i5fvFTJBFAk6n1SA";
         String result = youtubeApiService.getPlayList(testChannelId).toString();
         System.out.println(result);
+
+
         return result;
     }
 
-    @GetMapping("/testplaylistitem")
+    @GetMapping("/playlistitem")
     public String getLYoutubePlayListItem() {
         // 강좌 안의 강의
         String testPlayListId = "PLuHgQVnccGMDZP7FJ_ZsUrdCGH68ppvPb";

@@ -1,5 +1,8 @@
 package com.ssafy.peace.service;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -13,9 +16,13 @@ import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.Video;
 import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.CourseProvider;
 import com.ssafy.peace.entity.Lecture;
+import com.ssafy.peace.repository.CourseProviderRepository;
 import com.ssafy.peace.repository.CourseRepository;
 import com.ssafy.peace.repository.LectureRepository;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,15 +31,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class YoutubeApiService {
 
+    private final CourseProviderRepository courseProviderRepository;
     private final LectureRepository lectureRepository;
-
     private final CourseRepository courseRepository;
 
 
@@ -41,6 +52,38 @@ public class YoutubeApiService {
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;
+
+
+    @Data
+    class Provider {
+        String name;
+        String channelId;
+    }
+
+    public Object getCourseProvider() {
+        URL path = getClass().getClassLoader().getResource("provider.json");
+        File jsonFile = new File(path.getFile());
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println("test");
+
+            ArrayList<Provider> providerList = mapper.readValue(jsonFile, new TypeReference<ArrayList<Provider>>(){});
+
+            System.out.println("test" + providerList);
+            for (Provider provider : providerList) {
+                System.out.println(provider);
+                CourseProvider courseProvider = CourseProvider.builder()
+                        .name(provider.name)
+                        .url(provider.channelId)
+                        .build();
+
+                courseProviderRepository.save(courseProvider);
+            }
+            return "success";
+        } catch (IOException e) {
+            return "error";
+        }
+    }
 
     /**
      * 특정 유저가 올린 강좌 모두 DB에 등록.
@@ -170,4 +213,5 @@ public class YoutubeApiService {
 
         return null;
     }
+
 }
