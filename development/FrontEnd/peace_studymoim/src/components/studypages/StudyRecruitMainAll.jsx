@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import StudyRecruitList from "./studyrecruit/StudyRecruitList";
+import StudyRecruitList from "./StudyRecruitList"
 
 // TODO: 취소 버튼 구현 안함, 강좌 선택도 넣지 않았음 
 export default function StudyRecruitMainAll() {

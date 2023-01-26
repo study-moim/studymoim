@@ -1,4 +1,4 @@
-import { userInfo } from "../../../zustand/store";
+import { userInfo } from "../../zustand/store";
 import NavBarLogIn from "./NavBarLogIn";
 import NavBarNotLogIn from "./NavBarNotLogIn";
 import NavBarRouter from "./NavBarRouter";

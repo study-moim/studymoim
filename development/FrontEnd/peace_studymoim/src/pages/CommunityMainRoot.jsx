@@ -1,9 +1,9 @@
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../hooks/useFetch";
 import { useState, useEffect } from "react";
-import FreeQuestion from "./FreeQuestion";
+import FreeQuestion from "../components/communitypages/FreeQuestion";
 import { Link } from "react-router-dom";
 
-export default function CommunityMain() {
+export default function CommunityMainRoot() {
   const [currentClick, setCurrentClick] = useState("all");
   const [prevClick, setPrevClick] = useState(null);
 

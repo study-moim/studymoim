@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 /** @function 로그인창 */
-export default function LogInMain() {
+export default function LogInMainRoot() {
   return (
     <>
       <div className="flex flex-col justify-start items-center relative gap-[60px]">

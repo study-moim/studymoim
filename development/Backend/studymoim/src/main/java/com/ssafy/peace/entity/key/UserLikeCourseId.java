@@ -1,5 +1,7 @@
 package com.ssafy.peace.entity.key;
 
+import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class UserLikeCourseId implements Serializable {
 
-    @Column(name = "user_id")
-    private int userId;
-    @Column(name = "course_id")
-    private int courseId;
+    private User user;
+    private Course course;
 
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import StudyMakeForm from "./studyrecruit/StudyMakeForm";
+import StudyMakeForm from "./StudyMakeForm";
 
 export default function StudyMakePage() {
   let navigate = useNavigate(); 

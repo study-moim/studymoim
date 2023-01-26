@@ -1,10 +1,10 @@
-import MainBanner from "./MainBanner";
-import MainSearch from "./MainSearch";
-import Tag from "../overall/Tag";
-import { userInfo } from "../../zustand/store";
-import MainLogIn from "./MainLogIn";
-import MainNotLogIn from "./MainNotLogIn";
-import MainStudy from "./MainStudy";
+import MainBanner from "../components/mainpages/MainBanner";
+import MainSearch from "../components/mainpages/MainSearch";
+import Tag from "../components/overall/Tag";
+import { userInfo } from "../zustand/store";
+import MainLogIn from "../components/mainpages/MainLogIn";
+import MainNotLogIn from "../components/mainpages/MainNotLogIn";
+import MainStudy from "../components/mainpages/MainStudy";
 
 export default function MainPageRoot() {
   const { ID, logIn } = userInfo();

@@ -1,8 +1,8 @@
-import CommunityComment from "./CommunityComment";
-import CommunityCommentForm from "./CommunityCommentForm";
+import CommunityComment from "../components/communitydetail/CommunityComment";
+import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { useLocation } from "react-router-dom";
 
-export default function CommunityDetail() {
+export default function CommunityDetailRoot() {
   const props = useLocation().state;
   
   return (
