@@ -22,7 +22,6 @@ public class Lecture {
         private String thumbnail;
         private String content;
         private String url;
-        private boolean isDeleted;
     }
 
     @Data

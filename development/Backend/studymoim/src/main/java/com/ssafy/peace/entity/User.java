@@ -1,12 +1,20 @@
 package com.ssafy.peace.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,42 +31,73 @@ public class User {
     @NotNull
     private String email;
 
-    @Size(max = 20)
-    @NotNull
-    private String password;
-
     @Size(max = 10)
-    @NotNull
     private String nickname;
 
+    // Todo: 기본 이미지 연결
     @Size(max = 255)
     private String saveName;
 
-    @NotNull
-    private Timestamp registerDate;
+    @CreationTimestamp
+    private LocalDateTime registerDate;
 
-    private Timestamp lastAccessTime;
+    @UpdateTimestamp
+    private LocalDateTime lastLoginTime;
 
-    @NotNull
+    @ColumnDefault("false")
     private boolean isQuit;
 
-    private Timestamp quitTime;
+    private LocalDateTime quitTime;
+
+    @OneToMany(mappedBy = "user")
+    private List<Alarm> alarms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<FreeBoard> freeBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
+
+    // 보낸 쪽지
+    @OneToMany(mappedBy = "fromUser")
+    private List<Message> sendMessages = new ArrayList<>();
+
+    // 받은 쪽지
+    @OneToMany(mappedBy = "toUser")
+    private List<Message> receivedMessages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyCommunity> studyCommunities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyMember> studyMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyRequest> studyRequests = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private List<UserHistory> userHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLikeCategory> userLikeCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
 
 
 
-    // Todo 연결...
 
     // Builder
 
-
-    public User(String email, String password, String nickname, String saveName, Timestamp registerDate, Timestamp lastAccessTime, boolean isQuit) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.saveName = saveName;
-        this.registerDate = registerDate;
-        this.lastAccessTime = lastAccessTime;
-        this.isQuit = isQuit;
-    }
 }

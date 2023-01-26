@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -19,22 +22,19 @@ import java.io.Serializable;
 public class Note {
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
-    private Lecture lectureId;
+    private Lecture lecture;
 
     @NotNull
     private int content;
 
-    @NotNull
-    private int lastModifiedDate;
-
-    @NotNull
-    private boolean isDeleted;
+    @UpdateTimestamp
+    private LocalDateTime lastModifiedDate;
 
 }
