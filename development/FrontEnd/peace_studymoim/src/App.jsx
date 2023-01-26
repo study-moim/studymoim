@@ -13,10 +13,10 @@ import CommunityCreateForm from "./components/communitypages/CommunityCreateForm
 import CommunityDetail from "./pages/CommunityDetailRoot";
 import NavBarRoot from "./components/NavBar/NavBarRoot"
 import StudyMakePage from "./components/studypages/StudyMakePage";
+import StudyPlayerMainRoot from "./pages/StudyPlayerMainRoot";
 
 export default function App() {
   return (
-    <div id='root'>
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
         <NavBarRoot/>
@@ -35,9 +35,10 @@ export default function App() {
           <Route path="/community/:article_id" element={<CommunityDetail />}></Route>
           ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
 ​          <Route path="/study_recruit_form" element={<StudyMakePage/>} ></Route>
+          ​{/* TODO:  스터디 플레이어 이동용 라우트라서 나중에 지우자 */}
+​          <Route path="/study/player" element={<StudyPlayerMainRoot/>} ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
-    </div>
   );
 }
