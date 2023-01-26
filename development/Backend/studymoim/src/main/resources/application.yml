@@ -15,7 +15,6 @@ spring:
     show-sql: true
     database: mysql
     hibernate:
-
       ddl-auto: create
 logging:
   level:
@@ -32,6 +31,8 @@ spring:
     username: root
     password: SSAFYseoulNo1!
   jpa:
+    show-sql: true
+    database: mysql
     hibernate:
       ddl-auto: create
 logging:
