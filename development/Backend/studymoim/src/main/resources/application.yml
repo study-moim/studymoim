@@ -8,12 +8,13 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ssafydb?serverTimezone=UTC&characterEncoding=UTF-8
-    username: ssafy
-    password: ssafy
+    url: jdbc:mysql://localhost:3306/peacedb?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
   jpa:
     show-sql: true
     database: mysql
+    generate-ddl: true
 logging:
   level:
     web: trace
