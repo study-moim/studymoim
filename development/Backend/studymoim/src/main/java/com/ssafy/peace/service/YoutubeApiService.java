@@ -13,7 +13,10 @@ import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.Video;
 import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.Lecture;
+import com.ssafy.peace.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +24,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class YoutubeApiService {
+
+    private final LectureRepository lectureRepository;
 
     // 추후 키 관리
     private static String requestKey = "AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ";
@@ -44,10 +50,19 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(playListItems != null) {
+                System.out.println("-------------------");
                 int n = playListItems.size();
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
-                    playListItems.get(i).getSnippet().getPublishedAt();
+                    Lecture lecture = Lecture.builder()
+                            .title(playListItems.get(i).getSnippet().getTitle().toString())
+                            .length(0)
+                            .thumbnail(playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString())
+                            .content("")
+                            .url("sdf")
+                            .build();
+                    lectureRepository.save(lecture);
+                    System.out.println(playListItems.get(i).getSnippet().getTitle().toString());
                 }
             }
 
@@ -81,6 +96,7 @@ public class YoutubeApiService {
                 int n = playLists.size();
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
+//                    System.out.println(playLists.get(i).getSnippet().getChannelId());
                     playLists.get(i).getSnippet().getChannelId();
 
                 }
