@@ -4,13 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Table(name = "study")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,45 +26,54 @@ public class Study {
 
     @Id
     @GeneratedValue
-    @Column(name = "study_id")
     private int studyId;
 
-    @Column(name = "creation_time")
-    @NotNull
-    private Timestamp creationTime;
+    @CreationTimestamp
+    private LocalDateTime creationTime;
 
-    @Column(name = "title")
     @Size(max = 30)
     @NotNull
     private String title;
 
-    @Column(name = "content")
     @NotNull
     private String content;
 
-    @Column(name = "save_name")
+    // Todo: 디폴트 사진 정하기
     @Size(max = 255)
     private String saveName;
 
-    @Column(name = "is_open")
-    @NotNull
+    @ColumnDefault("true")
     private boolean isOpen;
 
-    @Column(name = "user_limit")
     @NotNull
     private int userLimit;
 
-    @Column(name = "is_public")
     @NotNull
     private boolean isPublic;
 
-    @Column(name = "notice")
     @Size(max = 100)
     private String notice;
 
-    @Column(name = "is_finished")
     @NotNull
+    @ColumnDefault("false")
     private boolean isFinished;
 
-    // TODO: 연결...
+    @OneToMany(mappedBy = "study")
+    private List<Curriculum> curricula = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "study")
+    private List<StudyCommunity> studyCommunities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "study")
+    private List<StudyHistory> studyHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "study")
+    private List<StudyMember> studyMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "study")
+    private List<StudyRequest> studyRequests = new ArrayList<>();
+
 }

@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
-@Table(name = "lecture")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,36 +23,40 @@ public class Lecture {
 
     @Id
     @GeneratedValue
-    @Column(name = "lecture_id")
     private int lectureId;
 
-    @Column(name = "title")
     @Size(max = 255)
     @NotNull
     private String title;
 
-    @Column(name = "length")
     @NotNull
     private int length;
 
-    @Column(name = "thumbnail")
     @Size(max = 255)
     @NotNull
     private String thumbnail;
 
-    @Column(name = "content")
-    @NotNull
+    // 영상 설명이 비어있을 수도 있다
     private String content;
 
-    @Column(name = "url")
     @Size(max = 255)
     @NotNull
     private String url;
 
-    @Column(name = "Is_deleted")
     @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
-    // Todo 연결
-    private int courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @OneToMany(mappedBy = "lecture")
+    private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lecture")
+    private List<StudyHistory> studyHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lecture")
+    private List<UserHistory> userHistories = new ArrayList<>();
 }

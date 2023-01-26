@@ -1,15 +1,20 @@
 package com.ssafy.peace.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-
-@Table(name = "user")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,45 +25,83 @@ public class User {
     // Todo 컬럼
     @Id
     @GeneratedValue
-    @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "email")
     @Size(max = 50)
     @NotNull
     private String email;
 
-    @Column(name = "password")
     @Size(max = 20)
     @NotNull
     private String password;
 
-    @Column(name = "nickname")
     @Size(max = 10)
-    @NotNull
     private String nickname;
 
-    @Column(name = "save_name")
+    // Todo: 기본 이미지 연결
     @Size(max = 255)
     private String saveName;
 
-    @Column(name = "register_date")
-    @NotNull
-    private Timestamp registerDate;
+    @CreationTimestamp
+    private LocalDateTime registerDate;
 
-    @Column(name = "last_access_time")
-    private Timestamp lastAccessTime;
+    @UpdateTimestamp
+    private LocalDateTime lastLoginTime;
 
-    @Column(name = "is_quit")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isQuit;
 
-    @Column(name = "quit_time")
-    private Timestamp quitTime;
+    private LocalDateTime quitTime;
+
+    @OneToMany(mappedBy = "user")
+    private List<Alarm> alarms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<FreeBoard> freeBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
+
+    // 보낸 쪽지
+    @OneToMany(mappedBy = "fromUser")
+    private List<Message> sendMessages = new ArrayList<>();
+
+    // 받은 쪽지
+    @OneToMany(mappedBy = "toUser")
+    private List<Message> receivedMessages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyCommunity> studyCommunities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyMember> studyMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<StudyRequest> studyRequests = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private List<UserHistory> userHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLikeCategory> userLikeCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
 
 
 
-    // Todo 연결...
+
+    // Builder
 
 }

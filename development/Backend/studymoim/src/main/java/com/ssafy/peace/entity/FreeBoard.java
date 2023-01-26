@@ -2,44 +2,49 @@ package com.ssafy.peace.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@DynamicInsert
 @Entity
-@Table(name = "FREE_BOARD")
 @Getter
 @NoArgsConstructor
 public class FreeBoard {
 
     @Id
     @GeneratedValue
-    @Column(name = "free_board_id")
     private int freeBoardId;
 
-    @Column(name = "title")
     @Size(max = 20)
     @NotNull
     private String title;
 
-    @Column(name = "content")
     @NotNull
     private String content;
 
-    @Column(name = "publish_time")
-    @NotNull
-    private Timestamp publishTime;
+    @CreationTimestamp
+    private LocalDateTime publishTime;
 
-    @Column(name = "is_deleted")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
-    @Column(name = "hit")
     @NotNull
     private int hit;
 
-    // Todo userId 연결
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "freeBoard")
+    private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
+
 }

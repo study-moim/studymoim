@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-@Table(name = "study_request")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,28 +24,24 @@ public class StudyRequest {
 
     @Id
     @GeneratedValue
-    @Column(name = "study_request_id")
     private int studyRequestId;
 
-    @Column(name = "content")
     @Size(max = 255)
     @NotNull
     private String content;
 
-    @Column(name = "request_time")
-    @NotNull
-    private Timestamp requestTime;
+    @CreationTimestamp
+    private LocalDateTime requestTime;
 
-    @Column(name = "status")
-    @NotNull
+    @ColumnDefault("0")
     private int status;
 
-    @Column(name = "user_id")
-    @NotNull
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "study_id")
-    @NotNull
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
 }

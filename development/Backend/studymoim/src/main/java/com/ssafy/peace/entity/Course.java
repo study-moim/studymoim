@@ -4,13 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
-@Table(name = "course")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,28 +25,35 @@ public class Course {
 
     @Id
     @GeneratedValue
-    @Column(name = "course_id")
     private int courseId;
 
-    @Column(name = "title")
     @Size(max = 255)
     @NotNull
     private String title;
 
-    @Column(name = "content")
+    // 상세 설명이 없는 재생목록이 있을수도...
     private String content;
 
-    @Column(name = "last_update_date")
     @NotNull
-    private Timestamp lastUpdateDate;
-
-    @Column(name = "is_deleted")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
-    // Todo courseProviderId 연결
-    private int courseProviderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_provider_id")
+    private CourseProvider courseProvider;
 
-    // Todo Course Entity 연결...
+    @OneToMany(mappedBy = "course")
+    private List<CourseType> courseTypes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "course")
+    private List<Curriculum> curricula = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<Lecture> lectures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<QuestionBoard> questionBoards = new ArrayList<>();
 }

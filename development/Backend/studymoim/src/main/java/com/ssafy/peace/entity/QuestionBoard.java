@@ -4,13 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Table(name = "question_board")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,47 +26,43 @@ public class QuestionBoard {
 
     @Id
     @GeneratedValue
-    @Column(name = "question_board_id")
     private int questionBoardId;
 
-    @Column(name = "title")
     @Size(max = 20)
     @NotNull
     private String title;
 
-    @Column(name = "content")
+    @NotNull
     private String content;
 
-    @Column(name = "question_time")
     @NotNull
     private int questionTime;
 
-    @Column(name = "is_deleted")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
-    @Column(name = "hit")
     @NotNull
     private int hit;
 
-    @Column(name = "is_public")
     @NotNull
     private boolean isPublic;
 
-    @Column(name = "publish_time")
-    @NotNull
-    private Timestamp publishTime;
+    @CreationTimestamp
+    private LocalDateTime publishTime;
 
-    @Column(name = "course_id")
-    @NotNull
-    private int courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    @Column(name = "user_id")
-    @NotNull
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "study_id")
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
-    // TODO: 연결...
+    @OneToMany(mappedBy = "questionBoard")
+    private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
+
 }

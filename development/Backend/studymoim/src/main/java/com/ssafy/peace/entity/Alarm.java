@@ -1,44 +1,36 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Table(name = "alarm")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@DynamicInsert
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Alarm {
 
     @Id
     @GeneratedValue
-    @Column(name = "alarm_id")
     private int alarmId;
 
-    @Column(name = "is_checked")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isChecked;
 
-    @Column(name = "content")
     @Size(max = 50)
     @NotNull
     private String content;
 
-    @Column(name = "url")
     @Size(max = 255)
     @NotNull
     private String url;
 
-    // Todo userId 연결
-    private int userId;
-
-    // Todo Alarm Entity 연결...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

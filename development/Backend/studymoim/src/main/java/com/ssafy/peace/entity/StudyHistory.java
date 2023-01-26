@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-@Table(name = "study_history")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,32 +24,25 @@ public class StudyHistory {
 
     @Id
     @GeneratedValue
-    @Column(name = "study_history_id")
     private int studyHistoryId;
 
-    @Column(name = "start_timeline")
-    @NotNull
+    @ColumnDefault("0")
     private int startTimeline;
 
-    @Column(name = "end_timeline")
-    @NotNull
     private int endTimeline;
 
-    @Column(name = "start_time")
-    @NotNull
-    private Timestamp startTime;
+    @CreationTimestamp
+    private LocalDateTime startTime;
 
-    @Column(name = "end_time")
-    @NotNull
-    private Timestamp endTime;
+    @UpdateTimestamp
+    private LocalDateTime endTime;
 
-    @Column(name = "lecture_id")
-    @NotNull
-    private int lectureId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
 
-    @Column(name = "study_id")
-    @NotNull
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
-    // TODO: 연결...
 }

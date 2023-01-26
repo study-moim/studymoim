@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
-@Table(name = "free_board_comment")
+@DynamicInsert
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,22 +24,31 @@ public class FreeBoardComment {
 
     @Id
     @GeneratedValue
-    @Column(name = "free_board_comment_id")
     private int freeBoardCommentId;
 
-    @Column(name = "content")
     @NotNull
     private String content;
 
-    @Column(name = "publish_time")
-    @NotNull
-    private Timestamp publishTime;
+    @CreationTimestamp
+    private LocalDateTime publishTime;
 
-    @Column(name = "is_deleted")
-    @NotNull
+    @ColumnDefault("false")
     private boolean isDeleted;
 
-    // Todo 연결하기
-    private int parentCommentId;
-    private int freeBoardId;
+    // 부모 정의
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_comment_id")
+    private FreeBoardComment parentComment;
+
+    // 자식 정의
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentComment")
+    private List<FreeBoardComment> children;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "free_board_id")
+    private FreeBoard freeBoard;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Table(name = "curriculum")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,17 +16,18 @@ import javax.validation.constraints.NotNull;
 @Entity
 @IdClass(CurriculumId.class)
 public class Curriculum {
-    @Column(name = "order")
+    
     @NotNull
     private int order;
 
-    @Column(name = "study_id")
     @Id
-    private int studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
-    @Column(name = "course_id")
     @Id
-    private int courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    // Todo Curriculum Entity 연결...
 }

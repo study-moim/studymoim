@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "course_type")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,14 +17,14 @@ public class CourseType {
 
     @Id
     @GeneratedValue
-    @Column(name = "course_type_id")
     private int courseTypeId;
 
-    // Todo courseId 연결
-    private int courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    // Todo courseCategoryId 연결
-    private int courseCategoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_category_id")
+    private CourseCategory courseCategory;
 
-    // Todo CourseType Entity 연결...
 }
