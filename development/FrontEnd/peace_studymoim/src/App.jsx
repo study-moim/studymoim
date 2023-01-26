@@ -1,25 +1,25 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MainPage from "./components/mainpages/MainPageRoot";
+import MainPage from "./pages/MainPageRoot";
 import StudyRecruitMainAll from "./components/studypages/StudyRecruitMainAll";
-import CourseMain from "./components/coursepages/CourseMain";
-import CommunityMain from "./components/communitypages/CommunityMain";
-import LogInMain from "./components/loginpages/LogInMain";
-import MyPage from "./components/mypages/MyPage";
-import MailMain from "./components/overall/mailbox/MailMain";
-import FieldPage from "./components/overall/field/FieldPage";
+import CourseMain from "./pages/CourseMainRoot";
+import CommunityMain from "./pages/CommunityMainRoot";
+import LogInMain from "./pages/LogInMainRoot";
+import MyPage from "./pages/MyPageRoot";
+import MailMain from "./pages/MailMainRoot";
+import FieldPage from "./components/field/FieldPage";
 import Footer from "./components/overall/Footer";
 import CommunityCreateForm from "./components/communitypages/CommunityCreateForm";
-import CommunityDetail from "./components/communitypages/communitydetail/CommunityDetail";
-import Navbar from "./components/overall/NavBar/NavBar";
-
+import CommunityDetail from "./pages/CommunityDetailRoot";
+import NavBarRoot from "./components/NavBar/NavBarRoot"
+import StudyMakePage from "./components/studypages/StudyMakePage";
 
 export default function App() {
   return (
     <div id='root'>
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
-        <Navbar/>
+        <NavBarRoot/>
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
           <Route path="/lecture" element={<CourseMain />}></Route>
@@ -33,6 +33,8 @@ export default function App() {
           <Route path="/choice" element={<FieldPage />}></Route>
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
           <Route path="/community/:article_id" element={<CommunityDetail />}></Route>
+          ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
+​          <Route path="/study_recruit_form" element={<StudyMakePage/>} ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
