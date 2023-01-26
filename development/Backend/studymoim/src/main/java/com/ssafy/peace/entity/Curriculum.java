@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Table(name = "curriculum")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,15 +16,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 @IdClass(CurriculumId.class)
 public class Curriculum {
-    @Column(name = "order")
+    
     @NotNull
     private int order;
 
-    @Column(name = "study_id")
     @Id
     private int studyId;
 
-    @Column(name = "course_id")
     @Id
     private int courseId;
 

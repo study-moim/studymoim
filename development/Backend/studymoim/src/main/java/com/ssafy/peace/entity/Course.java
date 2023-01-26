@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
-@Table(name = "course")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,22 +19,18 @@ public class Course {
 
     @Id
     @GeneratedValue
-    @Column(name = "course_id")
     private int courseId;
 
-    @Column(name = "title")
     @Size(max = 255)
     @NotNull
     private String title;
 
-    @Column(name = "content")
+    // 상세 설명이 없는 재생목록이 있을수도...
     private String content;
 
-    @Column(name = "last_update_date")
     @NotNull
     private Timestamp lastUpdateDate;
 
-    @Column(name = "is_deleted")
     @NotNull
     private boolean isDeleted;
 
