@@ -1,19 +1,14 @@
 package com.ssafy.peace.dto;
 
-import com.ssafy.peace.entity.QuestionBoard;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class QuestionBoardComment {
+public class QuestionBoardCommentDto {
 
     @Data
     @Builder
@@ -21,8 +16,8 @@ public class QuestionBoardComment {
         private int questionBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
-        private List<QuestionBoardComment> children;
-        private User.Info user;
+        private List<QuestionBoardCommentDto> children;
+        private UserDto.Info user;
     }
 
     @Data
