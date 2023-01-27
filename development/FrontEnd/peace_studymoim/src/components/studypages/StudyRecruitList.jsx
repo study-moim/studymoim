@@ -2,7 +2,8 @@ import StudyRecruitItem from "./StudyRecruitItem";
 
 export default function StudyRecruitList(props) {
   return (
-    <ul>
+    <div>
+      <ul className="flex flex-col justify-start items-start gap-[47px]">
       {props.recruits.map((recruit) => (
         <StudyRecruitItem
           key={recruit.id}
@@ -13,9 +14,10 @@ export default function StudyRecruitList(props) {
           dueDate={recruit.dueDate}
           studyImg={recruit.studyImg}
           title={recruit.title}
-          description={recruit.description}
+          description={recruit.description}   
         />
       ))}
     </ul>
+    </div>
   );
 }

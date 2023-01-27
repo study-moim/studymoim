@@ -1,6 +1,6 @@
 export default function CommunityCommentForm() {
   return (
-    <form className="flex flex-col items-end gap-5 w-10/12">
+    <form className="flex flex-col items-end gap-5 w-9/12">
       <textarea
         className="w-full pl-2.5 pr-[100px] pt-[14px] pb-[50px] bg-white border-[3px] border-[#b1b2ff]"
         style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}

@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
 public class Lecture {
@@ -59,4 +57,14 @@ public class Lecture {
 
     @OneToMany(mappedBy = "lecture")
     private List<UserHistory> userHistories = new ArrayList<>();
+
+    // Builder
+    @Builder
+    public Lecture(String title, int length, String thumbnail, String content, String url) {
+        this.title = title;
+        this.length = length;
+        this.thumbnail = thumbnail;
+        this.content = content;
+        this.url = url;
+    }
 }
