@@ -6,7 +6,7 @@ WORKDIR /home
 
 # Java Development Kit(Zulu8) installation
 RUN \
-    apt-get update -y && \
+    apt update -y && \
     apt install wget vim -y && \
     wget https://cdn.azul.com/zulu/bin/zulu8.68.0.21-ca-jdk8.0.362-linux_x64.tar.gz && \
     tar -xvzf zulu8.68.0.21-ca-jdk8.0.362-linux_x64.tar.gz && \
