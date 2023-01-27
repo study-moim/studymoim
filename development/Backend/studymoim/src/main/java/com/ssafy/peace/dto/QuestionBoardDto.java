@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionBoard {
+public class QuestionBoardDto {
 
     @Data
     @Builder
@@ -22,10 +22,10 @@ public class QuestionBoard {
         private int questionTime;
         private int hit;
         private LocalDateTime publishTime;
-        private Course.Info course;
-        private User user;
-        private Study study;
-        private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
+        private CourseDto.Info course;
+        private UserDto user;
+        private StudyDto study;
+        private List<QuestionBoardCommentDto> questionBoardComments = new ArrayList<>();
     }
 
     @Data

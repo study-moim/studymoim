@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.validation.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +12,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StudyTest {
+public class StudyDtoTest {
 
     private Validator validator;
 
@@ -25,21 +24,21 @@ public class StudyTest {
     
     @Test
     void studyMakeValidationTest() {
-        Study.Make studyMake = Study.Make.builder().
+        StudyDto.Make studyMake = StudyDto.Make.builder().
                 title("test1").
                 content("This is a test content").
                 saveName("path/to/test/image").
                 userLimit(7).
                 isPublic(true).
                 notice("This is a test notice").
-                curriculum(Curriculum.Make.builder(). // 멤버 객체를 테스트하기 위해선 따로 기능 구현 필요
+                curriculum(CurriculumDto.Make.builder(). // 멤버 객체를 테스트하기 위해선 따로 기능 구현 필요
                         order(1).
                         courseId(1).
                         build())
                 .build();
 
-        Set<ConstraintViolation<Study.Make>> violations = validator.validate(studyMake);
-        for(ConstraintViolation<Study.Make> v : violations) {
+        Set<ConstraintViolation<StudyDto.Make>> violations = validator.validate(studyMake);
+        for(ConstraintViolation<StudyDto.Make> v : violations) {
             System.out.println(v.getMessage());
         }
         assertEquals(1, violations.size());
@@ -47,24 +46,24 @@ public class StudyTest {
 
     @Test
     void studyRecruitBuildTest() {
-        Study.Recruit studyRecruit = Study.Recruit.builder().
+        StudyDto.Recruit studyRecruit = StudyDto.Recruit.builder().
                 title("test1").
                 content("This is a test content").
                 saveName("path/to/test/image").
                 userLimit(7).
                 isPublic(true).
                 notice("This is a test notice").
-                curriculum(new ArrayList<Curriculum.Recruit>(
-                        Arrays.asList(Curriculum.Recruit.builder(). // 멤버 객체를 테스트하기 위해선 따로 기능 구현 필요
+                curriculum(new ArrayList<CurriculumDto.Recruit>(
+                        Arrays.asList(CurriculumDto.Recruit.builder(). // 멤버 객체를 테스트하기 위해선 따로 기능 구현 필요
                         order(1).
-                        course(Course.Recruit.builder().
+                        course(CourseDto.Recruit.builder().
                                 course_id(1).
                                 title("test1").
                                 content("This is a test content").
                                 lastUpdateDate(new Timestamp(100L)).
-                                lectures(new ArrayList<Lecture.Recruit>(Arrays.asList(
-                                        Lecture.Recruit.builder().build(),
-                                        Lecture.Recruit.builder().build()))).
+                                lectures(new ArrayList<LectureDto.Recruit>(Arrays.asList(
+                                        LectureDto.Recruit.builder().build(),
+                                        LectureDto.Recruit.builder().build()))).
                                 providerId(1).
                                 providerUrl("path/to/test/image").
                                 providerPlatformId(1).
@@ -75,8 +74,8 @@ public class StudyTest {
                         build())))
                 .build();
 
-        Set<ConstraintViolation<Study.Recruit>> violations = validator.validate(studyRecruit);
-        for(ConstraintViolation<Study.Recruit> v : violations) {
+        Set<ConstraintViolation<StudyDto.Recruit>> violations = validator.validate(studyRecruit);
+        for(ConstraintViolation<StudyDto.Recruit> v : violations) {
             System.out.println(v.getMessage());
         }
         assertEquals(0, violations.size());

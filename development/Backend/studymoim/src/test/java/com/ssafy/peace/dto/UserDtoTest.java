@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserTest {
+public class UserDtoTest {
 
     private Validator validator;
 
@@ -23,7 +23,7 @@ public class UserTest {
 
     @Test
     void userLoginValidationTest() {
-        User.Login userLogin = User.Login.builder().
+        UserDto.Login userLogin = UserDto.Login.builder().
             //@Size(min=5, max=50, message = "바르지 않은 email 크기 입니다")
             //@NotEmpty(message="email은 빈값 일 수 없습니다")
             //@NotNull(message="email은 null 일 수 없습니다")
@@ -42,8 +42,8 @@ public class UserTest {
             saveName("path/to/image").
             build();
 
-        Set<ConstraintViolation<User.Login>> violations = validator.validate(userLogin);
-        for(ConstraintViolation<User.Login> v : violations) {
+        Set<ConstraintViolation<UserDto.Login>> violations = validator.validate(userLogin);
+        for(ConstraintViolation<UserDto.Login> v : violations) {
             System.out.println(v.getMessage());
         }
         assertEquals(1, violations.size());

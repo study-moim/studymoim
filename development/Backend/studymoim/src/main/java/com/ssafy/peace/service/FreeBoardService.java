@@ -1,13 +1,13 @@
 package com.ssafy.peace.service;
 
-import com.ssafy.peace.entity.FreeBoard;
-import com.ssafy.peace.entity.User;
+import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.repository.FreeBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FreeBoardService {
@@ -19,17 +19,14 @@ public class FreeBoardService {
         this.freeBoardRepository = freeBoardRepository;
     }
 
-    public List<FreeBoard> getFreeBoardList() {
-        return freeBoardRepository.findAllByIsDeletedIsFalse();
+    public List<FreeBoardDto.Info> getFreeBoardList() {
+        return freeBoardRepository.findAllByIsDeletedIsFalse().stream().map(item ->
+            FreeBoardDto.Info.fromEntity(item)
+        ).collect(Collectors.toList());
     }
 
-    public List<FreeBoard> setFreeBoard(com.ssafy.peace.dto.FreeBoard.Write freeBoard) {
-        FreeBoard item = FreeBoard.builder().
-            title(freeBoard.getTitle()).
-            content(freeBoard.getContent()).
-            user(User.builder().userId(freeBoard.getUserId()).build()).
-        build();
-        return freeBoardRepository.findAllByIsDeletedIsFalse();
+    public void setFreeBoard(FreeBoardDto.Write freeBoard) {
+        // TODO: POST
     }
 
 }
