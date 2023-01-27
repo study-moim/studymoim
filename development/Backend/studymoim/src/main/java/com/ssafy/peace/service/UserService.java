@@ -1,5 +1,6 @@
 package com.ssafy.peace.service;
 
+import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.repository.UserRepository;
@@ -38,5 +39,13 @@ public class UserService {
 //        Authentication kakaoEmail = new UsernamePasswordAuthenticationToken(kakaoUser) ;
 //        Authentication authentication = authenticationManager.authenticate(kakaoEmail);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public Object getUserList() {
+        return null;
+    }
+
+    public void register(FreeBoardDto.Write freeBoard) {
+
     }
 }
