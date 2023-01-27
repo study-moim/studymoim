@@ -42,7 +42,7 @@ jenkins/Readme.md
 # 3. Frontend/Backend/Databese 컨테이너 실행
 - 개발환경
 ```
-> sudo docker-compose docker-compose-dev.yml build
+> sudo docker-compose -f docker-compose-dev.yml build
 > sudo docker-compose --env-file env-dev ./config/.env-dev docker-compose-dev.yml up -d
 ```
 - 운영환경

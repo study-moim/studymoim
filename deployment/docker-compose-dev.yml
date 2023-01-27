@@ -5,7 +5,7 @@ services:
     container_name: nginx-dev
     build:
       context: frontend
-      dockerfile: frontend/Dockerfile
+      dockerfile: Dockerfile
     hostname: nginx-dev
     volumes:
       - type: bind
@@ -23,7 +23,7 @@ services:
     container_name: spring-dev
     build:
       context: backend
-      dockerfile: backend/Dockerfile
+      dockerfile: Dockerfile
     hostname: spring-dev
     volumes:
       - type: bind
