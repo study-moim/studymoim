@@ -9,7 +9,7 @@ services:
     hostname: nginx-dev
     volumes:
       - type: bind
-        source: /home/ubuntu/logs/react
+        source: /home/ubuntu/logs/nginx
         target: /home/logs
     networks:
       network-dev:

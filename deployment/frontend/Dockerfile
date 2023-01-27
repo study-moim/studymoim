@@ -8,7 +8,7 @@ WORKDIR /home
 RUN \
     apt update -y && \
     apt install wget vim -y && \
-    apt install nginx && \
+    apt install nginx -y && \
     rm /etc/nginx/sites-available/default && \
     rm /etc/nginx/sites-enabled/default && \
     touch /etc/nginx/sites-available/myapp.conf && \
