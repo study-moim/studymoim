@@ -43,7 +43,10 @@ jenkins/Readme.md
 - 개발환경
 ```
 > sudo docker-compose -f docker-compose-dev.yml build
-> sudo docker-compose --env-file env-dev ./config/.env-dev docker-compose-dev.yml up -d
+> sudo docker-compose --env-file ./config/.env.dev -f docker-compose-dev.yml up -d
+
+# 종료 시
+> sudo docker-compose down
 ```
 - 운영환경
 ```
