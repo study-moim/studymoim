@@ -1,4 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css' 
 
 export default function StudyMakeForm(props) {
   const recruitMembersRef = useRef();
@@ -33,12 +36,14 @@ export default function StudyMakeForm(props) {
   }
   return (
     <form onSubmit={submitHandler}>
-      <p className="flex-grow-0 flex-shrink-0 text-4xl text-left text-black">
+      <p className="text-4xl text-center mb-2">
         프로젝트 기본 정보를 입력해주세요.
       </p>
-      <div>
-        <label htmlFor="recruitMembers">모집인원</label>
-        <select id="recruitMembers" ref={recruitMembersRef} required>
+      <hr class="mb-2" />
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label htmlFor="recruitMembers" class="block mb-2">모집인원</label>
+        <div class="inline-block relative w-64">
+        <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"id="recruitMembers" ref={recruitMembersRef} required>
           <option key="one" value="one">
             1명
           </option>
@@ -58,10 +63,12 @@ export default function StudyMakeForm(props) {
             6명
           </option>
         </select>
+        </div>
+        
       </div>
 
-      <div>
-        <label htmlFor="startDate">시작 예정일</label>
+      <div class="w-full md:w-1/2 px-3">
+        <label htmlFor="startDate" class="block mb-2">시작 예정일</label>
         <input
           required
           id="startDate"
@@ -116,15 +123,17 @@ export default function StudyMakeForm(props) {
 
       <div>
         <label htmlFor="description"></label>
-        <textarea
-          id="description"
-          placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
-          cols="185"
-          rows="20"
-          ref={descriptionRef}
-        ></textarea>
+        <ReactQuill 
+        id="description"
+        placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
+        cols="185"
+        rows="20"
+        ref={descriptionRef}
+        /> 
       </div>
-
+      <Link to="/study" className="btn">
+        취소
+      </Link>
       <button>글쓰기</button>
     </form>
   );

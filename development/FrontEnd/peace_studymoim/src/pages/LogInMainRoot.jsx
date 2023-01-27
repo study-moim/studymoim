@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 /** @function 로그인창 */
 export default function LogInMainRoot() {
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4">
       <div className="flex flex-col justify-start items-center relative gap-[60px]">
         {/* TODO: 홈화면으로 가게해야하나? */}
         <img
@@ -40,6 +40,6 @@ export default function LogInMainRoot() {
         {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
         <Link to="/choice" className="text-xl">관심사 선택 테스트용 Click</Link>
       </div>
-    </>
+    </div>
   );
 }
