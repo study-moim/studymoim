@@ -16,6 +16,9 @@ services:
         ipv4_address: 172.16.238.2
     ports:
       - "80:80"
+    extra_hosts:
+      - "spring-dev:172.16.238.3"
+      - "mysql-dev:172.16.238.4"
     stdin_open: true
     tty: true
 
@@ -34,6 +37,9 @@ services:
         ipv4_address: 172.16.238.3
     ports:
       - "8080:8080"
+    extra_hosts:
+      - "nginx-dev:172.16.238.2"
+      - "mysql-dev:172.16.238.4"
     stdin_open: true
     tty: true
 
@@ -52,6 +58,9 @@ services:
         ipv4_address: 172.16.238.4
     ports:
       - "3306:3306"
+    extra_hosts:
+      - "nginx-dev:172.16.238.2"
+      - "spring-dev:172.16.238.3"
     stdin_open: true
     tty: true
 
