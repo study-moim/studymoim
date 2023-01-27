@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPageRoot";
-import StudyRecruitMainAll from "./components/studypages/StudyRecruitMainAll";
+import StudyRecruitMainPage from "./pages/StudyRecruitMainPage";
 import CourseMain from "./pages/CourseMainRoot";
 import CommunityMain from "./pages/CommunityMainRoot";
 import LogInMain from "./pages/LogInMainRoot";
@@ -12,18 +12,20 @@ import Footer from "./components/overall/Footer";
 import CommunityCreateForm from "./components/communitypages/CommunityCreateForm";
 import CommunityDetail from "./pages/CommunityDetailRoot";
 import NavBarRoot from "./components/NavBar/NavBarRoot"
-import StudyMakePage from "./components/studypages/StudyMakePage";
+import StudyMakePage from "./pages/StudyMakePage";
+import StudyPlayerMainRoot from "./pages/StudyPlayerMainRoot";
+import StudyRecruitDetailPage from "./pages/StudyRecruitDetailPage";
+import StudyDetailMainPage from './pages/StudyDetailMainPage'; 
 
 export default function App() {
   return (
-    <div id='root'>
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
         <NavBarRoot/>
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
           <Route path="/lecture" element={<CourseMain />}></Route>
-          <Route path="/study" element={<StudyRecruitMainAll />}></Route>
+          <Route path="/study" element={<StudyRecruitMainPage />}></Route>
           <Route path="/community" element={<CommunityMain />}></Route>
           <Route path="/login" element={<LogInMain />}></Route>
           {/* TODO: 동적라우터패쓰로 재설정 ex) /mypage/아이디 */}
@@ -34,10 +36,13 @@ export default function App() {
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
           <Route path="/community/:article_id" element={<CommunityDetail />}></Route>
           ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
-​          <Route path="/study_recruit_form" element={<StudyMakePage/>} ></Route>
+​          <Route path="/study/study_recruit_form" element={<StudyMakePage/>} ></Route>
+          <Route path="/study/:study_recruit_id" element={<StudyRecruitDetailPage/>}></Route> 
+          <Route path="/study/player" element={<StudyPlayerMainRoot/>}></Route> 
+          {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
+          <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
-    </div>
   );
 }

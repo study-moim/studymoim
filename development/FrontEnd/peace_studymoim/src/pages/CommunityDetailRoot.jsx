@@ -4,10 +4,19 @@ import { useLocation } from "react-router-dom";
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
-  
+  const dummyArr = [
+    {
+      idx: 1,
+      memo: "a"
+    },
+    {
+      idx: 2,
+      memo: "b"
+    }
+  ]
   return (
     <>
-      <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px]">
+      <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px] max-w-6xl mx-auto px-4">
         <div className="flex flex-col w-10/12">
           <div className="flex justify-start items-end  w-[1162px] relative gap-[15px] px-[30px]">
             <img className="w-[40px]" src={props.user_picture} />
@@ -36,7 +45,9 @@ export default function CommunityDetailRoot() {
             { props.content }
         </div>
         <CommunityCommentForm />
-        <CommunityComment />
+        {dummyArr.map((dummy) => (
+          <CommunityComment key={dummy.idx}/>
+        ))}
       </div>
     </>
   );
