@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 public class User {
@@ -19,10 +20,18 @@ public class User {
         private String email;
         private String nickname;
         private String saveName;
-        private Timestamp registerDate;
-        private Timestamp lastAccessTime;
-        private boolean isQuit;
-        private Timestamp quitTime;
+        private LocalDateTime registerDate;
+        private LocalDateTime lastAccessTime;
+        public static Info fromEntity(com.ssafy.peace.entity.User userEntity) {
+            return Info.builder()
+                    .userId(userEntity.getUserId())
+                    .email(userEntity.getEmail())
+                    .nickname(userEntity.getNickname())
+                    .saveName(userEntity.getSaveName())
+                    .registerDate(userEntity.getRegisterDate())
+                    .lastAccessTime(userEntity.getLastLoginTime())
+                    .build();
+        }
     }
 
     @Data

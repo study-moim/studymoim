@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class FreeBoard {
@@ -21,8 +22,17 @@ public class FreeBoard {
         private String content;
         private int hit;
         private LocalDateTime publishTime;
-        private User user;
-        private List<FreeBoardComment> freeBoardComments;
+        private User.Info user;
+        public static Info fromEntity(com.ssafy.peace.entity.FreeBoard freeBoardEntity) {
+            return Info.builder()
+                    .freeBoardId(freeBoardEntity.getFreeBoardId())
+                    .title(freeBoardEntity.getTitle())
+                    .content(freeBoardEntity.getContent())
+                    .hit(freeBoardEntity.getHit())
+                    .publishTime(freeBoardEntity.getPublishTime())
+                    .user(User.Info.fromEntity(freeBoardEntity.getUser()))
+                    .build();
+        }
     }
 
     @Data
@@ -39,4 +49,30 @@ public class FreeBoard {
         @NotNull(message="userId은 null 일 수 없습니다")
         private int userId;
     }
+
+    @Data
+    @Builder
+    public static class Detail {
+        private int freeBoardId;
+        private String title;
+        private String content;
+        private int hit;
+        private LocalDateTime publishTime;
+        private User.Info user;
+        private List<FreeBoardComment.Info> freeBoardComments;
+        public static Detail fromEntity(com.ssafy.peace.entity.FreeBoard freeBoardEntity) {
+            return Detail.builder()
+                    .freeBoardId(freeBoardEntity.getFreeBoardId())
+                    .title(freeBoardEntity.getTitle())
+                    .content(freeBoardEntity.getContent())
+                    .hit(freeBoardEntity.getHit())
+                    .publishTime(freeBoardEntity.getPublishTime())
+                    .user(User.Info.fromEntity(freeBoardEntity.getUser()))
+                    .freeBoardComments(freeBoardEntity.getFreeBoardComments().stream().map(comment -> {
+                        return FreeBoardComment.Info.fromEntity(comment);
+                    }).collect(Collectors.toList()))
+                    .build();
+        }
+    }
+
 }
