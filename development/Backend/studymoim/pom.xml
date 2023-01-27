@@ -120,6 +120,7 @@
 			<artifactId>google-http-client-jackson2</artifactId>
 			<version>1.42.3</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
