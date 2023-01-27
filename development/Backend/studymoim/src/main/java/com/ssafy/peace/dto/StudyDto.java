@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Study {
+public class StudyDto {
 
     @Data
     @Builder
@@ -25,8 +25,8 @@ public class Study {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<User.Info> members;
-        private List<Curriculum.Info> curriculum;
+        private List<UserDto.Info> members;
+        private List<CurriculumDto.Info> curriculum;
         private Timestamp startTime;
         private Timestamp endTime;
     }
@@ -44,8 +44,8 @@ public class Study {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<User.Info> members;
-        private List<Curriculum.Recruit> curriculum;
+        private List<UserDto.Info> members;
+        private List<CurriculumDto.Recruit> curriculum;
         private Timestamp startTime;
         private Timestamp endTime;
     }
@@ -71,7 +71,7 @@ public class Study {
         @Size(max = 100, message = "바르지 않은 notice 크기 입니다")
         private String notice;
         @NotNull(message="curriculum은 null 일 수 없습니다")
-        private Curriculum.Make curriculum;
+        private CurriculumDto.Make curriculum;
     }
 
     @Data
@@ -93,7 +93,7 @@ public class Study {
         // 여기서부터 강의 정보
         // 지금 재생중인 강의 한개
         // Service단에서 StudyHistory를 통해 현재 재생중인 강의를 찾아낸다.
-        private Lecture.Info lecture;
+        private LectureDto.Info lecture;
     }
 
     @Data
@@ -104,7 +104,7 @@ public class Study {
         private String content;
         private Timestamp publishTime;
         private boolean isDeleted;
-        private User.Info user;
+        private UserDto.Info user;
     }
 
 }

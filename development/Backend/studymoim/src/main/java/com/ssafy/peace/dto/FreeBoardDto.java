@@ -7,12 +7,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class FreeBoard {
+public class FreeBoardDto {
 
     @Data
     @Builder
@@ -22,7 +21,7 @@ public class FreeBoard {
         private String content;
         private int hit;
         private LocalDateTime publishTime;
-        private User.Info user;
+        private UserDto.Info user;
         public static Info fromEntity(com.ssafy.peace.entity.FreeBoard freeBoardEntity) {
             return Info.builder()
                     .freeBoardId(freeBoardEntity.getFreeBoardId())
@@ -30,7 +29,7 @@ public class FreeBoard {
                     .content(freeBoardEntity.getContent())
                     .hit(freeBoardEntity.getHit())
                     .publishTime(freeBoardEntity.getPublishTime())
-                    .user(User.Info.fromEntity(freeBoardEntity.getUser()))
+                    .user(UserDto.Info.fromEntity(freeBoardEntity.getUser()))
                     .build();
         }
     }
@@ -58,8 +57,8 @@ public class FreeBoard {
         private String content;
         private int hit;
         private LocalDateTime publishTime;
-        private User.Info user;
-        private List<FreeBoardComment.Info> freeBoardComments;
+        private UserDto.Info user;
+        private List<FreeBoardCommentDto.Info> freeBoardComments;
         public static Detail fromEntity(com.ssafy.peace.entity.FreeBoard freeBoardEntity) {
             return Detail.builder()
                     .freeBoardId(freeBoardEntity.getFreeBoardId())
@@ -67,9 +66,9 @@ public class FreeBoard {
                     .content(freeBoardEntity.getContent())
                     .hit(freeBoardEntity.getHit())
                     .publishTime(freeBoardEntity.getPublishTime())
-                    .user(User.Info.fromEntity(freeBoardEntity.getUser()))
+                    .user(UserDto.Info.fromEntity(freeBoardEntity.getUser()))
                     .freeBoardComments(freeBoardEntity.getFreeBoardComments().stream().map(comment -> {
-                        return FreeBoardComment.Info.fromEntity(comment);
+                        return FreeBoardCommentDto.Info.fromEntity(comment);
                     }).collect(Collectors.toList()))
                     .build();
         }

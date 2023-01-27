@@ -1,5 +1,10 @@
 package com.ssafy.peace.dto;
 
+import com.ssafy.peace.entity.*;
+import com.ssafy.peace.entity.FreeBoard;
+import com.ssafy.peace.entity.FreeBoardComment;
+import com.ssafy.peace.entity.QuestionBoard;
+import com.ssafy.peace.entity.QuestionBoardComment;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,11 +12,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-public class User {
+public class UserDto {
 
     @Data
     @Builder
@@ -57,6 +63,51 @@ public class User {
         private String saveName;
     }
 
+    public static class Detail {
 
+        private int userId;
+
+        private String email;
+
+        private String nickname;
+
+        private String saveName;
+
+        private LocalDateTime registerDate;
+
+        private LocalDateTime lastLoginTime;
+
+        private boolean isQuit;
+
+        private LocalDateTime quitTime;
+
+        private List<Alarm> alarms = new ArrayList<>();
+
+        private List<FreeBoard> freeBoards = new ArrayList<>();
+
+        private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
+
+        private List<Message> sendMessages = new ArrayList<>();
+
+        private List<Message> receivedMessages = new ArrayList<>();
+
+        private List<Note> notes = new ArrayList<>();
+
+        private List<QuestionBoard> questionBoards = new ArrayList<>();
+
+        private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
+
+        private List<StudyCommunity> studyCommunities = new ArrayList<>();
+
+        private List<StudyMember> studyMembers = new ArrayList<>();
+
+        private List<StudyRequest> studyRequests = new ArrayList<>();
+
+        private List<UserHistory> userHistories = new ArrayList<>();
+
+        private List<UserLikeCategory> userLikeCategories = new ArrayList<>();
+
+        private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
+    }
 
 }

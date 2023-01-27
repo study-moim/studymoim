@@ -3,15 +3,7 @@ package com.ssafy.peace.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.util.List;
-
-public class Lecture {
+public class LectureDto {
 
     @Data
     @Builder

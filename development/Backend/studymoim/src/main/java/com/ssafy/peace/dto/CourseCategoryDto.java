@@ -3,10 +3,9 @@ package com.ssafy.peace.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CourseCategory {
+public class CourseCategoryDto {
 
     @Data
     @Builder
@@ -22,7 +21,7 @@ public class CourseCategory {
         private String name;
 
         /* 카테고리에 관련 된 강좌 목록 */
-        private List<Course> courses;
+        private List<CourseDto> courses;
     }
 
 }

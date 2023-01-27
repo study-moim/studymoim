@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FreeBoardComment {
+public class FreeBoardCommentDto {
 
     @Data
     @Builder
@@ -17,9 +17,9 @@ public class FreeBoardComment {
         private int freeBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
-        private List<FreeBoardComment.Info> children;
-        private FreeBoard freeBoard;
-        private User.Info user;
+        private List<FreeBoardCommentDto.Info> children;
+        private FreeBoardDto freeBoard;
+        private UserDto.Info user;
         public static Info fromEntity(com.ssafy.peace.entity.FreeBoardComment freeBoardCommentEntity) {
             return Info.builder()
                     .freeBoardCommentId(freeBoardCommentEntity.getFreeBoardCommentId())
@@ -28,7 +28,7 @@ public class FreeBoardComment {
                     .children(freeBoardCommentEntity.getChildren().stream()
                             .map(child -> Info.fromEntity(child))
                             .collect(Collectors.toList()))
-                    .user((User.Info.fromEntity(
+                    .user((UserDto.Info.fromEntity(
                             freeBoardCommentEntity.getUser()
                     )))
                     .build();
@@ -58,9 +58,9 @@ public class FreeBoardComment {
         private int freeBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
-        private List<FreeBoardComment> children;
-        private FreeBoard freeBoard;
-        private User user;
+        private List<FreeBoardCommentDto> children;
+        private FreeBoardDto freeBoard;
+        private UserDto user;
     }
 
 }
