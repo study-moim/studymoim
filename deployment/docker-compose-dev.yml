@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+  nginx:
+    container_name: nginx-dev
+    build:
+      context: frontend
+      dockerfile: frontend/Dockerfile
+    hostname: nginx-dev
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/react
+        target: /home/logs
+    networks:
+      network-dev:
+        ipv4_address: 172.16.238.2
+    ports:
+      - "80:4000"
+    stdin_open: true
+    tty: true
+
+  spring:
+    container_name: spring-dev
+    build:
+      context: backend
+      dockerfile: backend/Dockerfile
+    hostname: spring-dev
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/spring
+        target: /home/logs
+    networks:
+      network-dev:
+        ipv4_address: 172.16.238.3
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+
+  mysql:
+    image: mysql:8.0.32-debian
+    container_name: mysql-dev
+    hostname: mysql-dev
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/mysql
+        target: /home/logs
+    networks:
+      network-dev:
+        ipv4_address: 172.16.238.3
+    ports:
+      - "3306:3306"
+    stdin_open: true
+    tty: true
+
+networks:
+  network-dev:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"

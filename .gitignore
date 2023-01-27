@@ -36,3 +36,6 @@ development/Backend/studymoim/target/
 !development/Backend/studymoim/**/src/test/**/target/
 
 
+### Deployment Secret ###
+deployment/**/env
+deployment/**env-dev
