@@ -24,7 +24,8 @@ public class CourseProvider {
 
     @Size(max = 255)
     @NotNull
-    private String url;
+    @Column(unique = true)
+    private String channelId;
 
     @NotNull
     @Size(max = 50)
