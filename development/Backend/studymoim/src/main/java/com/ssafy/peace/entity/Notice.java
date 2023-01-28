@@ -28,6 +28,7 @@ public class Notice {
     private String title;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private Timestamp publishTime;

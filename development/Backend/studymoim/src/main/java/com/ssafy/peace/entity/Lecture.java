@@ -44,7 +44,7 @@ public class Lecture {
     private String thumbnail;
 
     // 영상 설명이 비어있을 수도 있다
-//    @Size(max=65535)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Size(max = 255)

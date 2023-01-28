@@ -31,7 +31,7 @@ public class Course {
     private String title;
 
     // 상세 설명이 없는 재생목록이 있을수도...
-//    @Size(max = 65535)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Size(max = 255)
