@@ -1,6 +1,6 @@
 import { userInfo } from "../../zustand/store";
 
-export default function MyPageLeftBar({ getClick }) {
+export default function MyPageLeftBar({ getClick, clickModal }) {
   const { ID, logIn } = userInfo();
 
   if (logIn) {
@@ -15,16 +15,28 @@ export default function MyPageLeftBar({ getClick }) {
           </div>
           <p className="text-[32px] font-bold text-center text-black">싸피킴</p>
           <p className="text-xl font-bold text-center text-black">
-            <span className="text-sky-700 cursor-pointer hover:text-[#b1b2ff]">
+            <span
+              id="follower"
+              className="text-sky-700 cursor-pointer hover:text-[#b1b2ff]"
+              onClick={clickModal}
+            >
               팔로워{" "}
             </span>
             30.9M |{" "}
-            <span className="text-sky-700 cursor-pointer hover:text-[#b1b2ff]">
+            <span
+              id="following"
+              className="text-sky-700 cursor-pointer hover:text-[#b1b2ff]"
+              onClick={clickModal}
+            >
               팔로잉
             </span>{" "}
             0
           </p>
-          <button className="w-8/12 rounded-[20px] bg-[#b1b2ff] text-[13px] font-bold text-center text-white py-2 px-6 hover:scale-110 hover:bg-[#989aff]">
+          <button
+            id="modify"
+            className="w-8/12 rounded-[20px] bg-[#b1b2ff] text-[13px] font-bold text-center text-white py-2 px-6 hover:scale-110 hover:bg-[#989aff]"
+            onClick={clickModal}
+          >
             프로필 수정하기
           </button>
         </div>
