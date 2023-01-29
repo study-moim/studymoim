@@ -1,4 +1,14 @@
-export default function DeleteModal() {
+import { useNavigate } from 'react-router-dom'; 
+
+export default function DeleteModal(props) {
+  const navigate = useNavigate(); 
+
+  function cancelHandler() {
+    props.onCancel(); 
+  }
+  function confirmHandler() {
+    navigate("/study")
+  }
   return (
     <div className="w-[729px] h-[525px] relative">
       <div className="w-[729px] h-[525px] absolute left-0 top-0">
@@ -19,21 +29,17 @@ export default function DeleteModal() {
                 작성한 내용이 모두 사라집니다. 
               </p>
               <p className="flex-grow-0 flex-shrink-0 w-[385px] text-sm text-center text-[#54595e]/60">
-                정말로 삭제하시겠습니까?
+                정말로 취소하시겠습니까?
               </p>
             </div>
           </div>
           <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-6">
-            <div className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-5 py-3.5 rounded-lg bg-white border border-[#4f4f4f]">
-              <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#4f4f4f]">
-                네, 삭제하겠습니다.
-              </p>
-            </div>
-            <div className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-5 py-3.5 rounded-lg bg-[#b1b2ff]">
-              <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-neutral-100">
+            <button onClick={confirmHandler} className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-5 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]">
+                네, 취소하겠습니다.
+            </button>
+            <button onClick={cancelHandler} className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-5 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white">
                 아니요, 다시 돌아갈래요.
-              </p>
-            </div>
+            </button>
           </div>
         </div>
       </div>
