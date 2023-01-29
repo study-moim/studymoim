@@ -27,9 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/auth/**").permitAll()
-                // 해당 요청을 인증된 사용자만 사용 가능
-                .anyRequest().authenticated()
+                // .antMatchers("/auth/**").permitAll()
+                // 상기 API 외에는 모든 요청에 인증 필요
+                // .anyRequest().authenticated()
                 .and()
                 .cors()
                 .and()
@@ -39,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("/login-success")
                 .userInfoEndpoint()
         ;
 

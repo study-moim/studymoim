@@ -14,7 +14,6 @@ public class AuthController {
     @GetMapping("/oauth/login")
     public String kakaoLogin(String code) {
         // code: 카카오 서버로부터 받은 인가 코드
-        System.out.println("code: " + code);
         userService.kakaoLogin(code);
         return "redirect:/";
     }
