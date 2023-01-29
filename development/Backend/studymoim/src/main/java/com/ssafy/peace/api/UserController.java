@@ -26,7 +26,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/")
-    public ResponseEntity<?> boardList() {
+    public ResponseEntity<?> userList() {
         try{
             return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
         } catch(Exception e) {
@@ -40,7 +40,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/")
-    public ResponseEntity<?> boardWrite(@RequestBody FreeBoardDto.Write freeBoard) {
+    public ResponseEntity<?> userRegister(@RequestBody FreeBoardDto.Write freeBoard) {
         try{
             userService.register(freeBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
