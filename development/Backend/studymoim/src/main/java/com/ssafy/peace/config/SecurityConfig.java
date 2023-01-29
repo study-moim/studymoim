@@ -41,6 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .userInfoEndpoint()
         ;
-
+        // Todo: Spring Security JWT Filter 설정
     }
 }

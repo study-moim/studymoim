@@ -34,7 +34,6 @@ public class UserService {
             userRepository.save(user);
         }
 
-        // Todo: JWT 발급, JWT + SS 합치기, SS Filter 설정
         // Todo: 로그인 처리
 //        Authentication kakaoEmail = new UsernamePasswordAuthenticationToken(kakaoUser) ;
 //        Authentication authentication = authenticationManager.authenticate(kakaoEmail);
