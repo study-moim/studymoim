@@ -65,6 +65,10 @@ export default function StudyRecruitMainAll() {
       <div className="flex flex-col justify-start items-start">
         <div className="flex justify-end items-center self-stretch  h-[92px] gap-2.5 px-2.5 pb-2.5 bg-white border-t border-r-[0.3px] border-b-0 border-l-[0.3px] border-black">
           <div className="flex justify-start items-start  gap-[23px]">
+            <Link to="/studyDetail">
+              <div>임시 버튼</div>
+            </Link>
+
             <Link to="/study/study_recruit_form">
               <div
                 className="px-8 py-[13px] rounded-[10px] bg-[#b1b2ff]/50 text-xl font-bold text-black hover:bg-[#b1b2ff]/90 hover:scale-95"
@@ -73,7 +77,7 @@ export default function StudyRecruitMainAll() {
                 스터디 만들기
               </div>
             </Link>
-
+            
             <select
               name="커뮤니티정렬"
               className="pl-[20px] w-[150px] h-[40px] mt-[10px] bg-[#f2f2f2] cursor-pointer"
