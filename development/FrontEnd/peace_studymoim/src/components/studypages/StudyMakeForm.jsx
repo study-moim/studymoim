@@ -3,15 +3,18 @@ import { useEffect } from "react";
 import { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Link } from "react-router-dom";
-
+import DeleteModal from "../overall/DeleteModal";
+import Backdrop from "../overall/Backdrop";
 
 export default function StudyMakeForm(props) {
-  const [ modalIsOpen, setModelIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   function deleteHandler() {
     setModalIsOpen(true);
   }
-   
+  function closeModalHandler() {
+    setModalIsOpen(false);
+  }
+
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
 
@@ -58,24 +61,43 @@ export default function StudyMakeForm(props) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px] mt-10">
+    <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
       <form
-        className="flex flex-col items-center gap-4 py-5"
+        className="w-full flex flex-col items-center gap-4 py-5"
         onSubmit={submitHandler}
       >
-        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[856px] w-[1440px] overflow-hidden gap-2.5 py-[5px]">
+        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[856px] w-full overflow-hidden gap-2.5 py-[5px]">
           <p className="text-4xl text-left">
             프로젝트 기본 정보를 입력해주세요.
           </p>
-          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[760px] overflow-hidden gap-2.5 p-2.5">
+          <svg   
+            height={9}
+            viewBox="0 0 1352 9"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full mt-3 flex-grow-0 flex-shrink-0"
+            preserveAspectRatio="none"
+          >
+            <line
+              x1="0.993338"
+              y1="7.50001"
+              x2="1351.99"
+              y2="1.50001"
+              stroke="#7B61FF"
+              stroke-width={3}
+            />
+          </svg>
+
+          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 p-2.5">
             <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[216px] overflow-hidden gap-2.5">
+              
               <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
                 <p className="text-[32px] text-left">모집인원 </p>
                 <select
                   id="recruitMembers"
                   ref={recruitMembersRef}
                   required
-                  className="w-[525px] h-[90px] relative rounded border-2 border-[#b1b2ff]"
+                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
                 >
                   <option value="1">1명</option>
                   <option value="2">2명</option>
@@ -95,19 +117,19 @@ export default function StudyMakeForm(props) {
                   min="2023-01-01"
                   max="2023-12-31"
                   ref={startDateRef}
-                  className="w-[525px] h-[90px] relative rounded border-2 border-[#b1b2ff]"
+                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
                 />
               </div>
             </div>
 
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[207px] overflow-hidden gap-2.5 p-2.5">
+            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[216px] overflow-hidden gap-2.5">
               <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
                 <p className="text-[32px] text-left">인원 모집 방법</p>
                 <select
                   id="recruitMethod"
                   ref={recruitMethodRef}
                   required
-                  className="w-[525px] h-[90px] relative rounded border-2 border-[#b1b2ff]"
+                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
                 >
                   <option value="공개">공개</option>
                   <option value="수락">수락</option>
@@ -122,26 +144,26 @@ export default function StudyMakeForm(props) {
                   min="2023-01-01"
                   max="2023-12-31"
                   ref={dueDateRef}
-                  className="w-[525px] h-[90px] relative rounded border-2 border-[#b1b2ff]"
+                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
                 />
               </div>
             </div>
             {/* TODO: 강좌는 나중에 !! 다중 선택으로 해야 돼!!  */}
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[255px] overflow-hidden gap-2.5 p-2.5">
+            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[255px] overflow-hidden gap-2.5">
               <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
                 <p className="text-[32px] text-left">강좌 선택</p>
                 <div className="flex-grow-0 flex-shrink-0 w-[525px] h-[90px] relative">
-                  <div className="w-[525px] h-[90px] absolute left-[-1.5px] top-[-1.5px] rounded border-2 border-[#b1b2ff]" />
+                  <div className="w-full h-[90px] absolute left-[-1.5px] top-[-1.5px] rounded border-2 border-[#b1b2ff]" />
                 </div>
                 <div className="flex-grow-0 flex-shrink-0 w-[279px] h-[61px] relative">
-                  <div className="w-[279px] h-[61px] absolute left-[-1px] top-[-1px] rounded-[20px] bg-[#b1b2ff]/50" />
+                  <div className="w-1/2 h-[61px] absolute left-[-1px] top-[-1px] rounded-[20px] bg-[#b1b2ff]/50" />
                 </div>
               </div>
 
               <div className="flex justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
                 <img
                   src={preview}
-                  className="flex-grow-0 flex-shrink-0 w-[208.15px] h-[178.33px] object-cover"
+                  className="flex-grow-0 flex-shrink-0 w-1/2 h-[178.33px] object-cover"
                 />
 
                 <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 overflow-hidden gap-[21px] px-4">
@@ -150,6 +172,7 @@ export default function StudyMakeForm(props) {
                     type="file"
                     ref={studyImgRef}
                     accept="image/*"
+                    className="w-1/2"
                     onChange={(event) => {
                       const file = event.target.files[0];
                       if (file && file.type.substring(0, 5) === "image") {
@@ -165,36 +188,59 @@ export default function StudyMakeForm(props) {
           </div>
         </div>
 
-        <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 p-2.5">
+        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full overflow-hidden gap-2.5 py-[5px]">
           <p className="text-4xl text-left">프로젝트에 대해 선택해주세요.</p>
-        </div>
+          <svg   
+            height={9}
+            viewBox="0 0 1352 9"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full mt-3 flex-grow-0 flex-shrink-0"
+            preserveAspectRatio="none"
+          >
+            <line
+              x1="0.993338"
+              y1="7.50001"
+              x2="1351.99"
+              y2="1.50001"
+              stroke="#7B61FF"
+              stroke-width={3}
+            />
+          </svg>
+          <div className="flex flex-col w-full justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
+            <input
+              type="text"
+              ref={titleInputRef}
+              id="title"
+              required
+              className="w-full mt-3 h-[50px] justify-center border"
+              placeholder="제목을 입력해주세요"
+            />
+            <ReactQuill
+              id="description"
+              ref={descriptionRef}
+              placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
+              className="w-full h-[400px] justify-center mb-5"
+            />
 
-        <div className="flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
-          <input
-            type="text"
-            ref={titleInputRef}
-            id="title"
-            required
-            className="w-[1340px] h-[50px] justify-center border-2 border-[#b1b2ff]"
-            placeholder="제목을 입력해주세요"
-          />
-          <ReactQuill
-            id="description"
-            ref={descriptionRef}
-            placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
-            className="w-[1340px] h-[400px] justify-center mb-5"
-          />
-
-          <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-[15px]">
-            <Link
-              to="/study"
-              className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-white text-4xl"
-            >
-              취소
-            </Link>
-            <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
-              글쓰기
-            </button>
+            <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-[15px]">
+              <div
+                className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] items-center"
+                onClick={deleteHandler}
+              >
+                <p className="text-4xl text-white">취소</p>
+              </div>
+              <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
+                글쓰기
+              </button>
+              {modalIsOpen ? (
+                <DeleteModal
+                  onCancel={closeModalHandler}
+                  onConfirm={closeModalHandler}
+                />
+              ) : null}
+              {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
+            </div>
           </div>
         </div>
       </form>

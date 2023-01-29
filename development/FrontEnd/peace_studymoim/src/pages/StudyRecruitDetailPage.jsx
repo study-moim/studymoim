@@ -189,6 +189,9 @@ export default function StudyRecruitDetailPage(props) {
               </div>
             </div>
           </div>
+          <div>
+            <div dangerouslySetInnerHTML={{ __html : detailData.description}}></div>
+          </div>
           <div className="flex flex-col justify-start items-center relative gap-9">
             <p className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-left text-black">
               커리큘럼
