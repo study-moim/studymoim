@@ -82,8 +82,6 @@ export default function StudyRecruitMainAll() {
               <option value="">정렬하기</option>
               <option value="new">최신순</option>
               <option value="old">오래된순</option>
-              <option value="big">조회높은순</option>
-              <option value="small">조회낮은순</option>
             </select>
           </div>
         </div>
