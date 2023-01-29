@@ -27,7 +27,7 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container_dev:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
@@ -54,5 +54,23 @@ logging:
     web: error
     sql: error
 ---
-
-
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 98268e53473ceb3e11dd6e609a5fa990
+            redirect-uri: http://localhost:7080/oauth/login
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+---

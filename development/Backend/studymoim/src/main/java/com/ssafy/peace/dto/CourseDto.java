@@ -6,7 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Course {
+public class CourseDto {
 
     @Data
     @Builder
@@ -15,7 +15,7 @@ public class Course {
         private String title;
         private String content;
         private Timestamp lastUpdateDate;
-        private List<Lecture.Info> lectures;
+        private List<LectureDto.Info> lectures;
         private String providerUrl;
         private String providerPlatformName;
         private String providerChannelName;
@@ -28,7 +28,7 @@ public class Course {
         private String title;
         private String content;
         private Timestamp lastUpdateDate;
-        private List<Lecture.Recruit> lectures;
+        private List<LectureDto.Recruit> lectures;
         private int providerId;
         private String providerUrl;
         private int providerPlatformId;
