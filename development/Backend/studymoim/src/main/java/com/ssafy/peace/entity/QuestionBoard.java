@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class QuestionBoard {
@@ -41,7 +36,7 @@ public class QuestionBoard {
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    @NotNull
+    @ColumnDefault("0")
     private int hit;
 
     @NotNull
@@ -65,4 +60,16 @@ public class QuestionBoard {
     @OneToMany(mappedBy = "questionBoard")
     private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
 
+    @Builder
+    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, boolean isPublic, Course course, User user, Study study) {
+        this.title = title;
+        this.content = content;
+        this.questionTime = questionTime;
+        this.isDeleted = isDeleted;
+        this.hit = hit;
+        this.isPublic = isPublic;
+        this.course = course;
+        this.user = user;
+        this.study = study;
+    }
 }

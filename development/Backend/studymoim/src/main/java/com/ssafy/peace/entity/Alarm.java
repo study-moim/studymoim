@@ -33,4 +33,11 @@ public class Alarm {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
+    public Alarm(boolean isChecked, String content, String url, User user) {
+        this.isChecked = isChecked;
+        this.content = content;
+        this.url = url;
+        this.user = user;
+    }
 }
