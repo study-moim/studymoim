@@ -20,6 +20,13 @@
 > sudo apt install docker-ce docker-ce-cli containerd.io
 ```
 
+## Docker Compose 설치
+```
+> sudo curl -SL https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+> sudo chmod +x /usr/local/bin/docker-compose
+> sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+
 ## 이미지 pull
 ```
 > sudo docker pull jenkins/jenkins:lts-jdk11
@@ -31,9 +38,21 @@
 
 jenkins/Readme.md
 
-# 3. Frontend/Backend 자동 배포
+# 3. Frontend/Backend/Databese 컨테이너 실행
+- 개발환경
+```
+> sudo docker-compose -f docker-compose-dev.yml build
+> sudo docker-compose --env-file ./config/.env.dev -f docker-compose-dev.yml up -d
 
-/development/Backend/Readme.md
+# 종료 시
+> sudo docker-compose -f docker-compose-dev.yml down
+```
+- 운영환경
+```
+> sudo docker-compose docker-compose-prod.yml build
+> sudo docker-compose --env-file env docker-compose-prod.yml up -d
+```
 
+# 4. Jenkins 설정
 
 참고: https://velog.io/@hanif/Gitlab%EA%B3%BC-Jenkins%EB%A1%9C-CICD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0
