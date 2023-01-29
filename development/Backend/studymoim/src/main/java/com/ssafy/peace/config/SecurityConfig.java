@@ -23,21 +23,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-        httpSecurity.csrf().disable()
+    protected void configure(HttpSecurity http) throws Exception {
+        http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                // 시큐리티는 기본적으로 세션을 사용하지만, 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정.
+                .antMatchers("/auth/**").permitAll()
+                // 해당 요청을 인증된 사용자만 사용 가능
+                .anyRequest().authenticated()
                 .and()
+                .cors()
+                .and()
+                .csrf().disable()
+                // 시큐리티는 기본적으로 세션을 사용하지만, 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .oauth2Login()
                 .defaultSuccessUrl("/login-success")
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
                 .userInfoEndpoint()
-//                .userService(userOAuth2Service);
         ;
 
     }
