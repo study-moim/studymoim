@@ -29,15 +29,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,12 +70,11 @@ public class YoutubeApiService {
      * @return
      */
     public List<JSONObject> getCourseProvider() {
-        URL path = getClass().getClassLoader().getResource("provider.json");
-
-        try {
-            System.out.println("test");
-
-            Object ob = new JSONParser().parse(new FileReader(path.getPath()));
+//        URL path = getClass().getClassLoader().getResource("provider.json");
+        ClassPathResource classPathResource = new ClassPathResource("provider.json");
+        System.out.println(classPathResource.getPath());
+        try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
+            Object ob = new JSONParser().parse(new FileReader(classPathResource.getURI().getPath()));
             List<JSONObject> data = (List<JSONObject>) ob;
 
             System.out.println(data);
@@ -94,9 +92,32 @@ public class YoutubeApiService {
                 getPlayList(courseProvider.getChannelId());
             }
             return data;
-        } catch (IOException | ParseException e) {
-            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+//        try {
+//            Object ob = new JSONParser().parse(new FileReader(path.getPath()));
+//            List<JSONObject> data = (List<JSONObject>) ob;
+//
+//            System.out.println(data);
+//
+//            for (JSONObject provider : data) {
+//                // 1번 - 생코
+//                System.out.println(provider);
+//                CourseProvider courseProvider = CourseProvider.builder()
+//                        .name((String) provider.get("name"))
+//                        .channelId((String) provider.get("channelId"))
+//                        .build();
+//
+//                courseProviderRepository.save(courseProvider);
+//
+//                getPlayList(courseProvider.getChannelId());
+//            }
+//            return data;
+//        } catch (IOException | ParseException e) {
+//            return null;
+//        }
     }
 
     /**
