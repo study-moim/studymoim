@@ -54,9 +54,9 @@ export default function CommunityCreateForm() {
   }
 
   return (
-    <div className="flex flex-col gap-[43px] m-[100px]">
+    <div className="max-w-6xl mx-auto px-4 flex flex-col gap-[43px] m-[100px]">
       <form onSubmit={onSubmit} className="flex flex-col gap-[50px]">
-        <p className="  w-[1088px] text-5xl text-center text-[#7b61ff]">
+        <p className="text-5xl text-center text-[#7b61ff]">
           질문 작성하기
         </p>
         <div className="flex  justify-between gap-[27px]">
