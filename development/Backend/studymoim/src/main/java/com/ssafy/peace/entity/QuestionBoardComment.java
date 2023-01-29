@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -16,9 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class QuestionBoardComment {
@@ -53,4 +48,12 @@ public class QuestionBoardComment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
+    public QuestionBoardComment(String content, QuestionBoardComment parentComment, QuestionBoard questionBoard, User user, boolean isDeleted) {
+        this.content = content;
+        this.parentComment = parentComment;
+        this.questionBoard = questionBoard;
+        this.user = user;
+        this.isDeleted = isDeleted;
+    }
 }

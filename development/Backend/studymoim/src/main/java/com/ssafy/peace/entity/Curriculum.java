@@ -1,17 +1,12 @@
 package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.CurriculumId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(CurriculumId.class)
@@ -30,4 +25,9 @@ public class Curriculum {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @Builder
+    public Curriculum(Study study, Course course) {
+        this.study = study;
+        this.course = course;
+    }
 }

@@ -1,17 +1,12 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Banner {
@@ -27,4 +22,9 @@ public class Banner {
     @Size(max = 255)
     private int url;
 
+    @Builder
+    public Banner(int saveName, int url) {
+        this.saveName = saveName;
+        this.url = url;
+    }
 }
