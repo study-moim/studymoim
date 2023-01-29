@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final KakaoAuth2 kakaoAuth2;
+    private final KakaoAuthService kakaoAuthService;
     private final AuthenticationManager authenticationManager;
     @Autowired
-    public UserService(UserRepository userRepository, KakaoAuth2 kakaoAuth2, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, KakaoAuthService kakaoAuthService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
-        this.kakaoAuth2 = kakaoAuth2;
+        this.kakaoAuthService = kakaoAuthService;
         this.authenticationManager = authenticationManager;
     }
 
     public void kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        KakaoUserInfo userInfo = kakaoAuth2.getUserInfo(authorizedCode);
+        KakaoUserInfo userInfo = kakaoAuthService.getUserInfo(authorizedCode);
         String email = userInfo.getEmail();
         System.out.println("email!!!!!!!!!!!!!!!!!11: " + email);
         // DB에 이미 가입한 사용자인지 확인

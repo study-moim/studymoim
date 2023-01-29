@@ -14,7 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class KakaoAuth2 {
+public class KakaoAuthService {
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
