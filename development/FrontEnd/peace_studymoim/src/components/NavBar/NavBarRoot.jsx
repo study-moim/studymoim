@@ -5,12 +5,13 @@ import NavBarRouter from "./NavBarRouter";
 import NavBarRouterMd from "./NavBarRouterMd";
 import { useState } from "react";
 import classNames from "classnames";
+import RingModal from "./RingModal";
 
 export default function Navbar() {
   const { ID, logIn } = userInfo();
   const [menuToggle, setMenuToggle] = useState(false);
-  if (window.location.pathname === "/study/player")
-    return null;
+
+  if (window.location.pathname === "/study/player") return null;
   return (
     <>
       <div className="max-w-6xl mx-auto px-4">
