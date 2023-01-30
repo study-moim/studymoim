@@ -2,6 +2,7 @@ package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.UserHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
