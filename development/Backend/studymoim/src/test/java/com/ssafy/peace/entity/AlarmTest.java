@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles(profiles = "dev")
+@ActiveProfiles(profiles = "test")
 class AlarmTest {
 
     @Autowired
