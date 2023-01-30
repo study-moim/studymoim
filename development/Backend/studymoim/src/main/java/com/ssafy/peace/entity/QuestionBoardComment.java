@@ -23,6 +23,7 @@ public class QuestionBoardComment {
     private int questionBoardCommentId;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreationTimestamp

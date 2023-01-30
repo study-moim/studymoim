@@ -20,6 +20,7 @@ public class StudyCommunity {
     private int studyCommunityId;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreationTimestamp
