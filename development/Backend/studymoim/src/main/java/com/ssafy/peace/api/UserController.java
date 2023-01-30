@@ -124,7 +124,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/posts")
+    @GetMapping("/{userId}/articles")
     public ResponseEntity<?> userPostingList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getPostList(userId), HttpStatus.OK);
