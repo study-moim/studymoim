@@ -46,7 +46,7 @@ export default function PlayerQuestionList() {
           {
             newToggle
             ?
-            <PlayerQuestionMakeForm />
+            <PlayerQuestionMakeForm clickNew={clickNew} />
             :
             null
           }

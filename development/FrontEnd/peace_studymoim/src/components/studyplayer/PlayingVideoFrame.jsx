@@ -1,15 +1,12 @@
+import Iframe from "react-iframe";
+
 export default function PlayingVideoFrame() {
-  const params ={
-    key:"AIzaSyAfRkX9l3aXZmSVZV8707Yv8nv3TZ-GPV0",
-    part:'snippet',
-    q:videoQuery,
-    maxResults: 5,
-    type: 'video',
-    videoDuration: 'long'
-  }
   return (
-    <>
-      
-    </>
+    <div className="border w-full h-full">
+      <Iframe
+        url="https://www.youtube.com/embed/XP_cf_GFFR4"
+        className="w-full h-full"
+      />
+    </div>
   );
 }
