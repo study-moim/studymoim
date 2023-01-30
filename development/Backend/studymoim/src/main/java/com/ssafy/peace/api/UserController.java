@@ -66,10 +66,10 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/study")
-    public ResponseEntity<?> userStudyList() {
+    @GetMapping("/{userId}/studies")
+    public ResponseEntity<?> userStudyList(@PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getStudyList(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getStudyList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -80,10 +80,10 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/course")
-    public ResponseEntity<?> userCourseHistoryList() {
+    @GetMapping("/{userId}/courses")
+    public ResponseEntity<?> userCourseHistoryList(@PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getCourseHistory(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getCourseHistory(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -94,10 +94,52 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/lecture")
-    public ResponseEntity<?> userLectureHistoryList() {
+    @GetMapping("/{userId}/lectures")
+    public ResponseEntity<?> userLectureHistoryList(@PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getLectureHistory(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getLectureHistory(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get memos", description = "사용자 메모 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/memos")
+    public ResponseEntity<?> userMemoList(@PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getMemoList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get posting list", description = "작성한 글 내역 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/posts")
+    public ResponseEntity<?> userPostingList(@PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getPostList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get like list", description = "좋아요 한 강좌 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/likes")
+    public ResponseEntity<?> userLikeList(@PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getLikeList(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
