@@ -84,6 +84,8 @@ public class YoutubeApiService {
 //        URL path = getClass().getClassLoader().getResource("provider.json");
         ClassPathResource classPathResource = new ClassPathResource("provider.json");
         System.out.println(classPathResource.getPath());
+
+
         try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
             Object ob = new JSONParser().parse(new FileReader(classPathResource.getURI().getPath()));
             List<JSONObject> data = (List<JSONObject>) ob;
