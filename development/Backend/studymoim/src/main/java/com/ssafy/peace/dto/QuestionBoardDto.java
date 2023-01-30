@@ -1,6 +1,7 @@
 package com.ssafy.peace.dto;
 
 
+import com.ssafy.peace.entity.QuestionBoard;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,10 +23,15 @@ public class QuestionBoardDto {
         private int questionTime;
         private int hit;
         private LocalDateTime publishTime;
-        private CourseDto.Info course;
-        private UserDto user;
-        private StudyDto study;
-        private List<QuestionBoardCommentDto> questionBoardComments = new ArrayList<>();
+        public static Info fromEntity(QuestionBoard questionBoard) {
+            return Info.builder()
+                    .questionBoardId(questionBoard.getQuestionBoardId())
+                    .title(questionBoard.getTitle())
+                    .content(questionBoard.getContent())
+                    .questionTime(questionBoard.getQuestionTime())
+                    .hit(questionBoard.getHit())
+                    .build();
+        }
     }
 
     @Data
@@ -47,6 +53,22 @@ public class QuestionBoardDto {
         @NotNull(message="userId은 null 일 수 없습니다")
         private int userId;
         private int studyId;
+    }
+
+    @Data
+    @Builder
+    public static class Detail {
+        private int questionBoardId;
+        private String title;
+        private String content;
+        private int questionTime;
+        private int hit;
+        private LocalDateTime publishTime;
+        private CourseDto.Info course;
+        private UserDto user;
+        private StudyDto study;
+        private List<QuestionBoardCommentDto> questionBoardComments = new ArrayList<>();
+
     }
 
 }
