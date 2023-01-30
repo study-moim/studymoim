@@ -27,6 +27,7 @@ public class FreeBoardComment {
     private int freeBoardCommentId;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreationTimestamp
