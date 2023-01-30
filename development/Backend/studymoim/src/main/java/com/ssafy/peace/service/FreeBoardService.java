@@ -24,9 +24,9 @@ public class FreeBoardService {
     }
 
     @Transactional
-    public List<FreeBoardDto.Info> getFreeBoardList() throws RollbackException {
+    public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
         return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
-                .map(FreeBoardDto.Info::fromEntity)
+                .map(FreeBoardDto.Detail::fromEntity)
                 .collect(Collectors.toList());
     }
 
