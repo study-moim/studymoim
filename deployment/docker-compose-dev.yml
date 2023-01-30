@@ -1,0 +1,73 @@
+version: "3.7"
+
+services:
+  nginx:
+    container_name: nginx-dev
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    hostname: nginx-dev
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/nginx
+        target: /home/logs
+    networks:
+      ssafy_network:
+        ipv4_address: 172.16.238.2
+    ports:
+      - "80:80"
+    extra_hosts:
+      - "spring-dev:172.16.238.3"
+      - "mysql-dev:172.16.238.4"
+    stdin_open: true
+    tty: true
+
+  spring:
+    container_name: spring-dev
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    hostname: spring-dev
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/spring
+        target: /home/logs
+    networks:
+      ssafy_network:
+        ipv4_address: 172.16.238.3
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "nginx-dev:172.16.238.2"
+      - "mysql-dev:172.16.238.4"
+    stdin_open: true
+    tty: true
+
+  mysql:
+    image: mysql:8.0.32-debian
+    container_name: mysql-dev
+    hostname: mysql-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: studymoim
+    volumes:
+      - type: bind
+        source: /home/ubuntu/logs/mysql
+        target: /home/logs
+    networks:
+      ssafy_network:
+        ipv4_address: 172.16.238.4
+    ports:
+      - "3306:3306"
+    extra_hosts:
+      - "nginx-dev:172.16.238.2"
+      - "spring-dev:172.16.238.3"
+    stdin_open: true
+    tty: true
+
+networks:
+  ssafy_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"

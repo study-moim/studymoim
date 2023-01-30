@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,9 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class StudyRequest {
@@ -44,4 +39,11 @@ public class StudyRequest {
     @JoinColumn(name = "study_id")
     private Study study;
 
+    @Builder
+    public StudyRequest(String content, int status, User user, Study study) {
+        this.content = content;
+        this.status = status;
+        this.user = user;
+        this.study = study;
+    }
 }

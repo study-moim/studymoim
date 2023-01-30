@@ -1,3 +1,5 @@
+// TODO: 이거보고 하기..
+
 import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
