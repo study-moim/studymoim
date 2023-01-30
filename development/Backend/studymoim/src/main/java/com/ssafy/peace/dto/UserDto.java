@@ -28,6 +28,7 @@ public class UserDto {
         private String saveName;
         private LocalDateTime registerDate;
         private LocalDateTime lastAccessTime;
+        private String refreshToken;
         public static Info fromEntity(com.ssafy.peace.entity.User userEntity) {
             return Info.builder()
                     .userId(userEntity.getUserId())
@@ -36,6 +37,7 @@ public class UserDto {
                     .saveName(userEntity.getSaveName())
                     .registerDate(userEntity.getRegisterDate())
                     .lastAccessTime(userEntity.getLastLoginTime())
+                    .refreshToken(userEntity.getRefreshToken())
                     .build();
         }
     }
