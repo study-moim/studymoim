@@ -3,16 +3,11 @@ package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.UserLikeCategoryId;
 import com.ssafy.peace.entity.key.UserLikeCourseId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(UserLikeCourseId.class)
@@ -28,4 +23,9 @@ public class UserLikeCourse {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @Builder
+    public UserLikeCourse(User user, Course course) {
+        this.user = user;
+        this.course = course;
+    }
 }

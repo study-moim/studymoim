@@ -6,18 +6,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class User {
@@ -48,6 +48,9 @@ public class User {
     private boolean isQuit;
 
     private LocalDateTime quitTime;
+
+    @Size(max = 1000)
+    private String refreshToken;
 
     @OneToMany(mappedBy = "user")
     private List<Alarm> alarms = new ArrayList<>();
@@ -94,10 +97,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
-
-
-
-
-    // Builder
-
+    @Builder
+    public User(String email, String nickname, String saveName, boolean isQuit, LocalDateTime quitTime, String refreshToken) {
+        this.email = email;
+        this.nickname = nickname;
+        this.saveName = saveName;
+        this.isQuit = isQuit;
+        this.quitTime = quitTime;
+        this.refreshToken = refreshToken;
+    }
 }

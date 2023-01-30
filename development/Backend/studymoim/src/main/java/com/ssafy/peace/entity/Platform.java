@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,9 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Platform {
@@ -29,4 +24,8 @@ public class Platform {
     @OneToMany(mappedBy = "platform")
     private List<CourseProvider> courseProviders = new ArrayList<>();
 
+    @Builder
+    public Platform(String name) {
+        this.name = name;
+    }
 }
