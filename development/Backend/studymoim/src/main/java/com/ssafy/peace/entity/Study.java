@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Study {
@@ -77,4 +72,17 @@ public class Study {
     @OneToMany(mappedBy = "study")
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
+    @Builder
+
+    public Study(int studyId, String title, String content, String saveName, boolean isOpen, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+        this.studyId = studyId;
+        this.title = title;
+        this.content = content;
+        this.saveName = saveName;
+        this.isOpen = isOpen;
+        this.userLimit = userLimit;
+        this.isPublic = isPublic;
+        this.notice = notice;
+        this.isFinished = isFinished;
+    }
 }

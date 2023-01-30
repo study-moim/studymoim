@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class FreeBoard {
 
     @Id
@@ -42,7 +37,7 @@ public class FreeBoard {
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    @NotNull
+    @ColumnDefault("0")
     private int hit;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,4 +47,12 @@ public class FreeBoard {
     @OneToMany(mappedBy = "freeBoard")
     private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
 
+    @Builder
+    public FreeBoard(String title, String content, User user, boolean isDeleted, int hit) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.isDeleted = isDeleted;
+        this.hit = hit;
+    }
 }

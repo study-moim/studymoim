@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -17,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Course {
@@ -64,10 +60,11 @@ public class Course {
 
     // Builder
     @Builder
-    public Course(String title, String content, String playlistId, CourseProvider courseProvider) {
+    public Course(String title, String content, String playlistId, CourseProvider courseProvider, boolean isDeleted) {
         this.title = title;
         this.content = content;
         this.playlistId = playlistId;
         this.courseProvider = courseProvider;
+        this.isDeleted = isDeleted;
     }
 }
