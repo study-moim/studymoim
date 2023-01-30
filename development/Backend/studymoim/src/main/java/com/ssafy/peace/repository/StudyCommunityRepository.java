@@ -11,7 +11,7 @@ public interface StudyCommunityRepository extends JpaRepository<StudyCommunity, 
     /*
     특정 스터디에서 작성한 모든 글(0개 일수도 있으니 Optional), 최신순
      */
-    Optional<StudyCommunity> findAllByStudyIdAndDeletedIsFalseOrderByPublishTimeDesc(Integer studyId);
+    Optional<StudyCommunity> findAllByStudy_studyIdOrderByPublishTimeDesc(int studyId);
 
 
 }

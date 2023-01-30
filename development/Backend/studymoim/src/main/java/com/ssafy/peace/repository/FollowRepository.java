@@ -11,12 +11,12 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
     /*
     특정 유저를 팔로우하는 사람과 그 수 가져오기(팔로워)
      */
-    Optional<Follow> getAllByToUserId(Integer toUserId);
-    Optional<Follow> countAllByToUserId(Integer toUserId);
+    Optional<Follow> getAllByToUser_UserId(int toUserId);
+    Long countAllByToUser_UserId(int toUserId);
 
     /*
     특정 유저가 팔로우하는 사람과 그 수 가져오기(팔로잉)
      */
-    Optional<Follow> getAllByFromUserId(Integer fromUserId);
-    Optional<Follow> countAllByFromUserId(Integer fromUserId);
+    Optional<Follow> getAllByFromUser_UserId(int fromUserId);
+    Long countAllByFromUser_UserId(int fromUserId);
 }

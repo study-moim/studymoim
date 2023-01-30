@@ -11,9 +11,9 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
     // Todo: Test
 
     /*
-    특정 스터디 찾기
+    특정 스터디 찾기.. 필요 없을듯
      */
-    Study findByStudyId(Integer studyId);
+    Study findByStudyId(int studyId);
     /*
     특정 키워드를 포함하고 있는 title을 가진 스터디 찾기(0개 일수도 있으니 Optional)
      */
@@ -22,7 +22,7 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
     /*
     구인중인 공개 스터디 찾기
      */
-    List<Study> findAllByOpenIsTrueAndPublicIsTrue();
+    List<Study> findAllByIsOpenIsTrueAndIsPublicIsTrue();
 
 
 

@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class User {
@@ -94,10 +92,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
-
-
-
-
-    // Builder
-
+    @Builder
+    public User(String email, String nickname, String saveName, boolean isQuit, LocalDateTime quitTime) {
+        this.email = email;
+        this.nickname = nickname;
+        this.saveName = saveName;
+        this.isQuit = isQuit;
+        this.quitTime = quitTime;
+    }
 }

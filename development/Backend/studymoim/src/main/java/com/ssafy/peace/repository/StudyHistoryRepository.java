@@ -11,11 +11,11 @@ public interface StudyHistoryRepository extends JpaRepository<StudyHistory, Inte
     /*
     특정 스터디의 히스토리 가져오기(0개 일수도 있으니 Optional)
      */
-    Optional<StudyHistory> findAllByStudyId(Integer studyId);
+    Optional<StudyHistory> findAllByStudy_studyId(int studyId);
 
     /*
     특정 스터디의 가장 최근 히스토리 가져오기
      */
-    Optional<StudyHistory> findFirstByStudyIdOrderByEndTimeDesc(Integer studyId);
+    Optional<StudyHistory> findFirstByStudy_studyIdOrderByEndTimeDesc(int studyId);
 
 }

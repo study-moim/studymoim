@@ -11,5 +11,5 @@ public interface StudyRequestRepository extends JpaRepository<StudyRequest, Inte
     /*
     특정 스터디에 온 신청서 중 처리 안된 것(null) 가져오기
      */
-    Optional<StudyRequest> findAllByStudyIdAndStatusIsNull(Integer studyId);
+    Optional<StudyRequest> findAllByStudy_studyIdAndStatusIsNull(int studyId);
 }

@@ -11,10 +11,10 @@ public interface CourseTypeRepository extends JpaRepository<CourseType, Integer>
     /*
     특정 강좌의 카테고리 가져오기
      */
-    List<CourseType> getAllByCourseId(Integer courseId);
-
-    /*
-    특정 카테고리의 강좌 가져오기
-     */
-    List<CourseType> getAllByCourseCategoryId(Integer courseCategoryId);
+    List<CourseType> findAllByCourse_CourseId(int courseId);
+//
+//    /*
+//    특정 카테고리의 강좌 가져오기
+//     */
+    List<CourseType> findAllByCourseCategory_CourseCategoryId(int courseCategoryId);
 }
