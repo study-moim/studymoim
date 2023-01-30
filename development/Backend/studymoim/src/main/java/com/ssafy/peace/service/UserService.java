@@ -32,27 +32,6 @@ public class UserService {
     private final KakaoAuth2 kakaoAuth2;
     private final AuthenticationManager authenticationManager;
 
-    public void kakaoLogin(String authorizedCode) {
-        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        KakaoUserInfo userInfo = kakaoAuth2.getUserInfo(authorizedCode);
-        String email = userInfo.getEmail();
-        System.out.println("email!!!!!!!!!!!!!!!!!11: " + email);
-        // DB에 이미 가입한 사용자인지 확인
-        User kakaoUser = userRepository.findByEmail(email);
-
-        // 카카오 정보로 회원가입
-        if (kakaoUser == null) {
-            User user = User.builder().email(email).build();
-            userRepository.save(user);
-        }
-
-        // Todo: JWT 발급, JWT + SS 합치기, SS Filter 설정
-        // Todo: 로그인 처리
-//        Authentication kakaoEmail = new UsernamePasswordAuthenticationToken(kakaoUser) ;
-//        Authentication authentication = authenticationManager.authenticate(kakaoEmail);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
     }
