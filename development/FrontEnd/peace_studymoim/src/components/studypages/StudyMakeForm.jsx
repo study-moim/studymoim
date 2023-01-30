@@ -16,7 +16,7 @@ export default function StudyMakeForm(props) {
   }
 
   const [image, setImage] = useState();
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState('development\FrontEnd\peace_studymoim\src\assets\logo.png');
 
   const recruitMembersRef = useRef();
   const startDateRef = useRef();
@@ -62,15 +62,13 @@ export default function StudyMakeForm(props) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
-      <form
-        className="w-full flex flex-col items-center gap-4 py-5"
-        onSubmit={submitHandler}
-      >
-        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 h-[856px] w-full overflow-hidden gap-2.5 py-[5px]">
+      <form className="w-full gap-4 py-5" onSubmit={submitHandler}>
+        <div className="flex flex-col justify-start items-center w-full gap-2.5 py-[5px]">
           <p className="text-4xl text-left">
             프로젝트 기본 정보를 입력해주세요.
           </p>
-          <svg   
+          {/* 보라색 선 */}
+          <svg
             height={9}
             viewBox="0 0 1352 9"
             fill="none"
@@ -88,69 +86,68 @@ export default function StudyMakeForm(props) {
             />
           </svg>
 
-          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 p-2.5">
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[216px] overflow-hidden gap-2.5">
-              
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
-                <p className="text-[32px] text-left">모집인원 </p>
-                <select
-                  id="recruitMembers"
-                  ref={recruitMembersRef}
-                  required
-                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
-                >
-                  <option value="1">1명</option>
-                  <option value="2">2명</option>
-                  <option value="3">3명</option>
-                  <option value="4">4명</option>
-                  <option value="5">5명</option>
-                  <option value="6">6명</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
-                <p className="text-[32px] text-left">시작 예정일</p>
-                <input
-                  required
-                  id="startDate"
-                  type="date"
-                  min="2023-01-01"
-                  max="2023-12-31"
-                  ref={startDateRef}
-                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
-                />
-              </div>
+          <div className="grid grid-cols-2 p-2.5">
+            {/* 모집인원 */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">모집인원 </p>
+              <select
+                id="recruitMembers"
+                ref={recruitMembersRef}
+                required
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              >
+                <option value="1">1명</option>
+                <option value="2">2명</option>
+                <option value="3">3명</option>
+                <option value="4">4명</option>
+                <option value="5">5명</option>
+                <option value="6">6명</option>
+              </select>
+            </div>
+            {/* 시작 예정일 */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">시작 예정일</p>
+              <input
+                required
+                id="startDate"
+                type="date"
+                min="2023-01-01"
+                max="2023-12-31"
+                ref={startDateRef}
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              />
             </div>
 
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[216px] overflow-hidden gap-2.5">
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
-                <p className="text-[32px] text-left">인원 모집 방법</p>
-                <select
-                  id="recruitMethod"
-                  ref={recruitMethodRef}
-                  required
-                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
-                >
-                  <option value="공개">공개</option>
-                  <option value="수락">수락</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
-                <p className="text-[32px] text-left">수강 완료 기간(선택)</p>
-                <input
-                  id="dueDate"
-                  type="date"
-                  min="2023-01-01"
-                  max="2023-12-31"
-                  ref={dueDateRef}
-                  className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
-                />
-              </div>
+            {/* 인원 모집 방법 */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">인원 모집 방법</p>
+              <select
+                id="recruitMethod"
+                ref={recruitMethodRef}
+                required
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              >
+                <option value="공개">공개</option>
+                <option value="수락">수락</option>
+              </select>
             </div>
+
+            {/* 수강완료 기간 */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">수강 완료 기간(선택)</p>
+              <input
+                id="dueDate"
+                type="date"
+                min="2023-01-01"
+                max="2023-12-31"
+                ref={dueDateRef}
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              />
+            </div>
+
             {/* TODO: 강좌는 나중에 !! 다중 선택으로 해야 돼!!  */}
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[255px] overflow-hidden gap-2.5">
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
+            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[255px] gap-2.5">
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
                 <p className="text-[32px] text-left">강좌 선택</p>
                 <div className="flex-grow-0 flex-shrink-0 w-[525px] h-[90px] relative">
                   <div className="w-full h-[90px] absolute left-[-1.5px] top-[-1.5px] rounded border-2 border-[#b1b2ff]" />
@@ -160,19 +157,20 @@ export default function StudyMakeForm(props) {
                 </div>
               </div>
 
-              <div className="flex justify-start items-start self-stretch flex-grow relative overflow-hidden gap-2.5 p-2.5">
+              <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
                 <img
                   src={preview}
-                  className="flex-grow-0 flex-shrink-0 w-1/2 h-[178.33px] object-cover"
+                  // src={/logo.png}
+                  className="w-6/12 object-cover"
                 />
 
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 overflow-hidden gap-[21px] px-4">
+                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
                   <input
                     id="picture"
                     type="file"
                     ref={studyImgRef}
                     accept="image/*"
-                    className="w-1/2"
+                    className=""
                     onChange={(event) => {
                       const file = event.target.files[0];
                       if (file && file.type.substring(0, 5) === "image") {
@@ -188,9 +186,9 @@ export default function StudyMakeForm(props) {
           </div>
         </div>
 
-        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full overflow-hidden gap-2.5 py-[5px]">
+        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-[5px]">
           <p className="text-4xl text-left">프로젝트에 대해 선택해주세요.</p>
-          <svg   
+          <svg
             height={9}
             viewBox="0 0 1352 9"
             fill="none"
