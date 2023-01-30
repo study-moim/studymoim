@@ -2,6 +2,7 @@ package com.ssafy.peace.dto;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.validation.*;
 
