@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class UserController {
     private static final String FAIL = "fail";
 
     private final UserService userService;
+
+    private final JwtTokenService jwtTokenService;
 
     // 로그아웃
     @GetMapping("/{userid}/logout")
@@ -45,6 +48,29 @@ public class UserController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
+    }
+
+    // 토큰 발급
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody UserDto.Info userDto, HttpServletRequest request) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        String token = request.getHeader("refresh-token");
+        logger.debug("token : {}, memberDto : {}", token, userDto);
+        if (jwtTokenService.checkToken(token)) {
+            if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
+                String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
+                logger.debug("token : {}", accessToken);
+                logger.debug("정상적으로 액세스토큰 재발급!!!");
+                resultMap.put("access-token", accessToken);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.ACCEPTED;
+            }
+        } else {
+            logger.debug("리프레쉬토큰 사용불가");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     @Operation(summary = "get user list", description = "사용자 목록 불러오기")
