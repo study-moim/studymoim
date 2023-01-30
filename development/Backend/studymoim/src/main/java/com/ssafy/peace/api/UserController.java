@@ -29,7 +29,8 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<?> userList() {
         try{
-            return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+//            return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+            return new ResponseEntity<>("", HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
