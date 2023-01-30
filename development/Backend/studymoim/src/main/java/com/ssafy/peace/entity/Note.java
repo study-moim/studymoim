@@ -24,7 +24,7 @@ public class Note {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    @NotNull
+    @Column(columnDefinition = "TEXT")
     private int content;
 
     @UpdateTimestamp

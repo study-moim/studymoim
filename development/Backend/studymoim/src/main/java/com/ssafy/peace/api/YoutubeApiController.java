@@ -32,7 +32,7 @@ public class YoutubeApiController {
 
     @GetMapping("/init")
     public String initYoutube() {
-        String result = youtubeApiService.getCourseProvider().toString();
+        String result = youtubeApiService.init().toString();
         return result;
 
     }

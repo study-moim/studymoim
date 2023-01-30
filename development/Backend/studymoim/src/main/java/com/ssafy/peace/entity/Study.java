@@ -31,6 +31,7 @@ public class Study {
     private String title;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     // Todo: 디폴트 사진 정하기
