@@ -13,7 +13,7 @@ public class LectureDto {
         private int length;
         private String thumbnail;
         private String content;
-        private String url;
+        private String videoId;
     }
 
     @Data
@@ -24,7 +24,7 @@ public class LectureDto {
         private int length;
         private String thumbnail;
         private String content;
-        private String url;
+        private String videoId;
         private boolean isDeleted;
     }
 

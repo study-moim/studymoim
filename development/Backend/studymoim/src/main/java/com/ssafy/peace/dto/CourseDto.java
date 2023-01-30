@@ -16,7 +16,7 @@ public class CourseDto {
         private String content;
         private Timestamp lastUpdateDate;
         private List<LectureDto.Info> lectures;
-        private String providerUrl;
+        private String playlistId;
         private String providerPlatformName;
         private String providerChannelName;
     }
@@ -30,7 +30,7 @@ public class CourseDto {
         private Timestamp lastUpdateDate;
         private List<LectureDto.Recruit> lectures;
         private int providerId;
-        private String providerUrl;
+        private String playlistId;
         private int providerPlatformId;
         private String providerPlatformName;
         private int providerChannelId;
