@@ -48,7 +48,8 @@ services:
     container_name: mysql-dev
     hostname: mysql-dev
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: studymoim
     volumes:
       - type: bind
         source: /home/ubuntu/logs/mysql
