@@ -4,6 +4,7 @@ import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}")
-    public ResponseEntity<?> userInfo(@PathVariable Integer userId) {
+    public ResponseEntity<?> userInfo(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -68,7 +69,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/studies")
-    public ResponseEntity<?> userStudyList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userStudyList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getStudyList(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -82,7 +83,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/courses")
-    public ResponseEntity<?> userCourseHistoryList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userCourseHistoryList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getCourseHistory(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -96,7 +97,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/lectures")
-    public ResponseEntity<?> userLectureHistoryList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userLectureHistoryList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getLectureHistory(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -110,7 +111,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/memos")
-    public ResponseEntity<?> userMemoList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userMemoList(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getMemoList(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -124,7 +125,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/posts")
-    public ResponseEntity<?> userPostingList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userPostingList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getPostList(userId), HttpStatus.OK);
         } catch(Exception e) {
@@ -138,7 +139,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{userId}/likes")
-    public ResponseEntity<?> userLikeList(@PathVariable Integer userId) {
+    public ResponseEntity<?> userLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getLikeList(), HttpStatus.OK);
         } catch(Exception e) {
