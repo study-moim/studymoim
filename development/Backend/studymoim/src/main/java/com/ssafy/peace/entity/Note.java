@@ -1,21 +1,14 @@
 package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.NoteId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(NoteId.class)
@@ -31,10 +24,16 @@ public class Note {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    @NotNull
+    @Column(columnDefinition = "TEXT")
     private int content;
 
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
+    @Builder
+    public Note(User user, Lecture lecture, int content) {
+        this.user = user;
+        this.lecture = lecture;
+        this.content = content;
+    }
 }

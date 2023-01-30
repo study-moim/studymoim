@@ -32,11 +32,11 @@ public class FreeBoardService {
 
     @Transactional
     public void setFreeBoard(FreeBoardDto.Write freeBoard) throws RollbackException  {
-        freeBoardRepository.save(FreeBoard.builder()
-                .title(freeBoard.getTitle())
-                .content(freeBoard.getContent())
-                .user(User.builder().userId(freeBoard.getUserId()).build())
-                .build());
+//        freeBoardRepository.save(FreeBoard.builder()
+//                .title(freeBoard.getTitle())
+//                .content(freeBoard.getContent())
+//                .user(User.builder().userId(freeBoard.getUserId()).build())
+//                .build());
     }
 
 }

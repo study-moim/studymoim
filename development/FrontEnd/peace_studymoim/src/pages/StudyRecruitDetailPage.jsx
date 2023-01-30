@@ -1,4 +1,5 @@
 import useFetch from "../hooks/useFetch";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 export default function StudyRecruitDetailPage(props) {
@@ -7,10 +8,8 @@ export default function StudyRecruitDetailPage(props) {
   const detailData = useFetch(
     `https://react-a-3b3d0-default-rtdb.firebaseio.com/react/${detailId}.json`
   );
-  
-  function acceptHandler () {
 
-  }; 
+  function acceptHandler() {}
 
   return (
     <>
@@ -27,12 +26,21 @@ export default function StudyRecruitDetailPage(props) {
               <div
                 className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative pl-[65px] pr-[66.046875px] py-[22px] rounded-[15px] bg-[#ff6d2c] border-2 border-[#2e2f35]"
                 style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
-              > 
+              >
                 {/* TODO: 이거 누르면 modal 창!  */}
-                <button onClick={acceptHandler} className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center uppercase text-white">
+                {/* 방장이면 수정 버튼으로 나머지 사람들은 스터디 신청으로 바뀌게..?  */}
+                <button
+                  onClick={acceptHandler}
+                  className="text-xl font-bold text-center uppercase text-white"
+                >
                   스터디 신청
                 </button>
               </div>
+              <Link to={'update'}>
+                <button className="text-xl font-bold text-center uppercase text-white">
+                  수정하기(임시버튼)
+                </button>
+              </Link>
             </div>
           </div>
           <img
@@ -45,7 +53,6 @@ export default function StudyRecruitDetailPage(props) {
           <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
             스터디 모집 상세
           </p>
-
           <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-5">
             <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-3">
               <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-5 pl-5 pr-3 py-4 rounded">
@@ -190,10 +197,12 @@ export default function StudyRecruitDetailPage(props) {
             </div>
           </div>
           <div>
-            <div dangerouslySetInnerHTML={{ __html : detailData.description}}></div>
+            <div
+              dangerouslySetInnerHTML={{ __html: detailData.description }}
+            ></div>
           </div>
           <div className="flex flex-col justify-start items-center relative gap-9">
-            <p className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-left text-black">
+            <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
               커리큘럼
             </p>
             {/* TODO: 커리큘럼은 강의 추가가 되면 하는 걸로!  */}

@@ -1,13 +1,15 @@
 package com.ssafy.peace.entity;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-@NoArgsConstructor
 public class Follow {
 
     @Id
@@ -23,5 +25,9 @@ public class Follow {
     @JoinColumn(name="to_user_id")
     private User toUser;
 
-
+    @Builder
+    public Follow(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
 }

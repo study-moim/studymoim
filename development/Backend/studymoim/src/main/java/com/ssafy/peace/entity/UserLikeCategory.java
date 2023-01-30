@@ -5,10 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(UserLikeCategoryId.class)
@@ -24,4 +21,9 @@ public class UserLikeCategory {
     @JoinColumn(name = "course_category_id")
     private CourseCategory courseCategory;
 
+    @Builder
+    public UserLikeCategory(User user, CourseCategory courseCategory) {
+        this.user = user;
+        this.courseCategory = courseCategory;
+    }
 }
