@@ -1,4 +1,4 @@
-import MainBanner from "../components/mainpages/MainBanner";
+import MainCarousel from "../components/mainpages/MainCarousel";
 import MainSearch from "../components/mainpages/MainSearch";
 import Tag from "../components/overall/Tag";
 import { userInfo, logoImage } from "../zustand/store";
@@ -12,7 +12,7 @@ export default function MainPageRoot() {
 
   return (
     <div>
-      <MainBanner />
+      <MainCarousel />
       <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px]">
         <MainSearch />
         <div className="w-full flex flex-col justify-between items-center">
@@ -26,7 +26,9 @@ export default function MainPageRoot() {
         </div>
         {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
         {logIn ? <MainLogIn /> : <MainNotLogIn />}
-        <p className="text-xl text-left text-gray-400 mt-7"># 구인 중인 스터디</p>
+        <p className="text-xl text-left text-gray-400 mt-7">
+          # 구인 중인 스터디
+        </p>
         <div className="grid grid-cols-4 gap-[20px] overflow-auto">
           <MainStudy />
           <MainStudy />
