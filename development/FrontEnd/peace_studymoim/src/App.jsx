@@ -7,7 +7,7 @@ import CommunityMain from "./pages/CommunityMainRoot";
 import LogInMain from "./pages/LogInMainRoot";
 import MyPage from "./pages/MyPageRoot";
 import MailMain from "./pages/MailMainRoot";
-import FieldPage from "./components/field/FieldPage";
+import FieldPage from "./pages/FieldPage";
 import Footer from "./components/overall/Footer";
 import CommunityCreateForm from "./components/communitypages/CommunityCreateForm";
 import CommunityDetail from "./pages/CommunityDetailRoot";
