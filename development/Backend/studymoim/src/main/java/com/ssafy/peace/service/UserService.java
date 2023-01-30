@@ -39,6 +39,12 @@ public class UserService {
                 .builder().refreshToken(null).build();
     }
 
+    public String getRefreshToken(Integer userId){
+        return userRepository.findById(userId)
+                .map(UserDto.Info::fromEntity)
+                .get().getRefreshToken();
+    }
+
     public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
         return userRepository.findById(userId)
                 .map(UserDto.Info::fromEntity)
