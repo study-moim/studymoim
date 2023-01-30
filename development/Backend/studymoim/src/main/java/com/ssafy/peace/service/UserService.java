@@ -29,7 +29,6 @@ public class UserService {
     private final NoteRepository noteRepository;
     private final FreeBoardRepository freeBoardRepository;
     private final QuestionBoardRepository questionBoardRepository;
-    private final AuthenticationManager authenticationManager;
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
     }
