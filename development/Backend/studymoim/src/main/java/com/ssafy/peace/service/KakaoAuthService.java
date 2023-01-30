@@ -20,7 +20,6 @@ public class KakaoAuthService {
         String accessToken = getAccessToken(authorizedCode);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
-
         return userInfo;
     }
 
@@ -34,7 +33,7 @@ public class KakaoAuthService {
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
             params.add("client_id", "98268e53473ceb3e11dd6e609a5fa990");
-            params.add("redirect_uri", "http://localhost:7080/oauth/login");
+            params.add("redirect_uri", "http://localhost:8080/oauth/login");
             params.add("code", authorizedCode);
 
             // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -81,6 +80,7 @@ public class KakaoAuthService {
             ObjectMapper objectMapper = new ObjectMapper();
 
             String reponseBody = response.getBody();
+            System.out.println("response body : " + reponseBody);
             JsonNode jsonNode = objectMapper.readTree(reponseBody);
             String email = jsonNode.get("kakao_account").get("email").asText();
 

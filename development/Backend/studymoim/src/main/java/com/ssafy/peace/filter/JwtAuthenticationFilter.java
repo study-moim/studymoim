@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -31,7 +30,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 2. validateToken 으로 토큰 유효성 검사
         if (token != null && jwtTokenService.checkToken(token)) {
             // Todo: Token 유효할 때 Authentication 객체를 가지고 와서 SecurityContextHolder에 담기
-//            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//            Authentication authentication = jwtTokenService.get(token);
 //            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

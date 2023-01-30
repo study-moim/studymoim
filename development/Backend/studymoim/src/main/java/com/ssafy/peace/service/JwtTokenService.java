@@ -4,18 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.Map;
 
 @Slf4j
 @Component
@@ -26,12 +22,18 @@ public class JwtTokenService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    public <T> String createAccessToken(String key, T data, @Value("${jwt.access-token-expiration-date}") long expire) {
-        return create(key, data, "access-token", expire);
+    @Value("${jwt.access-token-expiration-date}")
+    private String accessExpireDate;
+
+    @Value("${jwt.refresh-token-expiration-date}")
+    private String refreshExpireDate;
+
+    public <T> String createAccessToken(String key, T data) {
+        return create(key, data, "access-token", Long.parseLong(accessExpireDate));
     }
 
-    public <T> String createRefreshToken(String key, T data, @Value("${jwt.refresh-token-expiration-date}") long expire) {
-        return create(key, data, "refresh-token", expire);
+    public <T> String createRefreshToken(String key, T data) {
+        return create(key, data, "refresh-token", Long.parseLong(refreshExpireDate));
     }
 
     //Token 발급
@@ -59,7 +61,17 @@ public class JwtTokenService {
 
     // Signature 설정에 들어갈 key 생성.
     private byte[] generateKey() {
-        return secretKey.getBytes();
+        byte[] key = null;
+        try {
+            key = secretKey.getBytes("UTF-8");
+        }catch (UnsupportedEncodingException e) {
+            if (logger.isInfoEnabled()) {
+                e.printStackTrace();
+            } else {
+                logger.error("Making JWT Key Error ::: {}", e.getMessage());
+            }
+        }
+        return key;
     }
 
     //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.

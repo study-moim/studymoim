@@ -28,7 +28,8 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<?> boardList() {
         try{
-            return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+//            return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+            return new ResponseEntity<>("", HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,7 +43,7 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<?> boardWrite(@RequestBody FreeBoardDto.Write freeBoard) {
         try{
-            userService.register(freeBoard);
+//            userService.register(freeBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
