@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -11,9 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Message {
@@ -36,4 +31,12 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_user_id")
     private User toUser;
+
+    @Builder
+    public Message(String content, User fromUser, User toUser, boolean isChecked) {
+        this.content = content;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+        this.isChecked = isChecked;
+    }
 }

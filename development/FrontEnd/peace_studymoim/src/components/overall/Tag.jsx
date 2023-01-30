@@ -1,34 +1,21 @@
-export default function Tag() {
+export default function Tag({ logo }) {
   return (
     <>
-      <button className="flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-white border-2 border-[#b1b2ff]">
-        <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
-          <svg
-            width={58}
-            height={58}
-            viewBox="0 0 58 58"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="flex-grow-0 flex-shrink-0 w-[58px] h-[58px] relative"
-            preserveAspectRatio="none"
-          >
-            {/* TODO: 이부분이 각자의 그림으로 바뀌어야 함 */}
-            <circle cx={29} cy={29} r="28.5" fill="white" stroke="#F0DB4F" />
-            <path
-              d="M4.56104 29.5002C4.56104 15.7268 15.7266 4.56104 29.5 4.56104V4.56104C43.2735 4.56104 54.439 15.7268 54.439 29.5002V29.5002C54.439 43.2737 43.2735 54.4394 29.5 54.4394V54.4394C15.7266 54.4394 4.56104 43.2737 4.56104 29.5002V29.5002Z"
-              fill="#F0DB4F"
-            />
-            <path
-              d="M50.357 42.5432C49.9917 40.2677 48.5079 38.3564 44.1127 36.5742C42.5859 35.8726 40.8838 35.3701 40.3766 34.2131C40.1965 33.5397 40.1726 33.1604 40.2865 32.7528C40.6136 31.43 42.1926 31.0176 43.4441 31.3969C44.2502 31.667 45.0132 32.2882 45.4734 33.2791C47.6257 31.8854 47.6214 31.8946 49.1243 30.9367C48.574 30.0837 48.2804 29.69 47.9202 29.325C46.6257 27.8791 44.8618 27.1344 42.0408 27.1914L40.5714 27.3814C39.1633 27.7373 37.8214 28.4764 37.0345 29.4673C34.6733 32.1464 35.3467 36.8352 38.2198 38.7648C41.0503 40.8893 45.2084 41.3726 45.7395 43.3592C46.2563 45.7913 43.9521 46.5786 41.6619 46.2989C39.9741 45.9478 39.0354 45.09 38.0206 43.5301C36.1527 44.6111 36.1527 44.6111 34.2323 45.7156C34.6877 46.7112 35.1662 47.1619 35.9296 48.0245C39.5426 51.6893 48.584 51.5092 50.2056 45.9622C50.2714 45.7717 50.708 44.5015 50.357 42.5432V42.5432ZM31.6763 27.485H27.011L26.9919 39.5465C26.9919 42.1117 27.1245 44.4633 26.7074 45.184C26.0248 46.6017 24.2562 46.426 23.4501 46.151C22.6298 45.7478 22.2126 45.1745 21.7293 44.3641C21.5966 44.1314 21.497 43.9513 21.4635 43.9373L17.6704 46.2602C18.3011 47.5547 19.2303 48.6783 20.4204 49.4083C22.1983 50.4753 24.5877 50.8024 27.0867 50.2287C28.7131 49.7549 30.1164 48.7736 30.8511 47.2798C31.9134 45.3215 31.6854 42.9512 31.6759 40.3295C31.6998 36.0522 31.6763 31.7758 31.6763 27.485V27.485Z"
-              fill="#323330"
-            />
-          </svg>
-          {/* 빈디브인데 간격맞추기용으로 들어가있음 */}
-          <div className="flex-grow-0 flex-shrink-0 w-0 h-[46px] bg-[#d9d9d9]" />
-          {/* TODO: 이부분이 각자의 텍스트로 바뀌어야 함 */}
-          <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left text-black">
-            Javascript
-          </p>
+      <button
+        className="
+      flex flex-col justify-center items-center gap-2.5 px-5 py-1.5
+      rounded-[30px] bg-white border-2 border-[#b1b2ff]
+      hover:scale-95
+      "
+      >
+        <div className="flex flex-row justify-evenly items-center w-full gap-1 m-1">
+          <img
+            src={logo.url}
+            alt="x"
+            className="w-10 h-10 rounded-[9999px] object-fill"
+          />
+
+          <p className="text-xl font-bold text-left text-black">{logo.name}</p>
         </div>
       </button>
     </>

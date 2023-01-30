@@ -1,16 +1,11 @@
 package com.ssafy.peace.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class CourseType {
@@ -27,4 +22,9 @@ public class CourseType {
     @JoinColumn(name = "course_category_id")
     private CourseCategory courseCategory;
 
+    @Builder
+    public CourseType(Course course, CourseCategory courseCategory) {
+        this.course = course;
+        this.courseCategory = courseCategory;
+    }
 }
