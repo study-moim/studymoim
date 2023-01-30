@@ -8,11 +8,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService{
 
-    public Object getUserList() {
+    public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
     }
 
-    public void register(FreeBoardDto.Write freeBoard) {
+    public void register(UserDto.Register userRegister) throws RuntimeException {
 
+    }
+
+    public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
+        return userRepository.findById(userId)
+                .map(UserDto.Info::fromEntity)
+                .get();
+    }
+
+
+
+    public List<StudyDto.Info> getStudyList() {
+        return null;
+        // TODO
+    }
+
+    public Object getCourseHistory() {
+        return null;
+        // TODO
+    }
+
+    public Object getLectureHistory() {
+        return null;
+        // TODO
     }
 }

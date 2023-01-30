@@ -1,5 +1,7 @@
 package com.ssafy.peace.dto;
 
+import com.ssafy.peace.entity.Study;
+import com.ssafy.peace.entity.StudyMember;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,7 +10,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StudyDto {
 
@@ -16,7 +20,7 @@ public class StudyDto {
     @Builder
     public static class Info {
         private int studyId;
-        private Timestamp creationTime;
+        private LocalDateTime creationTime;
         private String title;
         private String content;
         private String saveName;
@@ -25,10 +29,28 @@ public class StudyDto {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<UserDto.Info> members;
-        private List<CurriculumDto.Info> curriculum;
-        private Timestamp startTime;
-        private Timestamp endTime;
+        private List<StudyMemberDto.UserInfo> members;
+        private List<CurriculumDto.Info> curricula;
+        public static Info fromEntity(Study studyEntity) {
+            return Info.builder()
+                    .studyId(studyEntity.getStudyId())
+                    .creationTime(studyEntity.getCreationTime())
+                    .title(studyEntity.getTitle())
+                    .content(studyEntity.getContent())
+                    .saveName(studyEntity.getSaveName())
+                    .isOpen(studyEntity.isOpen())
+                    .userLimit(studyEntity.getUserLimit())
+                    .isPublic(studyEntity.isPublic())
+                    .notice(studyEntity.getNotice())
+                    .isFinished(studyEntity.isFinished())
+                    .members(studyEntity.getStudyMembers().stream()
+                            .map(member -> StudyMemberDto.UserInfo.fromEntity(member))
+                            .collect(Collectors.toList()))
+                    .curricula(studyEntity.getCurricula().stream()
+                            .map(curriculum -> CurriculumDto.Info.fromEntity(curriculum))
+                            .collect(Collectors.toList()))
+                    .build();
+        }
     }
 
     @Data
