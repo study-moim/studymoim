@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -17,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DynamicInsert
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Course {
@@ -31,7 +27,7 @@ public class Course {
     private String title;
 
     // 상세 설명이 없는 재생목록이 있을수도...
-//    @Size(max = 65535)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Size(max = 255)
@@ -64,10 +60,11 @@ public class Course {
 
     // Builder
     @Builder
-    public Course(String title, String content, String playlistId, CourseProvider courseProvider) {
+    public Course(String title, String content, String playlistId, CourseProvider courseProvider, boolean isDeleted) {
         this.title = title;
         this.content = content;
         this.playlistId = playlistId;
         this.courseProvider = courseProvider;
+        this.isDeleted = isDeleted;
     }
 }

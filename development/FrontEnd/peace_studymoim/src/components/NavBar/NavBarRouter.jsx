@@ -5,7 +5,7 @@ export default function NavBarRouter() {
     <>
       {/* TODO: 링크누르면 누른 상태가 보이도록 설정 */}
       <Link to="/" className="w-[70px] h-[46px] hover:scale-105 ">
-        <img src="\src\assets\logo.png" />
+        <img src="/logo.png" />
       </Link>
       <div className="hidden md:flex items-center space-x-3 mt-[5px]">
         <Link to="/lecture" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">

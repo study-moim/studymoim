@@ -16,6 +16,7 @@ import StudyMakePage from "./pages/StudyMakePage";
 import StudyPlayerMainRoot from "./pages/StudyPlayerMainRoot";
 import StudyRecruitDetailPage from "./pages/StudyRecruitDetailPage";
 import StudyDetailMainPage from './pages/StudyDetailMainPage'; 
+import StudyUpdatePage from "./pages/StudyUpdatePage";
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/study/player" element={<StudyPlayerMainRoot/>}></Route> 
           {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
           <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
+          <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
