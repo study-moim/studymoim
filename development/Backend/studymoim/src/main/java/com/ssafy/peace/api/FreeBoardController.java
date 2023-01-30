@@ -2,25 +2,24 @@ package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.service.FreeBoardService;
+import com.ssafy.peace.service.QuestionBoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "FreeBoardController", description = "자유 게시글 API")
 @RestController
-@RequestMapping("/api/v1/community/free")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/articles/free")
 public class FreeBoardController {
 
     private final FreeBoardService freeBoardService;
-    @Autowired
-    public FreeBoardController(FreeBoardService freeBoardService) {
-        this.freeBoardService = freeBoardService;
-    }
+    private final QuestionBoardService questionBoardService;
 
     @Operation(summary = "get freeBoard list", description = "자유 게시판 글 목록 불러오기")
     @ApiResponses({
@@ -44,7 +43,7 @@ public class FreeBoardController {
     @PostMapping("/")
     public ResponseEntity<?> boardWrite(@RequestBody FreeBoardDto.Write freeBoard) {
         try{
-            freeBoardService.setFreeBoard(freeBoard);
+            freeBoardService.writeFree(freeBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
