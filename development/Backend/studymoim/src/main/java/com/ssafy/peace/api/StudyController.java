@@ -1,6 +1,8 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.FreeBoardDto;
+import com.ssafy.peace.dto.StudyDto;
+import com.ssafy.peace.entity.Study;
 import com.ssafy.peace.service.StudyService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,19 +37,19 @@ public class StudyController {
         }
     }
 
-//    @Operation(summary = "post study", description = "스터디 모집 글 작성하기")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-//    })
-//    @PostMapping("/")
-//    public ResponseEntity<?> makeStudy(@RequestBody FreeBoardDto.Write freeBoard) {
-//        try{
-//            freeBoardService.writeFree(freeBoard);
-//            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-//        } catch(Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @Operation(summary = "make study", description = "스터디 모집 글 작성하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/")
+    public ResponseEntity<?> makeStudy(@RequestBody StudyDto.Make study) {
+        try{
+            studyService.makeStudy(study);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
