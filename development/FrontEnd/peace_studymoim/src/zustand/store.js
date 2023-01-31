@@ -1,16 +1,12 @@
 import create from "zustand";
 
-// export const userInfo = create((set) => ({
-//   information: '',
-//   logIn: false,
-// }));
-
 export const userInfo = create(
     (set) => ({
-      info: '없음',
+      info: '',
       logIn: false,
       setInfo: (data) => set((state) => ({ info: data })),
-      setLogIn: (data) => set((state) => ({ logIn: data }))
+      setLogIn: (data) => set((state) => ({ logIn: data })), 
+      setLogOut: () => set((state) => ({ info: undefined, logIn: false }))
     })
 );
 

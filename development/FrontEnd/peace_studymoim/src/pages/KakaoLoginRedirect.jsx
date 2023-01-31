@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userInfo } from "../zustand/store";
 
 export default function KakaoLoginRedirect() {
-  const { info, logIn, setLogIn, setInfo } = userInfo();
+  const { info, logIn, setLogIn, setInfo, setLogOut } = userInfo();
 
   const code = new URL(window.location.href).searchParams.get("accessToken");
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ export default function KakaoLoginRedirect() {
 
   return (
     <>
-      <div>ppppp</div>
     </>
   );
 }

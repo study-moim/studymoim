@@ -9,7 +9,6 @@ import MainStudy from "../components/mainpages/MainStudy";
 export default function MainPageRoot() {
   const { info, logIn, setInfo, setLogIn } = userInfo();
   const { logos } = logoImage();
-  console.log(info,logIn, "메인엔ㅇ민ㅇ림ㄴㅇ");
   return (
     <div>
       <MainCarousel />
