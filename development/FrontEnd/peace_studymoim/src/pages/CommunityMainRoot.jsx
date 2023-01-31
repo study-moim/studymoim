@@ -43,7 +43,7 @@ export default function CommunityMainRoot() {
   //     });
   // }, []);
 
-  const freeArticles = useFetch("http://localhost:8080/api/v1/articles/free/");
+  const freeArticles = useFetch("/api/v1/articles/free/");
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
