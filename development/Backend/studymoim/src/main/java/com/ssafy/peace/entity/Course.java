@@ -60,8 +60,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course")
-    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
 
     // Builder
     @Builder
