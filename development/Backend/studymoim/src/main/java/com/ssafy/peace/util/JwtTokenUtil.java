@@ -52,8 +52,8 @@ public class JwtTokenUtil {
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(expires)
-                .withIssuer(ISSUER)
-                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+//                .withIssuer(ISSUER)
+//                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 

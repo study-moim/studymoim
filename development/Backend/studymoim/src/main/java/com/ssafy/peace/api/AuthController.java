@@ -45,7 +45,7 @@ public class AuthController {
         redirect.addAttribute("message", "Success");
         redirect.addAttribute("accessToken", JwtTokenUtil.getToken(email));
 
-        return "redirect:http://localhost:4000/login/redirect";
+        return "redirect:http://localhost:4000/login/kakao";
 //        return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(email)));
     }
 }
