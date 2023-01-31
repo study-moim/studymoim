@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class FreeBoardController {
 
     private final FreeBoardService freeBoardService;
-    private final QuestionBoardService questionBoardService;
 
     @Operation(summary = "get freeBoard list", description = "자유 게시판 글 목록 불러오기")
     @ApiResponses({
