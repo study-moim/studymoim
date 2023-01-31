@@ -24,7 +24,7 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
      */
     List<Study> findAllByIsOpenIsTrueAndIsPublicIsTrue();
 
-    Optional<Study> findByTitle();
+//    Optional<Study> findByTitle();
 
 
 
