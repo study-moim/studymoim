@@ -1,14 +1,15 @@
-// import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function KakaoLoginRedirect() {
-  const params = useParams(); 
-  console.log(params.token_params)
-  // useEffect(() => {
-  //   localStorage.clear();
-  //   localStorage.setItem("token", params.token_params);
-  //   window.location.replace("/");
-  // }, []);
+  const code = new URL(window.location.href).searchParams.get('accessToken')
+  const navigate = useNavigate(); 
+  console.log(code)
+  useEffect(() => {
+    localStorage.clear();
+    localStorage.setItem('token', code);
+    navigate('/')  
+  }, []);   
 
   return <>
   <div>ppppp</div>
