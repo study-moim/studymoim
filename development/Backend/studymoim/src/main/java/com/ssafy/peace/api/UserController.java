@@ -175,4 +175,67 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "count followers", description = "팔로워 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follower")
+    public ResponseEntity<?> getFollowersCount(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.countFollowers(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "count followings", description = "팔로잉 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/following")
+    public ResponseEntity<?> getfollowingsCount(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.countFollowings(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "follow user", description = "사용자 팔로우하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "406", description = "ALREADY FOLLOWING"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follow/{targetId}")
+    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer userId,
+                                        @Parameter(description="targetId") @PathVariable Integer targetId) {
+        try{
+            UserDto.Info result = userService.followUser(userId, targetId);
+            if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "unfollow user", description = "사용자 언팔로우하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/unfollow/{targetId}")
+    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer userId,
+                                          @Parameter(description="userId") @PathVariable Integer targetId) {
+        try{
+            UserDto.Info result = userService.unfollowUser(userId, targetId);
+            if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
