@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     Course getByPlaylistId(String playlistId);
+
+    Course findByTitle(String title);
 }

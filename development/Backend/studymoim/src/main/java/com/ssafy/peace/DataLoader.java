@@ -33,7 +33,8 @@ public class DataLoader implements CommandLineRunner {
     private StudyMemberRepository studyMemberRepository;
     @Autowired
     private NoteRepository noteRepository;
-
+    @Autowired
+    private CurriculumRepository curriculumRepository;
 
 
     @Override
@@ -114,38 +115,6 @@ public class DataLoader implements CommandLineRunner {
 
     }
 
-    public void addStudyAndMember(){
-        Study study1 = Study.builder()
-                .title("리액트 스터디")
-                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
-                .isPublic(true)
-                .userLimit(4)
-                .build();
-        studyRepository.save(study1);
-
-        User user1 = userRepository.findById(1).get();
-        User user2 = userRepository.findById(2).get();
-        User user3 = userRepository.findById(3).get();
-
-        StudyMember sm1 = StudyMember.builder()
-                .user(user1)
-                .memberRole(true)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm1);
-        StudyMember sm2 = StudyMember.builder()
-                .user(user2)
-                .memberRole(false)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm2);
-        StudyMember sm3 = StudyMember.builder()
-                .user(user3)
-                .memberRole(false)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm3);
-    }
 
     public void addPlatformAndCourseProvider(){
         Platform youtube = Platform.builder()
@@ -206,6 +175,63 @@ public class DataLoader implements CommandLineRunner {
                 .user(user1)
                 .build();
         noteRepository.save(note);
+
+    }
+
+    public void addStudyAndMember(){
+        Study study1 = Study.builder()
+                .title("리액트 스터디")
+                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
+                .isPublic(true)
+                .userLimit(4)
+                .build();
+        studyRepository.save(study1);
+
+        User user1 = userRepository.findById(1).get();
+        User user2 = userRepository.findById(2).get();
+        User user3 = userRepository.findById(3).get();
+
+        StudyMember sm1 = StudyMember.builder()
+                .user(user1)
+                .memberRole(true)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm1);
+        StudyMember sm2 = StudyMember.builder()
+                .user(user2)
+                .memberRole(false)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm2);
+        StudyMember sm3 = StudyMember.builder()
+                .user(user3)
+                .memberRole(false)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm3);
+        addCurriculum(study1);
+    }
+
+    public void addCurriculum(Study study){
+
+        Course course1 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
+        Course course2 = courseRepository.findByTitle("쉽게알려주는 플러터 강의임");
+        Course course3 = courseRepository.findByTitle("웹개발로 배우는 자바스크립트 기초");
+        Curriculum curriculum1 = Curriculum.builder()
+                .study(study)
+                .course(course1)
+                .build();
+        curriculumRepository.save(curriculum1);
+        Curriculum curriculum2 = Curriculum.builder()
+                .study(study)
+                .course(course2)
+                .build();
+        curriculumRepository.save(curriculum2);
+        Curriculum curriculum3 = Curriculum.builder()
+                .study(study)
+                .course(course3)
+                .build();
+        curriculumRepository.save(curriculum3);
 
     }
 
