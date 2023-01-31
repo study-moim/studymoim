@@ -1,4 +1,4 @@
-package com.ssafy.peace.service;
+package com.ssafy.peace.service.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
