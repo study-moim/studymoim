@@ -3,10 +3,7 @@ package com.ssafy.peace.service;
 import com.ssafy.peace.api.request.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
-import com.ssafy.peace.entity.Note;
-import com.ssafy.peace.entity.QuestionBoard;
-import com.ssafy.peace.entity.User;
-import com.ssafy.peace.entity.UserHistory;
+import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.RollbackException;
 import java.util.HashMap;
@@ -35,6 +33,7 @@ public class UserService {
     private final NoteRepository noteRepository;
     private final FreeBoardRepository freeBoardRepository;
     private final QuestionBoardRepository questionBoardRepository;
+    private final FollowRepository followRepository;
     private final KakaoAuthService kakaoAuthService;
     PasswordEncoder passwordEncoder;
 
@@ -116,4 +115,37 @@ public class UserService {
         return null;
         // TODO
     }
+
+    public long countFollowers(Integer userId) {
+        return followRepository.countAllByToUser_UserId(userId);
+    }
+    public long countFollowings(Integer userId) {
+        return followRepository.countAllByFromUser_UserId(userId);
+    }
+
+    @Transactional
+    public UserDto.Info followUser(Integer myUserId, Integer targetUserId) {
+        if(followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()){
+            return null;
+        }
+        followRepository.save(Follow.builder()
+                .fromUser(userRepository.findById(myUserId)
+                        .orElseThrow(NullPointerException::new))
+                .toUser(userRepository.findById(targetUserId)
+                        .orElseThrow(NullPointerException::new)).build());
+        return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
+    }
+
+    public UserDto.Info unfollowUser(Integer myUserId, Integer targetUserId) {
+        if(followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()){
+            return null;
+        }
+        followRepository.delete(Follow.builder()
+                .fromUser(userRepository.findById(myUserId)
+                        .orElseThrow(NullPointerException::new))
+                .toUser(userRepository.findById(targetUserId)
+                        .orElseThrow(NullPointerException::new)).build());
+        return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
+    }
+
 }
