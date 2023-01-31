@@ -2,34 +2,35 @@ export default function Footer() {
   if (window.location.pathname === "/study/player") return null;
   return (
     <div className="w-full h-[264px] mt-96 bg-[#4e4e4e]">
-    <div className="flex justify-start items-start left-0 top-0">
-      <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[550px] pl-[120px]">
-        <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-[181px] w-[545px] relative gap-2.5 px-[100px] pt-5">
+    <div className="flex justify-center items-center left-0 top-0">
+      <div className="flex flex-col justify-start items-start  w-[550px]">
+        <div className="flex flex-col justify-center items-center  h-[181px] w-[545px] relative gap-2.5 px-[100px] pt-5">
           <img
             src="/logo.png"
-            className="flex-grow-0 flex-shrink-0 w-[264px] h-[140px] object-cover"
+            className=" w-[264px] h-[140px] object-cover"
           />
         </div>
-        <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[545px] h-[55px] relative gap-2.5 px-2.5">
-          <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-white">
+        <div className="flex justify-center items-center  w-[545px] h-[55px] relative gap-2.5 px-2.5">
+          <p className=" text-base font-bold text-left text-white">
             © 2023 moim | All rights reserved
           </p>
         </div>
       </div>
-      <div className="flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 h-[255px] relative gap-[30px] pl-[129px] pr-[100px] pt-10 pb-[30px]">
-        <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left text-white">
+      <div className="flex flex-col justify-start items-end h-[255px] gap-[30px] pl-[129px] pr-[100px] pt-10 pb-[30px]">
+        <p className=" text-2xl font-bold text-left text-white">
           Professional Study Community
         </p>
-        <p className="flex-grow-0 flex-shrink-0 w-[559px] text-xl text-right text-white">
-          <span className="flex-grow-0 flex-shrink-0 w-[559px] text-xl text-right text-white">
+        <p className=" w-[559px] text-xl text-right text-white">
+          <span className=" w-[559px] text-xl text-right text-white">
             High level experience in Youtube simultaneous viewing and development knowledge,
           </span>
           <br />
-          <span className="flex-grow-0 flex-shrink-0 w-[559px] text-xl text-right text-white">
+          <span className=" w-[559px] text-xl text-right text-white">
             Enjoy Our Website
           </span>
         </p>
-        <div className="flex-grow-0 flex-shrink-0 w-[158px] h-[50px] relative">
+        
+        <div className="w-[158px] h-[50px] relative">
           <div className="w-[158px] h-[50px]  left-[-1px] top-[-1px] rounded-[50px] bg-white" />
           <svg
             width={51}

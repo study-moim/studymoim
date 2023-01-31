@@ -8,7 +8,7 @@ export default function NavBarRouter() {
         <img src="/logo.png" />
       </Link>
       <div className="hidden md:flex items-center space-x-3 mt-[5px]">
-        <Link to="/lecture" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
+        <Link to="/Course" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">
           <b>강좌</b>
         </Link>
         <Link to="/study" className="text-[20px] text-[#7b7474] hover:text-[#B1B2FF] hover:scale-105">

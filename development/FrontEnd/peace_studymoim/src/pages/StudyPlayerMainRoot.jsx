@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
+import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 
 export default function StudyPlayerMainRoot() {
   const [currentClick, setCurrentClick] = useState("memo");
@@ -36,11 +37,11 @@ export default function StudyPlayerMainRoot() {
           <div className="text-2xl font-bold text-left text-black">
             오쌤의 피그마 강좌
           </div>
-          <p className="text-xl font-bold text-right text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            0. 인트로 ▼
-          </p>
+          <div className="text-xl font-bold text-right text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
+            강의 설명이 보이는 부분 ▼
+          </div>
         </div>
-        <div className="w-full h-[650px] border border-emerald-900">d</div>
+        <PlayingVideoFrame/>
 
         <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
