@@ -164,7 +164,7 @@ public class DataLoader implements CommandLineRunner {
                 .length(676)
                 .build();
         lectureRepository.save(lecture1);
-        addNote(lecture1);
+//        addNote(lecture1);
     }
 
     public void addNote(Lecture lecture){
