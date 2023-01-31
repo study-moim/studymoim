@@ -33,6 +33,7 @@ public class CourseController {
         try{
             return new ResponseEntity<>(courseService.getCourseInfoListFindAll(), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -42,6 +43,7 @@ public class CourseController {
         try{
             return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchtext), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
