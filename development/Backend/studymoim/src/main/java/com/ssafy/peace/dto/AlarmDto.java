@@ -16,13 +16,15 @@ public class AlarmDto {
     @Builder
     @Schema(name="AlarmDto.Info")
     public static class Info{
+        private int alarmId;
         private UserDto.Info user;
         private boolean isChecked;
         private String content;
         private String url;
 
-        public static Info fromEntity(Alarm alarmEntity){
+        public static Info fromEntity(com.ssafy.peace.entity.Alarm alarmEntity){
             return Info.builder()
+                    .alarmId(alarmEntity.getAlarmId())
                     .user(UserDto.Info.fromEntity(alarmEntity.getUser()))
                     .isChecked(alarmEntity.isChecked())
                     .content(alarmEntity.getContent())

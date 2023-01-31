@@ -156,15 +156,7 @@ public class UserService {
     }
 
     @Transactional
-    public boolean checkAlarmList(Integer userId) {
-        try {
-            List<AlarmDto.Info> uncheckedList = getAlarmList(userId);
-            if(uncheckedList == null)
-                return true;
-            uncheckedList.forEach(item -> item.builder().isChecked(true).build());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    public int checkAlarmList(Integer userId) {
+        return alarmRepository.checkAllByUser(userId);
     }
 }
