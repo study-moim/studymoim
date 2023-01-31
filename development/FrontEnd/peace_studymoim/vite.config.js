@@ -9,8 +9,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://loaclhost:8080/",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        // changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
