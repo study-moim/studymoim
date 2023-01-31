@@ -3,6 +3,7 @@ package com.ssafy.peace.dto;
 import com.ssafy.peace.entity.Lecture;
 import com.ssafy.peace.entity.Note;
 import com.ssafy.peace.entity.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
