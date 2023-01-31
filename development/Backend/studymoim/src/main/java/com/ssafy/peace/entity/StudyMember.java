@@ -1,10 +1,7 @@
 package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.StudyMemberId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -12,9 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(StudyMemberId.class)
@@ -36,4 +31,11 @@ public class StudyMember {
     @ColumnDefault("false")
     private boolean isBanned;
 
+    @Builder
+    public StudyMember(User user, Study study, boolean memberRole, boolean isBanned) {
+        this.user = user;
+        this.study = study;
+        this.memberRole = memberRole;
+        this.isBanned = isBanned;
+    }
 }

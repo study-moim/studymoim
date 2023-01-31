@@ -1,7 +1,7 @@
 export default function MainSearch() {
   return (
     <div
-      className="flex-grow-0 flex-shrink-0 w-6/12 h-[63px] relative overflow-hidden rounded-[20px] bg-[#eef] mt-5 shadow-xl"
+      className="w-6/12 h-[63px] relative rounded-[20px] bg-[#eef] mt-5 shadow-xl"
     >
       {/* 돋보기 아이콘 */}
       <svg
@@ -10,7 +10,7 @@ export default function MainSearch() {
         viewBox="0 0 50 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-1/12 h-[50px] absolute top-1.5"
+        className="w-[40px] h-[40px] absolute m-3"
         preserveAspectRatio="xMidYMid meet"
       >
         <path
@@ -21,7 +21,7 @@ export default function MainSearch() {
       {/* TODO: 인풋 부분 target해서 검색한 창띄우기*/}
       <input
         type="text"
-        className="border-0 w-full h-[63px] bg-[#eef] text-lg font-medium rounded-[20px] pl-24 focus:outline-[#F24E1E]"
+        className="border-0 w-full h-[63px] bg-[#eef] text-lg font-medium rounded-[20px] pl-24 focus:outline-[#bb74f6]"
         placeholder="듣고 싶은 기술을 검색하세요"
       />
     </div>

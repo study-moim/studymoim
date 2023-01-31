@@ -1,9 +1,6 @@
 package com.ssafy.peace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,9 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @DynamicInsert
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class FreeBoardComment {
@@ -27,6 +22,7 @@ public class FreeBoardComment {
     private int freeBoardCommentId;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreationTimestamp
@@ -41,7 +37,7 @@ public class FreeBoardComment {
     private FreeBoardComment parentComment;
 
     // 자식 정의
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentComment")
+    @OneToMany(mappedBy = "parentComment")
     private List<FreeBoardComment> children;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,4 +47,13 @@ public class FreeBoardComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public FreeBoardComment(String content, FreeBoardComment parentComment, FreeBoard freeBoard, User user, boolean isDeleted) {
+        this.content = content;
+        this.parentComment = parentComment;
+        this.freeBoard = freeBoard;
+        this.user = user;
+        this.isDeleted = isDeleted;
+    }
 }
