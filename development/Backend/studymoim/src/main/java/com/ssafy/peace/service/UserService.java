@@ -34,6 +34,7 @@ public class UserService {
     private final FreeBoardRepository freeBoardRepository;
     private final QuestionBoardRepository questionBoardRepository;
     private final FollowRepository followRepository;
+    private final AlarmRepository alarmRepository;
     private final KakaoAuthService kakaoAuthService;
     PasswordEncoder passwordEncoder;
 
@@ -148,4 +149,32 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
+    public List<AlarmDto.Info> getAlarmList(Integer userId) {
+        return alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
+                .map(AlarmDto.Info::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public AlarmDto.Info makeAlarm(AlarmDto.Write alarm) {
+        User user = userRepository.findById(alarm.getUserId()).get();
+        return AlarmDto.Info.fromEntity(alarmRepository.save(Alarm.builder()
+                .content(alarm.getContent())
+                .url(alarm.getUrl())
+                .user(user)
+                .build()));
+    }
+
+    @Transactional
+    public boolean checkAlarmList(Integer userId) {
+        try {
+            List<AlarmDto.Info> uncheckedList = getAlarmList(userId);
+            if(uncheckedList == null)
+                return true;
+            uncheckedList.forEach(item -> item.builder().isChecked(true).build());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }
