@@ -1,5 +1,6 @@
 package com.ssafy.peace.service;
 
+import com.ssafy.peace.api.request.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
 import com.ssafy.peace.entity.Note;
@@ -7,9 +8,14 @@ import com.ssafy.peace.entity.QuestionBoard;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.entity.UserHistory;
 import com.ssafy.peace.repository.*;
+import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.RollbackException;
@@ -29,21 +35,40 @@ public class UserService {
     private final NoteRepository noteRepository;
     private final FreeBoardRepository freeBoardRepository;
     private final QuestionBoardRepository questionBoardRepository;
+    private final KakaoAuthService kakaoAuthService;
+    PasswordEncoder passwordEncoder;
+
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
     }
 
-    public void deleRefreshToken(Integer userId){
-        userRepository.findById(userId)
-                .map(UserDto.Info::fromEntity).get()
-                .builder().refreshToken(null).build();
+    public String kakaoLogin(String authorizedCode) {
+        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        KakaoUserInfo userInfo = kakaoAuthService.getUserInfo(authorizedCode);
+        return userInfo.getEmail();
     }
 
-    public String getRefreshToken(Integer userId){
-        return userRepository.findById(userId)
-                .map(UserDto.Info::fromEntity)
-                .get().getRefreshToken();
+    public User createUser(UserRegisterPostReq userRegisterInfo) {
+        User user = User.builder().email(userRegisterInfo.getEmail()).build();
+        return userRepository.save(user);
     }
+    public User getUserByEmail(String email) {
+        // 디비에 유저 정보 조회 (userEmail을 통한 조회).
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
+
+//    public void deleRefreshToken(Integer userId){
+//        userRepository.findById(userId)
+//                .map(UserDto.Info::fromEntity).get()
+//                .builder().refreshToken(null).build();
+//    }
+//
+//    public String getRefreshToken(Integer userId){
+//        return userRepository.findById(userId)
+//                .map(UserDto.Info::fromEntity)
+//                .get().getRefreshToken();
+//    }
 
     public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
         return userRepository.findById(userId)

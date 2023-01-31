@@ -1,17 +1,24 @@
 package com.ssafy.peace.api;
 
-import com.ssafy.peace.dto.auth.KakaoUserInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.peace.api.request.UserRegisterPostReq;
+import com.ssafy.peace.api.response.UserLoginPostRes;
 import com.ssafy.peace.entity.User;
-import com.ssafy.peace.repository.UserRepository;
-import com.ssafy.peace.service.JwtTokenService;
-import com.ssafy.peace.service.KakaoAuthService;
+import com.ssafy.peace.service.UserService;
+import com.ssafy.peace.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,49 +26,26 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 public class AuthController {
-    public static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
-    private final UserRepository userRepository;
-    private final KakaoAuthService kakaoAuthService;
-    private final JwtTokenService jwtTokenService;
+
+    UserService userService;
 
     @GetMapping("/oauth/login")
-    public ResponseEntity<Map<String, Object>> kakaoLogin(String code) {
-        Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = null;
-        try {
-            // code: 카카오 서버로부터 받은 인가 코드
-            KakaoUserInfo userInfo = kakaoAuthService.getUserInfo(code);
-            String email = userInfo.getEmail();
-
-            // DB에 이미 가입한 사용자인지 확인
-            User kakaoUser = userRepository.findByEmail(email);
-
-            // 로그인한 email로 토큰 발급
-            String accessToken = jwtTokenService.createAccessToken("email", email);
-            String refreshToken = jwtTokenService.createRefreshToken("email", email);
-
-            // 카카오 정보로 회원가입, 토큰 저장
-            if (kakaoUser == null) {
-                User user = User.builder().email(email).refreshToken(refreshToken).build();
-                userRepository.save(user);
-            } else {
-                User user = kakaoUser.builder().refreshToken(refreshToken).build();
-                userRepository.save(user);
-            }
-
-            resultMap.put("email", email);
-            resultMap.put("access-token", accessToken);
-            resultMap.put("refresh-token", refreshToken);
-            resultMap.put("message", SUCCESS);
-            status = HttpStatus.ACCEPTED;
-
-        } catch (Exception e) {
-            logger.error("로그인 실패 : {}", e);
-            resultMap.put("message", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+    public String kakaoLogin(String code, RedirectAttributes redirect) {
+        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        String email = userService.kakaoLogin(code);
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        User kakaoUser = userService.getUserByEmail(email);
+        // 카카오 정보로 회원가입
+        if (kakaoUser == null) {
+            UserRegisterPostReq registerInfo = new UserRegisterPostReq();
+            registerInfo.setEmail(email);
+            userService.createUser(registerInfo);
         }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        redirect.addAttribute("statusCode", "200");
+        redirect.addAttribute("message", "Success");
+        redirect.addAttribute("accessToken", JwtTokenUtil.getToken(email));
+
+        return "redirect:http://localhost:4000/login/redirect";
+//        return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(email)));
     }
 }
