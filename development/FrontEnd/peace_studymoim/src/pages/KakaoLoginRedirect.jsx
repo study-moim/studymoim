@@ -13,7 +13,7 @@ export default function KakaoLoginRedirect() {
     localStorage.setItem("token", code);
     setInfo(code);
     setLogIn(true);
-    navigate("/");
+    navigate("/choice");
   }, []);
 
   return (
