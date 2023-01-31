@@ -16,6 +16,8 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: create
+  springdoc:
+    use-fqn: true
 logging:
   level:
     web: trace
@@ -39,6 +41,8 @@ logging:
   level:
     web: trace
     sql: trace
+springdoc:
+  use-fqn: true
 ---
 spring:
   config:
@@ -49,6 +53,10 @@ spring:
     url: jdbc:mysql://mysql_container:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
+  jpa:
+    database: mysql
+  springdoc:
+    use-fqn: true
 logging:
   level:
     web: error
@@ -75,9 +83,7 @@ spring:
             user-name-attribute: id
 ---
 # ssafy-project-team-name-peace-project-full-name-studymoim-service-name-sseuim base64로 인코딩
-# access-token 유효 기간 : 30분 1000 * 60 * 30
-# refresh-token 유효 기간 : 2주 1000 * 60 * 60* 24 * 7 * 2
+# unit is ms. 15 * 24 * 60 * 60 * 1000 = 15days
 jwt:
   secret: c3NhZnktcHJvamVjdC10ZWFtLW5hbWUtcGVhY2UtcHJvamVjdC1mdWxsLW5hbWUtc3R1ZHltb2ltLXNlcnZpY2UtbmFtZS1zc2V1aW0=
-  access-token-expiration-date: 1800000
-  refresh-token-expiration-date: 172799986
+  expiration: 1296000000

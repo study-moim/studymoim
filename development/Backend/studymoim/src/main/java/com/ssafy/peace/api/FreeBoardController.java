@@ -4,6 +4,7 @@ import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.service.FreeBoardService;
 import com.ssafy.peace.service.QuestionBoardService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class FreeBoardController {
 
     private final FreeBoardService freeBoardService;
-    private final QuestionBoardService questionBoardService;
 
     @Operation(summary = "get freeBoard list", description = "자유 게시판 글 목록 불러오기")
     @ApiResponses({

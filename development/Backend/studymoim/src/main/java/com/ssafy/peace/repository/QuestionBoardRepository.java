@@ -11,8 +11,11 @@ import java.util.List;
 public interface QuestionBoardRepository extends JpaRepository<QuestionBoard, Integer> {
 
     List<QuestionBoard> findAllByIsDeletedIsFalse();
+
+    List<QuestionBoard> findAllByIsDeletedIsFalseAndLecture_LectureId(Integer lectureId);
     List<QuestionBoard> findAllByIsDeletedIsFalseAndUser_UserId(Integer userId);
 
     QuestionBoard save(QuestionBoard questionBoard);
+
     // 자유게시판 해결되는대로 복붙
 }
