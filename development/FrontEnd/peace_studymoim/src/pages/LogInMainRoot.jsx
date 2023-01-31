@@ -1,6 +1,5 @@
 // TODO: 이 화면은 로그인된 애는 못오게 해야함
 import { Link } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
 
 /** @function 로그인창 */
 export default function LogInMainRoot() {
