@@ -36,7 +36,7 @@ export default function CourseMainRoot() {
             <option value="new">최신순</option>
           </select>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-8 h-[600px] overflow-auto">
           {courseInfo.map((course) => (
             <MainCourse key={course.course_id} propData={course} />
           ))}
