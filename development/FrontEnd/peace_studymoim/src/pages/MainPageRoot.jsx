@@ -7,9 +7,9 @@ import MainNotLogIn from "../components/mainpages/MainNotLogIn";
 import MainStudy from "../components/mainpages/MainStudy";
 
 export default function MainPageRoot() {
-  const { ID, logIn } = userInfo();
+  const { info, logIn, setInfo, setLogIn } = userInfo();
   const { logos } = logoImage();
-
+  console.log(info,logIn, "메인엔ㅇ민ㅇ림ㄴㅇ");
   return (
     <div>
       <MainCarousel />
