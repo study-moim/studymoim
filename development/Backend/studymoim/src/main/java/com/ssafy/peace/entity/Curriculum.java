@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class Curriculum {
     
     @NotNull
-    private int order;
+    private int curriculumOrder;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,8 +26,9 @@ public class Curriculum {
     private Course course;
 
     @Builder
-    public Curriculum(Study study, Course course) {
+    public Curriculum(Study study, Course course, int curriculumOrder) {
         this.study = study;
         this.course = course;
+        this.curriculumOrder = curriculumOrder;
     }
 }
