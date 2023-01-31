@@ -1,5 +1,6 @@
 package com.ssafy.peace.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class FreeBoardDto {
 
     @Data
     @Builder
+    @Schema(name="FreeBoardDto.Info")
     public static class Info {
         private int freeBoardId;
         private String title;
@@ -36,6 +38,7 @@ public class FreeBoardDto {
 
     @Data
     @Builder
+    @Schema(name="FreeBoardDto.Write")
     public static class Write {
         @Size(min=1, max=20, message = "바르지 않은 title 크기 입니다")
         @NotEmpty(message="title은 빈값 일 수 없습니다")
@@ -51,6 +54,7 @@ public class FreeBoardDto {
 
     @Data
     @Builder
+    @Schema(name="FreeBoardDto.Detail")
     public static class Detail {
         private int freeBoardId;
         private String title;

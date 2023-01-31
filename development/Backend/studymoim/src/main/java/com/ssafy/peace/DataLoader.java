@@ -1,13 +1,7 @@
 package com.ssafy.peace;
 
-import com.ssafy.peace.entity.Alarm;
-import com.ssafy.peace.entity.FreeBoard;
-import com.ssafy.peace.entity.FreeBoardComment;
-import com.ssafy.peace.entity.User;
-import com.ssafy.peace.repository.AlarmRepository;
-import com.ssafy.peace.repository.FreeBoardCommentRepository;
-import com.ssafy.peace.repository.FreeBoardRepository;
-import com.ssafy.peace.repository.UserRepository;
+import com.ssafy.peace.entity.*;
+import com.ssafy.peace.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -25,6 +19,22 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private FreeBoardCommentRepository freeBoardCommentRepository;
 
+    @Autowired
+    private StudyRepository studyRepository;
+    @Autowired
+    private CourseProviderRepository courseProviderRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private PlatformRepository platformRepository;
+    @Autowired
+    private LectureRepository lectureRepository;
+    @Autowired
+    private StudyMemberRepository studyMemberRepository;
+    @Autowired
+    private NoteRepository noteRepository;
+    @Autowired
+    private CurriculumRepository curriculumRepository;
 
 
     @Override
@@ -35,6 +45,12 @@ public class DataLoader implements CommandLineRunner {
 
         // 글 한개 작성
         addFreeBoard();
+
+        addPlatformAndCourseProvider();
+
+
+
+
     }
 
     public void addUsers(){
@@ -98,4 +114,131 @@ public class DataLoader implements CommandLineRunner {
         freeBoardCommentRepository.save(freeBoardComment2);
 
     }
+
+
+    public void addPlatformAndCourseProvider(){
+        Platform youtube = Platform.builder()
+                .name("Youtube")
+                .build();
+        platformRepository.save(youtube);
+        CourseProvider codingApple = CourseProvider.builder()
+                .name("코딩애플")
+                .platform(youtube)
+                .channelId("UCSLrpBAzOVGHQ5EmxnUg")
+                .build();
+        courseProviderRepository.save(codingApple);
+        addCourse(codingApple);
+    }
+    public void addCourse(CourseProvider courseProvider){
+
+        Course course1 = Course.builder()
+                .title("2022 코딩애플 리액트 강의")
+                .playlistId("PLfLgtT94nNq0qTRmUzQv4lI4pnP")
+                .thumbnail("path/to/image")
+                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
+                .build();
+        courseRepository.save(course1);
+        addLecture(course1);
+
+
+        Course course2 = Course.builder()
+                .title("쉽게알려주는 플러터 강의임")
+                .playlistId("PLfLgtT94nNq1izN517iPX4WXH3C")
+                .thumbnail("path/to/image")
+                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
+                .build();
+        courseRepository.save(course2);
+
+        Course course3 = Course.builder()
+                .title("웹개발로 배우는 자바스크립트 기초")
+                .playlistId("PLfLgtT94nNq0svzReYKbZRuv_-NK")
+                .thumbnail("path/to/image")
+                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
+                .build();
+        courseRepository.save(course3);
+
+    }
+
+    public void addLecture(Course course){
+
+        Lecture lecture1 = Lecture.builder()
+                .course(course)
+                .thumbnail("https://i.ytimg.com/vi/8rv8GTgYYrU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkEZOU_6VFhbZRGItvHRk0yAmcUQ")
+                .title("진짜 웹개발로 배우는 실용 자바스크립트 1강 : 셀렉터 selector")
+                .content("전체강의와 예제코드는 여기서 이용가능합니다")
+                .videoId("8rvTgYYrU")
+                .length(676)
+                .build();
+        lectureRepository.save(lecture1);
+//        addNote(lecture1);
+    }
+
+    public void addNote(Lecture lecture){
+
+        User user1 = userRepository.findById(1).get();
+        Note note = Note.builder()
+                .lecture(lecture)
+                .user(user1)
+                .build();
+        noteRepository.save(note);
+
+    }
+
+    public void addStudyAndMember(){
+        Study study1 = Study.builder()
+                .title("리액트 스터디")
+                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
+                .isPublic(true)
+                .userLimit(4)
+                .build();
+        studyRepository.save(study1);
+
+        User user1 = userRepository.findById(1).get();
+        User user2 = userRepository.findById(2).get();
+        User user3 = userRepository.findById(3).get();
+
+        StudyMember sm1 = StudyMember.builder()
+                .user(user1)
+                .memberRole(true)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm1);
+        StudyMember sm2 = StudyMember.builder()
+                .user(user2)
+                .memberRole(false)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm2);
+        StudyMember sm3 = StudyMember.builder()
+                .user(user3)
+                .memberRole(false)
+                .study(study1)
+                .build();
+        studyMemberRepository.save(sm3);
+        addCurriculum(study1);
+    }
+
+    public void addCurriculum(Study study){
+
+        Course course1 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
+        Course course2 = courseRepository.findByTitle("쉽게알려주는 플러터 강의임");
+        Course course3 = courseRepository.findByTitle("웹개발로 배우는 자바스크립트 기초");
+        Curriculum curriculum1 = Curriculum.builder()
+                .study(study)
+                .course(course1)
+                .build();
+        curriculumRepository.save(curriculum1);
+        Curriculum curriculum2 = Curriculum.builder()
+                .study(study)
+                .course(course2)
+                .build();
+        curriculumRepository.save(curriculum2);
+        Curriculum curriculum3 = Curriculum.builder()
+                .study(study)
+                .course(course3)
+                .build();
+        curriculumRepository.save(curriculum3);
+
+    }
+
 }
