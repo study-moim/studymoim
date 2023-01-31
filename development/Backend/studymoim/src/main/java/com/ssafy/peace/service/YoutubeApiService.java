@@ -81,11 +81,17 @@ public class YoutubeApiService {
 
         platformRepository.save(platform);
 
-//        URL path = getClass().getClassLoader().getResource("provider.json");
+        URL path = getClass().getClassLoader().getResource("provider.json");
+        System.out.println("path: " + path);
         ClassPathResource classPathResource = new ClassPathResource("provider.json");
-        System.out.println(classPathResource.getPath());
+
+
         try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
-            Object ob = new JSONParser().parse(new FileReader(classPathResource.getURI().getPath()));
+            System.out.println("classPathResource.getURI().getPath(): " + classPathResource.getURI().getPath());
+
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            System.out.println("ob: " + ob.toString());
+
             List<JSONObject> data = (List<JSONObject>) ob;
 
             for (JSONObject provider : data) {
