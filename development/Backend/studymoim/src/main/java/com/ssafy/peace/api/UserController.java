@@ -1,8 +1,6 @@
 package com.ssafy.peace.api;
 
-import com.ssafy.peace.dto.AlarmDto;
 import com.ssafy.peace.dto.UserDto;
-//import com.ssafy.peace.service.auth.JwtTokenService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,19 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
-
     private final UserService userService;
 
+//    private static final String SUCCESS = "success";
+//    private static final String FAIL = "fail";
 //    private final JwtTokenService jwtTokenService;
 
 //    // 로그아웃
