@@ -134,6 +134,7 @@ public class DataLoader implements CommandLineRunner {
         Course course1 = Course.builder()
                 .title("2022 코딩애플 리액트 강의")
                 .playlistId("PLfLgtT94nNq0qTRunX9OEmUzQv4lI4pnP")
+                .thumbnail("path/to/image")
                 .build();
         courseRepository.save(course1);
         addLecture(course1);
@@ -142,12 +143,14 @@ public class DataLoader implements CommandLineRunner {
         Course course2 = Course.builder()
                 .title("쉽게알려주는 플러터 강의임")
                 .playlistId("PLfLgtT94nNq1izG4R2WDN517iPX4WXH3C")
+                .thumbnail("path/to/image")
                 .build();
         courseRepository.save(course2);
 
         Course course3 = Course.builder()
                 .title("웹개발로 배우는 자바스크립트 기초")
                 .playlistId("PLfLgtT94nNq0svPBSslzReYKbZRuv_-NK")
+                .thumbnail("path/to/image")
                 .build();
         courseRepository.save(course3);
 
