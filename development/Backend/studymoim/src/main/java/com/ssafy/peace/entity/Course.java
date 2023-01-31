@@ -26,6 +26,10 @@ public class Course {
     @NotNull
     private String title;
 
+    @Size(max = 255)
+    @NotNull
+    private String thumbnail;
+
     // 상세 설명이 없는 재생목록이 있을수도...
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -60,10 +64,11 @@ public class Course {
 
     // Builder
     @Builder
-    public Course(String title, String content, String playlistId, CourseProvider courseProvider, boolean isDeleted) {
+    public Course(String title, String content, String playlistId, String thumbnail, CourseProvider courseProvider, boolean isDeleted) {
         this.title = title;
         this.content = content;
         this.playlistId = playlistId;
+        this.thumbnail = thumbnail;
         this.courseProvider = courseProvider;
         this.isDeleted = isDeleted;
     }
