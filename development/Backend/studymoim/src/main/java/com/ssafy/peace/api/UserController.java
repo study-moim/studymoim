@@ -1,17 +1,13 @@
 package com.ssafy.peace.api;
 
-import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.UserDto;
-import com.ssafy.peace.service.JwtTokenService;
+//import com.ssafy.peace.service.auth.JwtTokenService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,43 +25,43 @@ public class UserController {
 
     private final UserService userService;
 
-    private final JwtTokenService jwtTokenService;
+//    private final JwtTokenService jwtTokenService;
 
-    // 로그아웃
-    @GetMapping("/{userid}/logout")
-    public ResponseEntity<?> userRemoveToken(@PathVariable("userid") Integer userId) {
-        Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
-        try {
-            userService.deleRefreshToken(userId);
-            resultMap.put("message", SUCCESS);
-            status = HttpStatus.ACCEPTED;
-        } catch (Exception e) {
-            resultMap.put("message", e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
-    }
-
-    // 토큰 발급
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestBody UserDto.Info userDto, HttpServletRequest request) throws Exception {
-        Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
-        String token = request.getHeader("refresh-token");
-        if (jwtTokenService.checkToken(token)) {
-            if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
-                String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
-                resultMap.put("access-token", accessToken);
-                resultMap.put("message", SUCCESS);
-                status = HttpStatus.ACCEPTED;
-            }
-        } else {
-            status = HttpStatus.UNAUTHORIZED;
-        }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-    }
+//    // 로그아웃
+//    @GetMapping("/{userid}/logout")
+//    public ResponseEntity<?> userRemoveToken(@PathVariable("userid") Integer userId) {
+//        Map<String, Object> resultMap = new HashMap<>();
+//        HttpStatus status = HttpStatus.ACCEPTED;
+//        try {
+//            userService.deleRefreshToken(userId);
+//            resultMap.put("message", SUCCESS);
+//            status = HttpStatus.ACCEPTED;
+//        } catch (Exception e) {
+//            resultMap.put("message", e.getMessage());
+//            status = HttpStatus.INTERNAL_SERVER_ERROR;
+//        }
+//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//
+//    }
+//
+//    // 토큰 발급
+//    @PostMapping("/refresh")
+//    public ResponseEntity<?> refreshToken(@RequestBody UserDto.Info userDto, HttpServletRequest request) throws Exception {
+//        Map<String, Object> resultMap = new HashMap<>();
+//        HttpStatus status = HttpStatus.ACCEPTED;
+//        String token = request.getHeader("refresh-token");
+//        if (jwtTokenService.checkToken(token)) {
+//            if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
+//                String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
+//                resultMap.put("access-token", accessToken);
+//                resultMap.put("message", SUCCESS);
+//                status = HttpStatus.ACCEPTED;
+//            }
+//        } else {
+//            status = HttpStatus.UNAUTHORIZED;
+//        }
+//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//    }
 
     @Operation(summary = "get user list", description = "사용자 목록 불러오기")
     @ApiResponses({
