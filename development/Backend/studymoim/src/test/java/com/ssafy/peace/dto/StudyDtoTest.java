@@ -61,7 +61,6 @@ public class StudyDtoTest {
                                 course_id(1).
                                 title("test1").
                                 content("This is a test content").
-                                lastUpdateDate(new Timestamp(100L)).
                                 lectures(new ArrayList<LectureDto.Recruit>(Arrays.asList(
                                         LectureDto.Recruit.builder().build(),
                                         LectureDto.Recruit.builder().build()))).
