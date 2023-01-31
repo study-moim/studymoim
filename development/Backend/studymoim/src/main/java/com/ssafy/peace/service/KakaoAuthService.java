@@ -80,7 +80,6 @@ public class KakaoAuthService {
             ObjectMapper objectMapper = new ObjectMapper();
 
             String reponseBody = response.getBody();
-            System.out.println("response body : " + reponseBody);
             JsonNode jsonNode = objectMapper.readTree(reponseBody);
             String email = jsonNode.get("kakao_account").get("email").asText();
 

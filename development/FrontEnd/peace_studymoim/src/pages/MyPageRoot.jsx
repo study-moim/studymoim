@@ -13,7 +13,7 @@ export default function MyPageRoot() {
   const [currentClick, setCurrentClick] = useState("study");
   const [prevClick, setPrevClick] = useState(null);
   const [showModal, setShowModal] = useState(null);
-  // 누르면 전체/강의/자유 색이 바뀜
+  
   const getClick = (event) => {
     setCurrentClick(event.target.id);
   };
