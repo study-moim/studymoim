@@ -28,7 +28,7 @@ export default function MainPageRoot() {
         <p className="text-xl text-left text-gray-400 mt-7">
           # 구인 중인 스터디
         </p>
-        <div className="grid grid-cols-4 gap-[20px] overflow-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] overflow-auto">
           <MainStudy />
           <MainStudy />
           <MainStudy />

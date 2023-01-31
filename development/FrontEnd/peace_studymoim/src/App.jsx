@@ -48,7 +48,7 @@ export default function App() {
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
           <Route path='/login/kakao' element={<KakaoLoginRedirect />}></Route>
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
   );
 }
