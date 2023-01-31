@@ -42,10 +42,11 @@ public class Course {
     @NotNull
     @ColumnDefault("false")
     private boolean isDeleted;
-
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_provider_id")
     private CourseProvider courseProvider;
+
 
     @OneToMany(mappedBy = "course")
     private List<CourseType> courseTypes = new ArrayList<>();
