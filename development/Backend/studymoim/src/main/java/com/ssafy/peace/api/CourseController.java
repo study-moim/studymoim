@@ -38,8 +38,13 @@ public class CourseController {
         }
     }
 
+    @Operation(summary = "get course list", description = "검색한 강의 목록 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping("/info/{searchtext}")
-    public ResponseEntity<?> courseRecruitList(@Parameter(description = "searchtext") @PathVariable String searchtext) {
+    public ResponseEntity<?> courseInfoList(@Parameter(description = "searchtext") @PathVariable String searchtext) {
         try{
             return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchtext), HttpStatus.OK);
         } catch(Exception e) {
