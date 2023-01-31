@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
 
 export default function CommunityCreateForm() {
-  const freeArticleLast = useFetch("http://localhost:5000/community");
+  const freeArticleLast = useFetch("http://localhost:8080/api/v1/articles/free/");
   const lastArticle = freeArticleLast[freeArticleLast.length - 1];
 
   // const lastArticleID = lastArticle.free_board_id;
