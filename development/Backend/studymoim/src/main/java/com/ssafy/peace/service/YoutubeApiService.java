@@ -81,11 +81,17 @@ public class YoutubeApiService {
 
         platformRepository.save(platform);
 
-//        URL path = getClass().getClassLoader().getResource("provider.json");
+        URL path = getClass().getClassLoader().getResource("provider.json");
+        System.out.println("path: " + path);
         ClassPathResource classPathResource = new ClassPathResource("provider.json");
-        System.out.println(classPathResource.getPath());
+
+
         try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
-            Object ob = new JSONParser().parse(new FileReader(classPathResource.getURI().getPath()));
+            System.out.println("classPathResource.getURI().getPath(): " + classPathResource.getURI().getPath());
+
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            System.out.println("ob: " + ob.toString());
+
             List<JSONObject> data = (List<JSONObject>) ob;
 
             for (JSONObject provider : data) {
@@ -161,6 +167,7 @@ public class YoutubeApiService {
                             .title(playLists.get(i).getSnippet().getTitle())
                             .content(playLists.get(i).getSnippet().getLocalized().getDescription())
                             .playlistId(playLists.get(i).getId().toString())
+                            .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
                             .courseProvider(courseProviderRepository.getByChannelId(channelId))
                             .build();
 
@@ -209,7 +216,7 @@ public class YoutubeApiService {
                     // 데이터 가져오기
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
                     String title = playListItems.get(i).getSnippet().getTitle().toString();
-                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
+                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
 
 
                     // Service -> Service

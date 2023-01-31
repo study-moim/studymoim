@@ -19,6 +19,7 @@ public class Platform {
 
     @Size(max = 20)
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "platform")

@@ -119,6 +119,11 @@
 			<artifactId>jjwt-impl</artifactId>
 			<version>0.11.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.4.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
 		<dependency>
 			<groupId>com.google.http-client</groupId>
@@ -133,6 +138,13 @@
 			<version>1.1.1</version>
 		</dependency>
 
+		<!-- swagger -->
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.6.9</version>
+		</dependency>
 
 		<!--	websocket	-->
 		<dependency>

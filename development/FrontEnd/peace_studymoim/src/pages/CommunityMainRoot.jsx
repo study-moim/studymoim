@@ -2,6 +2,7 @@ import useFetch from "../hooks/useFetch";
 import { useState, useEffect } from "react";
 import FreeQuestion from "../components/communitypages/FreeQuestion";
 import { Link } from "react-router-dom";
+import axios from "axios"
 
 export default function CommunityMainRoot() {
   const [currentClick, setCurrentClick] = useState("all");
@@ -26,9 +27,23 @@ export default function CommunityMainRoot() {
     },
     [currentClick]
   );
+  // **axios 예제 지우지 마시오**
+  // const [freeArticles, setFreeArticles] = useState([]);
+  // const url = "http://localhost:8080/api/v1/articles/free/";
+  // useEffect(() => {
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       setFreeArticles(response.data);
+  //       // console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       console.log("실패");
+  //     });
+  // }, []);
 
-  const freeArticles = useFetch("http://localhost:5000/community");
-  // console.log(freeArticle);
+  const freeArticles = useFetch("http://i8a110.p.ssafy.io:8080/api/v1/articles/free/");
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
@@ -89,9 +104,7 @@ export default function CommunityMainRoot() {
           </div>
           <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black ">
             {freeArticles.map((freeArticle) => (
-              <div
-                className="cursor-pointer hover:scale-105 w-11/12 ml-6 "
-              >
+              <div className="cursor-pointer hover:scale-105 w-11/12 ml-6 ">
                 <FreeQuestion
                   key={freeArticle.free_board_id}
                   freeArticle={freeArticle}

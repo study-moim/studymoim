@@ -10,13 +10,13 @@ import java.util.List;
 
 public class CourseDto {
 
+    // 강좌 목록에서 보여줄 DTO
     @Data
     @Builder
     public static class Info {
         private int course_id;
         private String title;
         private String content;
-        private LocalDateTime lastUpdateDate;
         private CourseProviderDto.Bio courseProvider;
         public static Info fromEntity(Course courseEntity) {
             return Info.builder()
@@ -28,13 +28,13 @@ public class CourseDto {
         }
     }
 
+    // 구인 페이지에서 알려줄 DTO
     @Data
     @Builder
     public static class Recruit {
         private int course_id;
         private String title;
         private String content;
-        private Timestamp lastUpdateDate;
         private List<LectureDto.Recruit> lectures;
         private int providerId;
         private String providerUrl;
@@ -43,6 +43,13 @@ public class CourseDto {
         private int providerChannelId;
         private String providerChannelName;
 
+        public static Recruit fromEntity(Course courseEntity) {
+            return Recruit.builder()
+                    .course_id(courseEntity.getCourseId())
+                    .title(courseEntity.getTitle())
+                    .content(courseEntity.getContent())
+                    .build();
+        }
     }
 
 }

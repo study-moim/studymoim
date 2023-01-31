@@ -15,7 +15,7 @@ public class CurriculumDto {
         private CourseDto.Info course;
         public static Info fromEntity(Curriculum curriculumEntity) {
             return Info.builder()
-                    .order(curriculumEntity.getOrder())
+                    .order(curriculumEntity.getCurriculumOrder())
                     .course(CourseDto.Info.fromEntity(curriculumEntity.getCourse()))
                     .build();
         }

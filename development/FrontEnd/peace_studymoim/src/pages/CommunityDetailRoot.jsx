@@ -4,27 +4,20 @@ import { useLocation } from "react-router-dom";
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
-  const dummyArr = [
-    {
-      idx: 1,
-      memo: "a"
-    },
-    {
-      idx: 2,
-      memo: "b"
-    }
-  ]
+  console.log(props)
+  const commentList = props.comments
+  console.log(commentList)
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px] max-w-6xl mx-auto px-4">
         <div className="flex flex-col w-10/12">
           <div className="flex justify-start items-end  w-[1162px] relative gap-[15px] px-[30px]">
-            <img className="w-[40px]" src={props.user_picture} />
+            <img className="w-[40px]" src={props.userPicture} />
             <div className="text-xl font-bold text-black">
-              {props.user_name}
+              {props.userName}
             </div>
             <div className="text-xl text-[#7b7474]">
-              {props.publish_time}
+              {props.publishTime}
             </div>
             <div className="text-xl font-bold text-[#898989]">
               조회수 {props.hit}
@@ -45,8 +38,8 @@ export default function CommunityDetailRoot() {
             { props.content }
         </div>
         <CommunityCommentForm />
-        {dummyArr.map((dummy) => (
-          <CommunityComment key={dummy.idx}/>
+        {commentList.map((comment) => (
+          <CommunityComment key={comment.freeBoardCommentId}/>
         ))}
       </div>
     </>
