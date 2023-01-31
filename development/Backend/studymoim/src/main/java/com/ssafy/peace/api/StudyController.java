@@ -1,5 +1,6 @@
 package com.ssafy.peace.api;
 
+import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.service.StudyService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,9 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/study")
@@ -30,11 +29,25 @@ public class StudyController {
     @GetMapping("/")
     public ResponseEntity<?> studyList() {
         try{
-            // TODO: return new ResponseEntity<>(studyService.getStudyList(), HttpStatus.OK);
-            return null;
+            return new ResponseEntity<>(studyService.getStudyList(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @Operation(summary = "post study", description = "스터디 모집 글 작성하기")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+//    })
+//    @PostMapping("/")
+//    public ResponseEntity<?> makeStudy(@RequestBody FreeBoardDto.Write freeBoard) {
+//        try{
+//            freeBoardService.writeFree(freeBoard);
+//            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//        } catch(Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 }
