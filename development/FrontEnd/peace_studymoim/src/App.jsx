@@ -46,7 +46,7 @@ export default function App() {
           {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
           <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
-          <Route path='/login/redirect' element={<KakaoLoginRedirect />}></Route>
+          <Route path='/login/kakao/:token_params' element={<KakaoLoginRedirect />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
