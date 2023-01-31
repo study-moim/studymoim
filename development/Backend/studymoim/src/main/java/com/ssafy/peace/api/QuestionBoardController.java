@@ -5,6 +5,9 @@ import com.ssafy.peace.dto.QuestionBoardDto;
 import com.ssafy.peace.entity.QuestionBoard;
 import com.ssafy.peace.service.QuestionBoardService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +44,9 @@ public class QuestionBoardController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/")
-    public ResponseEntity<?> boardWrite(@RequestBody QuestionBoardDto.Write questionBoard) {
+    public ResponseEntity<?> boardWrite(@RequestBody
+
+                                        QuestionBoardDto.Write questionBoard) {
         try{
             questionBoardService.writeQuestion(questionBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
