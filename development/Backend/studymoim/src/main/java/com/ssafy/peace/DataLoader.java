@@ -166,7 +166,7 @@ public class DataLoader implements CommandLineRunner {
                 .thumbnail("https://i.ytimg.com/vi/8rv8GTgYYrU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkEZOU_6VFhbZRGItvHRk0yAmcUQ")
                 .title("진짜 웹개발로 배우는 실용 자바스크립트 1강 : 셀렉터 selector")
                 .content("전체강의와 예제코드는 여기서 이용가능합니다")
-                .videoId("8rvTgYYrU")
+                .videoId("8rvTgYY123")
                 .length(676)
                 .build();
         lectureRepository.save(lecture1);
