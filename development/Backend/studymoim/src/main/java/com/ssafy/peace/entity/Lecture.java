@@ -56,6 +56,9 @@ public class Lecture {
     private Course course;
 
     @OneToMany(mappedBy = "lecture")
+    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lecture")
     private List<Note> notes = new ArrayList<>();
 
     @OneToMany(mappedBy = "lecture")
