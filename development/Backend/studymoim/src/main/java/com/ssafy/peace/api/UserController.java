@@ -24,7 +24,6 @@ import java.util.Map;
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
@@ -42,7 +41,6 @@ public class UserController {
             resultMap.put("message", SUCCESS);
             status = HttpStatus.ACCEPTED;
         } catch (Exception e) {
-            logger.error("로그아웃 실패 : {}", e);
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -56,18 +54,14 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         String token = request.getHeader("refresh-token");
-        logger.debug("token : {}, memberDto : {}", token, userDto);
         if (jwtTokenService.checkToken(token)) {
             if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
                 String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
-                logger.debug("token : {}", accessToken);
-                logger.debug("정상적으로 액세스토큰 재발급!!!");
                 resultMap.put("access-token", accessToken);
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             }
         } else {
-            logger.debug("리프레쉬토큰 사용불가");
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
