@@ -167,6 +167,7 @@ public class YoutubeApiService {
                             .title(playLists.get(i).getSnippet().getTitle())
                             .content(playLists.get(i).getSnippet().getLocalized().getDescription())
                             .playlistId(playLists.get(i).getId().toString())
+                            .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
                             .courseProvider(courseProviderRepository.getByChannelId(channelId))
                             .build();
 
@@ -215,7 +216,7 @@ public class YoutubeApiService {
                     // 데이터 가져오기
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
                     String title = playListItems.get(i).getSnippet().getTitle().toString();
-                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
+                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
 
 
                     // Service -> Service
