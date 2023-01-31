@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function MainCourse() {
+export default function MainCourse({propData}) {
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -15,23 +15,23 @@ export default function MainCourse() {
           className="w-full h-[146px] object-cover"
         />
         <p className="w-[209px] h-[65px] text-xl font-bold text-left text-black">
-          [기초강좌]피그마 기초이론
+          {propData.title}
         </p>
       </div>
       {isHover ? (
         <div className="w-full h-[245px] absolute top-0 bg-neutral-800 opacity-90">
           <div className="flex flex-col justify-center items-center pt-2">
             <p className="w-[209px] h-[60px] text-xl font-bold text-left text-white cursor-pointer hover:scale-105">
-              [기초강좌]피그마 기초이론
+              {propData.title}
             </p>
             <p className=" w-[209px] h-[40px] text-base font-bold text-left text-white">
-              [기초강좌]피그마 기초이론
+              {propData.courseProvider.name}
             </p>
             <p className="w-[209px] h-[20px] text-sm text-left text-white">
-              [기초강좌]피그마 기초이론
+              강의1 제목
             </p>
             <p className="w-[209px] h-[20px] text-sm text-left text-white">
-              [기초강좌]피그마 기초이론
+              강의2 제목
             </p>
             <div className="flex justify-center items-center gap-5">
               <img src="/figma.png" alt="x" className="w-[70px] h-[70px] mt-3 rounded-full cursor-pointer hover:scale-105" />
