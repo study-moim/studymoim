@@ -38,7 +38,7 @@ export default function App() {
           {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
           <Route path="/choice" element={<FieldPage />}></Route>
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
-          <Route path="/community/:article_id" element={<CommunityDetailRoot />}></Route>
+          <Route path="/community/free/:article_id" element={<CommunityDetailRoot />}></Route>
           ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
 ​          <Route path="/study/study_recruit_form" element={<StudyMakePage/>} ></Route>
           <Route path="/study/:study_recruit_id" element={<StudyRecruitDetailPage/>}></Route> 
