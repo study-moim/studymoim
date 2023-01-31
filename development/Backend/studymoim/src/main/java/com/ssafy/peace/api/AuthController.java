@@ -41,8 +41,8 @@ public class AuthController {
             registerInfo.setEmail(email);
             userService.createUser(registerInfo);
         }
-        redirect.addAttribute("statusCode", "200");
-        redirect.addAttribute("message", "Success");
+//        redirect.addAttribute("statusCode", "200");
+//        redirect.addAttribute("message", "Success");
         redirect.addAttribute("accessToken", JwtTokenUtil.getToken(email));
 
         return "redirect:http://localhost:4000/login/kakao";
