@@ -1,7 +1,6 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.UserDto;
-//import com.ssafy.peace.service.auth.JwtTokenService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,19 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
-
     private final UserService userService;
 
+//    private static final String SUCCESS = "success";
+//    private static final String FAIL = "fail";
 //    private final JwtTokenService jwtTokenService;
 
 //    // 로그아웃
@@ -234,6 +228,34 @@ public class UserController {
             UserDto.Info result = userService.unfollowUser(userId, targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get alarms", description = "사용자 알람 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/alarms")
+    public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getAlarmList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "check alarms", description = "사용자 알람 체크")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/checkAlarms")
+    public ResponseEntity<?> userCheckedAlarmList(@Parameter(description = "userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.checkAlarmList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

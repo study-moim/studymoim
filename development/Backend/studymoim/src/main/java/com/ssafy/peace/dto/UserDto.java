@@ -97,7 +97,7 @@ public class UserDto {
         private LocalDateTime lastLoginTime;
         private boolean isQuit;
         private LocalDateTime quitTime;
-        private List<Alarm> alarms = new ArrayList<>();
+        private List<AlarmDto> alarms = new ArrayList<>();
         private List<FreeBoard> freeBoards = new ArrayList<>();
         private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
         private List<Message> sendMessages = new ArrayList<>();
