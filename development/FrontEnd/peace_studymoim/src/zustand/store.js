@@ -10,7 +10,6 @@ export const userInfo = create(
     })
 );
 
-
 export const logoImage = create((set) => ({
   logos: [
     { id: 1, name: "reactjs", url: "/reactjs.png" },
