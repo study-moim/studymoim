@@ -24,7 +24,7 @@ export default function CommunityCreateForm() {
       setIsLoading(true);
       // Create 호출
       // 두번째 인자로 메서드를 넣어줌
-      fetch("http://localhost:5000/community/", {
+      fetch("http://localhost:8080/api/v1/articles/free/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
