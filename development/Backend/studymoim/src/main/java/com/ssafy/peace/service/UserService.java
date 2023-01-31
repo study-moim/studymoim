@@ -52,6 +52,7 @@ public class UserService {
         User user = User.builder().email(userRegisterInfo.getEmail()).build();
         return userRepository.save(user);
     }
+
     public User getUserByEmail(String email) {
         // 디비에 유저 정보 조회 (userEmail을 통한 조회).
         User user = userRepository.findByEmail(email);
@@ -120,13 +121,14 @@ public class UserService {
     public long countFollowers(Integer userId) {
         return followRepository.countAllByToUser_UserId(userId);
     }
+
     public long countFollowings(Integer userId) {
         return followRepository.countAllByFromUser_UserId(userId);
     }
 
     @Transactional
     public UserDto.Info followUser(Integer myUserId, Integer targetUserId) {
-        if(followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()){
+        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
             return null;
         }
         followRepository.save(Follow.builder()
@@ -138,7 +140,7 @@ public class UserService {
     }
 
     public UserDto.Info unfollowUser(Integer myUserId, Integer targetUserId) {
-        if(followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()){
+        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
             return null;
         }
         followRepository.delete(Follow.builder()
@@ -149,14 +151,18 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
-    public List<AlarmDto.Info> getAlarmList(Integer userId) {
-        return alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
-                .map(AlarmDto.Info::fromEntity)
-                .collect(Collectors.toList());
+    public long countUncheckdAlarm(Integer userId) {
+        return alarmRepository.countAllByUser_UserIdAndIsCheckedIsFalse(userId);
     }
 
     @Transactional
-    public int checkAlarmList(Integer userId) {
-        return alarmRepository.checkAllByUser(userId);
+    public List<AlarmDto.Info> getAlarmList(Integer userId) {
+        List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
+                                    .map(AlarmDto.Info::fromEntity)
+                                    .collect(Collectors.toList());
+        if(res != null){
+            alarmRepository.checkAllByUser(userId);
+        }
+        return res;
     }
 }
