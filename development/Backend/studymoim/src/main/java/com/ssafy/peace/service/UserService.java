@@ -156,16 +156,6 @@ public class UserService {
     }
 
     @Transactional
-    public AlarmDto.Info makeAlarm(AlarmDto.Write alarm) {
-        User user = userRepository.findById(alarm.getUserId()).get();
-        return AlarmDto.Info.fromEntity(alarmRepository.save(Alarm.builder()
-                .content(alarm.getContent())
-                .url(alarm.getUrl())
-                .user(user)
-                .build()));
-    }
-
-    @Transactional
     public boolean checkAlarmList(Integer userId) {
         try {
             List<AlarmDto.Info> uncheckedList = getAlarmList(userId);
