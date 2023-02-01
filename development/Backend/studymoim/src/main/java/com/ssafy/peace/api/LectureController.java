@@ -27,7 +27,7 @@ public class LectureController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/info/{courseId}")
+    @GetMapping("/{courseId}")
     public ResponseEntity<?> LectureInfoListByCourseId(@Parameter(description = "courseId") @PathVariable int courseId) {
         try{
             return new ResponseEntity<>(lectureService.getLectureInfoListFindCourseId(courseId), HttpStatus.OK);
