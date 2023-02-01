@@ -203,11 +203,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY FOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @PostMapping("/{targetId}/follow")
-    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer targetId,
-                                        @RequestBody UserDto.Id userId) {
+    @GetMapping("/{userId}/follow/{targetId}")
+    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer userId,
+                                        @Parameter(description="targetId") @PathVariable Integer targetId) {
         try{
-            UserDto.Info result = userService.followUser(userId.getUserId(), targetId);
+            UserDto.Info result = userService.followUser(userId, targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -221,11 +221,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @DeleteMapping("/{targetId}/unfollow")
-    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer targetId,
-                                          @RequestBody UserDto.Id userId) {
+    @GetMapping("/{userId}/unfollow/{targetId}")
+    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer userId,
+                                          @Parameter(description="userId") @PathVariable Integer targetId) {
         try{
-            UserDto.Info result = userService.unfollowUser(userId.getUserId(), targetId);
+            UserDto.Info result = userService.unfollowUser(userId, targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -238,10 +238,10 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/count/alarm")
-    public ResponseEntity<?> userCountUncheckdAlarm(@Parameter(description = "userId") @PathVariable Integer userId) {
+    @GetMapping("/{userId}/check/alarm")
+    public ResponseEntity<?> userExistUncheckdAlarm(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.countUncheckdAlarm(userId), HttpStatus.OK);
+            return new ResponseEntity<>(userService.existUncheckdAlarm(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -256,6 +256,49 @@ public class UserController {
     public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getAlarmList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "is exist uncheckd message", description = "사용자 미확인 쪽지 존재 여부 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/check/message")
+    public ResponseEntity<?> userCountUncheckdMessage(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.existUncheckdMessage(toUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get message User List", description = "사용자와 쪽지를 한 유저 리스트")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message")
+    public ResponseEntity<?> userMessageList(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageUserList(toUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get message", description = "특정 사용자와 나눈 쪽지 내역 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message/history/{fromUserId}")
+    public ResponseEntity<?> userMessageHistory(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
+                                                    @Parameter(description = "fromUserID") @PathVariable Integer fromUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageHistory(toUserId, fromUserId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

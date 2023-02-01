@@ -16,7 +16,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
      */
     List<Alarm> findAllByUser_UserIdAndIsCheckedIsFalse(int userId);
 
-    long countAllByUser_UserIdAndIsCheckedIsFalse(int userId);
+    boolean existsByUser_UserIdAndIsCheckedIsFalse(int userId);
 
     @Modifying(clearAutomatically = true)
     @Query("update Alarm a set a.isChecked = true where a.isChecked = false and a.user.userId = :userId")

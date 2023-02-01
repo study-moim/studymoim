@@ -152,8 +152,8 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
-    public long countUncheckdAlarm(Integer userId) {
-        return alarmRepository.countAllByUser_UserIdAndIsCheckedIsFalse(userId);
+    public boolean existUncheckdAlarm(Integer userId) {
+        return alarmRepository.existsByUser_UserIdAndIsCheckedIsFalse(userId);
     }
 
     @Transactional
