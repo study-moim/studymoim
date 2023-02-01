@@ -1,5 +1,7 @@
 package com.ssafy.peace.api;
 
+import com.ssafy.peace.dto.AlarmDto;
+import com.ssafy.peace.dto.MessageDto;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -233,12 +235,12 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 존재 여부 확인")
+    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 여부 확인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/check/alarm")
+    @GetMapping("/{userId}/count/alarm")
     public ResponseEntity<?> userCountUncheckdAlarm(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.countUncheckdAlarm(userId), HttpStatus.OK);
@@ -280,7 +282,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{toUserId}/message/{fromUserId}")
+    @GetMapping("/{toUserId}/message/history/{fromUserId}")
     public ResponseEntity<?> userMessageHistory(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
                                                     @Parameter(description = "fromUserID") @PathVariable Integer fromUserId) {
         try{

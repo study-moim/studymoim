@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class MessageDto {
@@ -28,6 +30,20 @@ public class MessageDto {
                     .sendTime(messageEntity.getSendTime())
                     .build();
         }
+    }
 
+    @Data
+    @Builder
+    @Schema(name="MessageDto.Write")
+    public static class Write {
+        @NotEmpty(message="toUserId는 빈값 일 수 없습니다")
+        @NotNull(message="toUserId는 null 일 수 없습니다")
+        private int toUserId;
+        @NotEmpty(message="content은 빈값 일 수 없습니다")
+        @NotNull(message="content은 null 일 수 없습니다")
+        private String content;
+        @NotEmpty(message="fromUserId는 빈값 일 수 없습니다")
+        @NotNull(message="fromUserId는 null 일 수 없습니다")
+        private int fromUserId;
     }
 }
