@@ -55,28 +55,49 @@ public class DataLoader implements CommandLineRunner {
         // youtube api 세팅
         youtubeApiService.init();
 
-        // Course 좋아요 더미 데이터
+        // UserLikeCourse 더미 데이터
         addUserLikeCourse();
+
+        // Memo
+        addNote();
         
+    }
+
+    private void addNote() {
+        List<Note> noteList = new ArrayList<>();
+        List<Lecture> lectureList = lectureRepository.findAll();
+        List<User> userList = userRepository.findAll();
+
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < lectureList.size(); j++) {
+                Note note = Note.builder()
+                        .user(userList.get(i))
+                        .lecture(lectureList.get(j))
+                        .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
+                        .build();
+                noteList.add(note);
+            }
+        }
+        noteRepository.saveAllAndFlush(noteList);
     }
 
     private void addUserLikeCourse() {
         List<UserLikeCourse> userLikeCourseList = new ArrayList<>();
-        List<User> users = userRepository.findAll();
-        List<Course> courses = courseRepository.findAll();
+        List<User> userList = userRepository.findAll();
+        List<Course> courseList = courseRepository.findAll();
 
-        for (int i = 0; i < users.size(); i++) {
-            for (int j = 0; j < courses.size(); j++) {
-                if((j+i) % 3 == 0) {
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < courseList.size(); j++) {
+                if(i >= j) {
                     UserLikeCourse userLikeCourse = UserLikeCourse.builder()
-                            .user(users.get(i))
-                            .course(courses.get(j))
+                            .user(userList.get(i))
+                            .course(courseList.get(j))
                             .build();
                     userLikeCourseList.add(userLikeCourse);
                 }
             }
         }
-        userLikeCourseRepository.saveAll(userLikeCourseList);
+        userLikeCourseRepository.saveAllAndFlush(userLikeCourseList);
     }
 
     public void addUsers(){
@@ -229,7 +250,7 @@ public class DataLoader implements CommandLineRunner {
                 .isPublic(true)
                 .userLimit(4)
                 .build();
-        studyRepository.save(study1);
+        studyRepository.saveAndFlush(study1);
 
         User user1 = userRepository.findById(1).get();
         User user2 = userRepository.findById(2).get();
@@ -240,19 +261,19 @@ public class DataLoader implements CommandLineRunner {
                 .memberRole(true)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm1);
+        studyMemberRepository.saveAndFlush(sm1);
         StudyMember sm2 = StudyMember.builder()
                 .user(user2)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm2);
+        studyMemberRepository.saveAndFlush(sm2);
         StudyMember sm3 = StudyMember.builder()
                 .user(user3)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm3);
+        studyMemberRepository.saveAndFlush(sm3);
         addCurriculum(study1);
     }
 
@@ -265,17 +286,17 @@ public class DataLoader implements CommandLineRunner {
                 .study(study)
                 .course(course1)
                 .build();
-        curriculumRepository.save(curriculum1);
+        curriculumRepository.saveAndFlush(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
                 .build();
-        curriculumRepository.save(curriculum2);
+        curriculumRepository.saveAndFlush(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
                 .build();
-        curriculumRepository.save(curriculum3);
+        curriculumRepository.saveAndFlush(curriculum3);
 
     }
 
