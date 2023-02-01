@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlatformRepository extends JpaRepository<Platform, Integer> {
     Platform getByPlatformId(int platformId);
+
+    Platform findByName(String searchName);
 }
