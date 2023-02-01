@@ -36,4 +36,10 @@ public class CourseService {
                 .map(CourseDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public Object getCourseRecruit(int courseId) {
+        return courseRepository.findById(courseId)
+                .map(CourseDto.Recruit::fromEntity);
+    }
 }
