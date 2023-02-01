@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import Backdrop from "../overall/Backdrop";
+import CourseSearchBar from "./CourseSearchBar";
 
 export default function StudyMakeForm(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -15,13 +16,12 @@ export default function StudyMakeForm(props) {
     setModalIsOpen(false);
   }
 
-  const [image, setImage] = useState();
-  const [preview, setPreview] = useState('development\FrontEnd\peace_studymoim\src\assets\logo.png');
+  const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("/logo.png");
 
   const recruitMembersRef = useRef();
   const startDateRef = useRef();
   const recruitMethodRef = useRef();
-  const dueDateRef = useRef();
   const studyImgRef = useRef();
   const titleInputRef = useRef();
   const descriptionRef = useRef();
@@ -44,7 +44,6 @@ export default function StudyMakeForm(props) {
     const enteredRecruitMembersRef = recruitMembersRef.current.value;
     const enteredStartDate = startDateRef.current.value;
     const enteredRecruitMethod = recruitMethodRef.current.value;
-    const enteredDueDate = dueDateRef.current.value;
     const enteredTitleInput = titleInputRef.current.value;
     const enteredDescription = descriptionRef.current.value;
 
@@ -52,7 +51,6 @@ export default function StudyMakeForm(props) {
       recruitMembers: enteredRecruitMembersRef,
       startDate: enteredStartDate,
       recruitMethod: enteredRecruitMethod,
-      dueDate: enteredDueDate,
       studyImg: preview,
       title: enteredTitleInput,
       description: enteredDescription,
@@ -64,8 +62,8 @@ export default function StudyMakeForm(props) {
     <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
       <form className="w-full gap-4 py-5" onSubmit={submitHandler}>
         <div className="flex flex-col justify-start items-center w-full gap-2.5 py-[5px]">
-          <p className="text-4xl text-left">
-            프로젝트 기본 정보를 입력해주세요.
+          <p className="text-4xl text-left font-bold">
+            스터디 기본정보를 입력해주세요
           </p>
           {/* 보라색 선 */}
           <svg
@@ -80,7 +78,7 @@ export default function StudyMakeForm(props) {
               x1="0.993338"
               y1="7.50001"
               x2="1351.99"
-              y2="1.50001"
+              y2="7.50001"
               stroke="#7B61FF"
               stroke-width={3}
             />
@@ -89,7 +87,7 @@ export default function StudyMakeForm(props) {
           <div className="grid grid-cols-2 p-2.5">
             {/* 모집인원 */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[32px] text-left">모집인원 </p>
+              <p className="text-[32px] text-left">모집인원(*)</p>
               <select
                 id="recruitMembers"
                 ref={recruitMembersRef}
@@ -106,7 +104,7 @@ export default function StudyMakeForm(props) {
             </div>
             {/* 시작 예정일 */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[32px] text-left">시작 예정일</p>
+              <p className="text-[32px] text-left">시작 예정일(*)</p>
               <input
                 required
                 id="startDate"
@@ -120,7 +118,7 @@ export default function StudyMakeForm(props) {
 
             {/* 인원 모집 방법 */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[32px] text-left">인원 모집 방법</p>
+              <p className="text-[32px] text-left">인원 모집 방법(*)</p>
               <select
                 id="recruitMethod"
                 ref={recruitMethodRef}
@@ -132,62 +130,39 @@ export default function StudyMakeForm(props) {
               </select>
             </div>
 
-            {/* 수강완료 기간 */}
-            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[32px] text-left">수강 완료 기간(선택)</p>
-              <input
-                id="dueDate"
-                type="date"
-                min="2023-01-01"
-                max="2023-12-31"
-                ref={dueDateRef}
-                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
-              />
-            </div>
-
             {/* TODO: 강좌는 나중에 !! 다중 선택으로 해야 돼!!  */}
-            <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-[255px] gap-2.5">
-              <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-                <p className="text-[32px] text-left">강좌 선택</p>
-                <div className="flex-grow-0 flex-shrink-0 w-[525px] h-[90px] relative">
-                  <div className="w-full h-[90px] absolute left-[-1.5px] top-[-1.5px] rounded border-2 border-[#b1b2ff]" />
-                </div>
-                <div className="flex-grow-0 flex-shrink-0 w-[279px] h-[61px] relative">
-                  <div className="w-1/2 h-[61px] absolute left-[-1px] top-[-1px] rounded-[20px] bg-[#b1b2ff]/50" />
-                </div>
-              </div>
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">강좌 선택(*)</p>
+              <CourseSearchBar />
+            </div>
+            <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
+              <img src={preview} className="w-6/12 object-cover rounded-full" />
 
-              <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
-                <img
-                  src={preview}
-                  // src={/logo.png}
-                  className="w-6/12 object-cover"
+              <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
+                <input
+                  id="picture"
+                  type="file"
+                  ref={studyImgRef}
+                  accept="image/*"
+                  className=""
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    if (file && file.type.substring(0, 5) === "image") {
+                      setImage(file);
+                    } else {
+                      setImage(null);
+                    }
+                  }}
                 />
-
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
-                  <input
-                    id="picture"
-                    type="file"
-                    ref={studyImgRef}
-                    accept="image/*"
-                    className=""
-                    onChange={(event) => {
-                      const file = event.target.files[0];
-                      if (file && file.type.substring(0, 5) === "image") {
-                        setImage(file);
-                      } else {
-                        setImage(null);
-                      }
-                    }}
-                  />
-                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-[5px]">
-          <p className="text-4xl text-left">프로젝트에 대해 선택해주세요.</p>
+          <p className="text-4xl text-left font-bold">
+            스터디에 대해 설명해주세요
+          </p>
           <svg
             height={9}
             viewBox="0 0 1352 9"
@@ -200,7 +175,7 @@ export default function StudyMakeForm(props) {
               x1="0.993338"
               y1="7.50001"
               x2="1351.99"
-              y2="1.50001"
+              y2="7.50001"
               stroke="#7B61FF"
               stroke-width={3}
             />
