@@ -52,6 +52,8 @@ public class DataLoader implements CommandLineRunner {
 
 //        addPlatformAndCourseProvider();
 
+        // youtube api 세팅
+        youtubeApiService.init();
 
         // youtube api 세팅
         youtubeApiService.init();
