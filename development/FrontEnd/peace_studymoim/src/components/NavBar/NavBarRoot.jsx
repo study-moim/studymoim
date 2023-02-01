@@ -11,7 +11,7 @@ export default function Navbar() {
   const { logIn } = userInfo();
   const [menuToggle, setMenuToggle] = useState(false);
 
-  if (window.location.pathname === "/study/player") return null;
+  if (window.location.pathname.startsWith("/player")) return null;
   return (
     <>
       <div className="max-w-6xl mx-auto px-4">
