@@ -15,7 +15,7 @@ export default function LogInMainRoot() {
       <div className="flex flex-col justify-start items-center relative gap-[60px]">
         {/* TODO: 홈화면으로 가게해야하나? */}
         <img
-          src="\src\assets\logo.png"
+          src="/logo.png"
           className="flex-grow-0 flex-shrink-0 w-[495px] h-[271px] object-cover"
         />
         

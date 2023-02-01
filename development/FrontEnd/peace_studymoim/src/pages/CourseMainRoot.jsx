@@ -3,9 +3,12 @@ import MainSearch from "../components/mainpages/MainSearch";
 import { logoImage } from "../zustand/store";
 import Tag from "../components/overall/Tag";
 import MainCourse from "../components/mainpages/MainCourse";
+import useFetch from "../hooks/useFetch";
 
 export default function CourseMainRoot() {
   const { logos } = logoImage();
+  const courseInfo = useFetch("http://localhost:8080/api/v1/course/info");
+  console.log(courseInfo)
   return (
     <div className="">
       <div className="max-w-6xl mx-auto px-4">
@@ -33,17 +36,10 @@ export default function CourseMainRoot() {
             <option value="new">최신순</option>
           </select>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-8">
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
-          <MainCourse />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-8 h-[600px] overflow-auto">
+          {courseInfo.map((course) => (
+            <MainCourse key={course.course_id} propData={course} />
+          ))}
         </div>
       </div>
     </div>

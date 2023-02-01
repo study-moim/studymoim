@@ -17,13 +17,15 @@ public class CourseDto {
         private int course_id;
         private String title;
         private String content;
-        private CourseProviderDto.Bio courseProvider;
+        private String thumbnail;
+        private CourseProviderDto.Info courseProvider;
         public static Info fromEntity(Course courseEntity) {
             return Info.builder()
                     .course_id(courseEntity.getCourseId())
                     .title(courseEntity.getTitle())
                     .content(courseEntity.getContent())
-                    .courseProvider(CourseProviderDto.Bio.fromEntity(courseEntity.getCourseProvider()))
+                    .thumbnail(courseEntity.getThumbnail())
+                    .courseProvider(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()))
                     .build();
         }
     }
@@ -35,6 +37,7 @@ public class CourseDto {
         private int course_id;
         private String title;
         private String content;
+        private String thumbnail;
         private List<LectureDto.Recruit> lectures;
         private int providerId;
         private String providerUrl;
@@ -48,6 +51,7 @@ public class CourseDto {
                     .course_id(courseEntity.getCourseId())
                     .title(courseEntity.getTitle())
                     .content(courseEntity.getContent())
+                    .thumbnail(courseEntity.getThumbnail())
                     .build();
         }
     }
