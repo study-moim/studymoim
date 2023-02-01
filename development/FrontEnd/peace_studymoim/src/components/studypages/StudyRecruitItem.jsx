@@ -26,18 +26,9 @@ export default function StudyRecruitItem(props) {
           </p> 
           <p className="text-[12px] font-bold text-center text-[#898989]">
             {props.startDate} 시작 예정 
-          </p> 
-          <p className="text-[12px] font-bold text-center text-[#898989]">
-            {props.dueDate} 종료 예정
           </p>
         </div>
       </Link>
     </>
   );
 }
-
-// {props.title}
-// 강좌 : {}
-// 참가인원 : {props.recruitMembers}
-// {props.description}
-//.substring(0, 15)
