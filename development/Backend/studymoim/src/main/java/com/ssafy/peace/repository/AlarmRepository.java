@@ -19,6 +19,6 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
     long countAllByUser_UserIdAndIsCheckedIsFalse(int userId);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Alarm a set a.isChecked = true where a.user.userId = :userId")
+    @Query("update Alarm a set a.isChecked = true where a.isChecked = false and a.user.userId = :userId")
     int checkAllByUser(@Param("userId") int userId);
 }
