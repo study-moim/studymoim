@@ -227,7 +227,7 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @PostMapping("/{targetId}/unfollow")
+    @DeleteMapping("/{targetId}/unfollow")
     public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer targetId,
                                           @RequestBody UserDto.Id userId) {
         try{
