@@ -10,7 +10,7 @@ export default function NavBarRouter() {
       {/* TODO: 링크 누르면 토글 닫기 기능 추가 */}
       <div>
         <Link
-          to="/lecture"
+          to="/course"
           className="block py-2 px-4 text-sm hover:bg-[#d0d1ff]"
         >
           <b>강좌</b>
