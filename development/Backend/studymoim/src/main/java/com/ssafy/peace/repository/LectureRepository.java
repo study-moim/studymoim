@@ -12,7 +12,7 @@ public interface LectureRepository extends JpaRepository<Lecture, Integer> {
     /*
     특정 강좌에 포함된 강의 찾기, 개수 세기
      */
-//    List<Lecture> findAllByCourseIdAndDeletedIsFalse(Integer courseId);
+    List<Lecture> findAllByCourse_CourseId(Integer courseId);
 //
 //    Long countByCourseIdAndDeletedIsFalse(Integer courseId);
 

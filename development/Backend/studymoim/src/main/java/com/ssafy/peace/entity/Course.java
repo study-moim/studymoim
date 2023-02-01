@@ -26,6 +26,10 @@ public class Course {
     @NotNull
     private String title;
 
+    @Size(max = 255)
+    @NotNull
+    private String thumbnail;
+
     // 상세 설명이 없는 재생목록이 있을수도...
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -38,10 +42,11 @@ public class Course {
     @NotNull
     @ColumnDefault("false")
     private boolean isDeleted;
-
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_provider_id")
     private CourseProvider courseProvider;
+
 
     @OneToMany(mappedBy = "course")
     private List<CourseType> courseTypes = new ArrayList<>();
@@ -55,15 +60,15 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course")
-    private List<QuestionBoard> questionBoards = new ArrayList<>();
+
 
     // Builder
     @Builder
-    public Course(String title, String content, String playlistId, CourseProvider courseProvider, boolean isDeleted) {
+    public Course(String title, String content, String playlistId, String thumbnail, CourseProvider courseProvider, boolean isDeleted) {
         this.title = title;
         this.content = content;
         this.playlistId = playlistId;
+        this.thumbnail = thumbnail;
         this.courseProvider = courseProvider;
         this.isDeleted = isDeleted;
     }

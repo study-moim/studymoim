@@ -1,10 +1,14 @@
 import create from "zustand";
 
-export const userInfo = create((set) => ({
-  ID: "dongjun",
-  // logIn: false,
-  logIn: true
-}));
+export const userInfo = create(
+    (set) => ({
+      info: '',
+      logIn: false,
+      setInfo: (data) => set((state) => ({ info: data })),
+      setLogIn: (data) => set((state) => ({ logIn: data })), 
+      setLogOut: () => set((state) => ({ info: undefined, logIn: false }))
+    })
+);
 
 export const logoImage = create((set) => ({
   logos: [

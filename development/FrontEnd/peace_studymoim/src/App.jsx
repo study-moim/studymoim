@@ -18,17 +18,20 @@ import StudyRecruitDetailPage from "./pages/StudyRecruitDetailPage";
 import StudyDetailMainPage from './pages/StudyDetailMainPage'; 
 import StudyUpdatePage from "./pages/StudyUpdatePage";
 import CourseDetailRoot from "./pages/CourseDetailRoot";
+import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
+import ScrollToTop from "./components/overall/ScrollToTop";
+
 
 export default function App() {
   return (
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
         <NavBarRoot/>
+        <ScrollToTop />
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
-          <Route path="/Course" element={<CourseMainRoot />}></Route>
-          {/* TODO: detail 동적라우터패쓰로 재설정 */}
-          <Route path="/Course/detail" element={<CourseDetailRoot />}></Route>
+          <Route path="/course" element={<CourseMainRoot />}></Route>
+          <Route path="/course/:course_id" element={<CourseDetailRoot />}></Route>
           <Route path="/study" element={<StudyRecruitMainPage />}></Route>
           <Route path="/community" element={<CommunityMainRoot />}></Route>
           <Route path="/login" element={<LogInMainRoot />}></Route>
@@ -38,7 +41,7 @@ export default function App() {
           {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
           <Route path="/choice" element={<FieldPage />}></Route>
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
-          <Route path="/community/:article_id" element={<CommunityDetailRoot />}></Route>
+          <Route path="/community/free/:article_id" element={<CommunityDetailRoot />}></Route>
           ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
 ​          <Route path="/study/study_recruit_form" element={<StudyMakePage/>} ></Route>
           <Route path="/study/:study_recruit_id" element={<StudyRecruitDetailPage/>}></Route> 
@@ -46,8 +49,9 @@ export default function App() {
           {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
           <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
+          <Route path='/login/kakao' element={<KakaoLoginRedirect />}></Route>
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
   );
 }
