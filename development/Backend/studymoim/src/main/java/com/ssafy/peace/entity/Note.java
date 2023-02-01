@@ -29,13 +29,13 @@ public class Note {
     private Lecture lecture;
 
     @Column(columnDefinition = "TEXT")
-    private int content;
+    private String content;
 
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
     @Builder
-    public Note(User user, Lecture lecture, int content) {
+    public Note(User user, Lecture lecture, String content) {
         this.user = user;
         this.lecture = lecture;
         this.content = content;

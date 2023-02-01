@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class NoteDto {
     private User user;
     private Lecture lecture;
-    private int content;
+    private String content;
     private LocalDateTime lastModifiedDate;
     public static NoteDto fromEntity(Note noteEntity) {
         return NoteDto.builder()
