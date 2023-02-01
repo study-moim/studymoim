@@ -1,4 +1,4 @@
-package com.ssafy.peace.service;
+package com.ssafy.peace.service.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -21,20 +21,6 @@ public class JwtTokenService {
 
     @Value("${jwt.secret}")
     private String secretKey;
-
-    @Value("${jwt.access-token-expiration-date}")
-    private String accessExpireDate;
-
-    @Value("${jwt.refresh-token-expiration-date}")
-    private String refreshExpireDate;
-
-    public <T> String createAccessToken(String key, T data) {
-        return create(key, data, "access-token", Long.parseLong(accessExpireDate));
-    }
-
-    public <T> String createRefreshToken(String key, T data) {
-        return create(key, data, "refresh-token", Long.parseLong(refreshExpireDate));
-    }
 
     //Token 발급
     /**
@@ -87,7 +73,7 @@ public class JwtTokenService {
         } catch (Exception e) {
 //			if (logger.isInfoEnabled()) {
 //				e.printStackTrace();
-//			} else {
+//			} else
             logger.error(e.getMessage());
 //			}
 //			throw new UnauthorizedException();

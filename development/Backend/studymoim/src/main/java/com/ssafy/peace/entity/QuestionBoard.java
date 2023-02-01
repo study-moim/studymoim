@@ -48,7 +48,7 @@ public class QuestionBoard {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    private Course course;
+    private Lecture lecture;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -62,14 +62,14 @@ public class QuestionBoard {
     private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
 
     @Builder
-    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, boolean isPublic, Course course, User user, Study study) {
+    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, boolean isPublic, Lecture lecture, User user, Study study) {
         this.title = title;
         this.content = content;
         this.questionTime = questionTime;
         this.isDeleted = isDeleted;
         this.hit = hit;
         this.isPublic = isPublic;
-        this.course = course;
+        this.lecture = lecture;
         this.user = user;
         this.study = study;
     }

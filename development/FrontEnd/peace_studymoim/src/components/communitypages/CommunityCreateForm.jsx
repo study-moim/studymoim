@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
 
 export default function CommunityCreateForm() {
-  const freeArticleLast = useFetch("http://localhost:5000/community");
+  const freeArticleLast = useFetch("http://localhost:8080/api/v1/articles/free/");
   const lastArticle = freeArticleLast[freeArticleLast.length - 1];
 
   // const lastArticleID = lastArticle.free_board_id;
@@ -24,7 +24,7 @@ export default function CommunityCreateForm() {
       setIsLoading(true);
       // Create 호출
       // 두번째 인자로 메서드를 넣어줌
-      fetch("http://localhost:5000/community/", {
+      fetch("http://localhost:8080/api/v1/articles/free/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
