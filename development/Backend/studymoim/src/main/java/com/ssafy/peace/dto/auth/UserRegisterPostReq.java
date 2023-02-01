@@ -1,4 +1,4 @@
-package com.ssafy.peace.api.request;
+package com.ssafy.peace.dto.auth;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

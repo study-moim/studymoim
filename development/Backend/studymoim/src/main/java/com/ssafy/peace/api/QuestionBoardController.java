@@ -87,7 +87,7 @@ public class QuestionBoardController {
 
     @Operation(summary = "questionBoard in Now Play page", description = "질문 게시판 댓글 작성하기")
     @GetMapping("/lecture/{lectureId}")
-    public ResponseEntity<?> writeComment(@Parameter(description="lectureId") @PathVariable Integer lectureId) {
+    public ResponseEntity<?> writeCommentInPlayer(@Parameter(description="lectureId") @PathVariable Integer lectureId) {
         try{
             return new ResponseEntity<>(questionBoardService.getQuestionBoardListByLecture(lectureId), HttpStatus.OK);
         } catch(Exception e) {

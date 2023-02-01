@@ -1,6 +1,4 @@
-package com.ssafy.peace.common;
-
-import org.springframework.http.HttpStatus;
+package com.ssafy.peace.dto.auth;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
