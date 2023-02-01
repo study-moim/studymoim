@@ -3,12 +3,12 @@ import create from "zustand";
 export const userInfo = create(
     (set) => ({
       token: '',
-      info: [],
+      info: null,
       logIn: false,
       setToken: (data) => set((state) => ({ token: data })),
       setInfo: (data) => set((state) => ({ info: data })),
       setLogIn: (data) => set((state) => ({ logIn: data })), 
-      setLogOut: () => set((state) => ({ info: undefined, logIn: false }))
+      setLogOut: () => set((state) => ({ info: null, token: undefined, logIn: false }))
     })
 );
 

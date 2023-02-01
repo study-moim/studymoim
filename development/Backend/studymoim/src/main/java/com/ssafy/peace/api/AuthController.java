@@ -56,7 +56,7 @@ public class AuthController {
         String token = JwtTokenUtil.getToken(email);
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtTokenUtil.HEADER_STRING, JwtTokenUtil.TOKEN_PREFIX+token);
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:4000/login/kakao?acces-token="+token)).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:4000/login/kakao?access-token="+token)).headers(headers).build();
     }
 
 
