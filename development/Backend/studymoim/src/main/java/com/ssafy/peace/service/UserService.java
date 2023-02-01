@@ -35,6 +35,7 @@ public class UserService {
     private final QuestionBoardRepository questionBoardRepository;
     private final FollowRepository followRepository;
     private final AlarmRepository alarmRepository;
+    private final MessageRepository messageRepository;
     private final KakaoAuthService kakaoAuthService;
     PasswordEncoder passwordEncoder;
 
@@ -151,18 +152,37 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
-    public long countUncheckdAlarm(Integer userId) {
-        return alarmRepository.countAllByUser_UserIdAndIsCheckedIsFalse(userId);
+    public boolean existUncheckdAlarm(Integer userId) {
+        return alarmRepository.existsByUser_UserIdAndIsCheckedIsFalse(userId);
     }
 
     @Transactional
     public List<AlarmDto.Info> getAlarmList(Integer userId) {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
-                                    .map(AlarmDto.Info::fromEntity)
-                                    .collect(Collectors.toList());
+                .map(AlarmDto.Info::fromEntity)
+                .collect(Collectors.toList());
         if(res != null){
             alarmRepository.checkAllByUser(userId);
         }
         return res;
+    }
+
+    public boolean existUncheckdMessage(Integer toUserId) {
+        return messageRepository.existsByToUser_UserIdAndIsCheckedIsFalse(toUserId);
+    }
+
+    public List<UserDto.Info> getMessageUserList(Integer toUserId) {
+        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+                .map(MessageDto.Info::fromEntity)
+                .collect(Collectors.toList());
+        List<UserDto.Info> res = null;
+        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
+        return res;
+    }
+
+    public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
+        return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
+                .map(MessageDto.Info::fromEntity)
+                .collect(Collectors.toList());
     }
 }

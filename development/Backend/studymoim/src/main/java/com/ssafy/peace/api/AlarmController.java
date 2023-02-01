@@ -1,4 +1,4 @@
-package com.ssafy.peace.api.response;
+package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.AlarmDto;
 import com.ssafy.peace.service.AlarmService;
@@ -28,8 +28,7 @@ public class AlarmController {
     @PostMapping("/")
     public ResponseEntity<?> userMakeAlarm(@RequestBody AlarmDto.Write alarm) {
         try{
-            alarmService.makeAlarm(alarm);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(alarmService.makeAlarm(alarm), HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

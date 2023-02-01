@@ -26,17 +26,4 @@ public class LectureDto {
                     .build();
         }
     }
-
-    @Data
-    @Builder
-    public static class Recruit {
-        private int lectureId;
-        private String title;
-        private int length;
-        private String thumbnail;
-        private String content;
-        private String videoId;
-        private boolean isDeleted;
-    }
-
 }

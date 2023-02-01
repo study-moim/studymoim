@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,9 @@ public class YoutubeApiService {
 
 
     // 추후 키 관리
-    private static String requestKey = "AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ";
+    @Value("${youtubeapi.secret}")
+    private String requestKey;
+
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;
@@ -88,7 +91,7 @@ public class YoutubeApiService {
                     CourseProvider courseProvider = CourseProvider.builder()
                             .name((String) provider.get("name"))
                             .channelId((String) provider.get("channelId"))
-                            .platform(platformRepository.getByPlatformId(1))
+                            .platform(platformRepository.findByName("유튜브"))
                             .build();
 
                     courseProviderRepository.saveAndFlush(courseProvider);
@@ -127,7 +130,7 @@ public class YoutubeApiService {
 
 
             if(playLists != null) {
-                int n = Math.min(playLists.size(), 5);
+                int n = Math.min(playLists.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     try{
@@ -182,7 +185,7 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(playListItems != null) {
-                int n = Math.min(playListItems.size(), 5);
+                int n = Math.min(playListItems.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();

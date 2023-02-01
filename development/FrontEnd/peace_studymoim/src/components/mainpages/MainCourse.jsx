@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function MainCourse({propData}) {
+export default function MainCourse({ propData }) {
   const [isHover, setIsHover] = useState(false);
+  const slicedTitle = propData.title.substring(0, 25) + "...";
 
   return (
     <div
@@ -11,31 +13,38 @@ export default function MainCourse({propData}) {
     >
       <div className="flex flex-col justify-start items-center h-[245px] relative gap-4 bg-white shadow-lg rounded-md">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebJh2gLipfb2bfmUkZSf7U39YW-7jxMH5_A&usqp=CAU"
+          src={
+            propData.thumbnail !== "path/to/image"
+              ? propData.thumbnail
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRebJh2gLipfb2bfmUkZSf7U39YW-7jxMH5_A&usqp=CAU"
+          }
           className="w-full h-[146px] object-cover"
         />
         <p className="w-[209px] h-[65px] text-xl font-bold text-left text-black">
-          {propData.title}
+          {propData.title.length > 24 ? slicedTitle : propData.title}
         </p>
       </div>
       {isHover ? (
         <div className="w-full h-[245px] absolute top-0 bg-neutral-800 opacity-90">
-          <div className="flex flex-col justify-center items-center pt-2">
-            <p className="w-[209px] h-[60px] text-xl font-bold text-left text-white cursor-pointer hover:scale-105">
-              {propData.title}
-            </p>
-            <p className=" w-[209px] h-[40px] text-base font-bold text-left text-white">
-              {propData.courseProvider.name}
-            </p>
-            <p className="w-[209px] h-[20px] text-sm text-left text-white">
-              강의1 제목
-            </p>
-            <p className="w-[209px] h-[20px] text-sm text-left text-white">
-              강의2 제목
-            </p>
-            <div className="flex justify-center items-center gap-5">
-              <img src="/figma.png" alt="x" className="w-[70px] h-[70px] mt-3 rounded-full cursor-pointer hover:scale-105" />
-              <p className="text-4xl text-red-700 cursor-pointer hover:scale-105 hover:skew-y-12">♥</p>
+          <div className="h-full flex flex-col justify-between items-center pt-2">
+            <Link
+              to={`/course/${propData.course_id}`}
+              state={{
+                propData: propData
+              }}
+            >
+              <p className="w-[209px] h-[60px] text-xl font-bold text-left text-white cursor-pointer hover:scale-105 hover:text-[#9a71fa]">
+                {propData.title}
+              </p>
+            </Link>
+            <div className="flex justify-center items-center mb-5">
+              <p className="w-full h-fit text-base font-bold text-left mt-3 text-white">
+                채널명: {propData.courseProvider.name}
+              </p>
+              {/* <img src="/figma.png" alt="x" className="w-[70px] h-[70px] mt-3 rounded-full cursor-pointer hover:scale-105" /> */}
+              <p className="left-0 bottom-0 text-4xl text-red-700 cursor-pointer hover:scale-105 hover:skew-y-12">
+                ♥
+              </p>
             </div>
           </div>
         </div>

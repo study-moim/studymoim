@@ -7,9 +7,7 @@ export default function FieldPage() {
   // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
   const [selectedField, setSelectedField] = useState([]);
   const [image, setImage] = useState();
-  const [preview, setPreview] = useState(
-    "C:UsersSSAFYDesktopS08P12A110developmentFrontEndpeace_studymoimpubliclogo.png"
-  );
+  const [preview, setPreview] = useState(null);
 
   const nicknameRef = useRef();
   const saveNameRef = useRef();
@@ -83,6 +81,7 @@ export default function FieldPage() {
         <div className="flex justify-start items-center relative gap-4">
           <img
             src={preview}
+            required
             className="flex-grow-0 flex-shrink-0 w-[358px] h-[351px] object-cover"
           />
           <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[37px]">
@@ -93,8 +92,9 @@ export default function FieldPage() {
               type="text"
               className="flex-grow-0 flex-shrink-0 w-[417px] h-[66px] rounded-[10px] border-[3px] border-[#b1b2ff]"
               ref={nicknameRef}
-              minLength="2"
-              maxLength="6"
+              minLength="1"
+              maxLength="5"
+              required
             />
             <input
               id="picture"

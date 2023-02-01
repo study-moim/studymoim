@@ -87,3 +87,7 @@ spring:
 jwt:
   secret: c3NhZnktcHJvamVjdC10ZWFtLW5hbWUtcGVhY2UtcHJvamVjdC1mdWxsLW5hbWUtc3R1ZHltb2ltLXNlcnZpY2UtbmFtZS1zc2V1aW0=
   expiration: 1296000000
+
+
+youtubeapi:
+  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
