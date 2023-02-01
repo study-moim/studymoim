@@ -203,11 +203,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY FOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/follow/{targetId}")
-    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                        @Parameter(description="targetId") @PathVariable Integer targetId) {
+    @PostMapping("/{targetId}/follow")
+    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer targetId,
+                                        @RequestBody UserDto.Id userId) {
         try{
-            UserDto.Info result = userService.followUser(userId, targetId);
+            UserDto.Info result = userService.followUser(userId.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -221,11 +221,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/unfollow/{targetId}")
-    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                          @Parameter(description="userId") @PathVariable Integer targetId) {
+    @DeleteMapping("/{targetId}/unfollow")
+    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer targetId,
+                                          @RequestBody UserDto.Id userId) {
         try{
-            UserDto.Info result = userService.unfollowUser(userId, targetId);
+            UserDto.Info result = userService.unfollowUser(userId.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {

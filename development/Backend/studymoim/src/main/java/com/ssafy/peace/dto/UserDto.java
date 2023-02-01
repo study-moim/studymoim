@@ -113,6 +113,11 @@ public class UserDto {
         private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
     }
 
+    @Data
+    @Builder
+    public static class Id {
+        private int userId;
 
+    }
 
 }
