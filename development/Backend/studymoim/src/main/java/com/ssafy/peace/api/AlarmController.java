@@ -1,4 +1,4 @@
-package com.ssafy.peace.api.response;
+package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.AlarmDto;
 import com.ssafy.peace.service.AlarmService;
