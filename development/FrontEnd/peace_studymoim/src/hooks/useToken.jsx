@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import { userInfo } from "../zustand/store";
-import axios from "axios";
 
-
-export default function useFetch(url) {
+export default function useToken(url) {
+  const { info, token } = userInfo();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // api호출
-    fetch(url)
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
       .then((res) => {
-        // console.log(res,"이곳은 커스텀훅입니다 성공입니다")
         return res.json();
-        // return res
       })
       .then((data) => {
         setData(data);
       });
   }, [url]);
 
-  return data;
+  return data
 }

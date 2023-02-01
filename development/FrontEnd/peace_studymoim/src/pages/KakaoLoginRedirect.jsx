@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userInfo } from "../zustand/store";
+import useFetch from "../hooks/useFetch";
+import useToken from "../hooks/useToken";
 
 export default function KakaoLoginRedirect() {
-  const { info, logIn, setLogIn, setInfo, setLogOut } = userInfo();
+  const { token, setToken, info, logIn, setLogIn, setInfo, setLogOut } = userInfo();
 
-    
-
-  const code = new URL(window.location.href).searchParams.get("accessToken");
+  const gotToken = new URL(window.location.href).searchParams.got("accessToken");
   const navigate = useNavigate();
-  console.log(code);
+  console.log(gotToken);
+  
+
   useEffect(() => {
     localStorage.clear();
-    localStorage.setItem("token", code);
-    setInfo(code);
+    localStorage.setItem("token", gotToken);
+    setToken(gotToken);
     setLogIn(true);
-    
+    setInfo(useToken("http://localhost:8080/api/v1/oauth/info"))
     navigate("/choice");
   }, []);
 
