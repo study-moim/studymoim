@@ -57,7 +57,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
-        
+
     }
 
     private void addUserLikeCourse() {
