@@ -127,7 +127,7 @@ public class YoutubeApiService {
 
 
             if(playLists != null) {
-                int n = Math.min(playLists.size(), 5);
+                int n = Math.min(playLists.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     try{
@@ -182,7 +182,7 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(playListItems != null) {
-                int n = Math.min(playListItems.size(), 5);
+                int n = Math.min(playListItems.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
