@@ -21,7 +21,7 @@ export default function StudyIntroduceBanner() {
             x1="0.00626292"
             y1="1.48049"
             x2="492.006"
-            y2="4.5619"
+            y2="1.48049"
             stroke="black"
             stroke-width={2}
           />
