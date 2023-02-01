@@ -40,6 +40,24 @@ public class QuestionBoardController {
         }
     }
 
+    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/")
+    public ResponseEntity<?> boardWrite(@RequestBody
+
+                                        QuestionBoardDto.Write questionBoard) {
+        try{
+            questionBoardService.writeQuestion(questionBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get questionBoard detail", description = "질문 글 상세 보기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -67,21 +85,15 @@ public class QuestionBoardController {
         }
     }
 
-    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성하기")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-    })
-    @PostMapping("/")
-    public ResponseEntity<?> boardWrite(@RequestBody
-
-                                        QuestionBoardDto.Write questionBoard) {
+    @Operation(summary = "questionBoard in Now Play page", description = "질문 게시판 댓글 작성하기")
+    @GetMapping("/lecture/{lectureId}")
+    public ResponseEntity<?> writeComment(@Parameter(description="lectureId") @PathVariable Integer lectureId) {
         try{
-            questionBoardService.writeQuestion(questionBoard);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardListByLecture(lectureId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

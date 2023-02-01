@@ -5,7 +5,7 @@ import { userInfo } from "../../zustand/store";
 
 /** @function 로그인된상태네비게이션바 */
 export default function NavBarLogIn() {
-  const { info, logIn, setLogIn, setInfo, setLogOut } = userInfo();
+  const { setLogOut } = userInfo();
   function logoutHandler() {
     setLogOut() 
   }; 
