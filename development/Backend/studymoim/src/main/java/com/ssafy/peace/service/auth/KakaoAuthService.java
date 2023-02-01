@@ -9,11 +9,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class KakaoAuthService {
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
@@ -32,8 +33,8 @@ public class KakaoAuthService {
             // HttpBody 오브젝트 생성
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
-            params.add("client_id", "98268e53473ceb3e11dd6e609a5fa990");
-            params.add("redirect_uri", "http://localhost:8080/oauth/login");
+            params.add("client_id", "6b1cbb8cd60358758187eff2ab4cae2e");
+            params.add("redirect_uri", "http://localhost:8080/api/v1/oauth/login");
             params.add("code", authorizedCode);
 
             // HttpHeader와 HttpBody를 하나의 오브젝트에 담기

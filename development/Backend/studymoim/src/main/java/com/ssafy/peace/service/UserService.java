@@ -1,26 +1,19 @@
 package com.ssafy.peace.service;
 
-import com.ssafy.peace.api.request.UserRegisterPostReq;
+import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.RollbackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,12 +34,6 @@ public class UserService {
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
-    }
-
-    public String kakaoLogin(String authorizedCode) {
-        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        KakaoUserInfo userInfo = kakaoAuthService.getUserInfo(authorizedCode);
-        return userInfo.getEmail();
     }
 
     public User createUser(UserRegisterPostReq userRegisterInfo) {
