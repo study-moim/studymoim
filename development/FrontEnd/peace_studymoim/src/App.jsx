@@ -30,9 +30,8 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
-          <Route path="/Course" element={<CourseMainRoot />}></Route>
-          {/* TODO: detail 동적라우터패쓰로 재설정 */}
-          <Route path="/Course/detail" element={<CourseDetailRoot />}></Route>
+          <Route path="/course" element={<CourseMainRoot />}></Route>
+          <Route path="/course/:course_id" element={<CourseDetailRoot />}></Route>
           <Route path="/study" element={<StudyRecruitMainPage />}></Route>
           <Route path="/community" element={<CommunityMainRoot />}></Route>
           <Route path="/login" element={<LogInMainRoot />}></Route>
