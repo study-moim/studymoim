@@ -6,7 +6,7 @@ import LectureShort from "../components/coursedetail/LectureShort";
 
 export default function CourseDetailRoot() {
   const props = useLocation().state.propData;
-  const lectureInThisCourse = useFetch(`http://localhost:8080/api/v1/lecture/info/${props.course_id}`);
+  const lectureInThisCourse = useFetch(`http://localhost:8080/api/v1/lecture/${props.course_id}`);
   let totalTime = 0
   lectureInThisCourse.forEach(lecture => {
     totalTime += lecture.length
@@ -15,9 +15,10 @@ export default function CourseDetailRoot() {
   const dataForBanner = {
     title: props.title,
     thumbnail: props.thumbnail,
-    courseProvider: props.courseProvider.name,
+    courseProvider: props.courseProviderName,
     totalTime: totalTime,
     totalLecture: lectureInThisCourse.length,
+    likeUserCount: props.likeUserCount
   }
   const [currentClick, setCurrentClick] = useState("curriculum");
   const [prevClick, setPrevClick] = useState(null);

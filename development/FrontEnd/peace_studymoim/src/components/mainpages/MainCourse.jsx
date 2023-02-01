@@ -39,7 +39,7 @@ export default function MainCourse({ propData }) {
             </Link>
             <div className="flex justify-center items-center mb-5">
               <p className="w-full h-fit text-base font-bold text-left mt-3 text-white">
-                채널명: {propData.courseProvider.name}
+                채널명: {propData.courseProviderName}
               </p>
               {/* <img src="/figma.png" alt="x" className="w-[70px] h-[70px] mt-3 rounded-full cursor-pointer hover:scale-105" /> */}
               <p className="left-0 bottom-0 text-4xl text-red-700 cursor-pointer hover:scale-105 hover:skew-y-12">
