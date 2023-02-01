@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     /*
     유저 찾기
      */
-    UserDto.Info findByUserId(Integer userId);
+    User findByUserId(Integer userId);
     User findByEmail(String email);
     User findByNickname(String nickname);
 
