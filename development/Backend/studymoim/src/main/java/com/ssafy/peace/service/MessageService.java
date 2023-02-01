@@ -21,8 +21,8 @@ public class MessageService {
         User toUser = userRepository.findById(message.getToUserId()).get();
         User fromUser = userRepository.findById(message.getFromUserId()).get();
         return MessageDto.Info.fromEntity(messageRepository.save(Message.builder()
-                .content(message.getContent())
                 .toUser(toUser)
+                .content(message.getContent())
                 .fromUser(fromUser)
                 .build()));
     }

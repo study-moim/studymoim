@@ -19,7 +19,6 @@ public class Message {
     @GeneratedValue
     private int messageId;
 
-    @NotNull
     @ColumnDefault("false")
     private boolean isChecked;
 
