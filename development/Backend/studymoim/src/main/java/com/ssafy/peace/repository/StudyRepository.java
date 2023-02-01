@@ -21,7 +21,7 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
     /*
     구인중인 공개 스터디 찾기
      */
-    List<Study> findAllByIsOpenIsTrueAndIsPublicIsTrue();
+    List<Study> findAllByIsCloseIsFalseAndIsPublicIsTrue();
 
 //    Optional<Study> findByTitle();
 
