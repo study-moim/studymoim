@@ -151,15 +151,15 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
-    public long countUncheckdAlarm(Integer userId) {
-        return alarmRepository.countAllByUser_UserIdAndIsCheckedIsFalse(userId);
+    public boolean existUncheckdAlarm(Integer userId) {
+        return alarmRepository.existsByUser_UserIdAndIsCheckedIsFalse(userId);
     }
 
     @Transactional
     public List<AlarmDto.Info> getAlarmList(Integer userId) {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
-                                    .map(AlarmDto.Info::fromEntity)
-                                    .collect(Collectors.toList());
+                .map(AlarmDto.Info::fromEntity)
+                .collect(Collectors.toList());
         if(res != null){
             alarmRepository.checkAllByUser(userId);
         }
