@@ -152,8 +152,8 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
-    public long countUncheckdAlarm(Integer userId) {
-        return alarmRepository.countAllByUser_UserIdAndIsCheckedIsFalse(userId);
+    public boolean existUncheckdAlarm(Integer userId) {
+        return alarmRepository.existsByUser_UserIdAndIsCheckedIsFalse(userId);
     }
 
     @Transactional
@@ -167,22 +167,22 @@ public class UserService {
         return res;
     }
 
-    public boolean countUncheckdMessage(Integer toUserId) {
+    public boolean existUncheckdMessage(Integer toUserId) {
         return messageRepository.existsByToUser_UserIdAndIsCheckedIsFalse(toUserId);
+    }
+
+    public List<UserDto.Info> getMessageUserList(Integer toUserId) {
+        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+                .map(MessageDto.Info::fromEntity)
+                .collect(Collectors.toList());
+        List<UserDto.Info> res = null;
+        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
+        return res;
     }
 
     public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
         return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
                 .map(MessageDto.Info::fromEntity)
                 .collect(Collectors.toList());
-    }
-
-    public List<UserDto.Info> getMessageUserList(Integer toUserId) {
-        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
-                                        .map(MessageDto.Info::fromEntity)
-                                        .collect(Collectors.toList());
-        List<UserDto.Info> res = null;
-        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
-        return res;
     }
 }

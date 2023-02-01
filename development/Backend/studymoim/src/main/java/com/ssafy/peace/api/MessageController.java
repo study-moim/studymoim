@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "MessageController", description = "메세지 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/articles/message")
+@RequestMapping("/api/v1/message")
 public class MessageController {
     private MessageService messageService;
     @Operation(summary = "make message", description = "쪽지 발송")
@@ -28,8 +28,7 @@ public class MessageController {
     @PostMapping("/")
     public ResponseEntity<?> userMakeMessage(@RequestBody MessageDto.Write message) {
         try{
-            messageService.makeMessage(message);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(messageService.makeMessage(message), HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
