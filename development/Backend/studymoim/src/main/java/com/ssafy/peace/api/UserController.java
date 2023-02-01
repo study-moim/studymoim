@@ -233,12 +233,12 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 여부 확인")
+    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 존재 여부 확인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/count/alarm")
+    @GetMapping("/{userId}/check/alarm")
     public ResponseEntity<?> userCountUncheckdAlarm(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.countUncheckdAlarm(userId), HttpStatus.OK);
@@ -256,6 +256,20 @@ public class UserController {
     public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getAlarmList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "count uncheckd message", description = "사용자 미확인 쪽지 존재 여부 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/check/message")
+    public ResponseEntity<?> userCountUncheckdMessage(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.countUncheckdMessage(toUserId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

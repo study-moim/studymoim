@@ -35,6 +35,7 @@ public class UserService {
     private final QuestionBoardRepository questionBoardRepository;
     private final FollowRepository followRepository;
     private final AlarmRepository alarmRepository;
+    private final MessageRepository messageRepository;
     private final KakaoAuthService kakaoAuthService;
     PasswordEncoder passwordEncoder;
 
@@ -164,5 +165,9 @@ public class UserService {
             alarmRepository.checkAllByUser(userId);
         }
         return res;
+    }
+
+    public long countUncheckdMessage(Integer toUserId) {
+        return messageRepository.countAllByToUser_UserId(toUserId);
     }
 }
