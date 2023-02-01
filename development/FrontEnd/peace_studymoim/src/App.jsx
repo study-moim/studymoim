@@ -19,11 +19,15 @@ import StudyDetailMainPage from './pages/StudyDetailMainPage';
 import StudyUpdatePage from "./pages/StudyUpdatePage";
 import CourseDetailRoot from "./pages/CourseDetailRoot";
 import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
+import ScrollToTop from "./components/overall/ScrollToTop";
+
+
 export default function App() {
   return (
       <BrowserRouter>
         {/* 로그인된 상태라면 LogIn네비바를 아니면 NotLogIn네브바를 보여준다. */}
         <NavBarRoot/>
+        <ScrollToTop />
         <Routes>
           <Route exact path="/" element={<MainPage />}></Route>
           <Route path="/Course" element={<CourseMainRoot />}></Route>
