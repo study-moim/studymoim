@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,9 @@ public class YoutubeApiService {
 
 
     // 추후 키 관리
-    private static String requestKey = "AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ";
+    @Value("${youtubeapi.secret}")
+    private String requestKey;
+
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;

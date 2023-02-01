@@ -1,6 +1,7 @@
 package com.ssafy.peace.dto;
 
 import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.CourseProvider;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class CourseDto {
 
+
     // 강좌 목록에서 보여줄 DTO
     @Data
     @Builder
@@ -18,14 +20,20 @@ public class CourseDto {
         private String title;
         private String content;
         private String thumbnail;
-        private CourseProviderDto.Info courseProvider;
+
+//        private CourseProviderDto.Info courseProvider;
+        private String courseProviderName;
+        private int likeUserCount;
+
         public static Info fromEntity(Course courseEntity) {
             return Info.builder()
                     .course_id(courseEntity.getCourseId())
                     .title(courseEntity.getTitle())
                     .content(courseEntity.getContent())
                     .thumbnail(courseEntity.getThumbnail())
-                    .courseProvider(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()))
+//                    .courseProvider(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()))
+                    .courseProviderName(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()).getName())
+                    .likeUserCount(courseEntity.getUserLikeCourses().size())
                     .build();
         }
     }
