@@ -2,25 +2,29 @@ package com.ssafy.peace.entity;
 
 import com.ssafy.peace.entity.key.CurriculumId;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @IdClass(CurriculumId.class)
 public class Curriculum {
+
+    @Id
+    @GeneratedValue
+    private int curriculumId;
     
     @NotNull
     private int curriculumOrder;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
     private Study study;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
