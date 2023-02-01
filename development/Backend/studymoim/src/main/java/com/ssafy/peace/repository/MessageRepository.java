@@ -3,6 +3,7 @@ package com.ssafy.peace.repository;
 import com.ssafy.peace.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<Message, Integer> {
@@ -15,8 +16,7 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     boolean existsByToUser_UserIdAndIsCheckedIsFalse(int toUserId);
 
     /*
-        사용자가 읽지 않은 메세지가 있는지 확인
-    */
-    long countAllByToUser_UserId(int toUserId);
-
+    특정 사용자가 보낸 메세지
+     */
+    List<Message> findAllByToUser_UserIdAndFromUser_UserId(int toUserId, int fromUserId);
 }

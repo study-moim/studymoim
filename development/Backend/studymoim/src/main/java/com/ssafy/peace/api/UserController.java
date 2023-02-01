@@ -274,4 +274,19 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "get message", description = "특정 사용자와 나눈 쪽지 내역 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message/{fromUserId}")
+    public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
+                                                    @Parameter(description = "fromUserID") @PathVariable Integer fromUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageList(toUserId, fromUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

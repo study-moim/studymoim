@@ -167,7 +167,13 @@ public class UserService {
         return res;
     }
 
-    public long countUncheckdMessage(Integer toUserId) {
-        return messageRepository.countAllByToUser_UserId(toUserId);
+    public boolean countUncheckdMessage(Integer toUserId) {
+        return messageRepository.existsByToUser_UserIdAndIsCheckedIsFalse(toUserId);
+    }
+
+    public List<MessageDto.Info> getMessageList(Integer toUserId, Integer fromUserId) {
+        return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
+                .map(MessageDto.Info::fromEntity)
+                .collect(Collectors.toList());
     }
 }
