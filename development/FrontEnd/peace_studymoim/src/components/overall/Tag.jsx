@@ -15,7 +15,7 @@ export default function Tag({ logo }) {
             className="w-10 h-10 rounded-[9999px] object-fill"
           />
 
-          <p className="text-xl font-bold text-left text-black">{logo.name}</p>
+          <p className="invisible w-0 md:w-auto md:visible text-xl font-bold text-left text-black">{logo.name}</p>
         </div>
       </button>
     </>

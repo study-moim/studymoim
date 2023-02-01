@@ -1,9 +1,5 @@
 package com.ssafy.peace.service;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -25,25 +21,17 @@ import com.ssafy.peace.repository.CourseRepository;
 import com.ssafy.peace.repository.LectureRepository;
 import com.ssafy.peace.repository.PlatformRepository;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +44,9 @@ public class YoutubeApiService {
 
 
     // 추후 키 관리
-    private static String requestKey = "AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ";
+    @Value("${youtubeapi.secret}")
+    private String requestKey;
+
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;
@@ -72,68 +62,50 @@ public class YoutubeApiService {
      * provider.json에 등록된 채널 DB에 저장
      * @return
      */
+    @Transactional
     public List<JSONObject> init() {
 
         // platform 유튜브 추가... 추후 여러개 플랫폼 추가하면 json으로?
-        Platform platform = Platform.builder()
-                .name("유튜브")
-                .build();
+        try {
+            Platform platform = Platform.builder()
+                    .name("유튜브")
+                    .build();
 
-        platformRepository.save(platform);
+            platformRepository.saveAndFlush(platform);
 
-        URL path = getClass().getClassLoader().getResource("provider.json");
-        System.out.println("path: " + path);
+        } catch (ConstraintViolationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
         ClassPathResource classPathResource = new ClassPathResource("provider.json");
 
-
         try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
-            System.out.println("classPathResource.getURI().getPath(): " + classPathResource.getURI().getPath());
 
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
-            System.out.println("ob: " + ob.toString());
 
             List<JSONObject> data = (List<JSONObject>) ob;
 
             for (JSONObject provider : data) {
-                // 1번 - 생코
-                System.out.println(provider);
-                CourseProvider courseProvider = CourseProvider.builder()
-                        .name((String) provider.get("name"))
-                        .channelId((String) provider.get("channelId"))
-                        .platform(platformRepository.getByPlatformId(1))
-                        .build();
+                try {
+                    CourseProvider courseProvider = CourseProvider.builder()
+                            .name((String) provider.get("name"))
+                            .channelId((String) provider.get("channelId"))
+                            .platform(platformRepository.findByName("유튜브"))
+                            .build();
 
-                courseProviderRepository.save(courseProvider);
+                    courseProviderRepository.saveAndFlush(courseProvider);
 
-                getPlayList(courseProvider.getChannelId());
+                    getPlayList(courseProvider.getChannelId());
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
             }
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-//        try {
-//            Object ob = new JSONParser().parse(new FileReader(path.getPath()));
-//            List<JSONObject> data = (List<JSONObject>) ob;
-//
-//            System.out.println(data);
-//
-//            for (JSONObject provider : data) {
-//                // 1번 - 생코
-//                System.out.println(provider);
-//                CourseProvider courseProvider = CourseProvider.builder()
-//                        .name((String) provider.get("name"))
-//                        .channelId((String) provider.get("channelId"))
-//                        .build();
-//
-//                courseProviderRepository.save(courseProvider);
-//
-//                getPlayList(courseProvider.getChannelId());
-//            }
-//            return data;
-//        } catch (IOException | ParseException e) {
-//            return null;
-//        }
     }
 
     /**
@@ -158,21 +130,26 @@ public class YoutubeApiService {
 
 
             if(playLists != null) {
-//                int n = playLists.size();
-                int n = 2;
+                int n = Math.min(playLists.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
-                    playLists.get(i).getSnippet();
-                    Course course = Course.builder()
-                            .title(playLists.get(i).getSnippet().getTitle())
-                            .content(playLists.get(i).getSnippet().getLocalized().getDescription())
-                            .playlistId(playLists.get(i).getId().toString())
-                            .courseProvider(courseProviderRepository.getByChannelId(channelId))
-                            .build();
+                    try{
+                        playLists.get(i).getSnippet();
+                        Course course = Course.builder()
+                                .title(playLists.get(i).getSnippet().getTitle())
+                                .content(playLists.get(i).getSnippet().getLocalized().getDescription())
+                                .playlistId(playLists.get(i).getId().toString())
+                                .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
+                                .courseProvider(courseProviderRepository.getByChannelId(channelId))
+                                .build();
 
-                    courseRepository.save(course);
+                        courseRepository.saveAndFlush(course);
 
-                    getPlayListItem(course.getPlaylistId());
+                        getPlayListItem(course.getPlaylistId());
+                    } catch (ConstraintViolationException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             return playLists;
@@ -208,15 +185,12 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(playListItems != null) {
-                System.out.println("-------------------");
-//                int n = playListItems.size();
-                int n = 2;
+                int n = Math.min(playListItems.size(), 3);
                 for(int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
                     String title = playListItems.get(i).getSnippet().getTitle().toString();
-                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
-
+                    String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
 
                     // Service -> Service
                     getVideoInfo(playlistId, videoId, title, thumbnail);
@@ -254,7 +228,6 @@ public class YoutubeApiService {
                 // 예시 : PT2M26S, PT10M26S, PT1H37M28S
                 String timeString = videos.get(0).getContentDetails().getDuration().toString();
                 String[] timeArray = timeString.substring(2).replaceAll("[^\\d]", " ").split(" ");
-                System.out.println(Arrays.toString(timeArray));
                 int time = 0;
                 if(timeArray.length == 3) {
                     time = Integer.parseInt(timeArray[0])*3600 + Integer.parseInt(timeArray[1])*60 + Integer.parseInt(timeArray[2]);
@@ -264,20 +237,22 @@ public class YoutubeApiService {
                     time = Integer.parseInt(timeArray[0]);
                 }
 
-//                int time = (timeArray.length == 3) ? Integer.parseInt(timeArray[0])*3600 + Integer.parseInt(timeArray[1])*60 + Integer.parseInt(timeArray[2])
-//                        : Integer.parseInt(timeArray[0])*60 + Integer.parseInt(timeArray[1]);
+                try {
+                    // lecture 추가
+                    Lecture lecture = Lecture.builder()
+                            .title(title)
+                            .length(time)
+                            .thumbnail(thumbnail)
+                            .content(videos.get(0).getSnippet().getDescription().toString())
+                            .videoId(videoId)
+                            .course(courseRepository.getByPlaylistId(playlistId))
+                            .build();
 
-                // lecture 추가
-                Lecture lecture = Lecture.builder()
-                        .title(title)
-                        .length(time)
-                        .thumbnail(thumbnail)
-                        .content(videos.get(0).getSnippet().getDescription().toString())
-                        .videoId(videoId)
-                        .course(courseRepository.getByPlaylistId(playlistId))
-                        .build();
-
-                lectureRepository.save(lecture);
+                    lectureRepository.saveAndFlush(lecture);
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
             }
             return videos;
 

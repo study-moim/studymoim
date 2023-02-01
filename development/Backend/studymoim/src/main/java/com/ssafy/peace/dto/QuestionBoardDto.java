@@ -2,6 +2,7 @@ package com.ssafy.peace.dto;
 
 
 import com.ssafy.peace.entity.QuestionBoard;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,11 +12,13 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuestionBoardDto {
 
     @Data
     @Builder
+    @Schema(name="QuestionBoardDto.Info")
     public static class Info {
         private int questionBoardId;
         private String title;
@@ -36,6 +39,7 @@ public class QuestionBoardDto {
 
     @Data
     @Builder
+    @Schema(name="QuestionBoardDto.Write")
     public static class Write {
         @Size(min=1, max=20, message = "바르지 않은 title 크기 입니다")
         @NotEmpty(message="title은 빈값 일 수 없습니다")
@@ -48,7 +52,7 @@ public class QuestionBoardDto {
         private boolean isPublic;
         @NotEmpty(message="courseId은 빈값 일 수 없습니다")
         @NotNull(message="courseId은 null 일 수 없습니다")
-        private int courseId;
+        private int lectureId;
         @NotEmpty(message="userId은 빈값 일 수 없습니다")
         @NotNull(message="userId은 null 일 수 없습니다")
         private int userId;
@@ -57,6 +61,7 @@ public class QuestionBoardDto {
 
     @Data
     @Builder
+    @Schema(name="QuestionBoardDto.Detail")
     public static class Detail {
         private int questionBoardId;
         private String title;
@@ -64,10 +69,26 @@ public class QuestionBoardDto {
         private int questionTime;
         private int hit;
         private LocalDateTime publishTime;
-        private CourseDto.Info course;
-        private UserDto user;
-        private StudyDto study;
-        private List<QuestionBoardCommentDto> questionBoardComments = new ArrayList<>();
+        private LectureDto.Info lecture;
+        private UserDto.Info user;
+        private StudyDto.Info study;
+        private List<QuestionBoardCommentDto.Detail> questionBoardComments = new ArrayList<>();
+        public static Detail fromEntity(QuestionBoard questionBoardEntity) {
+            return Detail.builder()
+                    .questionBoardId(questionBoardEntity.getQuestionBoardId())
+                    .title(questionBoardEntity.getTitle())
+                    .content(questionBoardEntity.getContent())
+                    .questionTime(questionBoardEntity.getQuestionTime())
+                    .hit(questionBoardEntity.getHit())
+                    .publishTime(questionBoardEntity.getPublishTime())
+                    .lecture(LectureDto.Info.fromEntity(questionBoardEntity.getLecture()))
+                    .user(UserDto.Info.fromEntity(questionBoardEntity.getUser()))
+                    .study(StudyDto.Info.fromEntity(questionBoardEntity.getStudy()))
+                    .questionBoardComments(questionBoardEntity.getQuestionBoardComments().stream()
+                            .map(QuestionBoardCommentDto.Detail::fromEntity)
+                            .collect(Collectors.toList()))
+                    .build();
+        }
 
     }
 
