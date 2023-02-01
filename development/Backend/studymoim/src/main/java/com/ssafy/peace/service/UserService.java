@@ -148,9 +148,11 @@ public class UserService {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
                 .map(AlarmDto.Info::fromEntity)
                 .collect(Collectors.toList());
-        if(res != null){
-            alarmRepository.checkAllByUser(userId);
+        if(res.size() == 0){
+            return null;
         }
+
+        alarmRepository.checkAllByUser(userId);
         return res;
     }
 
@@ -159,17 +161,27 @@ public class UserService {
     }
 
     public List<UserDto.Info> getMessageUserList(Integer toUserId) {
-        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
-                .map(MessageDto.Info::fromEntity)
-                .collect(Collectors.toList());
-        List<UserDto.Info> res = null;
-        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
-        return res;
+        List<UserDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+                                    .map(UserDto.Info::fromEntity)
+                                    .collect(Collectors.toList());
+        if(list.size() == 0)
+            return null;
+
+        return list;
     }
 
     public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
-        return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
-                .map(MessageDto.Info::fromEntity)
-                .collect(Collectors.toList());
+        List<MessageDto.Info> list = messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
+                                        .map(MessageDto.Info::fromEntity)
+                                        .collect(Collectors.toList());
+        if(list.size() == 0){
+            return null;
+        }
+
+        if(messageRepository.existsByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(toUserId, fromUserId)){
+           messageRepository.checkMessage(toUserId, fromUserId);
+        }
+
+        return list;
     }
 }
