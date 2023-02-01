@@ -7,7 +7,7 @@ import useFetch from "../hooks/useFetch";
 
 export default function CourseMainRoot() {
   const { logos } = logoImage();
-  const courseInfo = useFetch("http://localhost:8080/api/v1/course/info");
+  const courseInfo = useFetch("http://localhost:8080/api/v1/course/");
   console.log(courseInfo)
   return (
     <div className="">

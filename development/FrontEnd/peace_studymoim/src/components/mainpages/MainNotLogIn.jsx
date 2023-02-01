@@ -2,7 +2,7 @@ import MainCourse from "./MainCourse";
 import useFetch from "../../hooks/useFetch";
 
 export default function MainNotLogIn() {
-  const courseInfo = useFetch("http://localhost:8080/api/v1/course/info");
+  const courseInfo = useFetch("http://localhost:8080/api/v1/course/");
 
   return (
     <>

@@ -22,7 +22,7 @@ export default function CourseBanner({ dataForBanner }) {
           </button>
           <div className="flex gap-[10px]">
             <p className="text-2xl font-bold text-red-600">♥</p>
-            <p className="text-2xl font-bold">126</p>
+            <p className="text-2xl font-bold">{dataForBanner.likeUserCount}</p>
           </div>
         </div>
       </div>
