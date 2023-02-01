@@ -159,8 +159,8 @@ public class UserService {
     @Transactional
     public List<AlarmDto.Info> getAlarmList(Integer userId) {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
-                                    .map(AlarmDto.Info::fromEntity)
-                                    .collect(Collectors.toList());
+                .map(AlarmDto.Info::fromEntity)
+                .collect(Collectors.toList());
         if(res != null){
             alarmRepository.checkAllByUser(userId);
         }

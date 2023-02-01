@@ -28,7 +28,7 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/info")
+    @GetMapping("/")
     public ResponseEntity<?> courseInfoList() {
         try{
             return new ResponseEntity<>(courseService.getCourseInfoListFindAll(), HttpStatus.OK);
@@ -43,10 +43,25 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/info/{searchtext}")
+    @GetMapping("/search/{searchtext}")
     public ResponseEntity<?> courseInfoList(@Parameter(description = "searchtext") @PathVariable String searchtext) {
         try{
             return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchtext), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get course detail", description = "선택한 강의 상세 정보")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{courseId}")
+    public ResponseEntity<?> courseRecruit(@Parameter(description = "courseId") @PathVariable int courseId) {
+        try{
+            return new ResponseEntity<>(courseService.getCourseRecruit(courseId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

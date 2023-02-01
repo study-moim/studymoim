@@ -233,7 +233,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 여부 확인")
+    @Operation(summary = "check uncheckd alarms", description = "사용자 미확인 알람 여부 확인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")

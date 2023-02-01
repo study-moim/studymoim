@@ -61,14 +61,11 @@ public class StudyDtoTest {
                                 course_id(1).
                                 title("test1").
                                 content("This is a test content").
-                                lectures(new ArrayList<LectureDto.Recruit>(Arrays.asList(
-                                        LectureDto.Recruit.builder().build(),
-                                        LectureDto.Recruit.builder().build()))).
-                                providerId(1).
-                                providerUrl("path/to/test/image").
-                                providerPlatformId(1).
+                                thumbnail("/asdf/zxcv/wqer").
+                                lectures(new ArrayList<LectureDto.Info>(Arrays.asList(
+                                        LectureDto.Info.builder().build(),
+                                        LectureDto.Info.builder().build()))).
                                 providerPlatformName("Youtube").
-                                providerChannelId(1).
                                 providerChannelName("LivingCoding").
                                 build()).
                         build())))

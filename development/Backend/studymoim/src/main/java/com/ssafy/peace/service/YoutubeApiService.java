@@ -91,7 +91,7 @@ public class YoutubeApiService {
                     CourseProvider courseProvider = CourseProvider.builder()
                             .name((String) provider.get("name"))
                             .channelId((String) provider.get("channelId"))
-                            .platform(platformRepository.getByPlatformId(1))
+                            .platform(platformRepository.findByName("유튜브"))
                             .build();
 
                     courseProviderRepository.saveAndFlush(courseProvider);
