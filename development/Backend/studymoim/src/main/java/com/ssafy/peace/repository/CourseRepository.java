@@ -14,4 +14,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     Course findByTitle(String title);
 
     List<Course> findAllByTitleContains(String searchTitle);
+
 }
