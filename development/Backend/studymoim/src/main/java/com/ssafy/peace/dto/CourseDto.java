@@ -8,6 +8,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseDto {
 
@@ -46,12 +47,8 @@ public class CourseDto {
         private String title;
         private String content;
         private String thumbnail;
-        private List<LectureDto.Recruit> lectures;
-        private int providerId;
-        private String providerUrl;
-        private int providerPlatformId;
+        private List<LectureDto.Info> lectures;
         private String providerPlatformName;
-        private int providerChannelId;
         private String providerChannelName;
 
         public static Recruit fromEntity(Course courseEntity) {
@@ -60,6 +57,9 @@ public class CourseDto {
                     .title(courseEntity.getTitle())
                     .content(courseEntity.getContent())
                     .thumbnail(courseEntity.getThumbnail())
+                    .lectures(courseEntity.getLectures().stream().map(LectureDto.Info::fromEntity).collect(Collectors.toList()))
+                    .providerPlatformName(courseEntity.getCourseProvider().getPlatform().getName())
+                    .providerChannelName(courseEntity.getCourseProvider().getName())
                     .build();
         }
     }
