@@ -1,5 +1,6 @@
 package com.ssafy.peace.repository;
 
+import com.ssafy.peace.dto.MessageDto;
 import com.ssafy.peace.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -19,4 +20,5 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     특정 사용자가 보낸 메세지
      */
     List<Message> findAllByToUser_UserIdAndFromUser_UserId(int toUserId, int fromUserId);
+
 }

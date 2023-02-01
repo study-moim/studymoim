@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 public class MessageDto {
     @Data
     @Builder
@@ -14,6 +16,7 @@ public class MessageDto {
         private String content;
         private UserDto.Info fromUser;
         private UserDto.Info toUser;
+        private LocalDateTime sendTime;
 
         public static MessageDto.Info fromEntity(com.ssafy.peace.entity.Message messageEntity){
             return Info.builder()
@@ -22,6 +25,7 @@ public class MessageDto {
                     .content(messageEntity.getContent())
                     .fromUser(UserDto.Info.fromEntity(messageEntity.getFromUser()))
                     .toUser(UserDto.Info.fromEntity(messageEntity.getToUser()))
+                    .sendTime(messageEntity.getSendTime())
                     .build();
         }
 
