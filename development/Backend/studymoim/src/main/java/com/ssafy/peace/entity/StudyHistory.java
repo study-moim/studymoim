@@ -42,12 +42,9 @@ public class StudyHistory {
 
     // 추후에 사용법에 따라 수정 필요할듯
     @Builder
-
-    public StudyHistory(int startTimeline, int endTimeline, LocalDateTime startTime, LocalDateTime endTime, Lecture lecture, Study study) {
+    public StudyHistory(int startTimeline, int endTimeline, Lecture lecture, Study study) {
         this.startTimeline = startTimeline;
         this.endTimeline = endTimeline;
-        this.startTime = startTime;
-        this.endTime = endTime;
         this.lecture = lecture;
         this.study = study;
     }

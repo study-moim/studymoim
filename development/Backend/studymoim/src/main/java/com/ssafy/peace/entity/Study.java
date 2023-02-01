@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +34,12 @@ public class Study {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @NotNull
-    private LocalDateTime startTime;
-
     // Todo: 디폴트 사진 정하기
     @Size(max = 255)
     private String saveName;
 
-    @ColumnDefault("false")
-    private boolean isClose;
+    @ColumnDefault("true")
+    private boolean isOpen;
 
     @NotNull
     private int userLimit;
@@ -76,13 +74,12 @@ public class Study {
 
     @Builder
 
-    public Study(int studyId, String title, String content, LocalDateTime startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+    public Study(int studyId, String title, String content, String saveName, boolean isOpen, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.studyId = studyId;
         this.title = title;
         this.content = content;
-        this.startTime = startTime;
         this.saveName = saveName;
-        this.isClose = isClose;
+        this.isOpen = isOpen;
         this.userLimit = userLimit;
         this.isPublic = isPublic;
         this.notice = notice;

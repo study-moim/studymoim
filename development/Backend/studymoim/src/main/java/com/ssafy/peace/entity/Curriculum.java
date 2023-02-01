@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@IdClass(CurriculumId.class)
 public class Curriculum {
 
     @Id
@@ -34,5 +35,4 @@ public class Curriculum {
         this.course = course;
         this.curriculumOrder = curriculumOrder;
     }
-
 }
