@@ -171,9 +171,18 @@ public class UserService {
         return messageRepository.existsByToUser_UserIdAndIsCheckedIsFalse(toUserId);
     }
 
-    public List<MessageDto.Info> getMessageList(Integer toUserId, Integer fromUserId) {
+    public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
         return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
                 .map(MessageDto.Info::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public List<UserDto.Info> getMessageUserList(Integer toUserId) {
+        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+                                        .map(MessageDto.Info::fromEntity)
+                                        .collect(Collectors.toList());
+        List<UserDto.Info> res = null;
+        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
+        return res;
     }
 }

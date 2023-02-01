@@ -261,7 +261,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "count uncheckd message", description = "사용자 미확인 쪽지 존재 여부 확인")
+    @Operation(summary = "is exist uncheckd message", description = "사용자 미확인 쪽지 존재 여부 확인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -281,10 +281,24 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{toUserId}/message/{fromUserId}")
-    public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
+    public ResponseEntity<?> userMessageHistory(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
                                                     @Parameter(description = "fromUserID") @PathVariable Integer fromUserId) {
         try{
-            return new ResponseEntity<>(userService.getMessageList(toUserId, fromUserId), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getMessageHistory(toUserId, fromUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get message User List", description = "사용자와 쪽지를 한 유저 리스트")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message")
+    public ResponseEntity<?> userMessageList(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageUserList(toUserId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
