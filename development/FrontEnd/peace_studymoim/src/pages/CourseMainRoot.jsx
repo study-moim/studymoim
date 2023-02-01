@@ -20,7 +20,7 @@ export default function CourseMainRoot() {
           <MainSearch />
           <div className="w-full flex flex-col justify-between items-center">
             <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-            {/* TODO: map으로 돌려서 데이터에있는거 다 출력해야함 인기태그를 백에서 주면 좋을듯 */}
+            {/* TODO:  인기태그를 백에서 주면 좋을듯 */}
             <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
               {logos.map((logo) => (
                 <Tag key={logo.id} logo={logo} />

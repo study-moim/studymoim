@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function FreeQuestion({ freeArticle }) {
-  console.log(freeArticle);
+  // console.log(freeArticle);
   const dateBase = new Date(freeArticle.publishTime);
   const date = dateBase.toString().substring(11, 24);
   return (
