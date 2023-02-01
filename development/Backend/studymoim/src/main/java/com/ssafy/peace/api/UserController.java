@@ -1,7 +1,6 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.UserDto;
-//import com.ssafy.peace.service.auth.JwtTokenService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,19 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
-
     private final UserService userService;
 
+//    private static final String SUCCESS = "success";
+//    private static final String FAIL = "fail";
 //    private final JwtTokenService jwtTokenService;
 
 //    // 로그아웃
@@ -209,11 +203,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY FOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/follow/{targetId}")
-    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                        @Parameter(description="targetId") @PathVariable Integer targetId) {
+    @PostMapping("/{targetId}/follow")
+    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer targetId,
+                                        @RequestBody UserDto.Id userId) {
         try{
-            UserDto.Info result = userService.followUser(userId, targetId);
+            UserDto.Info result = userService.followUser(userId.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -227,13 +221,41 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/unfollow/{targetId}")
-    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                          @Parameter(description="userId") @PathVariable Integer targetId) {
+    @DeleteMapping("/{targetId}/unfollow")
+    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer targetId,
+                                          @RequestBody UserDto.Id userId) {
         try{
-            UserDto.Info result = userService.unfollowUser(userId, targetId);
+            UserDto.Info result = userService.unfollowUser(userId.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "count uncheckd alarms", description = "사용자 미확인 알람 여부 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/count/alarm")
+    public ResponseEntity<?> userCountUncheckdAlarm(@Parameter(description = "userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.countUncheckdAlarm(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get alarms", description = "사용자 알람 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/alarms")
+    public ResponseEntity<?> userUncheckedAlarmList(@Parameter(description = "userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getAlarmList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

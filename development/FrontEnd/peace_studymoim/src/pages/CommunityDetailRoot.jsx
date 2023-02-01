@@ -4,9 +4,9 @@ import { useLocation } from "react-router-dom";
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
-  console.log(props)
+  // console.log(props)
   const commentList = props.comments
-  console.log(commentList)
+  // console.log(commentList)
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px] max-w-6xl mx-auto px-4">

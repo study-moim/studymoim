@@ -1,5 +1,6 @@
 package com.ssafy.peace.dto;
 
+import com.ssafy.peace.entity.CourseCategory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +13,12 @@ public class CourseCategoryDto {
     public static class Info {
         private int courseCategoryId;
         private String name;
+        public static Info fromEntity(CourseCategory categoryEntity) {
+            return Info.builder()
+                    .courseCategoryId(categoryEntity.getCourseCategoryId())
+                    .name(categoryEntity.getName())
+                    .build();
+        }
     }
 
     @Data

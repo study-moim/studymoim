@@ -14,15 +14,15 @@ public class LectureDto {
         private int length;
         private String thumbnail;
         private String content;
-        private String url;
+        private String videoId;
         public static Info fromEntity(Lecture lecture) {
             return Info.builder()
                     .lectureId(lecture.getLectureId())
                     .title(lecture.getTitle())
-                    .length(builder().length)
+                    .length(lecture.getLength())
                     .thumbnail(lecture.getThumbnail())
                     .content(lecture.getContent())
-                    .url(builder().url)
+                    .videoId(lecture.getVideoId())
                     .build();
         }
     }
@@ -35,7 +35,7 @@ public class LectureDto {
         private int length;
         private String thumbnail;
         private String content;
-        private String url;
+        private String videoId;
         private boolean isDeleted;
     }
 

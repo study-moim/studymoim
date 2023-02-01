@@ -1,6 +1,7 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.FreeBoardDto;
+import com.ssafy.peace.dto.QuestionBoardCommentDto;
 import com.ssafy.peace.dto.QuestionBoardDto;
 import com.ssafy.peace.entity.QuestionBoard;
 import com.ssafy.peace.service.QuestionBoardService;
@@ -34,6 +35,7 @@ public class QuestionBoardController {
         try{
             return new ResponseEntity<>(questionBoardService.getQuestionBoardList(), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -51,7 +53,47 @@ public class QuestionBoardController {
             questionBoardService.writeQuestion(questionBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "get questionBoard detail", description = "질문 글 상세 보기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{articleId}")
+    public ResponseEntity<?> boardDetail(@Parameter(description="articleId") @PathVariable Integer articleId) {
+        try{
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardDetail(articleId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "post questionBoard comment", description = "질문 게시판 댓글 작성하기")
+    @PostMapping("/{articleId}/comment")
+    public ResponseEntity<?> writeComment(@Parameter(description="articleId") @PathVariable Integer articleId,
+                                          @RequestBody QuestionBoardCommentDto.Write comment) {
+        try{
+            return new ResponseEntity<>(questionBoardService.writeComment(articleId, comment), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "questionBoard in Now Play page", description = "질문 게시판 댓글 작성하기")
+    @GetMapping("/lecture/{lectureId}")
+    public ResponseEntity<?> writeComment(@Parameter(description="lectureId") @PathVariable Integer lectureId) {
+        try{
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardListByLecture(lectureId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
