@@ -1,6 +1,5 @@
-package com.ssafy.peace.api.response;
+package com.ssafy.peace.dto.auth;
 
-import com.ssafy.peace.common.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

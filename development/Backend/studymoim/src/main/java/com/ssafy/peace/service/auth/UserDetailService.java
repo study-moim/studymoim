@@ -1,8 +1,10 @@
 package com.ssafy.peace.service.auth;
 
+import com.ssafy.peace.dto.auth.Principal;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,11 @@ public class UserDetailService implements UserDetailsService{
     UserService userService;
 
     @Override
-    public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getUserByEmail(email);
         if(user != null) {
-            UserDetails userDetails = new UserDetails(user);
-            return userDetails;
+            Principal principal = new Principal(user);
+            return principal;
         }
         return null;
     }

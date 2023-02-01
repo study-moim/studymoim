@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 /** @function 로그인창 */
 export default function LogInMainRoot() {
   const REST_API_KEY = import.meta.env.VITE_APP_REST_API_KEY;
-  const REDIRECT_URI = 'http://localhost:8080/oauth/login';
+  const REDIRECT_URI = 'http://localhost:8080/api/v1/oauth/login';
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
   
   const handleLogin = () => {
