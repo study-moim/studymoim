@@ -44,7 +44,6 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // youtube api 세팅
-        youtubeApiService.init();
 
         // User 3명
         addUsers();
@@ -53,6 +52,7 @@ public class DataLoader implements CommandLineRunner {
 
         addPlatformAndCourseProvider();
 
+        youtubeApiService.init();
 
     }
 

@@ -39,7 +39,7 @@ export default function CommunityComment() {
                 댓글 1
               </div>
             </div>
-            {/* TODO: 수정/삭제 버튼을 만들어 놓지만 내 계정일때만 표시하게 해야함 + 로직 구현 */}
+            {/* TODO: 수정/삭제 버튼을 만들어 놓지만 "내 계정"일때만 표시하게 해야함 + 로직 구현 */}
             {!modifyToggle ? (
               <div className="">
                 <button
@@ -87,7 +87,7 @@ export default function CommunityComment() {
             </form>
           )}
         </div>
-        {/* TODO: 답글 열기 토글 */}
+        
         <button
           onClick={clickMore}
           className="h-9  p-2 rounded-[10px] bg-[#b1b2ff] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#9697ff] hover:scale-95"

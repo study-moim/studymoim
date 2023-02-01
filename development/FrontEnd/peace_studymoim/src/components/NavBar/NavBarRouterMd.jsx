@@ -7,7 +7,7 @@ export default function NavBarRouter() {
   const { logIn } = userInfo();
   return (
     <>
-      {/* TODO: 링크누르면 누른 상태가 보이도록 설정 */}
+      {/* TODO: 링크 누르면 토글 닫기 기능 추가 */}
       <div>
         <Link
           to="/lecture"
