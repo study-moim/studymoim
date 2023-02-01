@@ -45,7 +45,8 @@ export default function App() {
           ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
 ​          <Route path="/study/study_recruit_form" element={<StudyMakePage/>} ></Route>
           <Route path="/study/:study_recruit_id" element={<StudyRecruitDetailPage/>}></Route> 
-          <Route path="/study/player" element={<StudyPlayerMainRoot/>}></Route> 
+
+          <Route path="/player/:lecture_id" element={<StudyPlayerMainRoot/>}></Route> 
           {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
           <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
