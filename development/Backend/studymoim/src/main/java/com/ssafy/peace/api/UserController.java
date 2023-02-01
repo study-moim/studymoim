@@ -260,4 +260,47 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "is exist uncheckd message", description = "사용자 미확인 쪽지 존재 여부 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/check/message")
+    public ResponseEntity<?> userCountUncheckdMessage(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.existUncheckdMessage(toUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get message User List", description = "사용자와 쪽지를 한 유저 리스트")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message")
+    public ResponseEntity<?> userMessageList(@Parameter(description = "toUserId") @PathVariable Integer toUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageUserList(toUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get message", description = "특정 사용자와 나눈 쪽지 내역 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{toUserId}/message/history/{fromUserId}")
+    public ResponseEntity<?> userMessageHistory(@Parameter(description = "toUserId") @PathVariable Integer toUserId,
+                                                @Parameter(description = "fromUserID") @PathVariable Integer fromUserId) {
+        try{
+            return new ResponseEntity<>(userService.getMessageHistory(toUserId, fromUserId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

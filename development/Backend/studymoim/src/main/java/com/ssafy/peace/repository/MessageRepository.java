@@ -2,7 +2,9 @@ package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<Message, Integer> {
@@ -15,10 +17,14 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 
     boolean existsByToUser_UserIdAndIsCheckedIsFalse(int toUserId);
 
-
+    /*
+    사용자와 쪽지 나눈 사람들의 아이디 목록
+     */
+    @Query("select distinct m.fromUser.userId from Message m where m.toUser.userId = :toUserId")
+    List<Message> findDistinctFromUser(int toUserId);
 
     /*
     특정 사용자가 보낸 메세지
      */
-    Optional<Message> findAllByFromUser_UserId(int fromUserId);
+    List<Message> findAllByToUser_UserIdAndFromUser_UserId(int toUserId, int fromUserId);
 }
