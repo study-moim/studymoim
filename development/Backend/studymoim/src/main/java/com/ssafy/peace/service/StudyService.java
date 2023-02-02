@@ -52,7 +52,6 @@ public class StudyService {
 
     @Transactional
     public StudyDto.Info makeStudy(StudyDto.Make study) throws RollbackException {
-        System.out.println("study = " + study);
         Study newStudy = Study.builder()
                 .title(study.getTitle())
                 .content(study.getContent())
@@ -61,20 +60,16 @@ public class StudyService {
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
                 .build();
-        System.out.println("000000");
         StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
         // 스터디를 만든 사람이 곧 방장
-        System.out.println("1111111");
         studyMemberRepository.save(StudyMember.builder()
                 .user(userRepository.findById(study.getLeadUserId()).get())
                 .study(newStudy)
                 .memberRole(true)
                 .build());
-        System.out.println("222222");
         // 커리큘럼이랑 연결
         List<Curriculum> curricula = new ArrayList<>();
         int order = 0;
-        System.out.println(study.getCourseList());
         for(CourseDto.Info course : study.getCourseList()){
             System.out.println(course);
             Curriculum curriculum = Curriculum.builder()
@@ -84,9 +79,7 @@ public class StudyService {
                     .build();
             curricula.add(curriculum);
         }
-        System.out.println(curricula);
         curriculumRepository.saveAll(curricula);
-
 
         return result;
     }
