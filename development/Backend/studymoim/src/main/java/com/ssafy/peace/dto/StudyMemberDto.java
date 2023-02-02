@@ -6,6 +6,9 @@ import com.ssafy.peace.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class StudyMemberDto {
 
     @Data
@@ -42,6 +45,7 @@ public class StudyMemberDto {
     @Data
     @Builder
     public static class Participate {
+        // userId만 받아오려했는데 안됨
         private int userId;
         private int studyId;
     }

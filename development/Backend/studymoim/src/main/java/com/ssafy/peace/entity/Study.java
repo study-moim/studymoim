@@ -92,4 +92,9 @@ public class Study {
         return this;
     }
 
+    public Study updateNotice(String notice){
+        this.notice = notice;
+        return this;
+    }
+
 }
