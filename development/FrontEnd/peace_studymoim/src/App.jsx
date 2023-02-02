@@ -36,7 +36,7 @@ export default function App() {
           <Route path="/community" element={<CommunityMainRoot />}></Route>
           <Route path="/login" element={<LogInMainRoot />}></Route>
           {/* TODO: 동적라우터패쓰로 재설정 ex) /mypage/아이디 */}
-          <Route path="/mypage" element={<MyPageRoot />}></Route>
+          <Route path="/mypage/:user_id" element={<MyPageRoot />}></Route>
           <Route path="/mail" element={<MailMainRoot />}></Route>
           {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
           <Route path="/choice" element={<FieldPage />}></Route>

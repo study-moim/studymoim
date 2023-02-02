@@ -27,21 +27,7 @@ export default function CommunityMainRoot() {
     },
     [currentClick]
   );
-  // **axios 예제 지우지 마시오**
-  // const [freeArticles, setFreeArticles] = useState([]);
-  // const url = "http://localhost:8080/api/v1/articles/free/";
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((response) => {
-  //       setFreeArticles(response.data);
-  //       // console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       console.log("실패");
-  //     });
-  // }, []);
+
 
   const freeArticles = useFetch("http://localhost:8080/api/v1/articles/free/");
   return (

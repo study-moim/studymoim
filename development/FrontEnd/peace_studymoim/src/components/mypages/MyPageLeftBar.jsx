@@ -1,9 +1,15 @@
 import { userInfo } from "../../zustand/store";
+import { useState } from "react";
 
-export default function MyPageLeftBar({ getClick, clickModal }) {
-  const { ID, logIn } = userInfo();
 
-  if (logIn) {
+export default function MyPageLeftBar({ getClick, clickModal, clickUserId }) {
+  const { info } = userInfo();
+  let [logInUserId, setLogInUserId] = useState(info.userId)
+  // console.log(logInUserId,"ioadsigasdiodgiogsdaoi")
+  if (!info.userId) {
+    setLogInUserId(0)
+  }
+  if (clickUserId.clickWho === info.userId || clickUserId.clickWho === 0 ) {
     return (
       <div className="w-[336px]">
         <div className="w-full flex flex-col justify-center items-center gap-4">
