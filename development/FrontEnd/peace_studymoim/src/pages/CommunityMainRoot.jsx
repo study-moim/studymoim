@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios"
 
 export default function CommunityMainRoot() {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [currentClick, setCurrentClick] = useState("all");
   const [prevClick, setPrevClick] = useState(null);
 
@@ -28,8 +29,8 @@ export default function CommunityMainRoot() {
     [currentClick]
   );
 
-
-  const freeArticles = useFetch("http://localhost:8080/api/v1/articles/free/");
+  
+  const freeArticles = useFetch(`http://${API_SERVER}/api/v1/articles/free/`);
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 bg-white my-[30px]">
