@@ -2,12 +2,22 @@ import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
   // console.log(props)
   const commentList = props.comments;
-  const commentLength = props.comments.length;
+  const [commentLength, setCommentLength] = useState(0);
+  console.log(props.comments, "ASDFASDFADSFADFASDFASDFASDFASDFASDFASDF")
+  
+  useEffect(() => {
+    if (!props.comments === undefined) {
+      setCommentLength(props.comments.length);
+    }
+  }, [])
 
   return (
     <>
@@ -41,7 +51,7 @@ export default function CommunityDetailRoot() {
         >
           {props.content}
         </div>
-        <CommunityCommentForm />
+        <CommunityCommentForm freeBoardId={props.freeBoardId}/>
         {commentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
