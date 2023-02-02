@@ -116,6 +116,20 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "get category tag list", description = "선택한 강좌 태그 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/tags")
+    public ResponseEntity<?> userCategoryLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getCourseCategoryList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get like list", description = "좋아요 한 강좌 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -124,7 +138,7 @@ public class UserController {
     @GetMapping("/{userId}/likes")
     public ResponseEntity<?> userLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getLikeList(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getLikeList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
