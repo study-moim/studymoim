@@ -73,4 +73,9 @@ public class QuestionBoard {
         this.user = user;
         this.study = study;
     }
+
+    public QuestionBoard updateId(Integer id){
+        this.questionBoardId = id;
+        return this;
+    }
 }

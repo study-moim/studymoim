@@ -30,7 +30,7 @@ export default function Footer() {
           </span>
         </p>
         
-        <div className="w-[158px] h-[50px] relative">
+        {/* <div className="w-[158px] h-[50px] relative">
           <div className="w-[158px] h-[50px]  left-[-1px] top-[-1px] rounded-[50px] bg-white" />
           <svg
             width={51}
@@ -65,7 +65,7 @@ export default function Footer() {
           <p className="absolute left-[15.14px] top-[12.73px] text-xl font-bold text-left text-black">
             문의하기
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   </div>

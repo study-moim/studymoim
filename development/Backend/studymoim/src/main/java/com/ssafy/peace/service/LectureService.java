@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 public class LectureService {
 
     private final LectureRepository lectureRepository;
-    private final CourseRepository courseRepository;
-    private final NoteRepository noteRepository;
-    private final UserHistoryRepository userHistoryRepository;
 
     @Transactional(readOnly = true)
     public List<LectureDto.Info> getLectureInfoListFindAll() {

@@ -3,10 +3,18 @@ package com.ssafy.peace;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.YoutubeApiService;
+import org.hibernate.exception.ConstraintViolationException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +34,10 @@ public class DataLoader implements CommandLineRunner {
     private CourseProviderRepository courseProviderRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private CourseCategoryRepository courseCategoryRepository;
+    @Autowired
+    private CourseTypeRepository courseTypeRepository;
     @Autowired
     private PlatformRepository platformRepository;
     @Autowired
@@ -57,7 +69,36 @@ public class DataLoader implements CommandLineRunner {
 
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
-        
+
+        // CourseCategory 더미 데이터
+        addCategory();
+
+        // Memo 더미 데이터
+        addNote();
+
+        addStudyAndMember();
+    }
+
+
+
+    private void addNote() {
+        List<Note> noteList = new ArrayList<>();
+        List<Lecture> lectureList = lectureRepository.findAll();
+        List<User> userList = userRepository.findAll();
+
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < lectureList.size(); j++) {
+                if((i+j) % 2 == 0) {
+                    Note note = Note.builder()
+                            .user(userList.get(i))
+                            .lecture(lectureList.get(j))
+                            .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
+                            .build();
+                    noteList.add(note);
+                }
+            }
+        }
+        noteRepository.saveAllAndFlush(noteList);
     }
 
     private void addUserLikeCourse() {
@@ -153,129 +194,102 @@ public class DataLoader implements CommandLineRunner {
 
     }
 
-
-//    public void addPlatformAndCourseProvider(){
-//        Platform youtube = Platform.builder()
-//                .name("Youtube")
-//                .build();
-//        platformRepository.save(youtube);
-//        CourseProvider codingApple = CourseProvider.builder()
-//                .name("코딩애플")
-//                .platform(youtube)
-//                .channelId("UCSLrpBAzOVGHQ5EmxnUg")
-//                .build();
-//        courseProviderRepository.save(codingApple);
-//        addCourse(codingApple);
-//    }
-//    public void addCourse(CourseProvider courseProvider){
-//
-//        Course course1 = Course.builder()
-//                .title("2022 코딩애플 리액트 강의")
-//                .playlistId("PLfLgtT94nNq0qTRmUzQv4lI4pnP")
-//                .thumbnail("path/to/image")
-//                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
-//                .build();
-//        courseRepository.save(course1);
-//        addLecture(course1);
-//
-//
-//        Course course2 = Course.builder()
-//                .title("쉽게알려주는 플러터 강의임")
-//                .playlistId("PLfLgtT94nNq1izN517iPX4WXH3C")
-//                .thumbnail("path/to/image")
-//                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
-//                .build();
-//        courseRepository.save(course2);
-//
-//        Course course3 = Course.builder()
-//                .title("웹개발로 배우는 자바스크립트 기초")
-//                .playlistId("PLfLgtT94nNq0svzReYKbZRuv_-NK")
-//                .thumbnail("path/to/image")
-//                .courseProvider(courseProviderRepository.getByChannelId("UCSLrpBAzOVGHQ5EmxnUg"))
-//                .build();
-//        courseRepository.save(course3);
-//
-//    }
-//
-//    public void addLecture(Course course){
-//
-//        Lecture lecture1 = Lecture.builder()
-//                .course(course)
-//                .thumbnail("https://i.ytimg.com/vi/8rv8GTgYYrU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkEZOU_6VFhbZRGItvHRk0yAmcUQ")
-//                .title("진짜 웹개발로 배우는 실용 자바스크립트 1강 : 셀렉터 selector")
-//                .content("전체강의와 예제코드는 여기서 이용가능합니다")
-//                .videoId("8rvTgYY123")
-//                .length(676)
-//                .build();
-//        lectureRepository.save(lecture1);
-////        addNote(lecture1);
-//    }
-
-    public void addNote(Lecture lecture){
-
-        User user1 = userRepository.findById(1).get();
-        Note note = Note.builder()
-                .lecture(lecture)
-                .user(user1)
-                .build();
-        noteRepository.saveAndFlush(note);
-
-    }
-
     public void addStudyAndMember(){
         Study study1 = Study.builder()
                 .title("리액트 스터디")
+                .startTime(LocalDateTime.now())
                 .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
                 .isPublic(true)
                 .userLimit(4)
                 .build();
-        studyRepository.save(study1);
+        studyRepository.saveAndFlush(study1);
 
-        User user1 = userRepository.findById(1).get();
-        User user2 = userRepository.findById(2).get();
-        User user3 = userRepository.findById(3).get();
+        User user1 = userRepository.findByNickname("싸피킴");
+        User user2 = userRepository.findByNickname("싸피팍");
+        User user3 = userRepository.findByNickname("싸피정");
 
         StudyMember sm1 = StudyMember.builder()
                 .user(user1)
                 .memberRole(true)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm1);
+        studyMemberRepository.saveAndFlush(sm1);
         StudyMember sm2 = StudyMember.builder()
                 .user(user2)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm2);
+        studyMemberRepository.saveAndFlush(sm2);
         StudyMember sm3 = StudyMember.builder()
                 .user(user3)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm3);
+        studyMemberRepository.saveAndFlush(sm3);
         addCurriculum(study1);
     }
 
     public void addCurriculum(Study study){
 
-        Course course1 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
-        Course course2 = courseRepository.findByTitle("쉽게알려주는 플러터 강의임");
-        Course course3 = courseRepository.findByTitle("웹개발로 배우는 자바스크립트 기초");
+        Course course1 = courseRepository.findByTitle("웹개발자도구 shorts");
+        Course course2 = courseRepository.findByTitle("GIT Shorts");
+        Course course3 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
         Curriculum curriculum1 = Curriculum.builder()
                 .study(study)
                 .course(course1)
                 .build();
-        curriculumRepository.save(curriculum1);
+        curriculumRepository.saveAndFlush(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
                 .build();
-        curriculumRepository.save(curriculum2);
+        curriculumRepository.saveAndFlush(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
                 .build();
-        curriculumRepository.save(curriculum3);
+        curriculumRepository.saveAndFlush(curriculum3);
+
+    }
+
+    public void addCategory(){
+        ClassPathResource classPathResource = new ClassPathResource("category.json");
+
+        try {
+
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+
+            List<JSONObject> data = (List<JSONObject>) ob;
+
+            for (JSONObject category : data) {
+                try {
+                    courseCategoryRepository.save(CourseCategory.builder()
+                            .name((String) category.get("name"))
+                            .build());
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+
+            List<CourseCategory> courseCategoryList = courseCategoryRepository.findAll();
+            List<Course> courseList = courseRepository.findAll();
+
+            for (int i = 0; i < courseCategoryList.size(); i++) {
+                CourseCategory courseCategory = courseCategoryList.get(i);
+                for (int j = 0; j < courseList.size(); j++) {
+                    Course course = courseList.get(j);
+                    if(course.getTitle().contains(courseCategory.getName())) {
+                        courseTypeRepository.save(CourseType.builder()
+                                .course(course)
+                                .courseCategory(courseCategory)
+                                .build());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

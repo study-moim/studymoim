@@ -40,17 +40,48 @@ public class QuestionBoardController {
         }
     }
 
-    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성하기")
+    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성 및 수정하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/")
-    public ResponseEntity<?> boardWrite(@RequestBody
-
-                                        QuestionBoardDto.Write questionBoard) {
+    public ResponseEntity<?> boardWrite(@RequestBody QuestionBoardDto.Write questionBoard) {
         try{
             questionBoardService.writeQuestion(questionBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성 및 수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{articleId}")
+    public ResponseEntity<?> boardUpdate(@Parameter(description="articleId") @PathVariable Integer articleId,
+                                         @RequestBody QuestionBoardDto.Write questionBoard) {
+        try{
+            questionBoardService.updateQuestion(articleId, questionBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성 및 수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<?> boardDelete(@Parameter(description="articleId") @RequestBody Integer articleId) {
+        try{
+            questionBoardService.deleteQuestion(articleId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
@@ -74,11 +105,21 @@ public class QuestionBoardController {
     }
 
     @Operation(summary = "post questionBoard comment", description = "질문 게시판 댓글 작성하기")
-    @PostMapping("/{articleId}/comment")
-    public ResponseEntity<?> writeComment(@Parameter(description="articleId") @PathVariable Integer articleId,
-                                          @RequestBody QuestionBoardCommentDto.Write comment) {
+    @PostMapping("/comment")
+    public ResponseEntity<?> writeComment(@RequestBody QuestionBoardCommentDto.Write comment) {
         try{
-            return new ResponseEntity<>(questionBoardService.writeComment(articleId, comment), HttpStatus.OK);
+            return new ResponseEntity<>(questionBoardService.writeComment(comment), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete questionBoard comment", description = "질문 게시판 댓글 삭제하기")
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@Parameter(description="commentId") @PathVariable Integer commentId) {
+        try{
+            return new ResponseEntity<>(questionBoardService.deleteComment(commentId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -37,8 +37,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     /*
     특정 사용자가 보낸 메세지 중 안 읽은 메세지 읽음 처리
      */
-    List<Message> findAllByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(int toUserId, int fromUserId);
-
     @Modifying(clearAutomatically = true)
     @Query("update Message m set m.isChecked = true where m.isChecked = false and m.toUser.userId = :toUserId and m.fromUser.userId = :fromUserId")
     int checkMessage(@Param("toUserId") int toUserId, @Param("fromUserId") int fromUserId);

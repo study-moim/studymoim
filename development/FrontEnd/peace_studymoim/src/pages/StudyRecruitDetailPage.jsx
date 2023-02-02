@@ -1,28 +1,49 @@
 import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import Backdrop from "../components/overall/Backdrop";
+import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
+import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 
 export default function StudyRecruitDetailPage(props) {
+  const [showOpenModal, setShowOpenModal] = useState(false);
+  const [showNotOpenModal, setShowNotOpenModal] = useState(false);
+
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const detailData = useFetch(
     `https://react-a-3b3d0-default-rtdb.firebaseio.com/react/${detailId}.json`
   );
+  
+  function closeModalHandler() {
+    if (detailData.recruitMethod === "공개") {
+      setShowOpenModal(false);
+    } else {
+      setShowNotOpenModal(false);
+    } 
+  }
 
-  function acceptHandler() {}
+  function acceptHandler() {
+    if (detailData.recruitMethod === "공개") {
+      setShowOpenModal(true);
+    } else {
+      setShowNotOpenModal(true);
+    }
+  }
 
   return (
     <>
       <div className="max-w-6xl mx-auto px-4">
         {/* Banner 부분  */}
-        <div className="flex justify-center items-center relative bg-[#d2daff] mb-10">
+        <div className="flex justify-around items-center relative bg-[#d2daff] mb-10">
           <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
-            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[613px] h-[214px] relative gap-2.5 px-[29px] py-2.5">
+            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-1/2 h-[214px] relative gap-2.5 py-2.5">
               <p className="flex-grow-0 flex-shrink-0 text-[50px] font-bold text-left text-black">
                 {detailData.title}
               </p>
             </div>
-            <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 h-[168px] w-[613px] gap-2.5 pl-5 py-2.5">
+            <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 h-[168px] w-full gap-2.5 py-2.5">
               <div
                 className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative pl-[65px] pr-[66.046875px] py-[22px] rounded-[15px] bg-[#ff6d2c] border-2 border-[#2e2f35]"
                 style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
@@ -36,7 +57,7 @@ export default function StudyRecruitDetailPage(props) {
                   스터디 신청
                 </button>
               </div>
-              <Link to={'update'}>
+              <Link to={"update"}>
                 <button className="text-xl font-bold text-center uppercase text-white">
                   수정하기(임시버튼)
                 </button>
@@ -45,9 +66,10 @@ export default function StudyRecruitDetailPage(props) {
           </div>
           <img
             src={detailData.studyImg}
-            className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-3/4 w-1/3 relative gap-2.5 p-2.5"
+            className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-3/4 w-2/5 relative gap-2.5 p-2.5"
           />
         </div>
+
         {/* 스터디 정보 부분  */}
         <div className="flex flex-col justify-start items-center relative gap-5">
           <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
@@ -211,6 +233,21 @@ export default function StudyRecruitDetailPage(props) {
               </div>
             </div> */}
           </div>
+          {showOpenModal ? (
+            <StudyRecruitModalOpen
+              onCancel={closeModalHandler}
+              onConfirm={closeModalHandler}
+            />
+          ) : null}
+
+          {showOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
+          {showNotOpenModal ? (
+            <StudyRecruitModalNotOpen
+              onCancel={closeModalHandler}
+            />
+          ) : null}
+
+          {showNotOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
         </div>
       </div>
     </>
