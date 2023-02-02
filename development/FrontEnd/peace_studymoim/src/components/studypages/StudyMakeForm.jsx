@@ -11,22 +11,25 @@ import { userInfo } from "../../zustand/store";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
-  const search = useFetch("http://localhost:8080/api/v1/course/");
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
   function closeModalHandler() {
     setShowModal(false);
   }
+
   const {info} = userInfo()
-  if (!info) {
-    alert("로그인이 필요합니다.");
-    navigate("/login");
-  }
+  console.log(info) 
+  // if (!info) {
+  //   alert("로그인이 필요합니다.");
+  //   navigate("/login");
+  // }
 
   const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState('');
 
-  const titleInputRef = useRef();
-  const descriptionRef = useRef();
-  const startDateRef = useRef();
+  const titleInputRef = useRef('');
+  const descriptionRef = useRef('');
+  const startDateRef = useRef('');
   // img 는 따로
   const recruitMembersRef = useRef();
   // notice는 ''
