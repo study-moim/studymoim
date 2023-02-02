@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
-  // console.log(props)
+  console.log(props)
   const commentList = props.comments;
   const commentLength = props.comments.length;
 
@@ -41,7 +41,7 @@ export default function CommunityDetailRoot() {
         >
           {props.content}
         </div>
-        <CommunityCommentForm />
+        <CommunityCommentForm freeBoardId={props.freeBoardId}/>
         {commentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
