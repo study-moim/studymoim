@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,9 @@ public class DataLoader implements CommandLineRunner {
 
         // Memo 더미 데이터
         addNote();
+        System.out.println("ddddddddddddddddddddddddddddddddddddddddddddddddd");
+
+        addStudyAndMember();
     }
 
 
@@ -76,12 +80,14 @@ public class DataLoader implements CommandLineRunner {
 
         for (int i = 0; i < userList.size(); i++) {
             for (int j = 0; j < lectureList.size(); j++) {
-                Note note = Note.builder()
-                        .user(userList.get(i))
-                        .lecture(lectureList.get(j))
-                        .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
-                        .build();
-                noteList.add(note);
+                if((i+j) % 2 == 0) {
+                    Note note = Note.builder()
+                            .user(userList.get(i))
+                            .lecture(lectureList.get(j))
+                            .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
+                            .build();
+                    noteList.add(note);
+                }
             }
         }
         noteRepository.saveAllAndFlush(noteList);
@@ -238,71 +244,62 @@ public class DataLoader implements CommandLineRunner {
 ////        addNote(lecture1);
 //    }
 
-    public void addNote(Lecture lecture){
-
-        User user1 = userRepository.findById(1).get();
-        Note note = Note.builder()
-                .lecture(lecture)
-                .user(user1)
-                .build();
-        noteRepository.saveAndFlush(note);
-
-    }
 
     public void addStudyAndMember(){
         Study study1 = Study.builder()
                 .title("리액트 스터디")
+                .startTime(LocalDateTime.now())
                 .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
                 .isPublic(true)
                 .userLimit(4)
                 .build();
-        studyRepository.save(study1);
+        studyRepository.saveAndFlush(study1);
 
-        User user1 = userRepository.findById(1).get();
-        User user2 = userRepository.findById(2).get();
-        User user3 = userRepository.findById(3).get();
+        User user1 = userRepository.findByNickname("싸피킴");
+        User user2 = userRepository.findByNickname("싸피팍");
+        User user3 = userRepository.findByNickname("싸피정");
 
         StudyMember sm1 = StudyMember.builder()
                 .user(user1)
                 .memberRole(true)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm1);
+        studyMemberRepository.saveAndFlush(sm1);
         StudyMember sm2 = StudyMember.builder()
                 .user(user2)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm2);
+        studyMemberRepository.saveAndFlush(sm2);
         StudyMember sm3 = StudyMember.builder()
                 .user(user3)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.save(sm3);
+        studyMemberRepository.saveAndFlush(sm3);
         addCurriculum(study1);
     }
 
     public void addCurriculum(Study study){
 
-        Course course1 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
-        Course course2 = courseRepository.findByTitle("쉽게알려주는 플러터 강의임");
-        Course course3 = courseRepository.findByTitle("웹개발로 배우는 자바스크립트 기초");
+        Course course1 = courseRepository.findByTitle("웹개발자도구 shorts");
+        Course course2 = courseRepository.findByTitle("GIT Shorts");
+        Course course3 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
         Curriculum curriculum1 = Curriculum.builder()
                 .study(study)
                 .course(course1)
                 .build();
-        curriculumRepository.save(curriculum1);
+        curriculumRepository.saveAndFlush(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
                 .build();
-        curriculumRepository.save(curriculum2);
+        curriculumRepository.saveAndFlush(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
                 .build();
-        curriculumRepository.save(curriculum3);
+        curriculumRepository.saveAndFlush(curriculum3);
 
     }
 
