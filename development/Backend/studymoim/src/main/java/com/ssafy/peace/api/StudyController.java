@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +19,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "StudyController", description = "스터디 API")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/study")
 public class StudyController {
 
     private final StudyService studyService;
-
-
-    @Autowired
-    public StudyController(StudyService studyService) {
-        this.studyService = studyService;
-    }
 
     @Operation(summary = "get study list", description = "스터디 목록 불러오기")
     @ApiResponses({
@@ -87,4 +85,26 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "find study", description = "스터디 제목으로 찾기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/search/{searchText}")
+    public ResponseEntity<?> findStudy(@Parameter(description = "searchText") @PathVariable String searchText) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyInfoListFindByName(searchText), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        try{
+            return new ResponseEntity<>(studyService.test(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

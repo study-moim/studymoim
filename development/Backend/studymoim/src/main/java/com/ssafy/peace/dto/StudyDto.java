@@ -30,7 +30,7 @@ public class StudyDto {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<StudyMemberDto.UserInfo> members;
+        private List<StudyMemberDto.StudyInfo> members;
         private List<CurriculumDto.Info> curricula;
         public static Info fromEntity(Study studyEntity) {
             return Info.builder()
@@ -46,7 +46,7 @@ public class StudyDto {
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
                     .members(studyEntity.getStudyMembers().stream()
-                            .map(member -> StudyMemberDto.UserInfo.fromEntity(member))
+                            .map(member -> StudyMemberDto.StudyInfo.fromEntity(member))
                             .collect(Collectors.toList()))
                     .curricula(studyEntity.getCurricula().stream()
                             .map(curriculum -> CurriculumDto.Info.fromEntity(curriculum))
@@ -69,8 +69,20 @@ public class StudyDto {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<UserDto.Info> members;
-        private List<CurriculumDto.Recruit> curriculum;
+        private int userGathered; // 모인 사람 수
+        public static Recruit fromEntity(Study studyEntity) {
+            return Recruit.builder()
+                    .studyId(studyEntity.getStudyId())
+                    .startTime(studyEntity.getCreationTime())
+                    .title(studyEntity.getTitle())
+                    .content(studyEntity.getContent())
+                    .saveName(studyEntity.getSaveName())
+                    .isClose(studyEntity.isClose())
+                    .userLimit(studyEntity.getUserLimit())
+                    .userGathered(studyEntity.getStudyMembers().size())
+                    .isPublic(studyEntity.isPublic())
+                    .build();
+        }
     }
 
     /* Request DTO */
@@ -146,11 +158,8 @@ public class StudyDto {
         private int userGathered; // 모인 사람 수
         private boolean isPublic;
 
-//        private UserDto.Detail user;
-
-
-//        private List<StudyMemberDto.UserInfo> members;
-        private List<CurriculumDto.Info> curricula;
+        private List<StudyMemberDto.StudyInfo> members;
+        private List<CurriculumDto.Recruit> curricula;
         public static Detail fromEntity(Study studyEntity) {
             return Detail.builder()
                     .studyId(studyEntity.getStudyId())
@@ -163,7 +172,10 @@ public class StudyDto {
                     .userGathered(studyEntity.getStudyMembers().size())
                     .isPublic(studyEntity.isPublic())
                     .curricula(studyEntity.getCurricula().stream()
-                            .map(curriculum -> CurriculumDto.Info.fromEntity(curriculum))
+                            .map(curriculum -> CurriculumDto.Recruit.fromEntity(curriculum))
+                            .collect(Collectors.toList()))
+                    .members(studyEntity.getStudyMembers().stream()
+                            .map(member -> StudyMemberDto.StudyInfo.fromEntity(member))
                             .collect(Collectors.toList()))
                     .build();
         }

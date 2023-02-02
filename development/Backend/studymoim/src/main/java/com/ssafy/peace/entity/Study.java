@@ -76,8 +76,7 @@ public class Study {
 
     @Builder
 
-    public Study(int studyId, String title, String content, LocalDateTime startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
-        this.studyId = studyId;
+    public Study(String title, String content, LocalDateTime startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
         this.startTime = startTime;
@@ -88,4 +87,5 @@ public class Study {
         this.notice = notice;
         this.isFinished = isFinished;
     }
+
 }
