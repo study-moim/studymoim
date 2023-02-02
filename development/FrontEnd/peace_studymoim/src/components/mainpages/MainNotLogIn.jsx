@@ -2,7 +2,8 @@ import MainCourse from "./MainCourse";
 import useFetch from "../../hooks/useFetch";
 
 export default function MainNotLogIn() {
-  const courseInfo = useFetch("http://localhost:8080/api/v1/course/");
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course/`);
 
   return (
     <>
