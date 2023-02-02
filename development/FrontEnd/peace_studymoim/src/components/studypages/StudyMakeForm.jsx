@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
+import Backdrop from "../overall/Backdrop";
 
 import CourseSearchBar from "./CourseSearchBar";
 
@@ -208,6 +209,12 @@ export default function StudyMakeForm(props) {
                 <DeleteModal
                   onCancel={closeModalHandler}
                   onConfirm={closeModalHandler}
+                />
+              ) : null}
+              
+              {showModal ? (
+                <Backdrop
+                  onCancel={closeModalHandler}
                 />
               ) : null}
             </div>

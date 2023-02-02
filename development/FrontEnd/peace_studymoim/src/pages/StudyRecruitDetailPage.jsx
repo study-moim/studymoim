@@ -1,15 +1,36 @@
 import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import Backdrop from "../components/overall/Backdrop";
+import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
+import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 
 export default function StudyRecruitDetailPage(props) {
+  const [showOpenModal, setShowOpenModal] = useState(false);
+  const [showNotOpenModal, setShowNotOpenModal] = useState(false);
+
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const detailData = useFetch(
     `https://react-a-3b3d0-default-rtdb.firebaseio.com/react/${detailId}.json`
   );
+  
+  function closeModalHandler() {
+    if (detailData.recruitMethod === "공개") {
+      setShowOpenModal(false);
+    } else {
+      setShowNotOpenModal(false);
+    } 
+  }
 
-  function acceptHandler() {}
+  function acceptHandler() {
+    if (detailData.recruitMethod === "공개") {
+      setShowOpenModal(true);
+    } else {
+      setShowNotOpenModal(true);
+    }
+  }
 
   return (
     <>
@@ -36,7 +57,7 @@ export default function StudyRecruitDetailPage(props) {
                   스터디 신청
                 </button>
               </div>
-              <Link to={'update'}>
+              <Link to={"update"}>
                 <button className="text-xl font-bold text-center uppercase text-white">
                   수정하기(임시버튼)
                 </button>
@@ -212,6 +233,21 @@ export default function StudyRecruitDetailPage(props) {
               </div>
             </div> */}
           </div>
+          {showOpenModal ? (
+            <StudyRecruitModalOpen
+              onCancel={closeModalHandler}
+              onConfirm={closeModalHandler}
+            />
+          ) : null}
+
+          {showOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
+          {showNotOpenModal ? (
+            <StudyRecruitModalNotOpen
+              onCancel={closeModalHandler}
+            />
+          ) : null}
+
+          {showNotOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
         </div>
       </div>
     </>
