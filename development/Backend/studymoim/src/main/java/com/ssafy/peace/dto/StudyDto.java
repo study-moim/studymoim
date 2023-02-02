@@ -1,5 +1,6 @@
 package com.ssafy.peace.dto;
 
+import com.ssafy.peace.entity.Course;
 import com.ssafy.peace.entity.Study;
 import com.ssafy.peace.entity.StudyMember;
 import lombok.Builder;
@@ -9,7 +10,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +23,9 @@ public class StudyDto {
         private LocalDateTime creationTime;
         private String title;
         private String content;
+        private LocalDateTime startTime;
         private String saveName;
-        private boolean isOpen;
+        private boolean isClose;
         private int userLimit;
         private boolean isPublic;
         private String notice;
@@ -37,8 +38,9 @@ public class StudyDto {
                     .creationTime(studyEntity.getCreationTime())
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
+                    .startTime(studyEntity.getStartTime())
                     .saveName(studyEntity.getSaveName())
-                    .isOpen(studyEntity.isOpen())
+                    .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
                     .isPublic(studyEntity.isPublic())
                     .notice(studyEntity.getNotice())
@@ -57,19 +59,18 @@ public class StudyDto {
     @Builder
     public static class Recruit {
         private int studyId;
-        private Timestamp creationTime;
+        private LocalDateTime creationTime;
         private String title;
         private String content;
+        private LocalDateTime startTime;
         private String saveName;
-        private boolean isOpen;
+        private boolean isClose;
         private int userLimit;
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
         private List<UserDto.Info> members;
         private List<CurriculumDto.Recruit> curriculum;
-        private Timestamp startTime;
-        private Timestamp endTime;
     }
 
     /* Request DTO */
@@ -83,6 +84,9 @@ public class StudyDto {
         @NotNull(message="content은 null 일 수 없습니다")
         @NotEmpty(message="content은 빈값 일 수 없습니다")
         private String content;
+        @NotNull(message="startTime은 null 일 수 없습니다")
+        @NotEmpty(message="startTime은 빈값 일 수 없습니다")
+        private LocalDateTime startTime;
         @Size(max = 255)
         private String saveName;
         @Max(value = 6, message = "userLimit은 7명 이상일 수 없습니다.")
@@ -92,8 +96,8 @@ public class StudyDto {
         private boolean isPublic;
         @Size(max = 100, message = "바르지 않은 notice 크기 입니다")
         private String notice;
-        @NotNull(message="curriculum은 null 일 수 없습니다")
-        private CurriculumDto.Make curriculum;
+        @NotNull(message="강좌 선택은 null 일 수 없습니다")
+        private List<CourseDto.Info> courseList;
     }
 
     @Data
@@ -103,7 +107,7 @@ public class StudyDto {
         private int course_id;
         private String title;
         private String content;
-        private Timestamp lastUpdateDate;
+        private LocalDateTime lastUpdateDate;
         private boolean isDeleted;
         private int providerId;
         private String providerUrl;
@@ -124,9 +128,45 @@ public class StudyDto {
         private int studyId;
         private int studyCommunityId;
         private String content;
-        private Timestamp publishTime;
+        private LocalDateTime publishTime;
         private boolean isDeleted;
         private UserDto.Info user;
+    }
+
+    @Data
+    @Builder
+    public static class Detail {
+        private int studyId;
+        private String title;
+        private String content;
+        private LocalDateTime startTime;
+        private String saveName;
+        private boolean isClose;
+        private int userLimit;
+        private int userGathered; // 모인 사람 수
+        private boolean isPublic;
+
+//        private UserDto.Detail user;
+
+
+//        private List<StudyMemberDto.UserInfo> members;
+        private List<CurriculumDto.Info> curricula;
+        public static Detail fromEntity(Study studyEntity) {
+            return Detail.builder()
+                    .studyId(studyEntity.getStudyId())
+                    .startTime(studyEntity.getCreationTime())
+                    .title(studyEntity.getTitle())
+                    .content(studyEntity.getContent())
+                    .saveName(studyEntity.getSaveName())
+                    .isClose(studyEntity.isClose())
+                    .userLimit(studyEntity.getUserLimit())
+                    .userGathered(studyEntity.getStudyMembers().size())
+                    .isPublic(studyEntity.isPublic())
+                    .curricula(studyEntity.getCurricula().stream()
+                            .map(curriculum -> CurriculumDto.Info.fromEntity(curriculum))
+                            .collect(Collectors.toList()))
+                    .build();
+        }
     }
 
 }

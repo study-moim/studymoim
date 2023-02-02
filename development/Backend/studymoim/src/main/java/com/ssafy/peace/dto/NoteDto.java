@@ -14,14 +14,16 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class NoteDto {
-    private User user;
-    private Lecture lecture;
-    private int content;
+//    private UserDto.Info user;
+//    private LectureDto.Info lecture;
+    private int userId;
+    private int lectureId;
+    private String content;
     private LocalDateTime lastModifiedDate;
     public static NoteDto fromEntity(Note noteEntity) {
         return NoteDto.builder()
-                .user(noteEntity.getUser())
-                .lecture(noteEntity.getLecture())
+                .userId(UserDto.Info.fromEntity(noteEntity.getUser()).getUserId())
+                .lectureId(LectureDto.Info.fromEntity(noteEntity.getLecture()).getLectureId())
                 .content(noteEntity.getContent())
                 .lastModifiedDate(noteEntity.getLastModifiedDate())
                 .build();

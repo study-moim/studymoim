@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UserHistoryRepository userHistoryRepository;
+    private final UserLikeCategoryRepository userLikeCategoryRepository;
+    private final CourseCategoryRepository courseCategoryRepository;
     private final StudyRepository studyRepository;
     private final StudyMemberRepository studyMemberRepository;
     private final NoteRepository noteRepository;
@@ -46,18 +48,6 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         return user;
     }
-
-//    public void deleRefreshToken(Integer userId){
-//        userRepository.findById(userId)
-//                .map(UserDto.Info::fromEntity).get()
-//                .builder().refreshToken(null).build();
-//    }
-//
-//    public String getRefreshToken(Integer userId){
-//        return userRepository.findById(userId)
-//                .map(UserDto.Info::fromEntity)
-//                .get().getRefreshToken();
-//    }
 
     public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
         return userRepository.findById(userId)
@@ -101,7 +91,21 @@ public class UserService {
         return result;
     }
 
-    public Object getLikeList() {
+    public List<CourseCategoryDto.Info> getCourseCategoryList(Integer userId) {
+        return userLikeCategoryRepository.findAllByUser_userId(userId).stream()
+                .map(userLikeCategory -> CourseCategoryDto.Info.fromEntity(userLikeCategory.getCourseCategory()))
+                .collect(Collectors.toList());
+    }
+
+    public void setCourseCategoryList(Integer userId, List<CourseCategoryDto.Info> categoryList) {
+        userLikeCategoryRepository.deleteAllByUser_userId(userId);
+        userLikeCategoryRepository.saveAll(categoryList.stream().map(category -> UserLikeCategory.builder()
+                .courseCategory(courseCategoryRepository.findById(category.getCourseCategoryId()).get())
+                .user(userRepository.findById(userId).get())
+                .build()).collect(Collectors.toList()));
+    }
+
+    public Object getLikeList(Integer userId) {
         return null;
         // TODO
     }
@@ -184,4 +188,6 @@ public class UserService {
 
         return list;
     }
+
+
 }
