@@ -2,13 +2,17 @@ import { Link } from "react-router-dom";
 import BellIcon from "./BellIcon";
 import MailIcon from "./MailIcon";
 import { userInfo } from "../../zustand/store";
+import { useNavigate } from "react-router-dom";
 
 /** @function 로그인된상태네비게이션바 */
 export default function NavBarLogIn() {
+  const navigate = useNavigate();
   const { setLogOut } = userInfo();
   function logoutHandler() {
-    setLogOut() 
-  }; 
+    setLogOut();
+    localStorage.clear();
+    navigate("/");
+  }
   return (
     <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 w-[360px] relative gap-[20px]">
       {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}

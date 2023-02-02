@@ -56,4 +56,10 @@ public class FreeBoard {
         this.isDeleted = isDeleted;
         this.hit = hit;
     }
+
+    public FreeBoard updateId(Integer id){
+        this.freeBoardId = id;
+        return this;
+    }
+
 }
