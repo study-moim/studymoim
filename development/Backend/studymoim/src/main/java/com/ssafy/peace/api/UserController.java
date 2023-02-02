@@ -17,46 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-//    private static final String SUCCESS = "success";
-//    private static final String FAIL = "fail";
-//    private final JwtTokenService jwtTokenService;
-
-//    // 로그아웃
-//    @GetMapping("/{userid}/logout")
-//    public ResponseEntity<?> userRemoveToken(@PathVariable("userid") Integer userId) {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status = HttpStatus.ACCEPTED;
-//        try {
-//            userService.deleRefreshToken(userId);
-//            resultMap.put("message", SUCCESS);
-//            status = HttpStatus.ACCEPTED;
-//        } catch (Exception e) {
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//
-//    }
-//
-//    // 토큰 발급
-//    @PostMapping("/refresh")
-//    public ResponseEntity<?> refreshToken(@RequestBody UserDto.Info userDto, HttpServletRequest request) throws Exception {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status = HttpStatus.ACCEPTED;
-//        String token = request.getHeader("refresh-token");
-//        if (jwtTokenService.checkToken(token)) {
-//            if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
-//                String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
-//                resultMap.put("access-token", accessToken);
-//                resultMap.put("message", SUCCESS);
-//                status = HttpStatus.ACCEPTED;
-//            }
-//        } else {
-//            status = HttpStatus.UNAUTHORIZED;
-//        }
-//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//    }
-
     @Operation(summary = "get user list", description = "사용자 목록 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -156,6 +116,20 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "get category tag list", description = "선택한 강좌 태그 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/tags")
+    public ResponseEntity<?> userCategoryLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getCourseCategoryList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get like list", description = "좋아요 한 강좌 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -164,7 +138,7 @@ public class UserController {
     @GetMapping("/{userId}/likes")
     public ResponseEntity<?> userLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getLikeList(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getLikeList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

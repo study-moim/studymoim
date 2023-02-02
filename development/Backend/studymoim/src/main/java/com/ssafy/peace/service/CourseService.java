@@ -15,11 +15,6 @@ import java.util.stream.Collectors;
 public class CourseService {
 
     private final CourseRepository courseRepository;
-    private final LectureRepository lectureRepository;
-    private final CourseTypeRepository courseTypeRepository;
-    private final CurriculumRepository curriculumRepository;
-    private final UserLikeCourseRepository userLikeCourseRepository;
-    private final CourseProviderRepository courseProviderRepository;
 
     @Transactional(readOnly = true)
     public List<CourseDto.Info> getCourseInfoListFindAll() {

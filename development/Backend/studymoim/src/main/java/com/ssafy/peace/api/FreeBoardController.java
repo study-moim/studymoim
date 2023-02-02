@@ -79,4 +79,22 @@ public class FreeBoardController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "get freeBoard detail", description = "질문 글 상세 보기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<?> boardDetail(@RequestParam(value="key") String key,
+                                         @RequestParam(value="word") String word) {
+        try{
+            if(key.equals("title")) return new ResponseEntity<>(freeBoardService.searchFreeBoardByTitle(word), HttpStatus.OK);
+            else if(key.equals("content")) return new ResponseEntity<>(freeBoardService.searchFreeBoardByContent(word), HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
