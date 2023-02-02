@@ -1,31 +1,23 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.UserDto;
-import com.ssafy.peace.dto.auth.Principal;
 import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.service.UserService;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import com.ssafy.peace.util.JwtTokenUtil;
 import com.ssafy.peace.util.SecurityUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URI;
 import java.net.URISyntaxException;
