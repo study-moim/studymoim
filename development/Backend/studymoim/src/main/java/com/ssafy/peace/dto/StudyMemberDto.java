@@ -15,6 +15,7 @@ public class StudyMemberDto {
         private boolean memberRole;
         private boolean isBanned;
         public static UserInfo fromEntity(StudyMember studyMemberEntity) {
+
             return UserInfo.builder()
                     .user(UserDto.Info.fromEntity(studyMemberEntity.getUser()))
                     .memberRole(studyMemberEntity.isMemberRole())
@@ -36,6 +37,13 @@ public class StudyMemberDto {
                     .isBanned(studyMemberEntity.isBanned())
                     .build();
         }
+    }
+
+    @Data
+    @Builder
+    public static class Participate {
+        private int userId;
+        private int studyId;
     }
 
 }
