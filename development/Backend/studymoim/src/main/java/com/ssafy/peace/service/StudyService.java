@@ -1,9 +1,6 @@
 package com.ssafy.peace.service;
 
-import com.ssafy.peace.dto.CourseDto;
-import com.ssafy.peace.dto.StudyDto;
-import com.ssafy.peace.dto.StudyHistoryDto;
-import com.ssafy.peace.dto.StudyMemberDto;
+import com.ssafy.peace.dto.*;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +19,17 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final StudyMemberRepository studyMemberRepository;
+    private final StudyRequestRepository studyRequestRepository;
     private final StudyHistoryRepository studyHistoryRepository;
     private final UserRepository userRepository;
     private final CurriculumRepository curriculumRepository;
     private final CourseRepository courseRepository;
 
     @Transactional
-    public List<StudyDto.Recruit> getStudyList() throws RollbackException{
+    public List<StudyDto.Info> getStudyList() throws RollbackException{
         return studyRepository.findAllByIsCloseIsFalseAndIsPublicIsTrue()
                 .stream()
-                .map(StudyDto.Recruit::fromEntity)
+                .map(StudyDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -54,6 +52,7 @@ public class StudyService {
 
     @Transactional
     public StudyDto.Info makeStudy(StudyDto.Make study) throws RollbackException {
+        System.out.println("study = " + study);
         Study newStudy = Study.builder()
                 .title(study.getTitle())
                 .content(study.getContent())
@@ -62,13 +61,16 @@ public class StudyService {
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
                 .build();
+        System.out.println("000000");
         StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
         // 스터디를 만든 사람이 곧 방장
+        System.out.println("1111111");
         studyMemberRepository.save(StudyMember.builder()
                 .user(userRepository.findById(study.getLeadUserId()).get())
                 .study(newStudy)
                 .memberRole(true)
                 .build());
+        System.out.println("222222");
         // 커리큘럼이랑 연결
         List<Curriculum> curricula = new ArrayList<>();
         int order = 0;
@@ -112,7 +114,7 @@ public class StudyService {
     }
 
     @Transactional
-    public void participateStudy(StudyMemberDto.Participate studyMember){
+    public void participatePublicStudy(StudyMemberDto.Participate studyMember){
         int studyId = studyMember.getStudyId();
         int userId = studyMember.getUserId();
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
@@ -122,6 +124,15 @@ public class StudyService {
                 .user(userRepository.findById(userId).get())
                 .build()
         );
+    }
+
+    @Transactional
+    public StudyRequestDto.Info requestStudy(Integer studyId, StudyRequestDto.Request studyRequest) throws RollbackException  {
+        return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
+                .user(userRepository.findById(studyRequest.getUserId()).get())
+                .study(studyRepository.findById(studyId).get())
+                .content(studyRequest.getContent())
+                .build()));
     }
 
     @Transactional

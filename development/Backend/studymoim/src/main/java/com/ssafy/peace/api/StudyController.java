@@ -1,23 +1,17 @@
 package com.ssafy.peace.api;
 
-import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
-import com.ssafy.peace.entity.Study;
-import com.ssafy.peace.entity.User;
+import com.ssafy.peace.dto.StudyRequestDto;
 import com.ssafy.peace.service.StudyService;
-import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "StudyController", description = "스터디 API")
@@ -77,12 +71,27 @@ public class StudyController {
     @PostMapping("/{studyId}/participate")
     public ResponseEntity<?> studyParticipate(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyMemberDto.Participate studyMember) {
         try{
-            studyService.participateStudy(studyMember);
+            studyService.participatePublicStudy(studyMember);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "request study", description = "스터디 가입신청하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{studyId}/request")
+    public ResponseEntity<?> studyRequest(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyRequestDto.Request request) {
+        try{
+            studyService.requestStudy(studyId, request);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "ban user from study", description = "스터디에서 유저 밴하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
