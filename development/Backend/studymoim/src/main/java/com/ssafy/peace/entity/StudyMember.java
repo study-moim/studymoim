@@ -39,4 +39,14 @@ public class StudyMember {
         this.memberRole = memberRole;
         this.isBanned = isBanned;
     }
+
+    public StudyMember updateId(Integer id){
+        this.studyMemberId = id;
+        return this;
+    }
+
+    public boolean checkBanned(){
+        if (this.isBanned == true) return true;
+        else return false;
+    }
 }

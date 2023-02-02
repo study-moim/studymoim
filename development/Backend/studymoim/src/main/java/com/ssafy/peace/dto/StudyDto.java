@@ -27,11 +27,10 @@ public class StudyDto {
         private String saveName;
         private boolean isClose;
         private int userLimit;
+        private int userGathered; // 모인 사람 수
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private List<StudyMemberDto.StudyInfo> members;
-        private List<CurriculumDto.Info> curricula;
         public static Info fromEntity(Study studyEntity) {
             return Info.builder()
                     .studyId(studyEntity.getStudyId())
@@ -42,15 +41,10 @@ public class StudyDto {
                     .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
+                    .userGathered(studyEntity.getStudyMembers().size())
                     .isPublic(studyEntity.isPublic())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
-                    .members(studyEntity.getStudyMembers().stream()
-                            .map(member -> StudyMemberDto.StudyInfo.fromEntity(member))
-                            .collect(Collectors.toList()))
-                    .curricula(studyEntity.getCurricula().stream()
-                            .map(curriculum -> CurriculumDto.Info.fromEntity(curriculum))
-                            .collect(Collectors.toList()))
                     .build();
         }
     }
@@ -110,6 +104,7 @@ public class StudyDto {
         private String notice;
         @NotNull(message="강좌 선택은 null 일 수 없습니다")
         private List<CourseDto.Info> courseList;
+        private int leadUserId; // 스터디 생성자 아이디
     }
 
     @Data
@@ -155,9 +150,10 @@ public class StudyDto {
         private String saveName;
         private boolean isClose;
         private int userLimit;
-        private int userGathered; // 모인 사람 수
         private boolean isPublic;
-
+        private int userGathered; // 모인 사람 수
+        private String notice;
+        private boolean isFinished;
         private List<StudyMemberDto.UserInfo> members;
         private List<CurriculumDto.Recruit> curricula;
         public static Detail fromEntity(Study studyEntity) {
@@ -171,11 +167,14 @@ public class StudyDto {
                     .userLimit(studyEntity.getUserLimit())
                     .userGathered(studyEntity.getStudyMembers().size())
                     .isPublic(studyEntity.isPublic())
+                    .notice(studyEntity.getNotice())
+                    .isFinished(studyEntity.isFinished())
                     .curricula(studyEntity.getCurricula().stream()
                             .map(curriculum -> CurriculumDto.Recruit.fromEntity(curriculum))
                             .collect(Collectors.toList()))
                     .members(studyEntity.getStudyMembers().stream()
-                            .map(member -> StudyMemberDto.UserInfo.fromEntity(member))
+                            .filter(member -> !member.isBanned())
+                            .map(member->StudyMemberDto.UserInfo.fromEntity(member))
                             .collect(Collectors.toList()))
                     .build();
         }
