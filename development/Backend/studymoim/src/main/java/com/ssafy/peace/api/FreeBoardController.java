@@ -101,12 +101,22 @@ public class FreeBoardController {
         }
     }
 
-    @Operation(summary = "wirte comment", description = "질문 게시판 댓글 작성하기")
-    @PostMapping("/{articleId}/comment")
-    public ResponseEntity<?> writeComment(@Parameter(description="articleId") @PathVariable Integer articleId,
-                                          @RequestBody FreeBoardCommentDto.Write comment) {
+    @Operation(summary = "write comment", description = "질문 게시판 댓글 작성하기")
+    @PostMapping("/comment")
+    public ResponseEntity<?> writeComment(@RequestBody FreeBoardCommentDto.Write comment) {
         try{
-            return new ResponseEntity<>(freeBoardService.writeComment(articleId, comment), HttpStatus.OK);
+            return new ResponseEntity<>(freeBoardService.writeComment(comment), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete comment", description = "질문 게시판 댓글 삭제하기")
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@Parameter(description="commentId") @PathVariable Integer commentId) {
+        try{
+            return new ResponseEntity<>(freeBoardService.deleteComment(commentId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

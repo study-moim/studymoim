@@ -5,6 +5,7 @@ import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.QuestionBoardCommentDto;
 import com.ssafy.peace.entity.FreeBoard;
 import com.ssafy.peace.entity.FreeBoardComment;
+import com.ssafy.peace.entity.QuestionBoardComment;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.repository.FreeBoardCommentRepository;
 import com.ssafy.peace.repository.FreeBoardRepository;
@@ -61,13 +62,26 @@ public class FreeBoardService {
         return FreeBoardDto.Detail.fromEntity(freeBoardRepository.findById(articleId).get());
     }
 
-    public FreeBoardCommentDto.Info writeComment(Integer articleId, FreeBoardCommentDto.Write comment) {
+    @Transactional
+    public FreeBoardCommentDto.Info writeComment(FreeBoardCommentDto.Write comment) {
         return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository
                 .save(FreeBoardComment.builder()
                         .content(comment.getContent())
-                        .parentComment(freeBoardCommentRepository.findById(comment.getParentCommentId()).get())
-                        .freeBoard(freeBoardRepository.findById(articleId).get())
+                        .parentComment(freeBoardCommentRepository.findById(comment.getParentCommentId()).orElse(null))
+                        .freeBoard(freeBoardRepository.findById(comment.getFreeBoardId()).get())
                         .user(userRepository.findById(comment.getUserId()).get())
+                .build()));
+    }
+
+    @Transactional
+    public FreeBoardCommentDto.Info deleteComment(Integer commentId) {
+        FreeBoardComment freeBoardComment = freeBoardCommentRepository.findById(commentId).get();
+        return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository.save(FreeBoardComment.builder()
+                .freeBoard(freeBoardComment.getFreeBoard())
+                .content("(삭제된 메시지 입니다.)")
+                .parentComment(freeBoardComment.getParentComment())
+                .user(freeBoardComment.getUser())
+                .isDeleted(true)
                 .build()));
     }
 
