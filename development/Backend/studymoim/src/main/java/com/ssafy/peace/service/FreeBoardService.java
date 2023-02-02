@@ -57,4 +57,17 @@ public class FreeBoardService {
                         .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
     }
+
+    public List<FreeBoardDto.Detail> searchFreeBoardByTitle(String key) {
+        return freeBoardRepository.findAllByTitleContaining(key).stream()
+                .map(FreeBoardDto.Detail::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<FreeBoardDto.Detail> searchFreeBoardByContent(String key) {
+        return freeBoardRepository.findAllByContentContaining(key).stream()
+                .map(FreeBoardDto.Detail::fromEntity)
+                .collect(Collectors.toList());
+    }
+
 }

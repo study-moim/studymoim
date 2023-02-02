@@ -27,6 +27,8 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private CourseCategoryRepository courseCategoryRepository;
+    @Autowired
     private PlatformRepository platformRepository;
     @Autowired
     private LectureRepository lectureRepository;
@@ -55,49 +57,30 @@ public class DataLoader implements CommandLineRunner {
         // youtube api 세팅
         youtubeApiService.init();
 
-        // UserLikeCourse 더미 데이터
+        // Course 좋아요 더미 데이터
         addUserLikeCourse();
 
-        // Memo
-        addNote();
-        
-    }
-
-    private void addNote() {
-        List<Note> noteList = new ArrayList<>();
-        List<Lecture> lectureList = lectureRepository.findAll();
-        List<User> userList = userRepository.findAll();
-
-        for (int i = 0; i < userList.size(); i++) {
-            for (int j = 0; j < lectureList.size(); j++) {
-                Note note = Note.builder()
-                        .user(userList.get(i))
-                        .lecture(lectureList.get(j))
-                        .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
-                        .build();
-                noteList.add(note);
-            }
-        }
-        noteRepository.saveAllAndFlush(noteList);
+        // CourseCategory 더미 데이터
+        addCategory();
     }
 
     private void addUserLikeCourse() {
         List<UserLikeCourse> userLikeCourseList = new ArrayList<>();
-        List<User> userList = userRepository.findAll();
-        List<Course> courseList = courseRepository.findAll();
+        List<User> users = userRepository.findAll();
+        List<Course> courses = courseRepository.findAll();
 
-        for (int i = 0; i < userList.size(); i++) {
-            for (int j = 0; j < courseList.size(); j++) {
-                if(i >= j) {
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = 0; j < courses.size(); j++) {
+                if((j+i) % 3 == 0) {
                     UserLikeCourse userLikeCourse = UserLikeCourse.builder()
-                            .user(userList.get(i))
-                            .course(courseList.get(j))
+                            .user(users.get(i))
+                            .course(courses.get(j))
                             .build();
                     userLikeCourseList.add(userLikeCourse);
                 }
             }
         }
-        userLikeCourseRepository.saveAllAndFlush(userLikeCourseList);
+        userLikeCourseRepository.saveAll(userLikeCourseList);
     }
 
     public void addUsers(){
@@ -250,7 +233,7 @@ public class DataLoader implements CommandLineRunner {
                 .isPublic(true)
                 .userLimit(4)
                 .build();
-        studyRepository.saveAndFlush(study1);
+        studyRepository.save(study1);
 
         User user1 = userRepository.findById(1).get();
         User user2 = userRepository.findById(2).get();
@@ -261,19 +244,19 @@ public class DataLoader implements CommandLineRunner {
                 .memberRole(true)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm1);
+        studyMemberRepository.save(sm1);
         StudyMember sm2 = StudyMember.builder()
                 .user(user2)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm2);
+        studyMemberRepository.save(sm2);
         StudyMember sm3 = StudyMember.builder()
                 .user(user3)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm3);
+        studyMemberRepository.save(sm3);
         addCurriculum(study1);
     }
 
@@ -286,17 +269,53 @@ public class DataLoader implements CommandLineRunner {
                 .study(study)
                 .course(course1)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum1);
+        curriculumRepository.save(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum2);
+        curriculumRepository.save(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum3);
+        curriculumRepository.save(curriculum3);
+
+    }
+
+    public void addCategory(){
+        CourseCategory java = CourseCategory.builder()
+                .name("자바")
+                .build();
+        courseCategoryRepository.save(java);
+        CourseCategory spring = CourseCategory.builder()
+                .name("스프링")
+                .parentCategory(java)
+                .build();
+        courseCategoryRepository.save(spring);
+        CourseCategory js = CourseCategory.builder()
+                .name("자바스크립트")
+                .build();
+        courseCategoryRepository.save(js);
+        CourseCategory react = CourseCategory.builder()
+                .name("리액트")
+                .parentCategory(js)
+                .build();
+        courseCategoryRepository.save(react);
+        CourseCategory vue = CourseCategory.builder()
+                .name("뷰")
+                .parentCategory(js)
+                .build();
+        courseCategoryRepository.save(vue);
+        CourseCategory springboot = CourseCategory.builder()
+                .name("스프링부트")
+                .parentCategory(spring)
+                .build();
+        courseCategoryRepository.save(springboot);
+        CourseCategory cpp = CourseCategory.builder()
+                .name("C++")
+                .build();
+        courseCategoryRepository.save(cpp);
 
     }
 
