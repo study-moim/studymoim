@@ -27,6 +27,8 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private CourseCategoryRepository courseCategoryRepository;
+    @Autowired
     private PlatformRepository platformRepository;
     @Autowired
     private LectureRepository lectureRepository;
@@ -57,7 +59,9 @@ public class DataLoader implements CommandLineRunner {
 
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
-        
+
+        // CourseCategory 더미 데이터
+        addCategory();
     }
 
     private void addUserLikeCourse() {
@@ -276,6 +280,42 @@ public class DataLoader implements CommandLineRunner {
                 .course(course3)
                 .build();
         curriculumRepository.save(curriculum3);
+
+    }
+
+    public void addCategory(){
+        CourseCategory java = CourseCategory.builder()
+                .name("자바")
+                .build();
+        courseCategoryRepository.save(java);
+        CourseCategory spring = CourseCategory.builder()
+                .name("스프링")
+                .parentCategory(java)
+                .build();
+        courseCategoryRepository.save(spring);
+        CourseCategory js = CourseCategory.builder()
+                .name("자바스크립트")
+                .build();
+        courseCategoryRepository.save(js);
+        CourseCategory react = CourseCategory.builder()
+                .name("리액트")
+                .parentCategory(js)
+                .build();
+        courseCategoryRepository.save(react);
+        CourseCategory vue = CourseCategory.builder()
+                .name("뷰")
+                .parentCategory(js)
+                .build();
+        courseCategoryRepository.save(vue);
+        CourseCategory springboot = CourseCategory.builder()
+                .name("스프링부트")
+                .parentCategory(spring)
+                .build();
+        courseCategoryRepository.save(springboot);
+        CourseCategory cpp = CourseCategory.builder()
+                .name("C++")
+                .build();
+        courseCategoryRepository.save(cpp);
 
     }
 
