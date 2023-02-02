@@ -2,7 +2,9 @@ package com.ssafy.peace.service;
 
 import com.ssafy.peace.dto.NoteDto;
 import com.ssafy.peace.entity.Note;
+import com.ssafy.peace.repository.LectureRepository;
 import com.ssafy.peace.repository.NoteRepository;
+import com.ssafy.peace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +17,33 @@ import java.util.Optional;
 public class NoteService {
 
     private final NoteRepository noteRepository;
+    private final UserRepository userRepository;
+    private final LectureRepository lectureRepository;
 
-    @Transactional
-    public NoteDto getNoteByLectureIdByuserId(int lectureId, int userId) {
+    @Transactional(readOnly = true)
+    public NoteDto getNoteDetail(int lectureId, int userId) {
         List<Note> result = noteRepository.findAllByUser_userIdAndLecture_lectureId(userId, lectureId);
-        System.out.println(lectureId +" "+ userId);
-        System.out.println("getNoteByLectureIdByuserId result:" + result);
         if(result.size()==0)    return null;
         return NoteDto.fromEntity(result.get(0));
+    }
+
+    @Transactional
+    public void noteWriteOrUpdate(NoteDto noteDto) {
+        List<Note> result = noteRepository.findAllByUser_userIdAndLecture_lectureId(noteDto.getUserId(), noteDto.getLectureId());
+        if(result.size()==0) {
+            // 등록
+            noteRepository.save(Note.builder()
+                    .content(noteDto.getContent())
+                    .user(userRepository.findByUserId(noteDto.getUserId()))
+                    .lecture(lectureRepository.findById(noteDto.getLectureId()).get())
+                    .build());
+        } else {
+            // 수정
+            noteRepository.save(Note.builder()
+                    .content(noteDto.getContent())
+                    .user(userRepository.findByUserId(noteDto.getUserId()))
+                    .lecture(lectureRepository.findById(noteDto.getLectureId()).get())
+                    .build().updateId(result.get(0).getNoteId()));
+        }
     }
 }

@@ -66,7 +66,6 @@ public class DataLoader implements CommandLineRunner {
 
         // Memo 더미 데이터
         addNote();
-        System.out.println("ddddddddddddddddddddddddddddddddddddddddddddddddd");
 
         addStudyAndMember();
     }
@@ -243,7 +242,6 @@ public class DataLoader implements CommandLineRunner {
 //        lectureRepository.save(lecture1);
 ////        addNote(lecture1);
 //    }
-
 
     public void addStudyAndMember(){
         Study study1 = Study.builder()
