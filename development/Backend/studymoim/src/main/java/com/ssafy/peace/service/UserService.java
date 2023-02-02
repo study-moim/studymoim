@@ -7,6 +7,7 @@ import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -136,11 +138,10 @@ public class UserService {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
                 .map(AlarmDto.Info::fromEntity)
                 .collect(Collectors.toList());
-        if(res.size() == 0){
-            return null;
+        // 읽지 않은 알림 리스트의 사이즈가 0이 아니라면 모든 알림 읽음 처리
+        if(res.size() != 0){
+            alarmRepository.checkAllByUser(userId);
         }
-
-        alarmRepository.checkAllByUser(userId);
         return res;
     }
 
@@ -149,25 +150,20 @@ public class UserService {
     }
 
     public List<UserDto.Info> getMessageUserList(Integer toUserId) {
-        List<UserDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+        return messageRepository.findDistinctFromUser(toUserId).stream()
                                     .map(UserDto.Info::fromEntity)
                                     .collect(Collectors.toList());
-        if(list.size() == 0)
-            return null;
-
-        return list;
     }
 
+    @Transactional
     public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
         List<MessageDto.Info> list = messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
                                         .map(MessageDto.Info::fromEntity)
                                         .collect(Collectors.toList());
-        if(list.size() == 0){
-            return null;
-        }
 
+        // 메세지 기록 중 안 읽은 메세지 읽음 처리
         if(messageRepository.existsByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(toUserId, fromUserId)){
-           messageRepository.checkMessage(toUserId, fromUserId);
+            messageRepository.checkMessage(toUserId, fromUserId);
         }
 
         return list;
