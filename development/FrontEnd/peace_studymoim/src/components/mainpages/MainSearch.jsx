@@ -8,6 +8,7 @@ export default function MainSearch() {
     window.location.href = "/search/" + word;
   };
 
+  
   const onKeyPress = (e) => {
     if(e.key == 'Enter') {
       onSubmit(); 
