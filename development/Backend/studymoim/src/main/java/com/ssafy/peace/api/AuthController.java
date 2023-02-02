@@ -8,6 +8,7 @@ import com.ssafy.peace.service.UserService;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import com.ssafy.peace.util.JwtTokenUtil;
 import com.ssafy.peace.util.SecurityUtil;
+import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,7 +54,7 @@ public class AuthController {
     @GetMapping("/login")
     public ResponseEntity<?> kakaoLogin(String code) throws URISyntaxException {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        String email = kakaoAuthService.getUserInfo(code).getEmail();
+        String email = kakaoAuthService.getUserInfo(REDIRECT_CONTEXT, code).getEmail();
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userService.getUserByEmail(email);
         // 카카오 정보로 회원가입
