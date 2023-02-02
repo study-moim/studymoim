@@ -105,11 +105,21 @@ public class QuestionBoardController {
     }
 
     @Operation(summary = "post questionBoard comment", description = "질문 게시판 댓글 작성하기")
-    @PostMapping("/{articleId}/comment")
-    public ResponseEntity<?> writeComment(@Parameter(description="articleId") @PathVariable Integer articleId,
-                                          @RequestBody QuestionBoardCommentDto.Write comment) {
+    @PostMapping("/comment")
+    public ResponseEntity<?> writeComment(@RequestBody QuestionBoardCommentDto.Write comment) {
         try{
-            return new ResponseEntity<>(questionBoardService.writeComment(articleId, comment), HttpStatus.OK);
+            return new ResponseEntity<>(questionBoardService.writeComment(comment), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete questionBoard comment", description = "질문 게시판 댓글 삭제하기")
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@Parameter(description="commentId") @PathVariable Integer commentId) {
+        try{
+            return new ResponseEntity<>(questionBoardService.deleteComment(commentId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

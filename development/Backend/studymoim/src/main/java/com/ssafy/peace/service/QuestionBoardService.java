@@ -69,16 +69,26 @@ public class QuestionBoardService {
     }
 
     @Transactional
-    public QuestionBoardCommentDto.Info writeComment(Integer articleId, QuestionBoardCommentDto.Write questionBoardCommentDto)
+    public QuestionBoardCommentDto.Info writeComment(QuestionBoardCommentDto.Write comment)
             throws RollbackException {
-        QuestionBoardComment parentComment;
-        if(questionBoardCommentDto.getParentCommentId() == null) parentComment = null;
-        else parentComment = questionBoardCommentRepository.findById(questionBoardCommentDto.getParentCommentId()).get();
         return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
-                .content(questionBoardCommentDto.getContent())
-                .parentComment(parentComment)
-                .questionBoard(questionBoardRepository.findById(questionBoardCommentDto.getQuestionBoardId()).get())
-                .user(userRepository.findById(questionBoardCommentDto.getUserId()).get())
+                .content(comment.getContent())
+                .parentComment(questionBoardCommentRepository.findById(comment.getParentCommentId()).orElse(null))
+                .questionBoard(questionBoardRepository.findById(comment.getQuestionBoardId()).get())
+                .user(userRepository.findById(comment.getUserId()).get())
+                .build()));
+    }
+
+    @Transactional
+    public QuestionBoardCommentDto.Info deleteComment(Integer commentId)
+            throws RollbackException {
+        QuestionBoardComment questionBoardComment = questionBoardCommentRepository.findById(commentId).get();
+        return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
+                        .questionBoard(questionBoardComment.getQuestionBoard())
+                        .content("(삭제된 메시지 입니다.)")
+                        .parentComment(questionBoardComment.getParentComment())
+                        .user(questionBoardComment.getUser())
+                        .isDeleted(true)
                 .build()));
     }
 
