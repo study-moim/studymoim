@@ -1,5 +1,5 @@
 export default function Footer() {
-  if (window.location.pathname === "/study/player") return null;
+  if (window.location.pathname.startsWith("/player")) return null;
   return (
     <div className="w-full h-[264px] mt-96 bg-[#4e4e4e]">
     <div className="flex justify-center items-center left-0 top-0">

@@ -1,7 +1,7 @@
 package com.ssafy.peace.config;
 
 import com.ssafy.peace.service.UserService;
-import com.ssafy.peace.service.auth.JwtAuthenticationFilter;
+import com.ssafy.peace.filter.JwtAuthenticationFilter;
 import com.ssafy.peace.service.auth.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -57,13 +58,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .csrf().disable()
              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
              .and()
-             .oauth2Login()
+                .oauth2Login()
              .and()
-             .authorizeRequests()
-             .antMatchers(HttpMethod.OPTIONS).permitAll()
-//           .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
-//           .anyRequest().permitAll()
+                 .authorizeRequests()
+                .antMatchers("/api/v1" + "/**")
+                .permitAll()
+//                이 위는 운영 시 주석 처리
+//                이 밑은 운영시 주석 해제
+//                .antMatchers("/api/v1" + "/oauth/**")
+//                .permitAll()
+//                .antMatchers("/api/v1" + "/user/**")
+//                .authenticated()
+//                .antMatchers("/api/v1" + "/articles/**")
+//                .authenticated()
+//                .antMatchers("/api/v1" + "/study/**")
+//                .authenticated()
              .and().cors();
-        http.addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)); //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager(), userService), UsernamePasswordAuthenticationFilter.class);
     }
 }

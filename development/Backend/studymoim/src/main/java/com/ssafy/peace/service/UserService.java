@@ -1,26 +1,19 @@
 package com.ssafy.peace.service;
 
-import com.ssafy.peace.api.request.UserRegisterPostReq;
+import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.RollbackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,12 +34,6 @@ public class UserService {
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
-    }
-
-    public String kakaoLogin(String authorizedCode) {
-        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        KakaoUserInfo userInfo = kakaoAuthService.getUserInfo(authorizedCode);
-        return userInfo.getEmail();
     }
 
     public User createUser(UserRegisterPostReq userRegisterInfo) {
@@ -161,9 +148,11 @@ public class UserService {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
                 .map(AlarmDto.Info::fromEntity)
                 .collect(Collectors.toList());
-        if(res != null){
-            alarmRepository.checkAllByUser(userId);
+        if(res.size() == 0){
+            return null;
         }
+
+        alarmRepository.checkAllByUser(userId);
         return res;
     }
 
@@ -172,17 +161,27 @@ public class UserService {
     }
 
     public List<UserDto.Info> getMessageUserList(Integer toUserId) {
-        List<MessageDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
-                .map(MessageDto.Info::fromEntity)
-                .collect(Collectors.toList());
-        List<UserDto.Info> res = null;
-        list.forEach(user -> res.add(userRepository.findByUserId(user.getFromUser().getUserId())));
-        return res;
+        List<UserDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+                                    .map(UserDto.Info::fromEntity)
+                                    .collect(Collectors.toList());
+        if(list.size() == 0)
+            return null;
+
+        return list;
     }
 
     public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
-        return messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
-                .map(MessageDto.Info::fromEntity)
-                .collect(Collectors.toList());
+        List<MessageDto.Info> list = messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
+                                        .map(MessageDto.Info::fromEntity)
+                                        .collect(Collectors.toList());
+        if(list.size() == 0){
+            return null;
+        }
+
+        if(messageRepository.existsByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(toUserId, fromUserId)){
+           messageRepository.checkMessage(toUserId, fromUserId);
+        }
+
+        return list;
     }
 }

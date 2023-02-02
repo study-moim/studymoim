@@ -1,5 +1,5 @@
 // TODO: 이거보고 하기..
-
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
@@ -7,9 +7,10 @@ import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 
 export default function StudyPlayerMainRoot() {
+  const props = useLocation().state.propData;
+
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
-
   // 누르면 전체/강의/자유 색이 바뀜
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
@@ -41,7 +42,7 @@ export default function StudyPlayerMainRoot() {
             강의 설명이 보이는 부분 ▼
           </div>
         </div>
-        <PlayingVideoFrame/>
+        <PlayingVideoFrame videoId={props.videoId}/>
 
         <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">

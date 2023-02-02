@@ -35,12 +35,12 @@ public class CourseCategoryController {
         }
     }
 
-    @Operation(summary = "get freeBoard list", description = "강좌 태그 즐겨찾기 등록하기")
+    @Operation(summary = "like category", description = "강좌 태그 즐겨찾기 등록하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @PostMapping("/{categoryId}")
+    @PostMapping("/{categoryId}/like")
     public ResponseEntity<?> followCategory(@Parameter(description="categoryId") @PathVariable Integer categoryId,
                                             @RequestBody UserDto.Id userId) {
         try{
@@ -51,12 +51,12 @@ public class CourseCategoryController {
         }
     }
 
-    @Operation(summary = "get freeBoard list", description = "강좌 태그 즐겨찾기 등록하기")
+    @Operation(summary = "cancel like category", description = "강좌 태그 즐겨찾기 등록하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @DeleteMapping("/{categoryId}")
+    @DeleteMapping("/{categoryId}/unlike")
     public ResponseEntity<?> unfollowCategory(@Parameter(description="categoryId") @PathVariable Integer categoryId,
                                               @RequestBody UserDto.Id userId) {
         try{
