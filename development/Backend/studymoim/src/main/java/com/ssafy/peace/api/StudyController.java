@@ -2,6 +2,7 @@ package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.StudyDto;
+import com.ssafy.peace.dto.StudyMemberDto;
 import com.ssafy.peace.entity.Study;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.service.StudyService;
@@ -68,6 +69,35 @@ public class StudyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "participate study", description = "스터디 가입하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{studyId}/participate")
+    public ResponseEntity<?> studyParticipate(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyMemberDto.Participate studyMember) {
+        try{
+            studyService.participateStudy(studyMember);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "ban user from study", description = "스터디에서 유저 밴하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{studyId}/ban")
+    public ResponseEntity<?> studyBanUser(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyMemberDto.Participate studyMember) {
+        try{
+            studyService.banUserFromStudy(studyMember);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
     @Operation(summary = "make study", description = "스터디 모집 글 작성하기")
@@ -76,9 +106,23 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/")
-    public ResponseEntity<?> makeStudy(@RequestBody StudyDto.Make study) {
+    public ResponseEntity<?> studyMake(@RequestBody StudyDto.Make study) {
         try{
             studyService.makeStudy(study);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "update study", description = "스터디 업데이트하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{studyId}")
+    public ResponseEntity<?> studyUpdate(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyDto.Make study) {
+        try{
+            studyService.updateStudy(studyId, study);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -91,7 +135,7 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/search/{searchText}")
-    public ResponseEntity<?> findStudy(@Parameter(description = "searchText") @PathVariable String searchText) {
+    public ResponseEntity<?> studyFind(@Parameter(description = "searchText") @PathVariable String searchText) {
         try{
             return new ResponseEntity<>(studyService.getStudyInfoListFindByName(searchText), HttpStatus.ACCEPTED);
         } catch(Exception e) {
@@ -99,12 +143,4 @@ public class StudyController {
         }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        try{
-            return new ResponseEntity<>(studyService.test(), HttpStatus.OK);
-        } catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }
