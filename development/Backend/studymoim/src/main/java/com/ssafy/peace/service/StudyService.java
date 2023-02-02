@@ -3,6 +3,7 @@ package com.ssafy.peace.service;
 import com.ssafy.peace.dto.CourseDto;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyHistoryDto;
+import com.ssafy.peace.dto.StudyMemberDto;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -62,9 +63,9 @@ public class StudyService {
                 .isPublic(study.isPublic())
                 .build();
         StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
-        // 임시로 더미 데이터 넣어놓음
+        // 스터디를 만든 사람이 곧 방장
         studyMemberRepository.save(StudyMember.builder()
-                .user(userRepository.findByNickname("싸피킴"))
+                .user(userRepository.findById(study.getLeadUserId()).get())
                 .study(newStudy)
                 .memberRole(true)
                 .build());
@@ -88,38 +89,58 @@ public class StudyService {
         return result;
     }
 
+    @Transactional
+    public StudyDto.Info updateStudy(Integer studyId, StudyDto.Make study) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.save(Study.builder()
+                .title(study.getTitle())
+                .content(study.getContent())
+                .startTime(study.getStartTime())
+                .saveName(study.getSaveName())
+                .userLimit(study.getUserLimit())
+                .isPublic(study.isPublic())
+                .build()
+                .updateId(studyId)));
+
+    }
+
+    @Transactional
     public List<StudyDto.Recruit> getStudyInfoListFindByName(String searchText) throws RollbackException{
 
         return studyRepository.findAllByTitleContaining(searchText).stream()
                 .map(StudyDto.Recruit::fromEntity)
                 .collect(Collectors.toList());
     }
-//    public List<StudyDto.Info> getStudyByCourseInCurriculum(Integer courseId) throws RollbackException{
-//
-//    }
 
-//    public StudyDto.Recruit recruitStudy(StudyDto.Info study) throws RollbackException{
-//
-//    }
-
-    public List<StudyDto.Recruit> test() throws RollbackException{
-        Curriculum curriculum = curriculumRepository.findById(24).get();
-        System.out.println(curriculum.getCurriculumOrder());
-
-        System.out.println(curriculum.getCurriculumOrder());
-        curriculumRepository.save(curriculum.toBuilder()
-                .curriculumOrder(3)
-                .build());
-        System.out.println(curriculum.getCurriculumOrder());
-
-
-        System.out.println(curriculum.getCurriculumId());
-        System.out.println(curriculum.getStudy().getStudyId());
-        return studyRepository.findAllByIsCloseIsFalseAndIsPublicIsTrue()
-                .stream()
-                .map(StudyDto.Recruit::fromEntity)
-                .collect(Collectors.toList());
+    @Transactional
+    public void participateStudy(StudyMemberDto.Participate studyMember){
+        int studyId = studyMember.getStudyId();
+        int userId = studyMember.getUserId();
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return;
+        studyMemberRepository.save(StudyMember.builder()
+                .study(studyRepository.findById(studyId).get())
+                .user(userRepository.findById(userId).get())
+                .build()
+        );
     }
+
+    @Transactional
+    public void banUserFromStudy(StudyMemberDto.Participate studyMember){
+        int studyId = studyMember.getStudyId();
+        int userId = studyMember.getUserId();
+        if (!studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
+
+        studyMemberRepository.save(StudyMember.builder()
+                .study(studyRepository.findById(studyId).get())
+                .user(userRepository.findById(userId).get())
+                        .isBanned(true)
+                .build()
+                .updateId(studyMemberRepository.findByUser_userIdAndStudy_studyId(userId, studyId).getStudyMemberId())
+        );
+
+    }
+
+
 
 
 }
