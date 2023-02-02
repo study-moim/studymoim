@@ -62,6 +62,29 @@ public class DataLoader implements CommandLineRunner {
 
         // CourseCategory 더미 데이터
         addCategory();
+
+        // Memo 더미 데이터
+        addNote();
+    }
+
+
+
+    private void addNote() {
+        List<Note> noteList = new ArrayList<>();
+        List<Lecture> lectureList = lectureRepository.findAll();
+        List<User> userList = userRepository.findAll();
+
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < lectureList.size(); j++) {
+                Note note = Note.builder()
+                        .user(userList.get(i))
+                        .lecture(lectureList.get(j))
+                        .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
+                        .build();
+                noteList.add(note);
+            }
+        }
+        noteRepository.saveAllAndFlush(noteList);
     }
 
     private void addUserLikeCourse() {
