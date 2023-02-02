@@ -18,4 +18,6 @@ public interface UserLikeCategoryRepository extends JpaRepository<UserLikeCatego
     특정 카테고리를 좋아하는 유저 수?
      */
     Long countByCourseCategory_courseCategoryId(int courseId);
+
+    void deleteAllByUser_userId(int userId);
 }
