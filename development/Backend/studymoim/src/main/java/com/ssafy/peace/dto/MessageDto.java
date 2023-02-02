@@ -15,18 +15,18 @@ public class MessageDto {
     public static class Info{
         private int messageId;
         private boolean isChecked;
+        private UserDto.Info toUser;
         private String content;
         private UserDto.Info fromUser;
-        private UserDto.Info toUser;
         private LocalDateTime sendTime;
 
         public static Info fromEntity(com.ssafy.peace.entity.Message messageEntity){
             return Info.builder()
                     .messageId(messageEntity.getMessageId())
                     .isChecked(messageEntity.isChecked())
+                    .toUser(UserDto.Info.fromEntity(messageEntity.getToUser()))
                     .content(messageEntity.getContent())
                     .fromUser(UserDto.Info.fromEntity(messageEntity.getFromUser()))
-                    .toUser(UserDto.Info.fromEntity(messageEntity.getToUser()))
                     .sendTime(messageEntity.getSendTime())
                     .build();
         }

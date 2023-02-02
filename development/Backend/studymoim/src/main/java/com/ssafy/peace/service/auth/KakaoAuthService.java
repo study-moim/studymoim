@@ -16,15 +16,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class KakaoAuthService {
-    public KakaoUserInfo getUserInfo(String authorizedCode) {
+    public KakaoUserInfo getUserInfo(String redirectContext, String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
-        String accessToken = getAccessToken(authorizedCode);
+        String accessToken = getAccessToken(redirectContext, authorizedCode);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
         return userInfo;
     }
 
-    private String getAccessToken(String authorizedCode) {
+    private String getAccessToken(String redirectContext, String authorizedCode) {
         try {
             // HttpHeader 오브젝트 생성
             HttpHeaders headers = new HttpHeaders();
@@ -34,7 +34,7 @@ public class KakaoAuthService {
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", "authorization_code");
             params.add("client_id", "98268e53473ceb3e11dd6e609a5fa990");
-            params.add("redirect_uri", "http://localhost:8080/api/v1/oauth/login");
+            params.add("redirect_uri", redirectContext+"/api/v1/oauth/login");
             params.add("code", authorizedCode);
 
             // HttpHeader와 HttpBody를 하나의 오브젝트에 담기

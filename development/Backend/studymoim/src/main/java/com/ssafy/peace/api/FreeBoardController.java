@@ -34,11 +34,12 @@ public class FreeBoardController {
         try{
             return new ResponseEntity<>(freeBoardService.getFreeBoardList(), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성하기")
+    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성 밎 수정하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -49,6 +50,40 @@ public class FreeBoardController {
             freeBoardService.writeFreeBoard(freeBoard);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성 밎 수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{articleId}")
+    public ResponseEntity<?> boardUpdate(@Parameter(description = "articleId") @PathVariable Integer articleId,
+                                         @RequestBody FreeBoardDto.Write freeBoard) {
+        try{
+            freeBoardService.updateFreeBoard(articleId, freeBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete freeBoard", description = "자유 게시판 글 삭제하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<?> boardDelete(@Parameter(description = "articleId") @PathVariable Integer articleId) {
+        try{
+            freeBoardService.deleteFreeBoard(articleId);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -68,12 +103,40 @@ public class FreeBoardController {
         }
     }
 
-    @Operation(summary = "wirte comment", description = "질문 게시판 댓글 작성하기")
-    @PostMapping("/{articleId}/comment")
-    public ResponseEntity<?> writeComment(@Parameter(description="articleId") @PathVariable Integer articleId,
-                                          @RequestBody FreeBoardCommentDto.Write comment) {
+    @Operation(summary = "write comment", description = "질문 게시판 댓글 작성하기")
+    @PostMapping("/comment")
+    public ResponseEntity<?> writeComment(@RequestBody FreeBoardCommentDto.Write comment) {
         try{
-            return new ResponseEntity<>(freeBoardService.writeComment(articleId, comment), HttpStatus.OK);
+            return new ResponseEntity<>(freeBoardService.writeComment(comment), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete comment", description = "질문 게시판 댓글 삭제하기")
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@Parameter(description="commentId") @PathVariable Integer commentId) {
+        try{
+            return new ResponseEntity<>(freeBoardService.deleteComment(commentId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get freeBoard detail", description = "질문 글 상세 보기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<?> boardDetail(@RequestParam(value="key") String key,
+                                         @RequestParam(value="word") String word) {
+        try{
+            if(key.equals("title")) return new ResponseEntity<>(freeBoardService.searchFreeBoardByTitle(word), HttpStatus.OK);
+            else if(key.equals("content")) return new ResponseEntity<>(freeBoardService.searchFreeBoardByContent(word), HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

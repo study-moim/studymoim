@@ -5,15 +5,14 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import Backdrop from "../overall/Backdrop";
+
 import CourseSearchBar from "./CourseSearchBar";
 
 export default function StudyMakeForm(props) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  function deleteHandler() {
-    setModalIsOpen(true);
-  }
+  const [showModal, setShowModal] = useState(false);
+
   function closeModalHandler() {
-    setModalIsOpen(false);
+    setShowModal(false);
   }
 
   const [image, setImage] = useState("");
@@ -200,19 +199,24 @@ export default function StudyMakeForm(props) {
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
                 className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
-                onClick={deleteHandler}
+                onClick={() => setShowModal(true)} 
               >취소 
               </div>
               <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
                 글쓰기
               </button>
-              {modalIsOpen ? (
+              {showModal ? (
                 <DeleteModal
                   onCancel={closeModalHandler}
                   onConfirm={closeModalHandler}
                 />
               ) : null}
-              {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
+              
+              {showModal ? (
+                <Backdrop
+                  onCancel={closeModalHandler}
+                />
+              ) : null}
             </div>
           </div>
         </div>

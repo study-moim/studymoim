@@ -5,8 +5,7 @@ import com.ssafy.peace.entity.FreeBoard;
 import com.ssafy.peace.entity.FreeBoardComment;
 import com.ssafy.peace.entity.QuestionBoard;
 import com.ssafy.peace.entity.QuestionBoardComment;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -111,11 +110,16 @@ public class UserDto {
         private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
     }
 
-    @Data
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    @ToString
     @Builder
     public static class Id {
-        private int userId;
-
+        private Integer userId;
+        public Id() { this.userId=null; }
+        public Id(Integer userId) { this.userId=userId; }
+        public Id(int userId) { this.userId=userId; }
     }
 
 }

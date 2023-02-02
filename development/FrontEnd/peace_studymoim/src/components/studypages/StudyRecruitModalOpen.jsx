@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 
-export default function DeleteModal(props) {
+export default function StudyRecruitModalOpen(props) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       props.onCancel()
@@ -13,8 +13,10 @@ export default function DeleteModal(props) {
   function cancelHandler() {
     props.onCancel();
   }
+  
   function confirmHandler() {
-    navigate("/study");
+    // TODO: 여기서 스터디 디테일 페이지로 넘어가게 하자앙!(디테일이 된다면!)  
+    navigate("/studyDetail");
   }
   return (
     <>
@@ -52,10 +54,7 @@ export default function DeleteModal(props) {
               {/*body*/}
               <div className="flex flex-col justify-end items-center flex-grow-0 flex-shrink-0 relative gap-2">
                 <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-[#54595e]">
-                  작성한 내용이 모두 사라집니다.
-                </p>
-                <p className="flex-grow-0 flex-shrink-0 w-[385px] text-sm text-center text-[#54595e]/60">
-                  정말로 취소하시겠습니까?
+                  바로 신청하실건가요?
                 </p>
               </div>
               {/*footer*/}
@@ -63,14 +62,14 @@ export default function DeleteModal(props) {
                 <button
                   className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]"
                   onClick={confirmHandler}
-                >
-                  네, 취소하겠습니다.
+                > 
+                  네, 신청하겠습니다.
                 </button>
                 <button
                   className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
                   onClick={cancelHandler}
                 >
-                  아니요, 다시 돌아갈래요.
+                  아니요, 다시 생각해볼래요. 
                 </button>
               </div>
             </div>

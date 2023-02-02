@@ -5,8 +5,9 @@ import useFetch from "../hooks/useFetch";
 import LectureShort from "../components/coursedetail/LectureShort";
 
 export default function CourseDetailRoot() {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const props = useLocation().state.propData;
-  const lectureInThisCourse = useFetch(`http://localhost:8080/api/v1/lecture/${props.course_id}`);
+  const lectureInThisCourse = useFetch(`http://${API_SERVER}/api/v1/lecture/${props.course_id}`);
   let totalTime = 0
   lectureInThisCourse.forEach(lecture => {
     totalTime += lecture.length
