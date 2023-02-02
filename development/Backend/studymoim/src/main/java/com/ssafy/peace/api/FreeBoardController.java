@@ -34,6 +34,7 @@ public class FreeBoardController {
         try{
             return new ResponseEntity<>(freeBoardService.getFreeBoardList(), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -82,6 +83,7 @@ public class FreeBoardController {
             freeBoardService.deleteFreeBoard(articleId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
