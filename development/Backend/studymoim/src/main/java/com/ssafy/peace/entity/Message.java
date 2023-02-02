@@ -36,8 +36,9 @@ public class Message {
     @CreationTimestamp
     private LocalDateTime sendTime;
 
-    @Builder
-    public Message(User toUser, User fromUser, String content) {
+    @Builder(toBuilder = true)
+    public Message(boolean isChecked, User toUser, User fromUser, String content) {
+        this.isChecked = isChecked;
         this.content = content;
         this.fromUser = fromUser;
         this.toUser = toUser;
