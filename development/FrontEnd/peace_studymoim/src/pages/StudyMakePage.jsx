@@ -5,7 +5,7 @@ export default function StudyMakePage() {
   let navigate = useNavigate(); 
 
   function addMeetupHandler(studyRecruitData) {
-    fetch("https://react-a-3b3d0-default-rtdb.firebaseio.com/react.json", {
+    fetch("http://localhost:8080/api/v1/study/", {
       method: "POST",
       body: JSON.stringify(studyRecruitData),
       headers: {

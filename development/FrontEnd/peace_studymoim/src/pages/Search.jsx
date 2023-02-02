@@ -14,7 +14,6 @@ export default function Search() {
     "http://localhost:8080/api/v1/course/search/" + searchtext.word
   )
   
-  console.log(searchData)
 
   return (
     <div>
