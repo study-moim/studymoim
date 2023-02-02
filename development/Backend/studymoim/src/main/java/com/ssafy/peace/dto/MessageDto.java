@@ -20,7 +20,7 @@ public class MessageDto {
         private UserDto.Info toUser;
         private LocalDateTime sendTime;
 
-        public static MessageDto.Info fromEntity(com.ssafy.peace.entity.Message messageEntity){
+        public static Info fromEntity(com.ssafy.peace.entity.Message messageEntity){
             return Info.builder()
                     .messageId(messageEntity.getMessageId())
                     .isChecked(messageEntity.isChecked())

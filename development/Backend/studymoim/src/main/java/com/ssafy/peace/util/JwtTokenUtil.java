@@ -27,7 +27,6 @@ public class JwtTokenUtil {
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String ISSUER = "ssafy.com";
 
     @Autowired
     public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
@@ -43,7 +42,6 @@ public class JwtTokenUtil {
     public static JWTVerifier getVerifier() {
         return JWT
                 .require(Algorithm.HMAC512(secretKey.getBytes()))
-                .withIssuer(ISSUER)
                 .build();
     }
 
@@ -61,7 +59,6 @@ public class JwtTokenUtil {
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(Date.from(expires))
-                .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
@@ -74,7 +71,6 @@ public class JwtTokenUtil {
     public static void handleError(String token) {
         JWTVerifier verifier = JWT
                 .require(Algorithm.HMAC512(secretKey.getBytes()))
-                .withIssuer(ISSUER)
                 .build();
 
         try {

@@ -13,10 +13,12 @@ public class CurriculumDto {
     public static class Info {
         private int order;
         private CourseDto.Info course;
+        private StudyDto.Info study;
         public static Info fromEntity(Curriculum curriculumEntity) {
             return Info.builder()
                     .order(curriculumEntity.getCurriculumOrder())
                     .course(CourseDto.Info.fromEntity(curriculumEntity.getCourse()))
+                    .study(StudyDto.Info.fromEntity(curriculumEntity.getStudy()))
                     .build();
         }
     }
@@ -36,6 +38,8 @@ public class CurriculumDto {
         private int order;
         @NotNull(message="courseId은 null 일 수 없습니다")
         private int courseId;
+        @NotNull(message = "스터디는 null일 수 없습니다")
+        private int studyId;
     }
 
 }

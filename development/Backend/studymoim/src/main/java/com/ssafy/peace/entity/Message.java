@@ -19,7 +19,6 @@ public class Message {
     @GeneratedValue
     private int messageId;
 
-    @NotNull
     @ColumnDefault("false")
     private boolean isChecked;
 
@@ -38,11 +37,9 @@ public class Message {
     private User toUser;
 
     @Builder
-    public Message(String content, User fromUser, User toUser, boolean isChecked, LocalDateTime sendTime) {
+    public Message(String content, User fromUser, User toUser) {
         this.content = content;
         this.fromUser = fromUser;
         this.toUser = toUser;
-        this.isChecked = isChecked;
-        this.sendTime = sendTime;
     }
 }

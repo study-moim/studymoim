@@ -17,7 +17,7 @@ export default function StudyMakeForm(props) {
   }
 
   const [image, setImage] = useState("");
-  const [preview, setPreview] = useState("/logo.png");
+  const [preview, setPreview] = useState("logo.png");
 
   const recruitMembersRef = useRef();
   const startDateRef = useRef();
@@ -56,6 +56,7 @@ export default function StudyMakeForm(props) {
       description: enteredDescription,
     };
     props.onAddMeetup(studyRecruitData);
+    console.log(preview) 
   }
 
   return (
@@ -196,12 +197,11 @@ export default function StudyMakeForm(props) {
               className="w-full h-[400px] justify-center mb-5"
             />
 
-            <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-[15px]">
+            <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
-                className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] items-center"
+                className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
                 onClick={deleteHandler}
-              >
-                <p className="text-4xl text-white">취소</p>
+              >취소 
               </div>
               <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
                 글쓰기
