@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "MessageController", description = "메세지 API")
-@RestController
+@Slf4j
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/v1/message")
 public class MessageController {
-    private MessageService messageService;
+    private final MessageService messageService;
     @Operation(summary = "make message", description = "쪽지 발송")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -30,6 +32,7 @@ public class MessageController {
         try{
             return new ResponseEntity<>(messageService.makeMessage(message), HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
