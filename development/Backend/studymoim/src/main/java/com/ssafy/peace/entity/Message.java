@@ -22,22 +22,22 @@ public class Message {
     @ColumnDefault("false")
     private boolean isChecked;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_user_id")
+    private User toUser;
+
     @NotNull
     private String content;
-
-    @CreationTimestamp
-    private LocalDateTime sendTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_user_id")
     private User fromUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "to_user_id")
-    private User toUser;
+    @CreationTimestamp
+    private LocalDateTime sendTime;
 
     @Builder
-    public Message(String content, User fromUser, User toUser) {
+    public Message(User toUser, User fromUser, String content) {
         this.content = content;
         this.fromUser = fromUser;
         this.toUser = toUser;
