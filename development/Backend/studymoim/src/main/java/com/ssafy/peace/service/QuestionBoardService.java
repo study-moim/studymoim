@@ -40,17 +40,32 @@ public class QuestionBoardService {
 
     @Transactional
     public QuestionBoardDto.Info writeQuestion(QuestionBoardDto.Write questionBoardDto) throws RollbackException {
-        Lecture lecture = lectureRepository.findById(questionBoardDto.getLectureId()).get();
-        User user = userRepository.findById(questionBoardDto.getUserId()).get();
-        Study study = studyRepository.findById(questionBoardDto.getStudyId()).get();
         return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
                 .title(questionBoardDto.getTitle())
                 .content(questionBoardDto.getContent())
                 .isPublic(questionBoardDto.isPublic())
-                .lecture(lecture)
-                .user(user)
-                .study(study)
+                .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
+                .user(userRepository.findById(questionBoardDto.getUserId()).get())
+                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
                 .build()));
+    }
+
+    @Transactional
+    public QuestionBoardDto.Info updateQuestion(Integer questionBoardId, QuestionBoardDto.Write questionBoardDto) throws RollbackException {
+        return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
+                .title(questionBoardDto.getTitle())
+                .content(questionBoardDto.getContent())
+                .isPublic(questionBoardDto.isPublic())
+                .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
+                .user(userRepository.findById(questionBoardDto.getUserId()).get())
+                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
+                .build()
+                .updateId(questionBoardId)));
+    }
+
+    @Transactional
+    public void deleteQuestion(Integer questionBoardId) throws RollbackException {
+        questionBoardRepository.deleteById(questionBoardId);
     }
 
     @Transactional

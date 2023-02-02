@@ -36,12 +36,25 @@ public class FreeBoardService {
 
     @Transactional
     public FreeBoardDto.Info writeFreeBoard(FreeBoardDto.Write freeBoard) throws RollbackException  {
-        User user = userRepository.findById(freeBoard.getUserId()).get();
         return FreeBoardDto.Info.fromEntity(freeBoardRepository.save(FreeBoard.builder()
                 .title(freeBoard.getTitle())
                 .content(freeBoard.getContent())
-                .user(user)
+                .user(userRepository.findById(freeBoard.getUserId()).get())
                 .build()));
+    }
+
+    @Transactional
+    public FreeBoardDto.Info updateFreeBoard(Integer freeBoardId, FreeBoardDto.Write freeBoard) throws RollbackException {
+        return FreeBoardDto.Info.fromEntity(freeBoardRepository.save(FreeBoard.builder()
+                .title(freeBoard.getTitle())
+                .content(freeBoard.getContent())
+                .user(userRepository.findById(freeBoard.getUserId()).get())
+                .build().updateId(freeBoardId)));
+    }
+
+    @Transactional
+    public void deleteFreeBoard(Integer freeBoardId) throws RollbackException  {
+        freeBoardRepository.deleteById(freeBoardId);
     }
 
     public FreeBoardDto.Detail getfreeBoardDetail(Integer articleId) throws RollbackException {
