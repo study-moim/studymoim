@@ -46,7 +46,7 @@ export default function CommunityMainRoot() {
   const freeArticles = useFetch("http://localhost:8080/api/v1/articles/free/");
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[30px]">
         <div className="flex flex-row justify-between">
           <div className="w-full flex ">
             <div

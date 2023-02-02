@@ -39,7 +39,7 @@ export default function CommunityDetailRoot() {
         </div>
         <CommunityCommentForm />
         {commentList.map((comment) => (
-          <CommunityComment key={comment.freeBoardCommentId}/>
+          <CommunityComment key={comment.freeBoardCommentId} comment={comment}/>
         ))}
       </div>
     </>

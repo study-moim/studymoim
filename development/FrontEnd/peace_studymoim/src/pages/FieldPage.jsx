@@ -8,21 +8,17 @@ import { set } from "react-hook-form";
 
 export default function FieldPage() {
   const navigate = useNavigate();
-  const { token, setToken, info, logIn, setLogIn, setInfo, setLogOut } =
-    userInfo();
-  // setInfo()
-  const userInformation = useToken("http://localhost:8080/api/v1/oauth/info");
+  const { setInfo } = userInfo();
 
-  
-  
+  const userInformation = useToken("http://localhost:8080/api/v1/oauth/info");
+  // console.log(userInformation)
   if (userInformation.nickname) {
     navigate("/");
   } else {
     useEffect(() => {
       setInfo(userInformation);
     }, [userInformation]);
-  
-    console.log(info, "인포인포인포인포인포인포인포인포인포인포인포인포인포");
+
     // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
     const [selectedField, setSelectedField] = useState([]);
     const [image, setImage] = useState();
@@ -31,10 +27,6 @@ export default function FieldPage() {
     const nicknameRef = useRef();
     const saveNameRef = useRef();
     const selectFieldsRef = useRef();
-
-    function goToMain() {
-      navigate("/");
-    }
 
     useEffect(() => {
       if (image) {
