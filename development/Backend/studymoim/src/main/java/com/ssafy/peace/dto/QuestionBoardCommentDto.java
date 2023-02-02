@@ -1,6 +1,7 @@
 package com.ssafy.peace.dto;
 
 import com.ssafy.peace.entity.QuestionBoardComment;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class QuestionBoardCommentDto {
 
     @Data
     @Builder
+    @Schema(name="QuestionBoardCommentDto.Info")
     public static class Info {
         private int questionBoardCommentId;
         private String content;
@@ -29,6 +31,7 @@ public class QuestionBoardCommentDto {
 
     @Data
     @Builder
+    @Schema(name="QuestionBoardCommentDto.Write")
     public static class Write {
         @NotEmpty(message="content은 빈값 일 수 없습니다")
         @NotNull(message="content은 null 일 수 없습니다")
