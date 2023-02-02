@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function CommunityInnerComment({ child }) {
   const { info } = userInfo();
-  // console.log(info, "infotinfofasdfasdf")
-
+  
   const [isMine, setIsMine] = useState(false);
   if (info && info.userId === child.userId) {
     setIsMine(true);

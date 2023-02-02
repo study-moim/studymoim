@@ -9,7 +9,7 @@ export default function CourseMainRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { logos } = logoImage();
   const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course/`);
-  console.log(courseInfo)
+  
   return (
     <div className="">
       <div className="max-w-6xl mx-auto px-4">
