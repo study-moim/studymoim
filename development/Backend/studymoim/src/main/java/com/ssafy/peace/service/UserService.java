@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,6 +120,14 @@ public class UserService {
     }
 
     @Transactional
+    public boolean followingStatus(Integer myUserId, Integer targetUserId) {
+        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
     public UserDto.Info followUser(Integer myUserId, Integer targetUserId) {
         if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
             return null;
@@ -131,15 +140,13 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
+    @Transactional
     public UserDto.Info unfollowUser(Integer myUserId, Integer targetUserId) {
-        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
+        Optional<Follow> resopt = followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId);
+        if (!resopt.isPresent()) {
             return null;
         }
-        followRepository.delete(Follow.builder()
-                .fromUser(userRepository.findById(myUserId)
-                        .orElseThrow(NullPointerException::new))
-                .toUser(userRepository.findById(targetUserId)
-                        .orElseThrow(NullPointerException::new)).build());
+        followRepository.deleteById(resopt.get().getFollowId());
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 

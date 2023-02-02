@@ -119,6 +119,7 @@ public class UserDto {
         private Integer userId;
         public Id() { this.userId=null; }
         public Id(Integer userId) { this.userId=userId; }
+        public Id(int userId) { this.userId=userId; }
     }
 
 }

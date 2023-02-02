@@ -38,7 +38,7 @@ public class FreeBoardController {
         }
     }
 
-    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성하기")
+    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성 밎 수정하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -47,6 +47,38 @@ public class FreeBoardController {
     public ResponseEntity<?> boardWrite(@RequestBody FreeBoardDto.Write freeBoard) {
         try{
             freeBoardService.writeFreeBoard(freeBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "write freeBoard", description = "자유 게시판 글 작성 밎 수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{articleId}")
+    public ResponseEntity<?> boardUpdate(@Parameter(description = "articleId") @PathVariable Integer articleId,
+                                         @RequestBody FreeBoardDto.Write freeBoard) {
+        try{
+            freeBoardService.updateFreeBoard(articleId, freeBoard);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "delete freeBoard", description = "자유 게시판 글 삭제하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<?> boardDelete(@Parameter(description = "articleId") @PathVariable Integer articleId) {
+        try{
+            freeBoardService.deleteFreeBoard(articleId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
