@@ -76,12 +76,14 @@ public class DataLoader implements CommandLineRunner {
 
         for (int i = 0; i < userList.size(); i++) {
             for (int j = 0; j < lectureList.size(); j++) {
-                Note note = Note.builder()
-                        .user(userList.get(i))
-                        .lecture(lectureList.get(j))
-                        .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
-                        .build();
-                noteList.add(note);
+                if((i+j) % 2 == 0) {
+                    Note note = Note.builder()
+                            .user(userList.get(i))
+                            .lecture(lectureList.get(j))
+                            .content(userList.get(i).getNickname() + "가 쓴 메모...  강의 이름은 " + lectureList.get(j).getTitle())
+                            .build();
+                    noteList.add(note);
+                }
             }
         }
         noteRepository.saveAllAndFlush(noteList);
@@ -237,17 +239,6 @@ public class DataLoader implements CommandLineRunner {
 //        lectureRepository.save(lecture1);
 ////        addNote(lecture1);
 //    }
-
-    public void addNote(Lecture lecture){
-
-        User user1 = userRepository.findById(1).get();
-        Note note = Note.builder()
-                .lecture(lecture)
-                .user(user1)
-                .build();
-        noteRepository.saveAndFlush(note);
-
-    }
 
     public void addStudyAndMember(){
         Study study1 = Study.builder()

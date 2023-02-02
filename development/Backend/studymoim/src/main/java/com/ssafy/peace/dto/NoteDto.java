@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 public class NoteDto {
 //    private UserDto.Info user;
 //    private LectureDto.Info lecture;
+
+    private int noteId;
     private int userId;
     private int lectureId;
     private String content;
     private LocalDateTime lastModifiedDate;
     public static NoteDto fromEntity(Note noteEntity) {
         return NoteDto.builder()
+                .noteId(noteEntity.getNoteId())
                 .userId(UserDto.Info.fromEntity(noteEntity.getUser()).getUserId())
                 .lectureId(LectureDto.Info.fromEntity(noteEntity.getLecture()).getLectureId())
                 .content(noteEntity.getContent())
