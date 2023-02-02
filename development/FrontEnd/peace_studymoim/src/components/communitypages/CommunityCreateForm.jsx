@@ -19,6 +19,8 @@ export default function CommunityCreateForm() {
   const titleRef = useRef(null);
   const contentRef = useRef(null);
 
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
   function onSubmit(e) {
     e.preventDefault();
 
@@ -26,7 +28,7 @@ export default function CommunityCreateForm() {
       setIsLoading(true);
       // Create 호출
       // 두번째 인자로 메서드를 넣어줌
-      fetch("http://localhost:8080/api/v1/articles/free/", {
+      fetch(`http://${API_SERVER}/api/v1/articles/free/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

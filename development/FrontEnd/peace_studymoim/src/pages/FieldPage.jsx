@@ -9,8 +9,8 @@ import { set } from "react-hook-form";
 export default function FieldPage() {
   const navigate = useNavigate();
   const { setInfo } = userInfo();
-
-  const userInformation = useToken("http://localhost:8080/api/v1/oauth/info");
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const userInformation = useToken(`http://${API_SERVER}/api/v1/oauth/info`);
   // console.log(userInformation)
   if (userInformation.nickname) {
     navigate("/");
