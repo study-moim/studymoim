@@ -3,9 +3,10 @@ import StudyMakeForm from "../components/studypages/StudyMakeForm";
 
 export default function StudyMakePage() {
   let navigate = useNavigate(); 
-
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  
   function addMeetupHandler(studyRecruitData) {
-    fetch("http://localhost:8080/api/v1/study/", {
+    fetch(`http://${API_SERVER}/api/v1/study/`, {
       method: "POST",
       body: JSON.stringify(studyRecruitData),
       headers: {

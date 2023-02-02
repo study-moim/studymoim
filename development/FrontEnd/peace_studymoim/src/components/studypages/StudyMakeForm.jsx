@@ -7,24 +7,30 @@ import DeleteModal from "../overall/DeleteModal";
 import Backdrop from "../overall/Backdrop";
 import useFetch from "../../hooks/useFetch";
 import CourseSearchBar from "./CourseSearchBar";
+import { userInfo } from "../../zustand/store";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
-  const search = useFetch("http://localhost:8080/api/v1/course/")
+  const search = useFetch("http://localhost:8080/api/v1/course/");
   function closeModalHandler() {
     setShowModal(false);
   }
+  const {info} = userInfo()
+  if (!info) {
+    alert("로그인이 필요합니다.");
+    navigate("/login");
+  }
 
-  const [image, setImage] = useState("");
-  const [preview, setPreview] = useState("logo.png");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  const titleInputRef = useRef(); 
+  const titleInputRef = useRef();
   const descriptionRef = useRef();
   const startDateRef = useRef();
-  // img 는 따로 
+  // img 는 따로
   const recruitMembersRef = useRef();
   // notice는 ''
-  const courseListsRef = useRef();      
+  // const courseListsRef = useRef();
   const recruitMethodRef = useRef();
 
   useEffect(() => {
@@ -50,16 +56,17 @@ export default function StudyMakeForm(props) {
 
     const studyRecruitData = {
       title: enteredTitleInput,
-      content: enteredDescription, 
+      content: enteredDescription,
       startTime: enteredStartDate,
-      saveName: preview, 
+      saveName: preview,
       userLimit: enteredRecruitMembers,
-      notice: '', 
-      // 이거 해야됨 
-      courseList: [search[0]],
-      public: enteredRecruitMethod 
+      notice: "",
+      // 이거 해야됨
+      courseList: [search[0], search[1]],
+      leadUserId: info.userId, 
+      public: enteredRecruitMethod,
     };
-    console.log(studyRecruitData) 
+    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 
@@ -99,6 +106,7 @@ export default function StudyMakeForm(props) {
                 required
                 className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
               >
+                <option></option>
                 <option value="1">1명</option>
                 <option value="2">2명</option>
                 <option value="3">3명</option>
@@ -145,7 +153,18 @@ export default function StudyMakeForm(props) {
 
             {/* 사진 */}
             <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
-              <img src={preview} className="w-6/12 object-cover rounded-full" />
+              {preview ? (
+                <img
+                  src={preview}
+                  required
+                  className="flex-grow-0 flex-shrink-0 w-6/12 object-cover rounded-full"
+                />
+              ) : (
+                <img
+                  src={"/logo.png"}
+                  className="flex-grow-0 flex-shrink-0 w-6/12 object-cover rounded-full"
+                />
+              )}
 
               <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
                 <input
@@ -198,7 +217,7 @@ export default function StudyMakeForm(props) {
               className="w-full mt-3 h-[50px] justify-center border"
               placeholder="제목을 입력해주세요"
               min={5}
-              max={30} 
+              max={30}
             />
             {/* 설명 */}
             <ReactQuill
@@ -212,8 +231,9 @@ export default function StudyMakeForm(props) {
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
                 className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
-                onClick={() => setShowModal(true)} 
-              >취소 
+                onClick={() => setShowModal(true)}
+              >
+                취소
               </div>
               <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
                 글쓰기
@@ -225,12 +245,8 @@ export default function StudyMakeForm(props) {
                   onConfirm={closeModalHandler}
                 />
               ) : null}
-              
-              {showModal ? (
-                <Backdrop
-                  onCancel={closeModalHandler}
-                />
-              ) : null}
+
+              {showModal ? <Backdrop onCancel={closeModalHandler} /> : null}
             </div>
           </div>
         </div>
