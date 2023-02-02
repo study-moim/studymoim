@@ -20,28 +20,27 @@ public class StudyDto {
     @Builder
     public static class Info {
         private int studyId;
-        private LocalDateTime creationTime;
         private String title;
         private String content;
         private LocalDateTime startTime;
         private String saveName;
         private boolean isClose;
         private int userLimit;
-        private int userGathered; // 모인 사람 수
+        private Long userGathered; // 모인 사람 수
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
         public static Info fromEntity(Study studyEntity) {
             return Info.builder()
                     .studyId(studyEntity.getStudyId())
-                    .creationTime(studyEntity.getCreationTime())
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
                     .startTime(studyEntity.getStartTime())
                     .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
-                    .userGathered(studyEntity.getStudyMembers().size())
+                    .userGathered(studyEntity.getStudyMembers().stream()
+                            .filter(member -> !member.isBanned()).count())
                     .isPublic(studyEntity.isPublic())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
@@ -60,10 +59,10 @@ public class StudyDto {
         private String saveName;
         private boolean isClose;
         private int userLimit;
+        private Long userGathered; // 모인 사람 수
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
-        private int userGathered; // 모인 사람 수
         public static Recruit fromEntity(Study studyEntity) {
             return Recruit.builder()
                     .studyId(studyEntity.getStudyId())
@@ -73,7 +72,8 @@ public class StudyDto {
                     .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
-                    .userGathered(studyEntity.getStudyMembers().size())
+                    .userGathered(studyEntity.getStudyMembers().stream()
+                            .filter(member -> !member.isBanned()).count())
                     .isPublic(studyEntity.isPublic())
                     .build();
         }
@@ -100,11 +100,19 @@ public class StudyDto {
         private int userLimit;
         @NotNull(message="isPublic은 null 일 수 없습니다")
         private boolean isPublic;
+        @NotNull(message="강좌 선택은 null 일 수 없습니다")
+        private List<Integer> courseIdList;
+        private int leadUserId; // 스터디 생성자 아이디
+    }
+
+
+
+    @Data
+    @Builder
+    public static class Notice{
         @Size(max = 100, message = "바르지 않은 notice 크기 입니다")
         private String notice;
-        @NotNull(message="강좌 선택은 null 일 수 없습니다")
-        private List<CourseDto.Info> courseList;
-        private int leadUserId; // 스터디 생성자 아이디
+        private int studyId;
     }
 
     @Data
@@ -144,28 +152,33 @@ public class StudyDto {
     @Builder
     public static class Detail {
         private int studyId;
+        private UserDto.Info leadUser;
         private String title;
         private String content;
         private LocalDateTime startTime;
         private String saveName;
         private boolean isClose;
         private int userLimit;
+        private Long userGathered; // 모인 사람 수
         private boolean isPublic;
-        private int userGathered; // 모인 사람 수
         private String notice;
         private boolean isFinished;
-        private List<StudyMemberDto.UserInfo> members;
+        private List<UserDto.Info> members;
         private List<CurriculumDto.Recruit> curricula;
         public static Detail fromEntity(Study studyEntity) {
             return Detail.builder()
                     .studyId(studyEntity.getStudyId())
-                    .startTime(studyEntity.getCreationTime())
+                    .leadUser(UserDto.Info.fromEntity(studyEntity.getStudyMembers().stream()
+                            .filter(studyMember -> studyMember.isMemberRole())
+                            .findFirst().get().getUser()))
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
+                    .startTime(studyEntity.getCreationTime())
                     .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
-                    .userGathered(studyEntity.getStudyMembers().size())
+                    .userGathered(studyEntity.getStudyMembers().stream()
+                            .filter(member -> !member.isBanned()).count())
                     .isPublic(studyEntity.isPublic())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
@@ -173,8 +186,8 @@ public class StudyDto {
                             .map(curriculum -> CurriculumDto.Recruit.fromEntity(curriculum))
                             .collect(Collectors.toList()))
                     .members(studyEntity.getStudyMembers().stream()
-                            .filter(member -> !member.isBanned())
-                            .map(member->StudyMemberDto.UserInfo.fromEntity(member))
+                            .filter(member -> !member.isBanned() & !member.isMemberRole())
+                            .map(member->UserDto.Info.fromEntity(member.getUser()))
                             .collect(Collectors.toList()))
                     .build();
         }
