@@ -58,7 +58,7 @@ public class AuthController {
         String token = JwtTokenUtil.getToken(email);
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtTokenUtil.HEADER_STRING, JwtTokenUtil.TOKEN_PREFIX+token);
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(REDIRECT_CONTEXT+"/login/kakao?access-token="+token)).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://"+(REDIRECT_CONTEXT.equals("localhost")?"localhost:4040":REDIRECT_CONTEXT)+"/login/kakao?access-token="+token)).headers(headers).build();
     }
 
 
