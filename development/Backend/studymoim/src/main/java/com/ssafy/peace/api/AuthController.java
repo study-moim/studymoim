@@ -15,6 +15,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +31,18 @@ import java.net.URISyntaxException;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/oauth")
 public class AuthController {
-
+    private String REDIRECT_CONTEXT;
     private final UserService userService;
     private final KakaoAuthService kakaoAuthService;
+
+    @Autowired
+    public AuthController(@Value("${oauth.kakao.redirect-context}") String REDIRECT_CONTEXT, UserService userService, KakaoAuthService kakaoAuthService){
+        this.REDIRECT_CONTEXT = REDIRECT_CONTEXT;
+        this.userService = userService;
+        this.kakaoAuthService = kakaoAuthService;
+    }
 
     @Operation(summary = "user login", description = "사용자 OAuth 로그인\n" +
             "반환값: Http status FOUND, Authentication 헤더(JWT 포함됨)\n")
@@ -56,7 +65,7 @@ public class AuthController {
         String token = JwtTokenUtil.getToken(email);
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtTokenUtil.HEADER_STRING, JwtTokenUtil.TOKEN_PREFIX+token);
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:4000/login/kakao?access-token="+token)).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(REDIRECT_CONTEXT+"/login/kakao?access-token="+token)).headers(headers).build();
     }
 
 
