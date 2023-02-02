@@ -43,10 +43,10 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/search/{searchtext}")
-    public ResponseEntity<?> courseInfoList(@Parameter(description = "searchtext") @PathVariable String searchtext) {
+    @GetMapping("/search/{searchText}")
+    public ResponseEntity<?> courseInfoList(@Parameter(description = "searchText") @PathVariable String searchText) {
         try{
-            return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchtext), HttpStatus.OK);
+            return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchText), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,6 +62,20 @@ public class CourseController {
     public ResponseEntity<?> courseRecruit(@Parameter(description = "courseId") @PathVariable int courseId) {
         try{
             return new ResponseEntity<>(courseService.getCourseRecruit(courseId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "get studies attending course", description = "선택한 강의를 듣고 있는 스터디")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{courseId}/study_list")
+    public ResponseEntity<?> courseAttendingStudies(@Parameter(description = "courseId") @PathVariable Integer courseId) {
+        try{
+            return new ResponseEntity<>(courseService.getStudyAttendingCourse(courseId), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

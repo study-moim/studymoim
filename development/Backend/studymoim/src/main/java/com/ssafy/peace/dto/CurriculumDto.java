@@ -12,12 +12,12 @@ public class CurriculumDto {
     @Builder
     public static class Info {
         private int order;
-        private CourseDto.Info course;
+        private CourseDto.Recruit course;
         private StudyDto.Info study;
         public static Info fromEntity(Curriculum curriculumEntity) {
             return Info.builder()
                     .order(curriculumEntity.getCurriculumOrder())
-                    .course(CourseDto.Info.fromEntity(curriculumEntity.getCourse()))
+                    .course(CourseDto.Recruit.fromEntity(curriculumEntity.getCourse()))
                     .study(StudyDto.Info.fromEntity(curriculumEntity.getStudy()))
                     .build();
         }
@@ -28,6 +28,22 @@ public class CurriculumDto {
     public static class Recruit {
         private int order;
         private CourseDto.Recruit course;
+        public static Recruit fromEntity(Curriculum curriculumEntity) {
+            return Recruit.builder()
+                    .order(curriculumEntity.getCurriculumOrder())
+                    .course(CourseDto.Recruit.fromEntity(curriculumEntity.getCourse()))
+                    .build();
+        }
+    }
+    @Data
+    @Builder
+    public static class Search {
+        private StudyDto.Recruit study;
+        public static Search fromEntity(Curriculum curriculumEntity) {
+            return Search.builder()
+                    .study(StudyDto.Recruit.fromEntity(curriculumEntity.getStudy()))
+                    .build();
+        }
     }
 
     /* Request DTO */
