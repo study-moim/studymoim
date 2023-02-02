@@ -1,5 +1,6 @@
 package com.ssafy.peace.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class FreeBoardCommentDto {
 
     @Data
     @Builder
+    @Schema(name="FreeBoardCommentDto.Info")
     public static class Info {
         private int freeBoardCommentId;
         private String content;
@@ -37,6 +39,7 @@ public class FreeBoardCommentDto {
 
     @Data
     @Builder
+    @Schema(name="FreeBoardCommentDto.Write")
     public static class Write {
         @NotEmpty(message="content은 빈값 일 수 없습니다")
         @NotNull(message="content은 null 일 수 없습니다")
