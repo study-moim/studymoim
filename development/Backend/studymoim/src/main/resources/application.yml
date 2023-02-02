@@ -22,6 +22,9 @@ logging:
   level:
     web: trace
     sql: trace
+oauth:
+  kakao:
+    redirect-context: http://localhost:4000
 ---
 spring:
   config:
@@ -43,6 +46,9 @@ logging:
     sql: trace
 springdoc:
   use-fqn: true
+oauth:
+  kakao:
+    redirect-context: http://i8a110.p.ssafy.io
 ---
 spring:
   config:
