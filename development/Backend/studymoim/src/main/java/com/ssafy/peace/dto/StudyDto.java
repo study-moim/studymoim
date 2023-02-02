@@ -158,7 +158,7 @@ public class StudyDto {
         private int userGathered; // 모인 사람 수
         private boolean isPublic;
 
-        private List<StudyMemberDto.StudyInfo> members;
+        private List<StudyMemberDto.UserInfo> members;
         private List<CurriculumDto.Recruit> curricula;
         public static Detail fromEntity(Study studyEntity) {
             return Detail.builder()
@@ -175,7 +175,7 @@ public class StudyDto {
                             .map(curriculum -> CurriculumDto.Recruit.fromEntity(curriculum))
                             .collect(Collectors.toList()))
                     .members(studyEntity.getStudyMembers().stream()
-                            .map(member -> StudyMemberDto.StudyInfo.fromEntity(member))
+                            .map(member -> StudyMemberDto.UserInfo.fromEntity(member))
                             .collect(Collectors.toList()))
                     .build();
         }
