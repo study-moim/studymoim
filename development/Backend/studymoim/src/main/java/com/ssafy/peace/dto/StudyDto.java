@@ -100,11 +100,19 @@ public class StudyDto {
         private int userLimit;
         @NotNull(message="isPublic은 null 일 수 없습니다")
         private boolean isPublic;
+        @NotNull(message="강좌 선택은 null 일 수 없습니다")
+        private List<Integer> courseIdList;
+        private int leadUserId; // 스터디 생성자 아이디
+    }
+
+
+
+    @Data
+    @Builder
+    public static class Notice{
         @Size(max = 100, message = "바르지 않은 notice 크기 입니다")
         private String notice;
-        @NotNull(message="강좌 선택은 null 일 수 없습니다")
-        private List<CourseDto.Info> courseList;
-        private int leadUserId; // 스터디 생성자 아이디
+        private int studyId;
     }
 
     @Data
