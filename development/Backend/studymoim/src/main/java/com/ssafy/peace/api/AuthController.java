@@ -1,7 +1,6 @@
 package com.ssafy.peace.api;
 
 import com.ssafy.peace.dto.UserDto;
-import com.ssafy.peace.dto.auth.Principal;
 import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.service.UserService;
@@ -12,28 +11,31 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/oauth")
 public class AuthController {
-
+    private String REDIRECT_CONTEXT;
     private final UserService userService;
     private final KakaoAuthService kakaoAuthService;
+
+    @Autowired
+    public AuthController(@Value("${oauth.kakao.redirect-context}") String REDIRECT_CONTEXT, UserService userService, KakaoAuthService kakaoAuthService){
+        this.REDIRECT_CONTEXT = REDIRECT_CONTEXT;
+        this.userService = userService;
+        this.kakaoAuthService = kakaoAuthService;
+    }
 
     @Operation(summary = "user login", description = "사용자 OAuth 로그인\n" +
             "반환값: Http status FOUND, Authentication 헤더(JWT 포함됨)\n")
@@ -44,7 +46,7 @@ public class AuthController {
     @GetMapping("/login")
     public ResponseEntity<?> kakaoLogin(String code) throws URISyntaxException {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        String email = kakaoAuthService.getUserInfo(code).getEmail();
+        String email = kakaoAuthService.getUserInfo(REDIRECT_CONTEXT, code).getEmail();
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userService.getUserByEmail(email);
         // 카카오 정보로 회원가입
@@ -56,7 +58,7 @@ public class AuthController {
         String token = JwtTokenUtil.getToken(email);
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtTokenUtil.HEADER_STRING, JwtTokenUtil.TOKEN_PREFIX+token);
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:4000/login/kakao?access-token="+token)).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://"+(REDIRECT_CONTEXT.equals("localhost")?"localhost:4000":REDIRECT_CONTEXT)+"/login/kakao?access-token="+token)).headers(headers).build();
     }
 
 

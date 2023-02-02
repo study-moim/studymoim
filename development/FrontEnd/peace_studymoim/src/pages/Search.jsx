@@ -9,9 +9,9 @@ import MainCourse from "../components/mainpages/MainCourse";
 export default function Search() {
   const { logos } = logoImage();
   const searchtext = useParams();
-
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const searchData = useFetch(
-    "http://localhost:8080/api/v1/course/search/" + searchtext.word
+    `http://${API_SERVER}/api/v1/course/search/` + searchtext.word
   )
   
 
