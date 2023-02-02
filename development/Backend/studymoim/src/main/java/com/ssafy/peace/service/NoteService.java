@@ -19,7 +19,8 @@ public class NoteService {
     @Transactional
     public NoteDto getNoteByLectureIdByuserId(int lectureId, int userId) {
         List<Note> result = noteRepository.findAllByUser_userIdAndLecture_lectureId(userId, lectureId);
-        System.out.println(result);
+        System.out.println(lectureId +" "+ userId);
+        System.out.println("getNoteByLectureIdByuserId result:" + result);
         if(result.size()==0)    return null;
         return NoteDto.fromEntity(result.get(0));
     }
