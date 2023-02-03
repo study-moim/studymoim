@@ -2,7 +2,7 @@ import StudyRecruitItem from "./StudyRecruitItem";
 
 export default function StudyRecruitList(props) {
   return (
-    <div>
+    <div className="w-full">
       {props.recruits.map((recruit) => (
         <div className="cursor-pointer hover:scale-105 w-11/12 ml-6">
           <StudyRecruitItem
