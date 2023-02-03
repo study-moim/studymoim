@@ -67,8 +67,8 @@ export default function StudyMakeForm(props) {
       userLimit: enteredRecruitMembers,
       // TODO: id만 넘기기 !! 이거 해야됨
       courseIdList: [search[0].course_id],
-      leadUserId: 1, 
-      // leadUserId: info.userId,
+      //leadUserId: 1, 
+      leadUserId: info.userId,
       public: enteredRecruitMethod,
     };
     console.log(studyRecruitData);

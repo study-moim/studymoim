@@ -13,7 +13,7 @@ export default function StudyRecruitDetailPage(props) {
   const studyId = useParams();
 
   const detailId = studyId.study_recruit_id;
-  const detailData = useFetch(`http://localhost:8080/api/v1/study/${detailId}`);
+  const detailData = useFetch(`http:///${API_SERVER}/api/v1/study/${detailId}`);
   console.log(detailData);
   function closeModalHandler() {
     if (detailData.public) {
