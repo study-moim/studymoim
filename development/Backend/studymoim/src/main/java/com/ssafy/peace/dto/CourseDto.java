@@ -25,6 +25,8 @@ public class CourseDto {
 //        private CourseProviderDto.Info courseProvider;
         private String courseProviderName;
         private int likeUserCount;
+//        private List<CourseCategoryDto.Info> categoryList;
+        private List<CourseCategoryDto.Info> categoryList;
 
         public static Info fromEntity(Course courseEntity) {
             return Info.builder()
@@ -35,6 +37,9 @@ public class CourseDto {
 //                    .courseProvider(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()))
                     .courseProviderName(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()).getName())
                     .likeUserCount(courseEntity.getUserLikeCourses().size())
+                    .categoryList(courseEntity.getCourseTypes().stream().map(courseType ->
+                        CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory())
+                    ).collect(Collectors.toList()))
                     .build();
         }
     }
