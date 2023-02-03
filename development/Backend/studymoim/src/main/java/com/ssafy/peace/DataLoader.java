@@ -310,7 +310,8 @@ public class DataLoader implements CommandLineRunner {
             for (JSONObject category : data) {
                 try {
                     courseCategoryRepository.save(CourseCategory.builder()
-                            .name((String) category.get("name"))
+                            .name_kor((String) category.get("name_kor"))
+                            .name_eng((String) category.get("name_eng"))
                             .imgurl((String) category.get("image"))
                             .build());
                     System.out.println((String) category.get("image"));
@@ -327,7 +328,12 @@ public class DataLoader implements CommandLineRunner {
                 CourseCategory courseCategory = courseCategoryList.get(i);
                 for (int j = 0; j < courseList.size(); j++) {
                     Course course = courseList.get(j);
-                    if(course.getTitle().contains(courseCategory.getName())) {
+                    if(course.getTitle().contains(courseCategory.getName_kor())) {
+                        courseTypeRepository.save(CourseType.builder()
+                                .course(course)
+                                .courseCategory(courseCategory)
+                                .build());
+                    } else if (course.getTitle().contains(courseCategory.getName_eng())) {
                         courseTypeRepository.save(CourseType.builder()
                                 .course(course)
                                 .courseCategory(courseCategory)
