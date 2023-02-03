@@ -49,13 +49,13 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<StudyDto.Recruit> getStudyAttendingCourse(Integer courseId){
-        List<StudyDto.Recruit> result = new ArrayList<>();
+    public List<StudyDto.Info> getStudyAttendingCourse(Integer courseId){
+        List<StudyDto.Info> result = new ArrayList<>();
         List<Curriculum> curricula = curriculumRepository.findAllByCourse_CourseId(courseId);
         for (Curriculum curriculum :
                 curricula) {
             result.add(studyRepository.findById(curriculum.getStudy().getStudyId())
-                    .map(StudyDto.Recruit::fromEntity).get());
+                    .map(StudyDto.Info::fromEntity).get());
         }
         return result;
     }
