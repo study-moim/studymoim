@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +196,7 @@ public class DataLoader implements CommandLineRunner {
     public void addStudyAndMember(){
         Study study1 = Study.builder()
                 .title("리액트 스터디")
-                .startTime(LocalDateTime.now())
+                .startTime(LocalDate.now())
                 .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
                 .isPublic(true)
                 .userLimit(4)

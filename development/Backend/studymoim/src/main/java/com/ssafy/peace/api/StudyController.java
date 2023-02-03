@@ -56,7 +56,7 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{studyId}/studyHistory")
-    public ResponseEntity<?> studyHistory(@Parameter(description="studyId") @PathVariable Integer studyId) {
+    public ResponseEntity<?> getStudyHistory(@Parameter(description="studyId") @PathVariable Integer studyId) {
         try{
             return new ResponseEntity<>(studyService.getStudyHistory(studyId), HttpStatus.OK);
         } catch(Exception e) {

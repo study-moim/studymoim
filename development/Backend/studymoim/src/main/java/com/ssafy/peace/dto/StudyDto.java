@@ -10,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class StudyDto {
         private int studyId;
         private String title;
         private String content;
-        private LocalDateTime startTime;
+        private LocalDate startTime;
         private String saveName;
         private boolean isClose;
         private int userLimit;
@@ -52,10 +53,9 @@ public class StudyDto {
     @Builder
     public static class Recruit {
         private int studyId;
-        private LocalDateTime creationTime;
         private String title;
         private String content;
-        private LocalDateTime startTime;
+        private LocalDate startTime;
         private String saveName;
         private boolean isClose;
         private int userLimit;
@@ -66,7 +66,7 @@ public class StudyDto {
         public static Recruit fromEntity(Study studyEntity) {
             return Recruit.builder()
                     .studyId(studyEntity.getStudyId())
-                    .startTime(studyEntity.getCreationTime())
+                    .startTime(studyEntity.getStartTime())
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
                     .saveName(studyEntity.getSaveName())
@@ -92,7 +92,7 @@ public class StudyDto {
         private String content;
         @NotNull(message="startTime은 null 일 수 없습니다")
         @NotEmpty(message="startTime은 빈값 일 수 없습니다")
-        private LocalDateTime startTime;
+        private LocalDate startTime;
         @Size(max = 255)
         private String saveName;
         @Max(value = 6, message = "userLimit은 7명 이상일 수 없습니다.")
@@ -155,7 +155,7 @@ public class StudyDto {
         private UserDto.Info leadUser;
         private String title;
         private String content;
-        private LocalDateTime startTime;
+        private LocalDate startTime;
         private String saveName;
         private boolean isClose;
         private int userLimit;
@@ -173,7 +173,7 @@ public class StudyDto {
                             .findFirst().get().getUser()))
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
-                    .startTime(studyEntity.getCreationTime())
+                    .startTime(studyEntity.getStartTime())
                     .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
