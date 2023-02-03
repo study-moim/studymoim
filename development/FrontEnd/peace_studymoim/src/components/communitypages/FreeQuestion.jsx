@@ -8,19 +8,6 @@ export default function FreeQuestion({ freeArticle }) {
     <>
       <Link
         to={`/community/free/${freeArticle.freeBoardId}`}
-        state={{
-          userId: freeArticle.user.userId,
-          freeBoardId: freeArticle.freeBoardId,
-          title: freeArticle.title,
-          content: freeArticle.content,
-          comments: freeArticle.freeBoardComments,
-          publishTime: date,
-          userName: freeArticle.user.nickname,
-          // userPicture: freeArticle.user.saveName,
-          userPicture:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjplK5Iw7kiaLK5XX1g5VJwc3W8m92UjVRgw&usqp=CAU",
-          hit: freeArticle.hit,
-        }}
         className="my-[20px] flex flex-row gap-5 pl-[42px] pr-[29px] py-[20px] bg-white border-t-0 border-r-0 border-b-4 border-l-[11px] border-[#eef1ff]/[0.98]"
       >
         <div className="flex flex-col justify-between w-7/12">
