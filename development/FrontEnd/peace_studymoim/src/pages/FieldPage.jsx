@@ -65,7 +65,7 @@ export default function FieldPage() {
         saveName: preview,
         selectFields: selectedField,
       };
-      console.log(loginData);
+    
       navigate("/");
     }
 
