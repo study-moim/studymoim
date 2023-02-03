@@ -73,7 +73,6 @@ public class QuestionBoardService {
             throws RollbackException {
         return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
                 .content(comment.getContent())
-                .parentComment(questionBoardCommentRepository.findById(comment.getParentCommentId()).orElse(null))
                 .questionBoard(questionBoardRepository.findById(comment.getQuestionBoardId()).get())
                 .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
@@ -86,10 +85,9 @@ public class QuestionBoardService {
         return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
                         .questionBoard(questionBoardComment.getQuestionBoard())
                         .content("(삭제된 메시지 입니다.)")
-                        .parentComment(questionBoardComment.getParentComment())
                         .user(questionBoardComment.getUser())
                         .isDeleted(true)
-                .build()));
+                .build().updateId(commentId)));
     }
 
     @Transactional

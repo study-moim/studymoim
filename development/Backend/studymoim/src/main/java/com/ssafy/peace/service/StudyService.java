@@ -1,8 +1,6 @@
 package com.ssafy.peace.service;
 
-import com.ssafy.peace.dto.CourseDto;
-import com.ssafy.peace.dto.StudyDto;
-import com.ssafy.peace.dto.StudyHistoryDto;
+import com.ssafy.peace.dto.*;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +19,17 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final StudyMemberRepository studyMemberRepository;
+    private final StudyRequestRepository studyRequestRepository;
     private final StudyHistoryRepository studyHistoryRepository;
     private final UserRepository userRepository;
     private final CurriculumRepository curriculumRepository;
     private final CourseRepository courseRepository;
 
     @Transactional
-    public List<StudyDto.Recruit> getStudyList() throws RollbackException{
+    public List<StudyDto.Info> getStudyList() throws RollbackException{
         return studyRepository.findAllByIsCloseIsFalseAndIsPublicIsTrue()
                 .stream()
-                .map(StudyDto.Recruit::fromEntity)
+                .map(StudyDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -62,64 +61,111 @@ public class StudyService {
                 .isPublic(study.isPublic())
                 .build();
         StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
-        // 임시로 더미 데이터 넣어놓음
+        // 스터디를 만든 사람이 곧 방장
         studyMemberRepository.save(StudyMember.builder()
-                .user(userRepository.findByNickname("싸피킴"))
+                .user(userRepository.findById(study.getLeadUserId()).get())
                 .study(newStudy)
                 .memberRole(true)
                 .build());
         // 커리큘럼이랑 연결
         List<Curriculum> curricula = new ArrayList<>();
         int order = 0;
-        System.out.println(study.getCourseList());
-        for(CourseDto.Info course : study.getCourseList()){
-            System.out.println(course);
+        for(int courseId : study.getCourseIdList()){
+            System.out.println(courseId);
             Curriculum curriculum = Curriculum.builder()
-                    .course(courseRepository.findById(course.getCourse_id()).get())
+                    .course(courseRepository.findById(courseId).get())
                     .study(newStudy)
                      .curriculumOrder(order++)
                     .build();
             curricula.add(curriculum);
         }
-        System.out.println(curricula);
         curriculumRepository.saveAll(curricula);
-
 
         return result;
     }
 
+    @Transactional
+    public StudyDto.Info updateStudy(Integer studyId, StudyDto.Make study) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.save(Study.builder()
+                .title(study.getTitle())
+                .content(study.getContent())
+                .startTime(study.getStartTime())
+                .saveName(study.getSaveName())
+                .userLimit(study.getUserLimit())
+                .isPublic(study.isPublic())
+                .build()
+                .updateId(studyId)));
+    }
+
+    @Transactional
+    public StudyDto.Info updateNotice(Integer studyId, StudyDto.Notice notice) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateNotice(notice.getNotice()));
+    }
+
+    @Transactional
     public List<StudyDto.Recruit> getStudyInfoListFindByName(String searchText) throws RollbackException{
 
         return studyRepository.findAllByTitleContaining(searchText).stream()
                 .map(StudyDto.Recruit::fromEntity)
                 .collect(Collectors.toList());
     }
-//    public List<StudyDto.Info> getStudyByCourseInCurriculum(Integer courseId) throws RollbackException{
-//
-//    }
 
-//    public StudyDto.Recruit recruitStudy(StudyDto.Info study) throws RollbackException{
-//
-//    }
+    @Transactional
+    public void participateStudy(Integer studyId, StudyMemberDto.Participate studyMember){
+        int userId = studyMember.getUserId();
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return;
+        studyMemberRepository.save(StudyMember.builder()
+                .study(studyRepository.findById(studyId).get())
+                .user(userRepository.findById(userId).get())
+                .build()
+        );
+    }
 
-    public List<StudyDto.Recruit> test() throws RollbackException{
-        Curriculum curriculum = curriculumRepository.findById(24).get();
-        System.out.println(curriculum.getCurriculumOrder());
+    @Transactional
+    public StudyRequestDto.Info requestStudy(Integer studyId, StudyRequestDto.Request studyRequest) throws RollbackException  {
+        int userId = studyRequest.getUserId();
+        if(studyRequestRepository.existsByUser_UserIdAndStudy_StudyId(userId, studyId)) return null;
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return null;
+        if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return null;
+        return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
+                .user(userRepository.findById(studyRequest.getUserId()).get())
+                .study(studyRepository.findById(studyId).get())
+                .content(studyRequest.getContent())
+                .build()));
+    }
 
-        System.out.println(curriculum.getCurriculumOrder());
-        curriculumRepository.save(curriculum.toBuilder()
-                .curriculumOrder(3)
-                .build());
-        System.out.println(curriculum.getCurriculumOrder());
-
-
-        System.out.println(curriculum.getCurriculumId());
-        System.out.println(curriculum.getStudy().getStudyId());
-        return studyRepository.findAllByIsCloseIsFalseAndIsPublicIsTrue()
-                .stream()
-                .map(StudyDto.Recruit::fromEntity)
+    @Transactional
+    public List<StudyRequestDto.Info> getRequest(Integer studyId){
+        return studyRequestRepository.findAllByStudy_studyIdAndRequestStatusEquals(studyId, 0).stream()
+                .map(StudyRequestDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public StudyRequestDto.Info decideRequest(Integer studyId, Integer requestId, StudyRequestDto.Decide request){
+        return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
+                .content(studyRequestRepository.findById(requestId).get().getContent())
+                .requestStatus(request.getRequestStatus())
+                .user(userRepository.findById(request.getUserId()).get())
+                .study(studyRepository.findById(studyId).get())
+                .build().updateId(requestId)));
+    }
+
+    @Transactional
+    public void banUserFromStudy(Integer studyId, Integer userId){
+        if (!studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
+        studyMemberRepository.save(StudyMember.builder()
+                .study(studyRepository.findById(studyId).get())
+                .user(userRepository.findById(userId).get())
+                        .isBanned(true)
+                .build()
+                .updateId(studyMemberRepository.findByUser_userIdAndStudy_studyId(userId, studyId).getStudyMemberId())
+        );
+
+    }
+
+
 
 
 }

@@ -14,7 +14,6 @@ export default function Search() {
     `http://${API_SERVER}/api/v1/course/search/` + searchtext.word
   )
   
-  console.log(searchData)
 
   return (
     <div>

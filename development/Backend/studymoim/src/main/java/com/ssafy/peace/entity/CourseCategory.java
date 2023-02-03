@@ -21,6 +21,10 @@ public class CourseCategory {
     @NotNull
     private String name;
 
+    @Size(max = 255)
+    @NotNull
+    private String imgurl;
+
     // 부모 정의
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
@@ -37,8 +41,10 @@ public class CourseCategory {
     private List<UserLikeCategory> userLikeCategories = new ArrayList<>();
 
     @Builder
-    public CourseCategory(String name, CourseCategory parentCategory) {
+    public CourseCategory(String name, String imgurl, CourseCategory parentCategory) {
         this.name = name;
+        this.imgurl = imgurl;
         this.parentCategory = parentCategory;
+
     }
 }

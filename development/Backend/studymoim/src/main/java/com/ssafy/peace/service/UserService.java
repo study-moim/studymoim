@@ -12,10 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,8 +31,8 @@ public class UserService {
     private final FollowRepository followRepository;
     private final AlarmRepository alarmRepository;
     private final MessageRepository messageRepository;
-    private final KakaoAuthService kakaoAuthService;
-    PasswordEncoder passwordEncoder;
+    private final CourseTypeRepository courseTypeRepository;
+    private final CourseRepository courseRepository;
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
@@ -192,5 +189,18 @@ public class UserService {
         return list;
     }
 
-
+    public List<CourseDto.Info> getRecommendCourses(Integer userId) throws Exception{
+        // 사용자가 좋아한 카테고리 리스트에서 아이디만 추출
+        List<Integer> categoryIdList = userLikeCategoryRepository.findAllByUser_userId(userId).stream()
+                .map(UserLikeCategoryDto.recommend::fromEntity)
+                .collect(Collectors.toList());
+        // 그 아이디가 달린 강좌 아이디 추출
+        List<Integer> courseIdList = courseTypeRepository.findByCourseTypeIdIn(categoryIdList).stream()
+                .map(CourseTypeDto.recommend::fromEntity)
+                .collect(Collectors.toList());
+        // 그 아이디로 강좌 리스트 추출
+        return courseRepository.findByCourseIdIn(courseIdList).stream()
+                .map(CourseDto.Info::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

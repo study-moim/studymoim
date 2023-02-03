@@ -1,45 +1,15 @@
-import { useState, useEffect } from "react";
 import StudyRecruitList from "../components/studypages/StudyRecruitList";
 import { Link } from "react-router-dom";
 import MainSearch from "../components/mainpages/MainSearch";
 import Tag from "../components/overall/Tag";
 import { logoImage } from "../zustand/store";
+import useFetch from "../hooks/useFetch";
 
 
 // TODO: 취소 버튼 구현 안함, 강좌 선택도 넣지 않았음
 export default function StudyRecruitMainAll() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [LoadedStudyRecruits, SetLoadedStudyRecruits] = useState([]);
   const { logos } = logoImage();
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetch("https://react-a-3b3d0-default-rtdb.firebaseio.com/react.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const recruits = [];
-
-        for (const key in data) {
-          const recruit = {
-            id: key,
-            ...data[key],
-          };
-          recruits.push(recruit);
-        }
-        setIsLoading(false);
-        SetLoadedStudyRecruits(recruits);
-      });
-  }, []);
-
-  if (isLoading) {
-    return (
-      <section>
-        <p>로딩중</p>
-      </section>
-    );
-  }
+  const LoadedStudyRecruits = useFetch("http://localhost:8080/api/v1/study/")
 
   return (
     <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px] mt-10">

@@ -11,13 +11,14 @@ export default function StudyRecruitDetailPage(props) {
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
 
   const studyId = useParams();
+  // TODO: 이게 문제임!! 
   const detailId = studyId.study_recruit_id;
   const detailData = useFetch(
-    `https://react-a-3b3d0-default-rtdb.firebaseio.com/react/${detailId}.json`
+    `http://localhost:8080/api/v1/study/${detailId}`
   );
   
   function closeModalHandler() {
-    if (detailData.recruitMethod === "공개") {
+    if (detailData.public === true) {
       setShowOpenModal(false);
     } else {
       setShowNotOpenModal(false);
@@ -25,7 +26,7 @@ export default function StudyRecruitDetailPage(props) {
   }
 
   function acceptHandler() {
-    if (detailData.recruitMethod === "공개") {
+    if (detailData.public === false) {
       setShowOpenModal(true);
     } else {
       setShowNotOpenModal(true);
@@ -65,7 +66,7 @@ export default function StudyRecruitDetailPage(props) {
             </div>
           </div>
           <img
-            src={detailData.studyImg}
+            src={detailData.saveName}
             className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-3/4 w-2/5 relative gap-2.5 p-2.5"
           />
         </div>
@@ -98,7 +99,7 @@ export default function StudyRecruitDetailPage(props) {
                     시작예정일
                   </p>
                   <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                    {detailData.startDate}
+                    {detailData.startTime}
                   </p>
                 </div>
               </div>
@@ -132,21 +133,6 @@ export default function StudyRecruitDetailPage(props) {
                     d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
                   />
                 </svg>
-
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-bold text-left uppercase text-[#2f343a]">
-                    종료 예정일
-                  </p>
-                  {detailData.dueDate ? (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      {detailData.dueDate}
-                    </p>
-                  ) : (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      기간미정
-                    </p>
-                  )}
-                </div>
               </div>
             </div>
           </div>
@@ -174,7 +160,7 @@ export default function StudyRecruitDetailPage(props) {
                     모집인원
                   </p>
                   <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                    {detailData.recruitMembers}명
+                    {detailData.userLimit}
                   </p>
                 </div>
               </div>
@@ -212,7 +198,7 @@ export default function StudyRecruitDetailPage(props) {
                     인원 모집 방법
                   </p>
                   <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                    {detailData.recruitMethod}
+                    {detailData.public}
                   </p>
                 </div>
               </div>
@@ -220,7 +206,7 @@ export default function StudyRecruitDetailPage(props) {
           </div>
           <div>
             <div
-              dangerouslySetInnerHTML={{ __html: detailData.description }}
+              dangerouslySetInnerHTML={{ __html: detailData.content }}
             ></div>
           </div>
           <div className="flex flex-col justify-start items-center relative gap-9">
