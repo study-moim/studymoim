@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.RollbackException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -210,5 +211,9 @@ public class UserService {
         return courseRepository.findByCourseIdIn(courseIdList).stream()
                 .map(CourseDto.Info::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public UserDto.Info updateNickname(Integer userId, UserDto.Nickname nickname) throws RollbackException {
+        return UserDto.Info.fromEntity(userRepository.findById(userId).get().updateNickname(nickname.getNickname()));
     }
 }

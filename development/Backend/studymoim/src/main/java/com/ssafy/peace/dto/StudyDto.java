@@ -65,7 +65,6 @@ public class StudyDto {
         @NotNull(message="content은 null 일 수 없습니다")
         @NotEmpty(message="content은 빈값 일 수 없습니다")
         private String content;
-        @NotNull(message="startTime은 null 일 수 없습니다")
         @NotEmpty(message="startTime은 빈값 일 수 없습니다")
         private LocalDate startTime;
         @Size(max = 255)
