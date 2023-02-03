@@ -1,6 +1,6 @@
 export default function OtherChatting() {
   return (
-    <div className="ml-2 mt-2">
+    <div className="ml-2 mt-2 grid justify-items-start">
       <img
         src="/python.png"
         alt="x"
