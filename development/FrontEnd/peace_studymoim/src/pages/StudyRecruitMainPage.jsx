@@ -54,7 +54,7 @@ export default function StudyRecruitMainAll() {
         </div>
 
         <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black px-3">
-          <StudyRecruitList recruits={LoadedStudyRecruits} />;
+          <StudyRecruitList recruits={LoadedStudyRecruits} />
         </div>
       </div>
     </div>
