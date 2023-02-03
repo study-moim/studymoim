@@ -67,7 +67,6 @@ public class FreeBoardService {
         return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository
                 .save(FreeBoardComment.builder()
                         .content(comment.getContent())
-                        .parentComment(freeBoardCommentRepository.findById(comment.getParentCommentId()).orElse(null))
                         .freeBoard(freeBoardRepository.findById(comment.getFreeBoardId()).get())
                         .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
@@ -79,10 +78,9 @@ public class FreeBoardService {
         return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository.save(FreeBoardComment.builder()
                 .freeBoard(freeBoardComment.getFreeBoard())
                 .content("(삭제된 메시지 입니다.)")
-                .parentComment(freeBoardComment.getParentComment())
                 .user(freeBoardComment.getUser())
                 .isDeleted(true)
-                .build()));
+                .build().updateId(commentId)));
     }
 
     public List<FreeBoardDto.Detail> searchFreeBoardByTitle(String key) {

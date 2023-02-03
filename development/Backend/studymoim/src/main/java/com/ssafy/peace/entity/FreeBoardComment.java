@@ -31,15 +31,6 @@ public class FreeBoardComment {
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    // 부모 정의
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private FreeBoardComment parentComment;
-
-    // 자식 정의
-    @OneToMany(mappedBy = "parentComment")
-    private List<FreeBoardComment> children;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "free_board_id")
     private FreeBoard freeBoard;
@@ -49,11 +40,15 @@ public class FreeBoardComment {
     private User user;
 
     @Builder
-    public FreeBoardComment(String content, FreeBoardComment parentComment, FreeBoard freeBoard, User user, boolean isDeleted) {
+    public FreeBoardComment(String content, FreeBoard freeBoard, User user, boolean isDeleted) {
         this.content = content;
-        this.parentComment = parentComment;
         this.freeBoard = freeBoard;
         this.user = user;
         this.isDeleted = isDeleted;
+    }
+
+    public FreeBoardComment updateId(Integer id) {
+        this.freeBoardCommentId = id;
+        return this;
     }
 }
