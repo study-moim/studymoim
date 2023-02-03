@@ -31,6 +31,8 @@ public class StudyDto {
         private boolean isPublic;
         private String notice;
         private boolean isFinished;
+        private List<CurriculumDto.Recruit> curricula;
+
         public static Info fromEntity(Study studyEntity) {
             return Info.builder()
                     .studyId(studyEntity.getStudyId())
@@ -45,36 +47,9 @@ public class StudyDto {
                     .isPublic(studyEntity.isPublic())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
-                    .build();
-        }
-    }
-
-    @Data
-    @Builder
-    public static class Recruit {
-        private int studyId;
-        private String title;
-        private String content;
-        private LocalDate startTime;
-        private String saveName;
-        private boolean isClose;
-        private int userLimit;
-        private Long userGathered; // 모인 사람 수
-        private boolean isPublic;
-        private String notice;
-        private boolean isFinished;
-        public static Recruit fromEntity(Study studyEntity) {
-            return Recruit.builder()
-                    .studyId(studyEntity.getStudyId())
-                    .startTime(studyEntity.getStartTime())
-                    .title(studyEntity.getTitle())
-                    .content(studyEntity.getContent())
-                    .saveName(studyEntity.getSaveName())
-                    .isClose(studyEntity.isClose())
-                    .userLimit(studyEntity.getUserLimit())
-                    .userGathered(studyEntity.getStudyMembers().stream()
-                            .filter(member -> !member.isBanned()).count())
-                    .isPublic(studyEntity.isPublic())
+                    .curricula(studyEntity.getCurricula().stream()
+                            .map(curriculum -> CurriculumDto.Recruit.fromEntity(curriculum))
+                            .collect(Collectors.toList()))
                     .build();
         }
     }

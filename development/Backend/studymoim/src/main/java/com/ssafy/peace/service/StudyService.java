@@ -103,10 +103,10 @@ public class StudyService {
     }
 
     @Transactional
-    public List<StudyDto.Recruit> getStudyInfoListFindByName(String searchText) throws RollbackException{
+    public List<StudyDto.Info> getStudyInfoListFindByName(String searchText) throws RollbackException{
 
         return studyRepository.findAllByTitleContaining(searchText).stream()
-                .map(StudyDto.Recruit::fromEntity)
+                .map(StudyDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }
 
