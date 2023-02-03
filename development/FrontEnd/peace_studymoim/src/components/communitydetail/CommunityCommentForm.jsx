@@ -7,10 +7,7 @@ export default function CommunityCommentForm({freeBoardId}) {
   const navigate = useNavigate();
 
   const { info } = userInfo();
-  if (!info) {
-    alert("로그인이 필요합니다.");
-    navigate("/login");
-  }
+
   // 생성시 바로 이동하는 기능
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +42,9 @@ export default function CommunityCommentForm({freeBoardId}) {
         if (res.ok) {
           setIsLoading(false);
           alert("댓글이 작성되었습니다.")
-        }
+          }
+      }).then(()=> {
+        useFetch(`http://${API_SERVER}/api/v1/articles/free/${freeBoardId}/`)
       });
     }
   }

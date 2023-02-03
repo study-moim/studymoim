@@ -10,7 +10,6 @@ export default function useFetch(url) {
       })
       .then((data) => {
         setData(data);
-        console.log(data, "데이타")
       });
   }, [url]);
   return data;

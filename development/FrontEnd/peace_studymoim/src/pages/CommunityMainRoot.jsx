@@ -3,12 +3,16 @@ import { useState, useEffect } from "react";
 import FreeQuestion from "../components/communitypages/FreeQuestion";
 import { Link } from "react-router-dom";
 import axios from "axios"
+import getArticles from "../hooks/getArticles"
+import {getArticleList} from "../zustand/articles"
+
 
 export default function CommunityMainRoot() {
+  getArticles()
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [currentClick, setCurrentClick] = useState("all");
   const [prevClick, setPrevClick] = useState(null);
-
+  const { articles } = getArticleList()
   // 누르면 전체/강의/자유 색이 바뀜
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
@@ -29,8 +33,11 @@ export default function CommunityMainRoot() {
     [currentClick]
   );
 
-  
-  const freeArticles = useFetch(`http://${API_SERVER}/api/v1/articles/free/`);
+  useEffect(() => {
+
+  }, )
+  // const freeArticles = useFetch(`http://${API_SERVER}/api/v1/articles/free/`);
+  const freeArticles = articles
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 bg-white my-[30px]">

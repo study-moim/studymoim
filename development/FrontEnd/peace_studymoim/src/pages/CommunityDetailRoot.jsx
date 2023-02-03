@@ -2,8 +2,11 @@ import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import getArticles from "../hooks/getArticles"
+
 
 export default function CommunityDetailRoot() {
+  getArticles()
   const props = useLocation().state;
   // console.log(props)
   const commentList = props.comments;
