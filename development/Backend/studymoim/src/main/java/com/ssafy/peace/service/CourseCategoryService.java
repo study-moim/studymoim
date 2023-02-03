@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +29,10 @@ public class CourseCategoryService {
     }
 
     @Transactional
-    public void updateCategoryLikes(Integer userId, List<Integer> categories) {
+    public void updateCategoryLikes(Integer userId, List<Map<String, Object>> categories) {
         userLikeCategoryRepository.deleteAllByUser_userId(userId);
-        categories.forEach(categoryId -> userLikeCategoryRepository.save(UserLikeCategory.builder()
-                .courseCategory(courseCategoryRepository.findById(categoryId).get())
+        categories.forEach(category -> userLikeCategoryRepository.save(UserLikeCategory.builder()
+                .courseCategory(courseCategoryRepository.findById((Integer) category.get("categoryId")).get())
                 .user(userRepository.findById(userId).get())
                 .build())
         );
