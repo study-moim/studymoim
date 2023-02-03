@@ -75,7 +75,6 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-
     public Study(String title, String content, LocalDateTime startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
@@ -86,6 +85,16 @@ public class Study {
         this.isPublic = isPublic;
         this.notice = notice;
         this.isFinished = isFinished;
+    }
+
+    public Study updateId(Integer id){
+        this.studyId = id;
+        return this;
+    }
+
+    public Study updateNotice(String notice){
+        this.notice = notice;
+        return this;
     }
 
 }

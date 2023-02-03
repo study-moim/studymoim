@@ -15,7 +15,7 @@ spring:
     show-sql: false
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   springdoc:
     use-fqn: true
 logging:

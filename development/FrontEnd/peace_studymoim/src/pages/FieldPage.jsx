@@ -21,7 +21,7 @@ export default function FieldPage() {
 
     // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
     const [selectedField, setSelectedField] = useState([]);
-    const [image, setImage] = useState();
+    const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
     const nicknameRef = useRef();
@@ -39,6 +39,7 @@ export default function FieldPage() {
         setPreview(null);
       }
     }, [image]);
+    console.log(image);
 
     useEffect(() => {}, [selectedField]);
 
@@ -89,19 +90,27 @@ export default function FieldPage() {
           onSubmit={submitHandler}
           className="container mx-auto my-auto flex flex-col justify-center items-center"
         >
-          <div className="flex justify-start items-center relative gap-4">
-            <img
-              src={preview}
-              required
-              className="flex-grow-0 flex-shrink-0 w-[358px] h-[351px] object-cover"
-            />
-            <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[37px]">
-              <p className="flex-grow-0 flex-shrink-0 w-[421px] text-[32px] font-bold text-left">
+          <div className="flex w-6/12 justify-center items-center relative gap-4">
+            {preview ? (
+              <img
+                src={preview}
+                required
+                className="flex-grow-0 flex-shrink-0 object-cover rounded-full w-6/12"
+              />
+            ) : (
+              <img
+                src={"/logo.png"}
+                className="flex-grow-0 flex-shrink-0 object-cover rounded-full w-6/12"
+              />
+            )}
+
+            <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[5px] w-8/12">
+              <p className="flex-grow-0 flex-shrink-0 w-full text-[28px] font-bold text-center">
                 닉네임을 입력해주세요(2-6자)
               </p>
               <input
                 type="text"
-                className="flex-grow-0 flex-shrink-0 w-[417px] h-[66px] rounded-[10px] border-[3px] border-[#b1b2ff]"
+                className="flex-grow-0 flex-shrink-0 w-full h-[66px] rounded-[10px] border-[3px] border-[#b1b2ff] mb-3"
                 ref={nicknameRef}
                 minLength="1"
                 maxLength="5"
@@ -138,13 +147,10 @@ export default function FieldPage() {
               </div>
             ))}
           </div>
-          <button>제출해라</button>
 
-          <Link to="/">
-            <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
-              홈으로 이동하기
-            </button>
-          </Link>
+          <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
+            제출하기
+          </button>
         </form>
       </>
     );

@@ -8,6 +8,13 @@ export default function MainSearch() {
     window.location.href = "/search/" + word;
   };
 
+  
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter') {
+      onSubmit(); 
+    }
+  }
+
   return (
     <div className="w-6/12 h-[63px] relative rounded-[20px] bg-[#eef] mt-5 shadow-xl">
       {/* 돋보기 아이콘 */}
@@ -32,6 +39,7 @@ export default function MainSearch() {
         className="border-0 w-full h-[63px] bg-[#eef] text-lg font-medium rounded-[20px] pl-24 focus:outline-[#bb74f6]"
         placeholder="듣고 싶은 기술을 검색하세요"
         onChange={(e) => setWord(e.target.value)}
+        onKeyPress={onKeyPress} 
       />
     </div>
   );

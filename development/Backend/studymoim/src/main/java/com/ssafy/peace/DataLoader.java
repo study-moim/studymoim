@@ -58,25 +58,25 @@ public class DataLoader implements CommandLineRunner {
 
 
         // User 3명
-        addUsers();
-        // 글 한개 작성
-        addFreeBoard();
-
-//        addPlatformAndCourseProvider();
-
-        // youtube api 세팅
-        youtubeApiService.init();
-
-        // Course 좋아요 더미 데이터
-        addUserLikeCourse();
-
-        // CourseCategory 더미 데이터
-        addCategory();
-
-        // Memo 더미 데이터
-        addNote();
-
-        addStudyAndMember();
+//        addUsers();
+//        // 글 한개 작성
+//        addFreeBoard();
+//
+////        addPlatformAndCourseProvider();
+//
+//        // youtube api 세팅
+//        youtubeApiService.init();
+//
+//        // Course 좋아요 더미 데이터
+//        addUserLikeCourse();
+//
+//        // CourseCategory 더미 데이터
+//        addCategory();
+//
+//        // Memo 더미 데이터
+//        addNote();
+//
+//        addStudyAndMember();
     }
 
 
