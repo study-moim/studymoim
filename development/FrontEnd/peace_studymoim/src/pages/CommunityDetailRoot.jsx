@@ -2,22 +2,13 @@ import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-
 
 export default function CommunityDetailRoot() {
   const props = useLocation().state;
   // console.log(props)
   const commentList = props.comments;
-  const [commentLength, setCommentLength] = useState(0);
-  console.log(props.comments, "ASDFASDFADSFADFASDFASDFASDFASDFASDFASDF")
-  
-  useEffect(() => {
-    if (!props.comments === undefined) {
-      setCommentLength(props.comments.length);
-    }
-  }, [])
+  // const commentLength = props.comments.length;
+
 
   return (
     <>
@@ -37,7 +28,8 @@ export default function CommunityDetailRoot() {
               조회수 {props.hit}
             </div>
             <div className="text-xl font-bold text-[#898989]">
-              댓글 {commentLength}
+              {/* 댓글 {commentLength} */}
+              댓글 11
             </div>
           </div>
           <div className="w-[1162px] pl-[30px] pr-[269px] py-5 text-2xl font-bold text-black">

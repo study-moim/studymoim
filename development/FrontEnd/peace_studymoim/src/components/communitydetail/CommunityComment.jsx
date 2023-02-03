@@ -6,13 +6,12 @@ import { Link } from "react-router-dom";
 
 export default function CommunityComment({ comment }) {
   const { info } = userInfo();
-  console.log(info, "infotinfofasdfasdf")
 
   const [isMine, setIsMine] = useState(false);
-  if (info && info.userId === comment.userId) {
+  if (info.userId === comment.userId) {
     setIsMine(true);
   }
-
+  // console.log(comment)
   const [moreToggle, setMoreToggle] = useState(false);
 
   function clickMore() {
@@ -26,8 +25,7 @@ export default function CommunityComment({ comment }) {
   }
   const dateBase = new Date(comment.publishTime);
   const date = dateBase.toString().substring(11, 24);
-  console.log(comment, "ASDGASDFGGASDASDGASGD")
-  const childLength = comment.children.length;
+  // const childLength = comment.children.length;
 
   return (
     <>
@@ -46,7 +44,7 @@ export default function CommunityComment({ comment }) {
                 state={{clickWho: comment.userId}}
               >
                 <div className="px-2.5 py-2 text-[15px] font-bold text-center">
-                  {comment.user.nickname}
+                  {comment.nickname}
                 </div>
               </Link>
               <div className="px-2.5 py-[8.5px] text-[15px] text-center text-[#7b7474]">
@@ -55,7 +53,7 @@ export default function CommunityComment({ comment }) {
             </div>
             {/* 수정 삭제 버튼 */}
             {!modifyToggle ? (
-              <div className={!isMine ? "invisible" : visible}>
+              <div className={!isMine ? "invisible" : "visible"}>
                 <button
                   onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F0DB4F] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f0d841] hover:scale-95"
@@ -102,7 +100,7 @@ export default function CommunityComment({ comment }) {
           )}
         </div>
         {/* 대댓글 보기 */}
-        <button
+        {/* <button
           onClick={clickMore}
           className="h-9  p-2 rounded-[10px] bg-[#b1b2ff] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#9697ff] hover:scale-95"
         >
@@ -120,7 +118,7 @@ export default function CommunityComment({ comment }) {
               ))}
             </div>
           ) : null}
-        </div>
+        </div> */}
       </div>
     </>
   );

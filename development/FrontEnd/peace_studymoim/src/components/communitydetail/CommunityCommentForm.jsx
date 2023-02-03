@@ -43,9 +43,8 @@ export default function CommunityCommentForm({freeBoardId}) {
         }),
       }).then((res) => {
         if (res.ok) {
-          alert("자유글 생성완료");
-          navigate("/community");
           setIsLoading(false);
+          alert("댓글이 작성되었습니다.")
         }
       });
     }
