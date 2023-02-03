@@ -1,7 +1,10 @@
 import ChattingWindow from "../components/mailbox/ChattingWindow";
 import ChatUser from "../components/mailbox/ChatUser";
+import useFetch from "../hooks/useFetch";
 
 export default function MailMainRoot() {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const userInfo = useFetch(`http://${API_SERVER}/api/v1/user/1/message`);
   return (
     <div className="max-w-6xl mx-auto px-4">
       <div
@@ -16,11 +19,11 @@ export default function MailMainRoot() {
         "
         >
           {/* TODO: 프롭스 주면서 map 돌려야함 */}
-          <ChatUser />
-          <ChatUser />
-          <ChatUser />
-          <ChatUser />
-          <ChatUser />
+          {userInfo.map((user) => (
+            <div>
+              <ChatUser key={user.userId} propData={user} />
+            </div>
+          ))}
         </div>
 
         {/* 우측 대화 창 */}

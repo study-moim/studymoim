@@ -3,7 +3,7 @@ import MyChatting from "./MyChatting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-export default function ChattingWindow() {
+export default function ChattingWindow({info}) {
   return (
     <div className="md:w-full w-full h-full flex flex-col border border-[#B1B2FF] p-5 m-5 rounded-l">
     {/* 상대방과 나의 대화 불러오기 */}
