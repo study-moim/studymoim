@@ -28,14 +28,7 @@ export default function CourseMainRoot() {
             </div>
           </div>
         </div>
-        <div className="w-full text-end my-4">
-          <select className="w-[120px] h-[40px] pl-5 text-xl border-[2px] border-[#e187fc] rounded-lg">
-            <option value="normal">기본순</option>
-            <option value="popular">인기순</option>
-            <option value="view">조회순</option>
-            <option value="new">최신순</option>
-          </select>
-        </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-8 h-[600px] overflow-auto">
           {courseInfo.map((course) => (
             <MainCourse key={course.course_id} propData={course} />
