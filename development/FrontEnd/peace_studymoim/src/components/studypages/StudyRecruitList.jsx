@@ -8,13 +8,15 @@ export default function StudyRecruitList(props) {
           <StudyRecruitItem
             key={recruit.studyId}
             studyId={recruit.studyId}
-            userLimit={recruit.userLimit}
-            startTime={recruit.startTime}
-            public={recruit.public}
-            saveName={recruit.saveName}
             title={recruit.title}
-            userGathered={recruit.userGathered} 
+            content={recruit.content} 
+            startTime={recruit.startTime}
+            saveName={recruit.saveName}
+            userLimit={recruit.userLimit}
+            userGathered={recruit.userGathered}
             notice={recruit.notice}
+            curricula={recruit.curricula}
+            public={recruit.public}
             finished={recruit.finished}
             close={recruit.close} 
           />

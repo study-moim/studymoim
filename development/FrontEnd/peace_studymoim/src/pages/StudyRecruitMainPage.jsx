@@ -9,7 +9,7 @@ export default function StudyRecruitMainAll() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
 
-  const LoadedStudyRecruits = useFetch("http://localhost:8080/api/v1/study/");
+  const LoadedStudyRecruits = useFetch(`http://${API_SERVER}/api/v1/study/`);
 
   return (
     <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px] mt-10">
@@ -54,7 +54,7 @@ export default function StudyRecruitMainAll() {
         </div>
 
         <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black px-3">
-          <StudyRecruitList recruits={LoadedStudyRecruits} />;
+          <StudyRecruitList recruits={LoadedStudyRecruits} />
         </div>
       </div>
     </div>

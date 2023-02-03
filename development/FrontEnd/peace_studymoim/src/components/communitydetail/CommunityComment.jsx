@@ -1,6 +1,4 @@
-import { useState } from "react";
-import CommunityInnerComment from "./CommunityInnerComment";
-import CommunityInnerCommentForm from "./CommunityInnerCommentForm";
+import { useEffect, useState } from "react";
 import { userInfo } from "../../zustand/store";
 import { Link } from "react-router-dom";
 
@@ -8,18 +6,16 @@ export default function CommunityComment({ comment }) {
   const { info } = userInfo();
 
   const [isMine, setIsMine] = useState(false);
-  if (info.userId === comment.userId) {
-    setIsMine(true);
-  }
-  // console.log(comment)
-  const [moreToggle, setMoreToggle] = useState(false);
-
-  function clickMore() {
-    setMoreToggle(!moreToggle);
-  }
+  
+  useEffect(() => {
+    if (info.userId === comment.user["userId"]) {
+      setIsMine(true);
+      console.log(isMine)
+    }
+    console.log(isMine,"2222222222222222222222222222")
+  }, [])
 
   const [modifyToggle, setModifyToggle] = useState(false);
-
   function clickModify() {
     setModifyToggle(!modifyToggle);
   }
@@ -70,13 +66,13 @@ export default function CommunityComment({ comment }) {
             ) : (
               <div className="">
                 <button
-                  onClick={clickModify}
+                  // onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F0DB4F] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f0d841] hover:scale-95"
                 >
                   수정완료
                 </button>
                 <button
-                  // onClick={clickModify}
+                  onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
                 >
                   수정취소
@@ -99,26 +95,6 @@ export default function CommunityComment({ comment }) {
             </form>
           )}
         </div>
-        {/* 대댓글 보기 */}
-        {/* <button
-          onClick={clickMore}
-          className="h-9  p-2 rounded-[10px] bg-[#b1b2ff] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#9697ff] hover:scale-95"
-        >
-          {!moreToggle ? `답글 보기 (${childLength})` : "올리기"}
-        </button>
-        <div className="flex flex-col w-full">
-          {moreToggle ? <CommunityInnerCommentForm /> : null}
-          {moreToggle ? (
-            <div className="w-11/12 flex flex-col gap-5">
-              {comment.children.map((child) => (
-                <CommunityInnerComment
-                  key={child.freeBoardCommentId}
-                  child={child}
-                />
-              ))}
-            </div>
-          ) : null}
-        </div> */}
       </div>
     </>
   );

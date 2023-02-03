@@ -180,7 +180,15 @@ public class UserService {
         List<MessageDto.Info> list = messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
                                         .map(MessageDto.Info::fromEntity)
                                         .collect(Collectors.toList());
-
+        list.addAll(messageRepository.findAllByToUser_UserIdAndFromUser_UserId(fromUserId, toUserId).stream()
+                .map(MessageDto.Info::fromEntity)
+                .collect(Collectors.toList()));
+        list.sort(new Comparator<MessageDto.Info>() {
+            @Override
+            public int compare(MessageDto.Info o1, MessageDto.Info o2) {
+                return o1.getSendTime().compareTo(o2.getSendTime());
+            }
+        });
         // 메세지 기록 중 안 읽은 메세지 읽음 처리
         if(messageRepository.existsByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(toUserId, fromUserId)){
             messageRepository.checkMessage(toUserId, fromUserId);

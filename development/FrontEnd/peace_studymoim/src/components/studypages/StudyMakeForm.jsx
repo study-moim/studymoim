@@ -24,8 +24,8 @@ export default function StudyMakeForm(props) {
   //   navigate("/login");
   // }
 
-  const [image, setImage] = useState('');
-  const [preview, setPreview] = useState('');
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const titleInputRef = useRef('');
   const descriptionRef = useRef('');
@@ -44,7 +44,7 @@ export default function StudyMakeForm(props) {
       };
       reader.readAsDataURL(image);
     } else {
-      setPreview('');
+      setPreview(null); 
     }
   }, [image]);
 
@@ -60,18 +60,14 @@ export default function StudyMakeForm(props) {
     const studyRecruitData = {
       title: enteredTitleInput,
       content: enteredDescription,
-      // TODO: startTime이 Post가 안됨!! 
-      //startTime: "2023-02-03T00:20:47.794Z",
       startTime: enteredStartDate,
       saveName: preview,
       userLimit: enteredRecruitMembers,
       // TODO: id만 넘기기 !! 이거 해야됨
       courseIdList: [search[0].course_id],
-      leadUserId: 1, 
-      //leadUserId: info.userId,
+      leadUserId: info.userId,
       public: enteredRecruitMethod,
     };
-    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 

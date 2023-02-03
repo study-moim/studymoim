@@ -38,6 +38,21 @@ public class CourseController {
         }
     }
 
+    @Operation(summary = "get course detail", description = "선택한 카테고리에 속한 강좌 목록")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/category/{courseCategoryId}")
+    public ResponseEntity<?> courseInfoListCourseCategoryId(@Parameter(description = "courseCategoryId") @PathVariable int courseCategoryId) {
+        try{
+            return new ResponseEntity<>(courseService.courseInfoListCourseCategoryId(courseCategoryId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get course list", description = "검색한 강의 목록 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -67,6 +82,7 @@ public class CourseController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "get studies attending course", description = "선택한 강의를 듣고 있는 스터디")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
