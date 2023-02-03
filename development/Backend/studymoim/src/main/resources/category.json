@@ -1,12 +1,12 @@
 [
-    {"name" : "리액트", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/200px-React-icon.svg.png"},
-    {"name" : "뷰", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vue.png/220px-Vue.png"},
-    {"name" : "플러터", "image" :  "https://blog.kakaocdn.net/dn/XsNHt/btrb3m0cuQb/62QmvGg1bUVrI5uZfcWEi1/img.png"},
-    {"name" : "자바스크립트", "image" :  "https://w.namu.la/s/18f590719ba62222718f1a68efcad20118c422b146650c97162d782ef9995d28326d1011cfb37595d9c60d66a05b343556e520204383d4429456fb54ca6bbf5a1e45d5893fecead839aa8219f229f416e0f880a21e6604f33f31279161afbddc"},
-    {"name" : "텐서플로", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/TensorFlow_logo.svg/1200px-TensorFlow_logo.svg.png"},
-    {"name" : "자바", "image" :  "http://image.dongascience.com/Photo/2017/08/15041412372646.png"},
-    {"name" : "파이썬", "image" :  "https://w7.pngwing.com/pngs/985/314/png-transparent-learning-python-programming-language-computer-programming-python-logo-text-computer-logo.png"},
-    {"name" : "스프링", "image" :  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRptRorrsusbV12UVZcUtYjiQ8L_wBql3izVg&usqp=CAU"},
-    {"name" : "장고", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Django_logo.svg/2560px-Django_logo.svg.png"},
-    {"name" : "도커", "image" :  "https://storage.googleapis.com/static.fastcampus.co.kr/prod/uploads/202206/085227-704/froala-uploads-1653627056791-%EC%88%98%EC%A0%95%EB%90%A8-vertical-logo-monochromatic.png"}
+    {"name_eng" : "React.js", "name_kor" : "리액트",  "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/200px-React-icon.svg.png"},
+    {"name_eng" : "Vue.js", "name_kor" : "뷰", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vue.png/220px-Vue.png"},
+    {"name_eng" : "Flutter", "name_kor" : "플러터", "image" :  "https://blog.kakaocdn.net/dn/XsNHt/btrb3m0cuQb/62QmvGg1bUVrI5uZfcWEi1/img.png"},
+    {"name_eng" : "Javascript", "name_kor" : "자바스크립트", "image" :  "https://w.namu.la/s/18f590719ba62222718f1a68efcad20118c422b146650c97162d782ef9995d28326d1011cfb37595d9c60d66a05b343556e520204383d4429456fb54ca6bbf5a1e45d5893fecead839aa8219f229f416e0f880a21e6604f33f31279161afbddc"},
+    {"name_eng" : "Tensorflow", "name_kor" : "텐서플로", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/TensorFlow_logo.svg/1200px-TensorFlow_logo.svg.png"},
+    {"name_eng" : "Java", "name_kor" : "자바", "image" :  "http://image.dongascience.com/Photo/2017/08/15041412372646.png"},
+    {"name_eng" : "Python", "name_kor" : "파이썬", "image" :  "https://w7.pngwing.com/pngs/985/314/png-transparent-learning-python-programming-language-computer-programming-python-logo-text-computer-logo.png"},
+    {"name_eng" : "Spring", "name_kor" : "스프링", "image" :  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRptRorrsusbV12UVZcUtYjiQ8L_wBql3izVg&usqp=CAU"},
+    {"name_eng" : "Django", "name_kor" : "장고", "image" :  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Django_logo.svg/2560px-Django_logo.svg.png"},
+    {"name_eng" : "Docker", "name_kor" : "도커", "image" :  "https://storage.googleapis.com/static.fastcampus.co.kr/prod/uploads/202206/085227-704/froala-uploads-1653627056791-%EC%88%98%EC%A0%95%EB%90%A8-vertical-logo-monochromatic.png"}
 ]

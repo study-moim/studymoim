@@ -27,7 +27,7 @@ public class StudyService {
 
     @Transactional
     public List<StudyDto.Info> getStudyList() throws RollbackException{
-        return studyRepository.findAllByIsCloseIsFalseAndIsPublicIsTrue()
+        return studyRepository.findAllByIsCloseIsFalse()
                 .stream()
                 .map(StudyDto.Info::fromEntity)
                 .collect(Collectors.toList());

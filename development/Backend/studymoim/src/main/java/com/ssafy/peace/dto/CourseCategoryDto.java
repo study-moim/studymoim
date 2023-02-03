@@ -12,12 +12,14 @@ public class CourseCategoryDto {
     @Builder
     public static class Info {
         private int courseCategoryId;
-        private String name;
+        private String name_kor;
+        private String name_eng;
         private String imgurl;
         public static Info fromEntity(CourseCategory categoryEntity) {
             return Info.builder()
                     .courseCategoryId(categoryEntity.getCourseCategoryId())
-                    .name(categoryEntity.getName())
+                    .name_kor(categoryEntity.getName_kor())
+                    .name_eng(categoryEntity.getName_eng())
                     .imgurl(categoryEntity.getImgurl())
                     .build();
         }
