@@ -1,17 +1,11 @@
 import { useState, useRef } from "react";
-import useFetch from "../../hooks/useFetch";
-import { useNavigate } from "react-router";
 import { userInfo } from "../../zustand/store";
 
 export default function CommunityCommentForm({freeBoardId}) {
-  const navigate = useNavigate();
-
   const { info } = userInfo();
 
-  // 생성시 바로 이동하는 기능
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
-
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
   const contentRef = useRef(null);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
