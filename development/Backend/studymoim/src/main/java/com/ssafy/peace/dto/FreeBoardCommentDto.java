@@ -22,11 +22,13 @@ public class FreeBoardCommentDto {
         private int freeBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
+        private UserDto.Info user;
         public static Info fromEntity(com.ssafy.peace.entity.FreeBoardComment freeBoardCommentEntity) {
             return Info.builder()
                     .freeBoardCommentId(freeBoardCommentEntity.getFreeBoardCommentId())
                     .content(freeBoardCommentEntity.getContent())
                     .publishTime(freeBoardCommentEntity.getPublishTime())
+                    .user(UserDto.Info.fromEntity(freeBoardCommentEntity.getUser()))
                     .build();
         }
     }
