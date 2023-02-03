@@ -106,4 +106,8 @@ public class User {
         this.quitTime = quitTime;
         this.refreshToken = refreshToken;
     }
+    public User updateNickname(String nickname){
+        this.nickname = nickname;
+        return this;
+    }
 }
