@@ -52,6 +52,11 @@ public class DataLoader implements CommandLineRunner {
     private UserLikeCourseRepository userLikeCourseRepository;
     @Autowired
     private YoutubeApiService youtubeApiService;
+    @Autowired
+    private UserLikeCategoryRepository userLikeCategoryRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -75,8 +80,53 @@ public class DataLoader implements CommandLineRunner {
         addNote();
 
         addStudyAndMember();
+
+        // UserLikeCategory 더미 데이터
+        addUserLikeCategory();
+
+        // Message 더미 데이터
+        addMessage();
     }
 
+    private void addMessage() {
+        List<User> userList = userRepository.findAll();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < userList.size(); j++) {
+                if(i != j) {
+                    if((i+j) % 3 == 0) {
+                        messageRepository.save(Message.builder()
+                                .content(userList.get(i).getNickname() + "->" + userList.get(j).getNickname() + "에게 주는 확인한 더미 메세지")
+                                .isChecked(true)
+                                .toUser(userList.get(i))
+                                .fromUser(userList.get(j))
+                                .build());
+                    } else {
+                        messageRepository.save(Message.builder()
+                                .content(userList.get(i).getNickname() + "->" + userList.get(j).getNickname() + "에게 주는 확인 안한 더미 메세지")
+                                .toUser(userList.get(i))
+                                .fromUser(userList.get(j))
+                                .build());
+                    }
+                }
+            }
+        }
+    }
+
+    private void addUserLikeCategory() {
+        List<User> userList = userRepository.findAll();
+        List<CourseCategory> courseCategoryList = courseCategoryRepository.findAll();
+
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < courseCategoryList.size(); j++) {
+                if((i+j)%3 == 0) {
+                    userLikeCategoryRepository.save(UserLikeCategory.builder()
+                            .user(userList.get(i))
+                            .courseCategory(courseCategoryList.get(j))
+                            .build());
+                }
+            }
+        }
+    }
 
 
     private void addNote() {
