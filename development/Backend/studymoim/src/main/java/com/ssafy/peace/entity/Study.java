@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Study {
     private String content;
 
     @NotNull
-    private LocalDateTime startTime;
+    private LocalDate startTime;
 
     // Todo: 디폴트 사진 정하기
     @Size(max = 255)
@@ -75,7 +76,7 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-    public Study(String title, String content, LocalDateTime startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
         this.startTime = startTime;

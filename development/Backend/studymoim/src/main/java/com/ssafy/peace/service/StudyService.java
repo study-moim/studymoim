@@ -125,7 +125,7 @@ public class StudyService {
     @Transactional
     public StudyRequestDto.Info requestStudy(Integer studyId, StudyRequestDto.Request studyRequest) throws RollbackException  {
         int userId = studyRequest.getUserId();
-
+        if(studyRequestRepository.existsByUser_UserIdAndStudy_StudyId(userId, studyId)) return null;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return null;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return null;
         return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
