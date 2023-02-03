@@ -16,33 +16,6 @@ export default function RingModal(props) {
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ filter: "drop-shadow(0px 5px 15px rgba(0,0,0,0.2))" }}
       >
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            {/* <p className="relative left-0 top-0 text-sm font-bold text-left text-[#7b61ff]">
-            Notifications
-          </p> */}
-            <button
-              className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-              onClick={() => props.onCancel()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-[125px] h-5" />
-        </div>
         <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-px">
           <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
             <div
@@ -52,13 +25,6 @@ export default function RingModal(props) {
               <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 pb-2">
                 <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-4 h-2 gap-2.5 pl-2" />
                 <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
-                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
-                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[6.6666669845581055px]">
-                        <div className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-3xl bg-[url('initials.jpeg')] bg-cover bg-no-repeat bg-center" />
-                      </div>
-                    </div>
-                  </div>
                   <div className="flex justify-start items-center flex-grow relative gap-2.5">
                     <p className="flex-grow w-[360px] text-sm text-left">
                       <span className="flex-grow w-[360px] text-sm font-bold text-left text-[#7b61ff]">
