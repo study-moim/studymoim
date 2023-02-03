@@ -177,7 +177,6 @@ public class DataLoader implements CommandLineRunner {
         freeBoardCommentRepository.saveAndFlush(freeBoardComment);
         FreeBoardComment freeBoardComment2 = FreeBoardComment.builder()
                 .user(commenter2)
-                .parentComment(freeBoardComment)
                 .content("너무 과격한거 아닌가요")
                 .freeBoard(targetBoard)
                 .build();
