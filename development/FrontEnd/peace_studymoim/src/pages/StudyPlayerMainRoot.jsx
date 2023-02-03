@@ -30,6 +30,50 @@ export default function StudyPlayerMainRoot() {
     },
     [currentClick]
   );
+
+  let stompClient = null;
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
+  let studyId = 1;  // 스터디의 ID
+  let user = {
+    userId: 1,
+    nickname: "이태희"
+  };  // 보내는 사용자
+  /*
+  * 웹소켓 사용법
+  * 1. connect로 http://localhost:8080/ws에 접속
+  * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
+  *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
+  * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
+  *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
+  * 4. 채팅을 나가려면 disconnect 함수 호출
+  * */
+  function connect(userId, studyId) {
+    var socket = new SockJS(`http://${API_SERVER}/ws`);
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+      setConnected(true);
+      console.log('Connected: ' + frame);
+      stompClient.subscribe(`/sub/study/${studyId}`, function () {
+        sendMessage(studyId, user, "안녕하세요?");
+      });
+    });
+  }
+  function disconnect() {
+    if (stompClient !== null) {
+      stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+  }
+  function sendMessage(studyId, sender, message) {
+    stompClient.send("/pub/chat", {}, JSON.stringify({
+      "type": "",
+      "sender": sender,
+      "studyId": studyId,
+      "message": message
+    }));
+  }
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
