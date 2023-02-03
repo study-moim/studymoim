@@ -14,7 +14,6 @@ export default function getArticles() {
       })
       .then((articles) => {
         setArticles(articles);
-        console.log(articles);
       });
   }, []);
   return articles;
