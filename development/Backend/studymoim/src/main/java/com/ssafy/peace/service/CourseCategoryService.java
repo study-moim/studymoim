@@ -8,6 +8,7 @@ import com.ssafy.peace.repository.UserLikeCategoryRepository;
 import com.ssafy.peace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +27,13 @@ public class CourseCategoryService {
                 .collect(Collectors.toList());
     }
 
-    public void followCategory(Integer categoryId, Integer userId) {
-        userLikeCategoryRepository.save(UserLikeCategory.builder()
+    @Transactional
+    public void updateCategoryLikes(Integer userId, List<Integer> categories) {
+        userLikeCategoryRepository.deleteAllByUser_userId(userId);
+        categories.forEach(categoryId -> userLikeCategoryRepository.save(UserLikeCategory.builder()
                 .courseCategory(courseCategoryRepository.findById(categoryId).get())
                 .user(userRepository.findById(userId).get())
-                .build());
-    }
-
-    public void unfollowCategory(Integer categoryId, Integer userId) {
-        userLikeCategoryRepository.delete(UserLikeCategory.builder()
-                .courseCategory(courseCategoryRepository.findById(categoryId).get())
-                .user(userRepository.findById(userId).get())
-                .build());
+                .build())
+        );
     }
 }
