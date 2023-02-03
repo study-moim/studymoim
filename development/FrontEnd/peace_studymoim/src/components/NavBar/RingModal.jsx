@@ -1,62 +1,250 @@
 import React from "react";
 
-export default function RingModal() {
+export default function RingModal(props) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
-      setShowModal(null)
+      props.onCancel();
     }
   };
+  function cancelHandler() {
+    props.onCancel();
+  }
 
   return (
     <>
-      {showModal ? (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-4xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  {showModal === "follower" ? (
-                    <h3 className="text-3xl font-semibold">팔로워</h3>
-                  ) : null}
-                  {showModal === "following" ? (
-                    <h3 className="text-3xl font-semibold">팔로잉</h3>
-                  ) : null}
-                  {showModal === "modify" ? (
-                    <h3 className="text-3xl font-semibold">프로필 수정</h3>
-                  ) : null}
-                  <button
-                    className="text-red-500 background-transparent text-xl font-bold uppercase px-6 py-2 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 hover:scale-125 hover:text-red-800"
-                    onClick={clickModal}
-                  >
-                    X
-                  </button>
-                </div>
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <div className="my-4 text-slate-500 text-lg leading-relaxed overflow-auto">
-                    {showModal === "follower" ? <FollowerList /> : null}
-                    {showModal === "following" ? <FollowingList /> : null}
-                    {showModal === "modify" ? <MyPageUpdateForm /> : null}
+      <div
+        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+        style={{ filter: "drop-shadow(0px 5px 15px rgba(0,0,0,0.2))" }}
+      >
+        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            {/* <p className="relative left-0 top-0 text-sm font-bold text-left text-[#7b61ff]">
+            Notifications
+          </p> */}
+            <button
+              className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+              onClick={() => props.onCancel()}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-[125px] h-5" />
+        </div>
+        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-px">
+          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
+            <div
+              className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[440px] gap-2 pt-2 pb-4 bg-white"
+              style={{ boxShadow: "0px 1px 0px 0 #e4e8ee" }}
+            >
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 pb-2">
+                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-4 h-2 gap-2.5 pl-2" />
+                <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
+                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[6.6666669845581055px]">
+                        <div className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-3xl bg-[url('initials.jpeg')] bg-cover bg-no-repeat bg-center" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center flex-grow relative gap-2.5">
+                    <p className="flex-grow w-[360px] text-sm text-left">
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-[#7b61ff]">
+                        독기가득독준
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        님이
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-black">
+                        ‘프론트엔드 다모여’
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        {" "}
+                        스터디 가입을 요청했습니다.{" "}
+                      </span>
+                    </p>
                   </div>
                 </div>
-                {/* footer */}
-                {/* <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                  <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save Changes
-                  </button>
-                </div> */}
+              </div>
+              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-2 pl-16">
+                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                  <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 h-7 overflow-hidden gap-2.5 px-2 py-1 rounded bg-[#f0db4f]">
+                    <div className="flex justify-start items-center flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
+                        <p className="flex-grow-0 flex-shrink-0 text-sm text-center text-white">
+                          수락
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                  <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 h-7 overflow-hidden gap-2.5 px-2 py-1 rounded bg-[#f24e1e]">
+                    <div className="flex justify-start items-center flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5">
+                        <p className="flex-grow-0 flex-shrink-0 text-sm text-center text-white">
+                          거절
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
+                <p className="flex-grow-0 flex-shrink-0 text-sm text-left text-[#a5acb8]">
+                  2023.01.22 9:42 AM
+                </p>
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
+          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
+            <div
+              className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[440px] gap-2 pt-2 pb-4 bg-white"
+              style={{ boxShadow: "0px 1px 0px 0 #e4e8ee" }}
+            >
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 pb-2">
+                <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
+                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[6.6666669845581055px]">
+                        <div className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-3xl bg-[url('initials-2.jpeg')] bg-cover bg-no-repeat bg-center" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center flex-grow relative gap-2.5">
+                    <p className="flex-grow w-[360px] text-sm text-left">
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-[#7b61ff]">
+                        배배서연
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        님이 ‘
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-black">
+                        JPA 다뿌셔
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        ’ 스터디에 참여했습니다.{" "}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
+                <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#a5acb8]">
+                  2023.01.21 11:42 PM
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
+            <div
+              className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[440px] gap-2 pt-2 pb-4 bg-white"
+              style={{ boxShadow: "0px 1px 0px 0 #e4e8ee" }}
+            >
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 pb-2">
+                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 pl-2">
+                  <div className="flex-grow-0 flex-shrink-0 opacity-0" />
+                </div>
+                <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
+                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[6.6666669845581055px]">
+                        <div className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-3xl bg-[url('initials.jpeg')] bg-cover bg-no-repeat bg-center" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center flex-grow relative gap-2.5">
+                    <p className="flex-grow w-[360px] text-sm text-left">
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-[#7b61ff]">
+                        독기가득독준
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        님이{" "}
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-black">
+                        ’피그마 어떻게 공부하죠
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        ’ 글에 댓글을 남겼습니다.{" "}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 pl-16 pr-4">
+                <div className="flex justify-start items-start flex-grow relative gap-2">
+                  <div className="self-stretch flex-grow-0 flex-shrink-0 w-1 rounded-sm bg-[#dddee1]" />
+                  <p className="flex-grow w-[348px] text-sm text-left text-black">
+                    저는 그냥 막해도 잘하던데..이런 질문이 왜 필요하죠?{" "}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
+                <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#a5acb8]">
+                  2023.01.20 5:42 PM
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
+            <div
+              className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[440px] gap-2 pt-2 pb-4 bg-white"
+              style={{ boxShadow: "0px 1px 0px 0 #e4e8ee" }}
+            >
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 pb-2">
+                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 pl-2">
+                  <div className="flex-grow-0 flex-shrink-0 opacity-0" />
+                </div>
+                <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
+                  <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[6.6666669845581055px]">
+                        <div className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-3xl bg-[url('initials.jpeg')] bg-cover bg-no-repeat bg-center" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center flex-grow relative gap-2.5">
+                    <p className="flex-grow w-[360px] text-sm text-left">
+                      <span className="flex-grow w-[360px] text-sm font-bold text-left text-[#7b61ff]">
+                        독기가득독준
+                      </span>
+                      <span className="flex-grow w-[360px] text-sm text-left text-black">
+                        님이 회원님을 팔로우하기 시작했습니다.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
+                <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#a5acb8]">
+                  2023.01.19 at 11:15 AM
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
+}
+
+{
+  /* <button
+                className="text-red-500 background-transparent text-xl font-bold uppercase px-6 py-2 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 hover:scale-125 hover:text-red-800"
+                onClick={() => props.onCancel()}
+              >
+                X
+              </button> */
 }

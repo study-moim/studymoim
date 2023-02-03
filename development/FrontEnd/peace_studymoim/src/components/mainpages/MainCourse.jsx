@@ -42,9 +42,9 @@ export default function MainCourse({ propData }) {
                 채널명: {propData.courseProviderName}
               </p>
               {/* <img src="/figma.png" alt="x" className="w-[70px] h-[70px] mt-3 rounded-full cursor-pointer hover:scale-105" /> */}
-              <p className="left-0 bottom-0 text-4xl text-red-700 cursor-pointer hover:scale-105 hover:skew-y-12">
+              {/* <p className="left-0 bottom-0 text-4xl text-red-700 cursor-pointer hover:scale-105 hover:skew-y-12">
                 ♥
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
