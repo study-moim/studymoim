@@ -58,25 +58,23 @@ public class DataLoader implements CommandLineRunner {
 
 
         // User 3명
-//        addUsers();
-//        // 글 한개 작성
-//        addFreeBoard();
-//
-////        addPlatformAndCourseProvider();
-//
-//        // youtube api 세팅
-//        youtubeApiService.init();
-//
-//        // Course 좋아요 더미 데이터
-//        addUserLikeCourse();
-//
-//        // CourseCategory 더미 데이터
-//        addCategory();
-//
-//        // Memo 더미 데이터
-//        addNote();
-//
-//        addStudyAndMember();
+        addUsers();
+        // 글 한개 작성
+        addFreeBoard();
+
+        // youtube api 세팅
+        youtubeApiService.init();
+
+        // Course 좋아요 더미 데이터
+        addUserLikeCourse();
+
+        // CourseCategory 더미 데이터
+        addCategory();
+
+        // Memo 더미 데이터
+        addNote();
+
+        addStudyAndMember();
     }
 
 
@@ -98,7 +96,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        noteRepository.saveAllAndFlush(noteList);
+        noteRepository.saveAll(noteList);
     }
 
     private void addUserLikeCourse() {
@@ -150,7 +148,7 @@ public class DataLoader implements CommandLineRunner {
 
 
 
-        userRepository.saveAllAndFlush(userList);
+        userRepository.saveAll(userList);
     }
 
     public void addFreeBoard(){
@@ -160,7 +158,7 @@ public class DataLoader implements CommandLineRunner {
                 .title("에러가 너무 많이 나요")
                 .content("문제 해결을 못하겠어요")
                 .build();
-        freeBoardRepository.saveAndFlush(freeBoard);
+        freeBoardRepository.save(freeBoard);
         addComment(freeBoard);
 
         User writer2 = userRepository.findById(2).orElse(null);
@@ -169,7 +167,7 @@ public class DataLoader implements CommandLineRunner {
                 .title("카카오 로그인이 안대요")
                 .content("포기해도 되나요?")
                 .build();
-        freeBoardRepository.saveAndFlush(freeBoard2);
+        freeBoardRepository.save(freeBoard2);
     }
 
     public void addComment(FreeBoard freeBoard){
@@ -183,14 +181,14 @@ public class DataLoader implements CommandLineRunner {
                 .content("컴퓨터 함 밀어버리세요")
                 .freeBoard(targetBoard)
                 .build();
-        freeBoardCommentRepository.saveAndFlush(freeBoardComment);
+        freeBoardCommentRepository.save(freeBoardComment);
         FreeBoardComment freeBoardComment2 = FreeBoardComment.builder()
                 .user(commenter2)
                 .parentComment(freeBoardComment)
                 .content("너무 과격한거 아닌가요")
                 .freeBoard(targetBoard)
                 .build();
-        freeBoardCommentRepository.saveAndFlush(freeBoardComment2);
+        freeBoardCommentRepository.save(freeBoardComment2);
 
     }
 
@@ -202,7 +200,7 @@ public class DataLoader implements CommandLineRunner {
                 .isPublic(true)
                 .userLimit(4)
                 .build();
-        studyRepository.saveAndFlush(study1);
+        studyRepository.save(study1);
 
         User user1 = userRepository.findByNickname("싸피킴");
         User user2 = userRepository.findByNickname("싸피팍");
@@ -213,19 +211,19 @@ public class DataLoader implements CommandLineRunner {
                 .memberRole(true)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm1);
+        studyMemberRepository.save(sm1);
         StudyMember sm2 = StudyMember.builder()
                 .user(user2)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm2);
+        studyMemberRepository.save(sm2);
         StudyMember sm3 = StudyMember.builder()
                 .user(user3)
                 .memberRole(false)
                 .study(study1)
                 .build();
-        studyMemberRepository.saveAndFlush(sm3);
+        studyMemberRepository.save(sm3);
         addCurriculum(study1);
     }
 
@@ -238,17 +236,17 @@ public class DataLoader implements CommandLineRunner {
                 .study(study)
                 .course(course1)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum1);
+        curriculumRepository.save(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum2);
+        curriculumRepository.save(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
                 .build();
-        curriculumRepository.saveAndFlush(curriculum3);
+        curriculumRepository.save(curriculum3);
 
     }
 
@@ -256,16 +254,16 @@ public class DataLoader implements CommandLineRunner {
         ClassPathResource classPathResource = new ClassPathResource("category.json");
 
         try {
-
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
-
             List<JSONObject> data = (List<JSONObject>) ob;
 
             for (JSONObject category : data) {
                 try {
                     courseCategoryRepository.save(CourseCategory.builder()
                             .name((String) category.get("name"))
+                            .imgurl((String) category.get("image"))
                             .build());
+                    System.out.println((String) category.get("image"));
                 } catch (ConstraintViolationException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
