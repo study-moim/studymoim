@@ -2,12 +2,16 @@ import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import getArticles from "../hooks/getArticles"
+
 
 export default function CommunityDetailRoot() {
+  getArticles()
   const props = useLocation().state;
   // console.log(props)
   const commentList = props.comments;
-  const commentLength = props.comments.length;
+  // const commentLength = props.comments.length;
+
 
   return (
     <>
@@ -27,7 +31,8 @@ export default function CommunityDetailRoot() {
               조회수 {props.hit}
             </div>
             <div className="text-xl font-bold text-[#898989]">
-              댓글 {commentLength}
+              {/* 댓글 {commentLength} */}
+              댓글 11
             </div>
           </div>
           <div className="w-[1162px] pl-[30px] pr-[269px] py-5 text-2xl font-bold text-black">
@@ -41,7 +46,7 @@ export default function CommunityDetailRoot() {
         >
           {props.content}
         </div>
-        <CommunityCommentForm />
+        <CommunityCommentForm freeBoardId={props.freeBoardId}/>
         {commentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
