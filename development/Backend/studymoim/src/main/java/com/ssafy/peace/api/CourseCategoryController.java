@@ -45,7 +45,7 @@ public class CourseCategoryController {
         }
     }
 
-    @Operation(summary = "like category", description = "강좌 태그 즐겨찾기 등록하기")
+    @Operation(summary = "like category", description = "강좌 태그 즐겨찾기 등록하기 - {userId:0,categories:[{categoryId:1},{categoryId:2}]}")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
