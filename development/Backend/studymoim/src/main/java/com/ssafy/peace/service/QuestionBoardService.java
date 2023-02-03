@@ -40,31 +40,54 @@ public class QuestionBoardService {
 
     @Transactional
     public QuestionBoardDto.Info writeQuestion(QuestionBoardDto.Write questionBoardDto) throws RollbackException {
-        Lecture lecture = lectureRepository.findById(questionBoardDto.getLectureId()).get();
-        User user = userRepository.findById(questionBoardDto.getUserId()).get();
-        Study study = studyRepository.findById(questionBoardDto.getStudyId()).get();
         return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
                 .title(questionBoardDto.getTitle())
                 .content(questionBoardDto.getContent())
                 .isPublic(questionBoardDto.isPublic())
-                .lecture(lecture)
-                .user(user)
-                .study(study)
+                .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
+                .user(userRepository.findById(questionBoardDto.getUserId()).get())
+                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
                 .build()));
     }
 
     @Transactional
-    public QuestionBoardCommentDto.Info writeComment(Integer articleId, QuestionBoardCommentDto.Write questionBoardCommentDto)
+    public QuestionBoardDto.Info updateQuestion(Integer questionBoardId, QuestionBoardDto.Write questionBoardDto) throws RollbackException {
+        return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
+                .title(questionBoardDto.getTitle())
+                .content(questionBoardDto.getContent())
+                .isPublic(questionBoardDto.isPublic())
+                .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
+                .user(userRepository.findById(questionBoardDto.getUserId()).get())
+                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
+                .build()
+                .updateId(questionBoardId)));
+    }
+
+    @Transactional
+    public void deleteQuestion(Integer questionBoardId) throws RollbackException {
+        questionBoardRepository.deleteById(questionBoardId);
+    }
+
+    @Transactional
+    public QuestionBoardCommentDto.Info writeComment(QuestionBoardCommentDto.Write comment)
             throws RollbackException {
-        QuestionBoardComment parentComment;
-        if(questionBoardCommentDto.getParentCommentId() == null) parentComment = null;
-        else parentComment = questionBoardCommentRepository.findById(questionBoardCommentDto.getParentCommentId()).get();
         return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
-                .content(questionBoardCommentDto.getContent())
-                .parentComment(parentComment)
-                .questionBoard(questionBoardRepository.findById(questionBoardCommentDto.getQuestionBoardId()).get())
-                .user(userRepository.findById(questionBoardCommentDto.getUserId()).get())
+                .content(comment.getContent())
+                .questionBoard(questionBoardRepository.findById(comment.getQuestionBoardId()).get())
+                .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
+    }
+
+    @Transactional
+    public QuestionBoardCommentDto.Info deleteComment(Integer commentId)
+            throws RollbackException {
+        QuestionBoardComment questionBoardComment = questionBoardCommentRepository.findById(commentId).get();
+        return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
+                        .questionBoard(questionBoardComment.getQuestionBoard())
+                        .content("(삭제된 메시지 입니다.)")
+                        .user(questionBoardComment.getUser())
+                        .isDeleted(true)
+                .build().updateId(commentId)));
     }
 
     @Transactional

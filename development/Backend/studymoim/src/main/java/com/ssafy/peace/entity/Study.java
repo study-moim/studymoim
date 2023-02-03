@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +34,15 @@ public class Study {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @NotNull
+    private LocalDate startTime;
+
     // Todo: 디폴트 사진 정하기
     @Size(max = 255)
     private String saveName;
 
-    @ColumnDefault("true")
-    private boolean isOpen;
+    @ColumnDefault("false")
+    private boolean isClose;
 
     @NotNull
     private int userLimit;
@@ -73,16 +76,26 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-
-    public Study(int studyId, String title, String content, String saveName, boolean isOpen, int userLimit, boolean isPublic, String notice, boolean isFinished) {
-        this.studyId = studyId;
+    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
+        this.startTime = startTime;
         this.saveName = saveName;
-        this.isOpen = isOpen;
+        this.isClose = isClose;
         this.userLimit = userLimit;
         this.isPublic = isPublic;
         this.notice = notice;
         this.isFinished = isFinished;
     }
+
+    public Study updateId(Integer id){
+        this.studyId = id;
+        return this;
+    }
+
+    public Study updateNotice(String notice){
+        this.notice = notice;
+        return this;
+    }
+
 }

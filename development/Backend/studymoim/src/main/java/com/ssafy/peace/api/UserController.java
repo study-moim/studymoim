@@ -17,46 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-//    private static final String SUCCESS = "success";
-//    private static final String FAIL = "fail";
-//    private final JwtTokenService jwtTokenService;
-
-//    // 로그아웃
-//    @GetMapping("/{userid}/logout")
-//    public ResponseEntity<?> userRemoveToken(@PathVariable("userid") Integer userId) {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status = HttpStatus.ACCEPTED;
-//        try {
-//            userService.deleRefreshToken(userId);
-//            resultMap.put("message", SUCCESS);
-//            status = HttpStatus.ACCEPTED;
-//        } catch (Exception e) {
-//            resultMap.put("message", e.getMessage());
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//
-//    }
-//
-//    // 토큰 발급
-//    @PostMapping("/refresh")
-//    public ResponseEntity<?> refreshToken(@RequestBody UserDto.Info userDto, HttpServletRequest request) throws Exception {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        HttpStatus status = HttpStatus.ACCEPTED;
-//        String token = request.getHeader("refresh-token");
-//        if (jwtTokenService.checkToken(token)) {
-//            if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
-//                String accessToken = jwtTokenService.createAccessToken("email", userDto.getEmail());
-//                resultMap.put("access-token", accessToken);
-//                resultMap.put("message", SUCCESS);
-//                status = HttpStatus.ACCEPTED;
-//            }
-//        } else {
-//            status = HttpStatus.UNAUTHORIZED;
-//        }
-//        return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//    }
-
     @Operation(summary = "get user list", description = "사용자 목록 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -156,6 +116,20 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "get category tag list", description = "선택한 강좌 태그 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/tags")
+    public ResponseEntity<?> userCategoryLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getCourseCategoryList(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get like list", description = "좋아요 한 강좌 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -164,7 +138,7 @@ public class UserController {
     @GetMapping("/{userId}/likes")
     public ResponseEntity<?> userLikeList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(userService.getLikeList(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getLikeList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -175,7 +149,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/follower")
+    @GetMapping("/{userId}/follow/follower")
     public ResponseEntity<?> getFollowersCount(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.countFollowers(userId), HttpStatus.OK);
@@ -188,10 +162,25 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/following")
+    @GetMapping("/{userId}/follow/following")
     public ResponseEntity<?> getfollowingsCount(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.countFollowings(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "check follow status", description = "사용자 팔로우 여부 확인하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{targetId}/follow")
+    public ResponseEntity<?> isFollowingUser(@Parameter(description="targetId") @PathVariable Integer targetId,
+                                             @Parameter(description="userId") @RequestParam Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.followingStatus(userId, targetId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -203,11 +192,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY FOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/follow/{targetId}")
-    public ResponseEntity<?> followUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                        @Parameter(description="targetId") @PathVariable Integer targetId) {
+    @PostMapping("/{targetId}/follow")
+    public ResponseEntity<?> followUser(@Parameter(description="targetId") @PathVariable Integer targetId,
+                                        @RequestBody UserDto.Id user) {
         try{
-            UserDto.Info result = userService.followUser(userId, targetId);
+            UserDto.Info result = userService.followUser(user.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -221,11 +210,11 @@ public class UserController {
             @ApiResponse(responseCode = "406", description = "ALREADY UNFOLLOWING"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{userId}/unfollow/{targetId}")
-    public ResponseEntity<?> unfollowUser(@Parameter(description="userId") @PathVariable Integer userId,
-                                          @Parameter(description="userId") @PathVariable Integer targetId) {
+    @DeleteMapping("/{targetId}/follow")
+    public ResponseEntity<?> unfollowUser(@Parameter(description="targetId") @PathVariable Integer targetId,
+                                          @RequestBody UserDto.Id user) {
         try{
-            UserDto.Info result = userService.unfollowUser(userId, targetId);
+            UserDto.Info result = userService.unfollowUser(user.getUserId(), targetId);
             if(result == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch(Exception e) {
@@ -300,6 +289,21 @@ public class UserController {
         try{
             return new ResponseEntity<>(userService.getMessageHistory(toUserId, fromUserId), HttpStatus.OK);
         } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get recommended courses by user like category", description = "유저가 좋아요 한 카테고리 기준으로 메인에 추천 강좌 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/recommend/courses")
+    public ResponseEntity<?> userRecommendCourses(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getRecommendCourses(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

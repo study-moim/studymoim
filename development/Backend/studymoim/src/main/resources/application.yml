@@ -22,6 +22,9 @@ logging:
   level:
     web: trace
     sql: trace
+oauth:
+  kakao:
+    redirect-context: localhost
 ---
 spring:
   config:
@@ -43,6 +46,9 @@ logging:
     sql: trace
 springdoc:
   use-fqn: true
+oauth:
+  kakao:
+    redirect-context: i8a110.p.ssafy.io
 ---
 spring:
   config:
@@ -90,4 +96,5 @@ jwt:
 
 
 youtubeapi:
-  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
+#  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
+  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g

@@ -13,10 +13,12 @@ public class CourseCategoryDto {
     public static class Info {
         private int courseCategoryId;
         private String name;
+        private String imgurl;
         public static Info fromEntity(CourseCategory categoryEntity) {
             return Info.builder()
                     .courseCategoryId(categoryEntity.getCourseCategoryId())
                     .name(categoryEntity.getName())
+                    .imgurl(categoryEntity.getImgurl())
                     .build();
         }
     }

@@ -7,20 +7,22 @@ import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UserHistoryRepository userHistoryRepository;
+    private final UserLikeCategoryRepository userLikeCategoryRepository;
+    private final CourseCategoryRepository courseCategoryRepository;
     private final StudyRepository studyRepository;
     private final StudyMemberRepository studyMemberRepository;
     private final NoteRepository noteRepository;
@@ -29,8 +31,8 @@ public class UserService {
     private final FollowRepository followRepository;
     private final AlarmRepository alarmRepository;
     private final MessageRepository messageRepository;
-    private final KakaoAuthService kakaoAuthService;
-    PasswordEncoder passwordEncoder;
+    private final CourseTypeRepository courseTypeRepository;
+    private final CourseRepository courseRepository;
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
@@ -46,18 +48,6 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         return user;
     }
-
-//    public void deleRefreshToken(Integer userId){
-//        userRepository.findById(userId)
-//                .map(UserDto.Info::fromEntity).get()
-//                .builder().refreshToken(null).build();
-//    }
-//
-//    public String getRefreshToken(Integer userId){
-//        return userRepository.findById(userId)
-//                .map(UserDto.Info::fromEntity)
-//                .get().getRefreshToken();
-//    }
 
     public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
         return userRepository.findById(userId)
@@ -101,7 +91,21 @@ public class UserService {
         return result;
     }
 
-    public Object getLikeList() {
+    public List<CourseCategoryDto.Info> getCourseCategoryList(Integer userId) {
+        return userLikeCategoryRepository.findAllByUser_userId(userId).stream()
+                .map(userLikeCategory -> CourseCategoryDto.Info.fromEntity(userLikeCategory.getCourseCategory()))
+                .collect(Collectors.toList());
+    }
+
+    public void setCourseCategoryList(Integer userId, List<CourseCategoryDto.Info> categoryList) {
+        userLikeCategoryRepository.deleteAllByUser_userId(userId);
+        userLikeCategoryRepository.saveAll(categoryList.stream().map(category -> UserLikeCategory.builder()
+                .courseCategory(courseCategoryRepository.findById(category.getCourseCategoryId()).get())
+                .user(userRepository.findById(userId).get())
+                .build()).collect(Collectors.toList()));
+    }
+
+    public Object getLikeList(Integer userId) {
         return null;
         // TODO
     }
@@ -112,6 +116,14 @@ public class UserService {
 
     public long countFollowings(Integer userId) {
         return followRepository.countAllByFromUser_UserId(userId);
+    }
+
+    @Transactional
+    public boolean followingStatus(Integer myUserId, Integer targetUserId) {
+        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional
@@ -127,15 +139,13 @@ public class UserService {
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
+    @Transactional
     public UserDto.Info unfollowUser(Integer myUserId, Integer targetUserId) {
-        if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
+        Optional<Follow> resopt = followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId);
+        if (!resopt.isPresent()) {
             return null;
         }
-        followRepository.delete(Follow.builder()
-                .fromUser(userRepository.findById(myUserId)
-                        .orElseThrow(NullPointerException::new))
-                .toUser(userRepository.findById(targetUserId)
-                        .orElseThrow(NullPointerException::new)).build());
+        followRepository.deleteById(resopt.get().getFollowId());
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
@@ -148,11 +158,10 @@ public class UserService {
         List<AlarmDto.Info> res = alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
                 .map(AlarmDto.Info::fromEntity)
                 .collect(Collectors.toList());
-        if(res.size() == 0){
-            return null;
+        // 읽지 않은 알림 리스트의 사이즈가 0이 아니라면 모든 알림 읽음 처리
+        if(res.size() != 0){
+            alarmRepository.checkAllByUser(userId);
         }
-
-        alarmRepository.checkAllByUser(userId);
         return res;
     }
 
@@ -161,27 +170,37 @@ public class UserService {
     }
 
     public List<UserDto.Info> getMessageUserList(Integer toUserId) {
-        List<UserDto.Info> list = messageRepository.findDistinctFromUser(toUserId).stream()
+        return messageRepository.findDistinctFromUser(toUserId).stream()
                                     .map(UserDto.Info::fromEntity)
                                     .collect(Collectors.toList());
-        if(list.size() == 0)
-            return null;
-
-        return list;
     }
 
+    @Transactional
     public List<MessageDto.Info> getMessageHistory(Integer toUserId, Integer fromUserId) {
         List<MessageDto.Info> list = messageRepository.findAllByToUser_UserIdAndFromUser_UserId(toUserId, fromUserId).stream()
                                         .map(MessageDto.Info::fromEntity)
                                         .collect(Collectors.toList());
-        if(list.size() == 0){
-            return null;
-        }
 
+        // 메세지 기록 중 안 읽은 메세지 읽음 처리
         if(messageRepository.existsByToUser_UserIdAndFromUser_UserIdAndIsCheckedIsFalse(toUserId, fromUserId)){
-           messageRepository.checkMessage(toUserId, fromUserId);
+            messageRepository.checkMessage(toUserId, fromUserId);
         }
 
         return list;
+    }
+
+    public List<CourseDto.Info> getRecommendCourses(Integer userId) throws Exception{
+        // 사용자가 좋아한 카테고리 리스트에서 아이디만 추출
+        List<Integer> categoryIdList = userLikeCategoryRepository.findAllByUser_userId(userId).stream()
+                .map(UserLikeCategoryDto.recommend::fromEntity)
+                .collect(Collectors.toList());
+        // 그 아이디가 달린 강좌 아이디 추출
+        List<Integer> courseIdList = courseTypeRepository.findByCourseTypeIdIn(categoryIdList).stream()
+                .map(CourseTypeDto.recommend::fromEntity)
+                .collect(Collectors.toList());
+        // 그 아이디로 강좌 리스트 추출
+        return courseRepository.findByCourseIdIn(courseIdList).stream()
+                .map(CourseDto.Info::fromEntity)
+                .collect(Collectors.toList());
     }
 }

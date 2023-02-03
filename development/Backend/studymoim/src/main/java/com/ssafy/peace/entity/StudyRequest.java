@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @DynamicInsert
@@ -29,7 +28,7 @@ public class StudyRequest {
     private LocalDateTime requestTime;
 
     @ColumnDefault("0")
-    private int status;
+    private int requestStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -40,10 +39,15 @@ public class StudyRequest {
     private Study study;
 
     @Builder
-    public StudyRequest(String content, int status, User user, Study study) {
+    public StudyRequest(String content, int requestStatus, User user, Study study) {
         this.content = content;
-        this.status = status;
+        this.requestStatus = requestStatus;
         this.user = user;
         this.study = study;
+    }
+
+    public StudyRequest updateId(Integer id){
+        this.studyRequestId = id;
+        return this;
     }
 }

@@ -4,11 +4,13 @@ export default function FreeQuestion({ freeArticle }) {
   // console.log(freeArticle);
   const dateBase = new Date(freeArticle.publishTime);
   const date = dateBase.toString().substring(11, 24);
+  const commentAmount = freeArticle.freeBoardComments.length
   return (
     <>
       <Link
         to={`/community/free/${freeArticle.freeBoardId}`}
         state={{
+          userId: freeArticle.user.userId,
           freeBoardId: freeArticle.freeBoardId,
           title: freeArticle.title,
           content: freeArticle.content,
@@ -57,7 +59,7 @@ export default function FreeQuestion({ freeArticle }) {
               조회수 {freeArticle.hit}
             </p>
             <p className="text-[12px] font-bold text-center text-[#898989]">
-              댓글 3
+              댓글 {commentAmount}
             </p>
           </div>
         </div>

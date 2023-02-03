@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import MyPageLeftBar from "../components/mypages/MyPageLeftBar";
 import StudyList from "../components/mypages/StudyList";
 import MemoCourse from "../components/mypages/MemoCourse";
@@ -10,6 +11,7 @@ import MyPageStatic from "../components/mypages/MyPageStatic";
 import ModalPractice from "../components/mypages/MyPageModal";
 
 export default function MyPageRoot() {
+  const clickUserId  = useLocation().state;
   const [currentClick, setCurrentClick] = useState("study");
   const [prevClick, setPrevClick] = useState(null);
   const [showModal, setShowModal] = useState(null);
@@ -43,7 +45,7 @@ export default function MyPageRoot() {
     <div className="max-w-6xl mx-auto mt-[50px]">
       <div className="w-full min-h-[700px] flex flex-row justify-center gap-10">
         {/* 왼쪽네비바 */}
-        <MyPageLeftBar getClick={getClick} clickModal={clickModal} />
+        <MyPageLeftBar getClick={getClick} clickModal={clickModal} clickUserId={clickUserId}/>
         <ModalPractice clickModal={clickModal} showModal={showModal} setShowModal={setShowModal}/>
         {/* 안쪽 중요 내용 */}
         <div className="flex flex-col justify-start w-full p-[20px] rounded-[20px] border border-[#7b7474]">

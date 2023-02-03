@@ -5,26 +5,33 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import Backdrop from "../overall/Backdrop";
+import useFetch from "../../hooks/useFetch";
 import CourseSearchBar from "./CourseSearchBar";
+import { userInfo } from "../../zustand/store";
 
 export default function StudyMakeForm(props) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  function deleteHandler() {
-    setModalIsOpen(true);
-  }
+  const [showModal, setShowModal] = useState(false);
+  const search = useFetch("http://localhost:8080/api/v1/course/");
   function closeModalHandler() {
-    setModalIsOpen(false);
+    setShowModal(false);
+  }
+  const {info} = userInfo()
+  if (!info) {
+    alert("로그인이 필요합니다.");
+    navigate("/login");
   }
 
-  const [image, setImage] = useState("");
-  const [preview, setPreview] = useState("logo.png");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  const recruitMembersRef = useRef();
-  const startDateRef = useRef();
-  const recruitMethodRef = useRef();
-  const studyImgRef = useRef();
   const titleInputRef = useRef();
   const descriptionRef = useRef();
+  const startDateRef = useRef();
+  // img 는 따로
+  const recruitMembersRef = useRef();
+  // notice는 ''
+  // const courseListsRef = useRef();
+  const recruitMethodRef = useRef();
 
   useEffect(() => {
     if (image) {
@@ -41,22 +48,26 @@ export default function StudyMakeForm(props) {
   function submitHandler(event) {
     event.preventDefault();
 
-    const enteredRecruitMembersRef = recruitMembersRef.current.value;
+    const enteredRecruitMembers = recruitMembersRef.current.value;
     const enteredStartDate = startDateRef.current.value;
     const enteredRecruitMethod = recruitMethodRef.current.value;
     const enteredTitleInput = titleInputRef.current.value;
     const enteredDescription = descriptionRef.current.value;
 
     const studyRecruitData = {
-      recruitMembers: enteredRecruitMembersRef,
-      startDate: enteredStartDate,
-      recruitMethod: enteredRecruitMethod,
-      studyImg: preview,
       title: enteredTitleInput,
-      description: enteredDescription,
+      content: enteredDescription,
+      startTime: enteredStartDate,
+      saveName: preview,
+      userLimit: enteredRecruitMembers,
+      notice: "",
+      // 이거 해야됨
+      courseList: [search[0], search[1]],
+      leadUserId: info.userId, 
+      public: enteredRecruitMethod,
     };
+    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
-    console.log(preview) 
   }
 
   return (
@@ -95,6 +106,7 @@ export default function StudyMakeForm(props) {
                 required
                 className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
               >
+                <option></option>
                 <option value="1">1명</option>
                 <option value="2">2명</option>
                 <option value="3">3명</option>
@@ -103,6 +115,7 @@ export default function StudyMakeForm(props) {
                 <option value="6">6명</option>
               </select>
             </div>
+
             {/* 시작 예정일 */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[32px] text-left">시작 예정일(*)</p>
@@ -111,7 +124,7 @@ export default function StudyMakeForm(props) {
                 id="startDate"
                 type="date"
                 min="2023-01-01"
-                max="2023-12-31"
+                max="2024-12-31"
                 ref={startDateRef}
                 className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
               />
@@ -126,8 +139,9 @@ export default function StudyMakeForm(props) {
                 required
                 className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
               >
-                <option value="공개">공개</option>
-                <option value="수락">수락</option>
+                <option></option>
+                <option value={true}>공개</option>
+                <option value={false}>수락</option>
               </select>
             </div>
 
@@ -136,14 +150,26 @@ export default function StudyMakeForm(props) {
               <p className="text-[32px] text-left">강좌 선택(*)</p>
               <CourseSearchBar />
             </div>
+
+            {/* 사진 */}
             <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
-              <img src={preview} className="w-6/12 object-cover rounded-full" />
+              {preview ? (
+                <img
+                  src={preview}
+                  required
+                  className="flex-grow-0 flex-shrink-0 w-6/12 object-cover rounded-full"
+                />
+              ) : (
+                <img
+                  src={"/logo.png"}
+                  className="flex-grow-0 flex-shrink-0 w-6/12 object-cover rounded-full"
+                />
+              )}
 
               <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
                 <input
                   id="picture"
                   type="file"
-                  ref={studyImgRef}
                   accept="image/*"
                   className=""
                   onChange={(event) => {
@@ -181,6 +207,7 @@ export default function StudyMakeForm(props) {
               stroke-width={3}
             />
           </svg>
+          {/* 제목 */}
           <div className="flex flex-col w-full justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
             <input
               type="text"
@@ -189,10 +216,14 @@ export default function StudyMakeForm(props) {
               required
               className="w-full mt-3 h-[50px] justify-center border"
               placeholder="제목을 입력해주세요"
+              min={5}
+              max={30}
             />
+            {/* 설명 */}
             <ReactQuill
               id="description"
               ref={descriptionRef}
+              required
               placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
               className="w-full h-[400px] justify-center mb-5"
             />
@@ -200,19 +231,22 @@ export default function StudyMakeForm(props) {
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
                 className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
-                onClick={deleteHandler}
-              >취소 
+                onClick={() => setShowModal(true)}
+              >
+                취소
               </div>
               <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
                 글쓰기
               </button>
-              {modalIsOpen ? (
+
+              {showModal ? (
                 <DeleteModal
                   onCancel={closeModalHandler}
                   onConfirm={closeModalHandler}
                 />
               ) : null}
-              {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
+
+              {showModal ? <Backdrop onCancel={closeModalHandler} /> : null}
             </div>
           </div>
         </div>

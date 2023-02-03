@@ -1,21 +1,25 @@
 import { useState, useRef } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
+import { userInfo } from "../../zustand/store";
 
 export default function CommunityCreateForm() {
-  const freeArticleLast = useFetch("http://localhost:8080/api/v1/articles/free/");
-  const lastArticle = freeArticleLast[freeArticleLast.length - 1];
-
-  // const lastArticleID = lastArticle.free_board_id;
-
-  // 생성시 바로 이동하는 기능
   const navigate = useNavigate();
+
+  const {info} = userInfo()
+  if (!info) {
+    alert("로그인이 필요합니다.");
+    navigate("/login");
+  }
+  // 생성시 바로 이동하는 기능
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
 
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
   const titleRef = useRef(null);
   const contentRef = useRef(null);
+
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
   function onSubmit(e) {
     e.preventDefault();
@@ -24,7 +28,7 @@ export default function CommunityCreateForm() {
       setIsLoading(true);
       // Create 호출
       // 두번째 인자로 메서드를 넣어줌
-      fetch("http://localhost:8080/api/v1/articles/free/", {
+      fetch(`http://${API_SERVER}/api/v1/articles/free/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,16 +36,9 @@ export default function CommunityCreateForm() {
         // body : 수정을 위한 정보를 넣어줘야함
         // + JSON 문자열로도 변환시켜줌
         body: JSON.stringify({
-          free_board_id: 5,
           title: titleRef.current.value,
           content: contentRef.current.value,
-          publish_time: "2022-04-28T05:40:55.183+00:00",
-          is_deleted: false,
-          hit: 0,
-          user_id: 1,
-          user_name: "독기가득준",
-          user_picture:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk2lbyOkPrt9t2d4mh_DxbsvngVe0V208oPS9JYsl5vQ&s",
+          userId: info.userId,
         }),
       }).then((res) => {
         if (res.ok) {

@@ -32,15 +32,6 @@ public class QuestionBoardComment {
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    // 부모 정의
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private QuestionBoardComment parentComment;
-
-    // 자식 정의
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentComment")
-    private List<QuestionBoardComment> children;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_board_id")
     private QuestionBoard questionBoard;
@@ -50,11 +41,15 @@ public class QuestionBoardComment {
     private User user;
 
     @Builder
-    public QuestionBoardComment(String content, QuestionBoardComment parentComment, QuestionBoard questionBoard, User user, boolean isDeleted) {
+    public QuestionBoardComment(String content, QuestionBoard questionBoard, User user, boolean isDeleted) {
         this.content = content;
-        this.parentComment = parentComment;
         this.questionBoard = questionBoard;
         this.user = user;
         this.isDeleted = isDeleted;
+    }
+
+    public QuestionBoardComment updateId(Integer id) {
+        this.questionBoardCommentId = id;
+        return this;
     }
 }
