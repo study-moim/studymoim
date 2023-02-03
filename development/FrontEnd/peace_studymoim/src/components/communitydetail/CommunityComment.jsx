@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userInfo } from "../../zustand/store";
 import { Link } from "react-router-dom";
 
@@ -7,11 +7,13 @@ export default function CommunityComment({ comment }) {
 
   const [isMine, setIsMine] = useState(false);
   
-  if (info.userId === comment.user["userId"]) {
-    setIsMine(true);
-    console.log(isMine)
-  }
-  console.log(isMine,"2222222222222222222222222222")
+  useEffect(() => {
+    if (info.userId === comment.user["userId"]) {
+      setIsMine(true);
+      console.log(isMine)
+    }
+    console.log(isMine,"2222222222222222222222222222")
+  }, [])
 
   const [modifyToggle, setModifyToggle] = useState(false);
   function clickModify() {
@@ -47,7 +49,7 @@ export default function CommunityComment({ comment }) {
             </div>
             {/* 수정 삭제 버튼 */}
             {!modifyToggle ? (
-              <div className={isMine ? "invisible" : "visible"}>
+              <div className={!isMine ? "invisible" : "visible"}>
                 <button
                   onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F0DB4F] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f0d841] hover:scale-95"
@@ -64,13 +66,13 @@ export default function CommunityComment({ comment }) {
             ) : (
               <div className="">
                 <button
-                  onClick={clickModify}
+                  // onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F0DB4F] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f0d841] hover:scale-95"
                 >
                   수정완료
                 </button>
                 <button
-                  // onClick={clickModify}
+                  onClick={clickModify}
                   className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
                 >
                   수정취소
