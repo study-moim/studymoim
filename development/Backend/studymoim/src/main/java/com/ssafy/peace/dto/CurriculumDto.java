@@ -38,10 +38,10 @@ public class CurriculumDto {
     @Data
     @Builder
     public static class Search {
-        private StudyDto.Recruit study;
+        private StudyDto.Info study;
         public static Search fromEntity(Curriculum curriculumEntity) {
             return Search.builder()
-                    .study(StudyDto.Recruit.fromEntity(curriculumEntity.getStudy()))
+                    .study(StudyDto.Info.fromEntity(curriculumEntity.getStudy()))
                     .build();
         }
     }
