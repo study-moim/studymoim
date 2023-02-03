@@ -25,8 +25,8 @@ export default function StudyRecruitMainAll() {
           </div>
         </div>
 
-      <div className="flex flex-col justify-start items-start">
-        <div className="flex justify-end items-center self-stretch  h-[92px] gap-2.5 px-2.5 pb-2.5 bg-white border-t border-r-[0.3px] border-b-0 border-l-[0.3px] border-black">
+      <div className="w-full flex flex-col justify-start items-start">
+        <div className="flex w-full justify-end items-center self-stretch  h-[92px] gap-2.5 px-2.5 pb-2.5 bg-white border-t border-r-[0.3px] border-b-0 border-l-[0.3px] border-black">
           <div className="flex justify-start items-start  gap-[23px]">
             <Link to="/studyDetail">
               <div>임시 버튼</div>

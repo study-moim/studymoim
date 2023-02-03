@@ -24,7 +24,7 @@ export default function StudyMakeForm(props) {
   //   navigate("/login");
   // }
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const [preview, setPreview] = useState('');
 
   const titleInputRef = useRef('');
@@ -44,7 +44,7 @@ export default function StudyMakeForm(props) {
       };
       reader.readAsDataURL(image);
     } else {
-      setPreview(null);
+      setPreview('');
     }
   }, [image]);
 
@@ -60,13 +60,15 @@ export default function StudyMakeForm(props) {
     const studyRecruitData = {
       title: enteredTitleInput,
       content: enteredDescription,
+      // TODO: startTime이 Post가 안됨!! 
+      //startTime: "2023-02-03T00:20:47.794Z",
       startTime: enteredStartDate,
       saveName: preview,
       userLimit: enteredRecruitMembers,
-      notice: "",
-      // 이거 해야됨
-      courseList: [search[0], search[1]],
-      leadUserId: info.userId, 
+      // TODO: id만 넘기기 !! 이거 해야됨
+      courseIdList: [search[0].course_id],
+      leadUserId: 1, 
+      //leadUserId: info.userId,
       public: enteredRecruitMethod,
     };
     console.log(studyRecruitData);
@@ -110,12 +112,12 @@ export default function StudyMakeForm(props) {
                 className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
               >
                 <option></option>
-                <option value="1">1명</option>
-                <option value="2">2명</option>
-                <option value="3">3명</option>
-                <option value="4">4명</option>
-                <option value="5">5명</option>
-                <option value="6">6명</option>
+                <option value={1}>1명</option>
+                <option value={2}>2명</option>
+                <option value={3}>3명</option>
+                <option value={4}>4명</option>
+                <option value={5}>5명</option>
+                <option value={6}>6명</option>
               </select>
             </div>
 
