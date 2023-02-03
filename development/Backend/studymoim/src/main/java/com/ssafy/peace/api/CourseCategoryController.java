@@ -1,5 +1,7 @@
 package com.ssafy.peace.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.entity.CourseCategory;
 import com.ssafy.peace.service.CourseCategoryService;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +54,12 @@ public class CourseCategoryController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/like")
-    public ResponseEntity<?> followCategory(@RequestBody HashMap<String, Object> map) {
+    public ResponseEntity<?> followCategory(@RequestBody Map<String, Object> map) {
         try{
-            courseCategoryService.updateCategoryLikes(Integer.parseInt((String) map.get("userId")), (List<Integer>) map.get("categories"));
+            courseCategoryService.updateCategoryLikes((Integer) map.get("userId"), (List<Map<String, Object>>) map.get("categories"));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
