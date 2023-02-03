@@ -5,7 +5,6 @@ import { useState } from "react";
 import Backdrop from "../components/overall/Backdrop";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
-import MainCourse from "../components/mainpages/MainCourse";
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
@@ -13,6 +12,7 @@ export default function StudyRecruitDetailPage(props) {
   const studyId = useParams();
 
   const detailId = studyId.study_recruit_id;
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const detailData = useFetch(`http:///${API_SERVER}/api/v1/study/${detailId}`);
   console.log(detailData);
   function closeModalHandler() {
