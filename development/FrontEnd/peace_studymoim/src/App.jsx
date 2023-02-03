@@ -22,6 +22,7 @@ import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
 import ScrollToTop from "./components/overall/ScrollToTop";
 import Search from "./pages/Search";
 
+
 export default function App() {
   return (
       <BrowserRouter>
@@ -52,6 +53,7 @@ export default function App() {
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
           <Route path='/login/kakao' element={<KakaoLoginRedirect />}></Route>
           <Route path='/search/:word' element={<Search/>} />
+  
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

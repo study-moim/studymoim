@@ -1,4 +1,4 @@
-export default function OtherChatting() {
+export default function OtherChatting(props) {
   return (
     <div className="ml-2 mt-2 grid justify-items-start">
       <img
@@ -7,7 +7,7 @@ export default function OtherChatting() {
         className="rounded-full w-[40px] h-[40px] mb-2"
       />
       <div className="p-3 border border-[#B1B2FF] rounded-lg text-sm max-w-xs">
-      안녕하세용 리액트 스터디원 구하는 중인데 같이 스터디 하실래용??
+        {props.text}임ㅋ
       </div>
     </div>
   );
