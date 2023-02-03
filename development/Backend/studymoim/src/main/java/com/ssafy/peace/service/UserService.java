@@ -198,6 +198,7 @@ public class UserService {
         return list;
     }
 
+    @Transactional
     public List<CourseDto.Info> getRecommendCourses(Integer userId) throws Exception{
         // 사용자가 좋아한 카테고리 리스트에서 아이디만 추출
         List<Integer> categoryIdList = userLikeCategoryRepository.findAllByUser_userId(userId).stream()
@@ -213,6 +214,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public UserDto.Info updateNickname(Integer userId, UserDto.Nickname nickname) throws RollbackException {
         return UserDto.Info.fromEntity(userRepository.findById(userId).get().updateNickname(nickname.getNickname()));
     }

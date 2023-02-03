@@ -46,7 +46,6 @@ public class UserDto {
         @NotEmpty(message="nickname은 빈값 일 수 없습니다")
         @NotNull(message="nickname은 null 일 수 없습니다")
         private String nickname;
-        @Size(max = 255)
         private int userId;
     }
 
