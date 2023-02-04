@@ -30,37 +30,51 @@ export default function CommunityDetailRoot() {
   const date = dateBase.toString().substring(11, 24);
   return (
     <>
-      <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px] max-w-6xl mx-auto px-4">
-        <div className="flex flex-col w-10/12">
-          <div className="flex justify-start items-end  w-[1162px] relative gap-[15px] px-[30px]">
-            <img className="w-[40px]" src={userList.saveName} />
-            <Link
-              to={`/mypage/${userList.userId}`}
-              className="hover:text-cyan-700 text-black hover:scale-105"
-              state={{ clickWho: userList.userId }}
-            >
-              <div className="text-xl font-bold">{userList.nickname}</div>
-            </Link>
-            <div className="text-xl text-[#7b7474]">
-              {date}
-            </div>
-            <div className="text-xl font-bold text-[#898989]">
-              조회수 {articleDetail.hit}
-            </div>
-            <div className="text-xl font-bold text-[#898989]">
-              댓글 {commentLength}
-            </div>
-          </div>
-          <div className="w-[1162px] pl-[30px] pr-[269px] py-5 text-2xl font-bold text-black">
+      <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
+        <div className="flex flex-col w-9/12">
+          <div className="w-full py-7 text-2xl font-bold text-black">
             {articleDetail.title}
           </div>
+          <div className="flex justify-start items-center relative pb-7 border-b">
+              <img
+                className="w-[50px] h-[50px] object-cover rounded-full"
+                src={
+                  articleDetail.saveName
+                    ? freeArticle.saveName
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjplK5Iw7kiaLK5XX1g5VJwc3W8m92UjVRgw&usqp=CAU"
+                }              />
+              <div className="pl-3">
+                <Link
+                  to={`/mypage/${userList.userId}`}
+                  className="hover:text-[#989aff]"
+                  state={{clickWho: userList.userId}}
+                >
+                  <div className="px-2.5 ext-[15px] font-bold">
+                    {userList.nickname}
+                  </div>
+                </Link>
+                <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
+                {date} &nbsp; 조회수 {articleDetail.hit}
+                </div>
+              </div>
+            </div>
+            
+          
+          
         </div>
+
+            {/* 수정 삭
         {/* TODO: 마크다운 형식으로 적용되게 하기 */}
         <div
-          className="w-10/12 h-[531px] px-[39px] py-7 bg-white border-[3px] border-[#b1b2ff] text-[20px] font-bold text-left text-black"
-          style={{ boxShadow: "0px 2px 5px 0 rgba(0,0,0,0.25)" }}
+          className="w-9/12 py-7 bg-white text-[20px] font-bold"
         >
           {articleDetail.content}
+        </div>
+      </div>
+      
+      <div className="flex flex-col justify-center items-center bg-gray-100 py-[30px] mt-[50px] px-7">
+        <div className="max-w-4xl mx-auto font-bold text-[#7b61ff] my-5 w-9/12">
+              댓글 {commentLength}
         </div>
         <CommunityCommentForm freeBoardId={articleDetail.freeBoardId} />
         {newCommentList.map((comment) => (
