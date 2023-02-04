@@ -12,7 +12,7 @@ export default function CourseMainRoot() {
   return (
     <div className="">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="h-[600px] border mt-3">
+        <div className="border mt-3">
           {/* 큰 추천 배너 */}
           <CourseBanner />
         </div>
