@@ -38,17 +38,15 @@ export default function CommunityCommentForm({freeBoardId}) {
       })
     }
   }
-
   return (
-    <form onSubmit={onSubmit} className="flex flex-col items-end gap-5 w-9/12">
+    <form onSubmit={onSubmit} className="max-w-4xl mx-auto flex flex-col items-end gap-3 w-9/12 ">
       <textarea
-        className="w-full pl-2.5 pr-[100px] pt-[14px] pb-[50px] bg-white border-[3px] border-[#b1b2ff]"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
+        className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
         placeholder="댓글을 입력해주세요."
         ref={contentRef}
       />
-      <button className="p-2.5 text-[15px] rounded-[10px] font-bold text-left text-white bg-[#b1b2ff] hover:bg-[#9697ff] hover:scale-95">
-        작성하기
+      <button className="p-2.5 w-[100px] rounded-[10px] text-center font-bold text-[14px] text-white bg-[#b1b2ff] hover:bg-[#9697ff] mb-3">
+        등록하기
       </button>
     </form>
   );

@@ -51,28 +51,29 @@ export default function CommunityCreateForm() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 flex flex-col gap-[43px] m-[100px]">
-      <form onSubmit={onSubmit} className="flex flex-col gap-[50px]">
-        <p className="text-5xl text-center text-[#7b61ff]">
-          질문 작성하기
+    <div className="max-w-6xl mx-auto px-4 flex flex-col m-[100px]">
+      <form onSubmit={onSubmit} className="flex flex-col gap-[30px] ">
+        <p className="text-3xl text-center font-bold">
+          글 작성하기
         </p>
-        <div className="flex  justify-between gap-[27px]">
-          <input
-            className="w-9/12 px-[26px] py-3 bg-white border-[3px] border-[#b1b2ff]"
-            style={{ boxShadow: "0px 2px 5px 0 rgba(0,0,0,0.25)" }}
-            placeholder="제목을 입력하세요"
+        <input
+            className="px-7 text-xl font-bold focus:outline-none"
+            placeholder="제목을 입력하세요."
             ref={titleRef}
-          />
-          <button className="w-[104px] px-4 py-2 rounded bg-[#7b61ff] text-lg font-bold text-center text-[#f2f2f2] hover:bg-[#5f44e8] hover:scale-95">
-            작성하기
-          </button>
-        </div>
+        />
         <textarea
-          className="flex justify-start items-start   h-[700px] gap-2.5 px-[26px] py-7 bg-white border-[3px] border-[#b1b2ff]"
-          style={{ boxShadow: "0px 2px 5px 0 rgba(0,0,0,0.25)" }}
+          className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
           placeholder="마크다운 양식으로 입력이 가능합니다."
           ref={contentRef}
         />
+        <div className="flex gap-5">
+        <button className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300">
+          취소
+        </button>
+        <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
+          등록
+        </button>
+        </div>
       </form>
     </div>
   );
