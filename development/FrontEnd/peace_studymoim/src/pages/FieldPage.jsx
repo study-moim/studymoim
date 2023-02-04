@@ -15,6 +15,7 @@ export default function FieldPage() {
 
   useEffect(() => {
     setInfo(userInformation);
+    console.log(userInformation);
   }, [userInformation]);
 
   // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
@@ -24,7 +25,6 @@ export default function FieldPage() {
 
   const nicknameRef = useRef();
   const saveNameRef = useRef();
-  const selectFieldsRef = useRef([]);
 
   useEffect(() => {
     if (image) {
@@ -39,26 +39,17 @@ export default function FieldPage() {
   }, [image]);
 
   useEffect(() => {}, [selectedField]);
-  const a = [
-    {
-      categoryId: 73,
-    },
-    {
-      categoryId: 76,
-    },
-  ];
 
   function submitHandler(event) {
     event.preventDefault();
 
     const enteredNickname = nicknameRef.current.value;
 
-    // const loginData = {
-    //   userId:
-    //   categories: selectedField,
-    //   selectFields: selectedField,
-    // };
-    // console.log(loginData)
+    const loginData = {
+      userId: userInformation.userId,
+      categories: selectedField,
+    };
+    console.log(loginData);
   }
 
   return (
@@ -120,18 +111,20 @@ export default function FieldPage() {
             <div
               onClick={() => {
                 for (let i = 0; i < selectedField.length; i++) {
-                  if (selectedField[i].categoryId === tag.courseCategoryId) {
-                    selectedField.splice(i, 1);
-                  } else {
-                    setSelectedField([
-                      ...selectedField,
-                      { categoryId: tag.courseCategoryId },
-                    ]);
-                  }
+                  console.log(selectedField[i]) 
+                  // if (selectedField[i].categoryId === tag.courseCategoryId) {
+                  //   console.log('aa')
+                  //   selectedField.splice(i, 1);
+                  // } else {
+                  //   setSelectedField([
+                  //     ...selectedField,
+                  //     { 'categoryId': tag.courseCategoryId },
+                  //   ]);
+                  // }
                 }
               }}
             >
-              <Tag key={tag.courseCategoryId} tag={tag} ref={selectFieldsRef} />
+              <Tag key={tag.courseCategoryId} tag={tag} />
             </div>
           ))}
         </div>
@@ -143,5 +136,3 @@ export default function FieldPage() {
     </>
   );
 }
-// console.log(a[0].categoryId);
-// console.log(a.length);
