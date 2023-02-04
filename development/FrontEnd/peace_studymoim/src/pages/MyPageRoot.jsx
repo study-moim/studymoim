@@ -28,12 +28,12 @@ export default function MyPageRoot() {
       if (currentClick !== null) {
         let current = document.getElementById(currentClick);
         current.className =
-          "cursor-pointer text-xl font-bold text-center text-[#7b61ff] hover:scale-105";
+          "cursor-pointer text-lg font-bold text-center text-[#989aff] hover:scale-105";
       }
       if (prevClick !== null) {
         let prev = document.getElementById(prevClick);
         prev.className =
-          "cursor-pointer text-xl text-center text-black hover:scale-105";
+          "cursor-pointer text-base text-center text-black hover:scale-105";
       }
 
       setPrevClick(currentClick);
@@ -48,7 +48,7 @@ export default function MyPageRoot() {
         <MyPageLeftBar getClick={getClick} clickModal={clickModal} clickUserId={clickUserId}/>
         <ModalPractice clickModal={clickModal} showModal={showModal} setShowModal={setShowModal}/>
         {/* 안쪽 중요 내용 */}
-        <div className="flex flex-col justify-start w-full p-[20px] rounded-[20px] border border-[#7b7474]">
+        <div className="flex flex-col justify-start w-full p-[20px]">
           {currentClick === "study" ? <StudyList /> : null}
           {currentClick === "course" ? <MyPageCourse /> : null}
           {currentClick === "lecture" ? <MyPageLecture /> : null}
