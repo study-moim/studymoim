@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import FieldButton from "../components/field/FieldButton";
 import { useNavigate } from "react-router-dom";
 import { userInfo } from "../zustand/store";
 import useToken from "../hooks/useToken";
@@ -15,16 +14,17 @@ export default function FieldPage() {
 
   useEffect(() => {
     setInfo(userInformation);
-    console.log(userInformation);
   }, [userInformation]);
 
   // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
   const [selectedField, setSelectedField] = useState([]);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [category, setCategory] = useState([]);
 
   const nicknameRef = useRef();
   const saveNameRef = useRef();
+  const selectFieldsRef = useRef();
 
   useEffect(() => {
     if (image) {
@@ -38,7 +38,12 @@ export default function FieldPage() {
     }
   }, [image]);
 
-  useEffect(() => {}, [selectedField]);
+  useEffect(() => {
+    for (let i = 0; i < selectedField.length; i++) {
+      setCategory([...category, { categoryId: selectedField[i] }]);
+    }
+    console.log(category);
+  }, [selectedField]);
 
   function submitHandler(event) {
     event.preventDefault();
@@ -47,13 +52,47 @@ export default function FieldPage() {
 
     const loginData = {
       userId: userInformation.userId,
-      categories: selectedField,
+      categories: category,
     };
-    console.log(loginData);
+    fetch(`http://${API_SERVER}/api/v1/category/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    }).then((res) => {
+      if (res.ok) {
+        navigate("/");
+      }
+    });
   }
 
   return (
-    <>
+    <div className="container mx-auto my-auto flex flex-col justify-center items-center">
+     <p className="text-[40px] font-bold text-black my-5">
+          관심있는 분야를 선택해주세요!
+        </p>
+
+        <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
+          {tags.map((tag) => (
+            <div
+              onClick={() => {
+                if (selectedField.includes(tag.courseCategoryId)) {
+                  for (let i = 0; i < selectedField.length; i++) {
+                    if (selectedField[i] === tag.courseCategoryId) {
+                      selectedField.splice(i, 1);
+                    }
+                  }
+                } else {
+                  setSelectedField([...selectedField, tag.courseCategoryId]);
+                }
+                console.log(selectedField);
+              }}
+            >
+              <Tag key={tag.courseCategoryId} tag={tag} ref={selectFieldsRef} />
+            </div>
+          ))}
+        </div>
       <form
         onSubmit={submitHandler}
         className="container mx-auto my-auto flex flex-col justify-center items-center"
@@ -81,10 +120,8 @@ export default function FieldPage() {
               className="flex-grow-0 flex-shrink-0 w-full h-[66px] rounded-[10px] border-[3px] border-[#b1b2ff] mb-3"
               ref={nicknameRef}
               minLength="1"
-              maxLength="6"
-              required
+              maxLength="5"
             />
-
             <input
               id="picture"
               type="file"
@@ -99,40 +136,18 @@ export default function FieldPage() {
                 }
               }}
             />
-          </div>
-        </div>
-
-        <p className="text-[40px] font-bold text-black my-5">
-          관심있는 분야를 선택해주세요!
-        </p>
-
-        <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-          {tags.map((tag) => (
-            <div
-              onClick={() => {
-                for (let i = 0; i < selectedField.length; i++) {
-                  console.log(selectedField[i]) 
-                  // if (selectedField[i].categoryId === tag.courseCategoryId) {
-                  //   console.log('aa')
-                  //   selectedField.splice(i, 1);
-                  // } else {
-                  //   setSelectedField([
-                  //     ...selectedField,
-                  //     { 'categoryId': tag.courseCategoryId },
-                  //   ]);
-                  // }
-                }
-              }}
-            >
-              <Tag key={tag.courseCategoryId} tag={tag} />
-            </div>
-          ))}
-        </div>
-
-        <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
+             <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
           제출하기
         </button>
+          </div>
+       
+        </div>
       </form>
-    </>
+
+       
+
+        
+      
+    </div>
   );
 }
