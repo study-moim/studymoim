@@ -27,6 +27,8 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private FreeBoardRepository freeBoardRepository;
     @Autowired
+    private QuestionBoardRepository questionBoardRepository;
+    @Autowired
     private FreeBoardCommentRepository freeBoardCommentRepository;
 
     @Autowired
@@ -199,7 +201,35 @@ public class DataLoader implements CommandLineRunner {
         userRepository.saveAll(userList);
     }
 
-    public void addFreeBoard(){
+    public void addQuestionBoard() {
+        List<User> userList = userRepository.findAll();
+        List<QuestionBoard> questionBoardList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < 20; j++) {
+                questionBoardList.add(QuestionBoard.builder()
+                        .user(userList.get(i))
+                        .title(i + "유저가 쓴 " + j + "번째 질문게시판 글")
+                        .content("pagination test 입니다")
+                        .build());
+            }
+        }
+        questionBoardRepository.saveAll(questionBoardList);
+    }
+
+        public void addFreeBoard(){
+        List<User> userList =  userRepository.findAll();
+        List<FreeBoard> freeBoardList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < 20; j++) {
+                freeBoardList.add(FreeBoard.builder()
+                        .user(userList.get(i))
+                        .title(i+"유저가 쓴 "+j+"번째 자유게시판 글")
+                        .content("pagination test 입니다")
+                        .build());
+            }
+        }
+        freeBoardRepository.saveAll(freeBoardList);
+
         User writer = userRepository.findById(1).orElse(null);
         FreeBoard freeBoard = FreeBoard.builder()
                 .user(writer)
