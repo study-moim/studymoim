@@ -32,6 +32,7 @@ public class StudyController {
         try{
             return new ResponseEntity<>(studyService.getStudyList(), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -46,6 +47,7 @@ public class StudyController {
         try{
             return new ResponseEntity<>(studyService.getStudyDetail(studyId), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -60,6 +62,7 @@ public class StudyController {
         try{
             return new ResponseEntity<>(studyService.getStudyHistory(studyId), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,6 +78,7 @@ public class StudyController {
             studyService.participateStudy(studyId, studyMember);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -89,6 +93,7 @@ public class StudyController {
         try{
             return new ResponseEntity<>(studyService.getRequest(studyId), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,6 +108,7 @@ public class StudyController {
             studyService.requestStudy(studyId, request);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -121,6 +127,7 @@ public class StudyController {
             studyService.decideRequest(studyId, requestId, decide);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -140,6 +147,7 @@ public class StudyController {
             studyService.banUserFromStudy(studyId, userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -157,6 +165,7 @@ public class StudyController {
             studyService.makeStudy(study);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -171,6 +180,7 @@ public class StudyController {
             studyService.updateStudy(studyId, study);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -185,6 +195,7 @@ public class StudyController {
             studyService.updateNotice(studyId, notice);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -199,6 +210,7 @@ public class StudyController {
         try{
             return new ResponseEntity<>(studyService.getStudyInfoListFindByName(searchText), HttpStatus.ACCEPTED);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
