@@ -10,7 +10,7 @@ export default function Tag({ tag }) {
             SetIsActive(!isActive);
           }}
           className={
-            "flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-white border-2 border-[#b1b2ff] hover:scale-95" +
+            "w-full flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-white border-2 border-[#b1b2ff] hover:scale-95" +
             (isActive && "")
           }
         >
@@ -32,7 +32,7 @@ export default function Tag({ tag }) {
             SetIsActive(!isActive);
           }}
           className={
-            "flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-[#b1b2ff] border-2 border-[#b1b2ff] hover:scale-95" +
+            "w-full flex flex-col justify-center items-center gap-2.5 px-5 py-1.5 rounded-[30px] bg-[#b1b2ff] border-2 border-[#b1b2ff] hover:scale-95" +
             (isActive && "")
           }
         >
