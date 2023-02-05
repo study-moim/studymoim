@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 import useToken from "../hooks/useToken";
 import useFetch from "../hooks/useFetch";
 import Tag from "../components/overall/Tag";
@@ -41,7 +41,7 @@ export default function FieldPage() {
     for (let i = 0; i < selectedField.length; i++) {
       setCategory([...category, { categoryId: selectedField[i] }]);
     }
-    console.log(category);
+    // console.log(category);
   }, [selectedField]);
 
   function submitHandler(event) {
@@ -83,7 +83,7 @@ export default function FieldPage() {
       }
     });
   }
-
+  // console.log(selectedField);
   return (
     <div className="container mx-auto my-auto flex flex-col justify-center items-center">
       <p className="text-[40px] font-bold text-black my-5">
@@ -93,6 +93,8 @@ export default function FieldPage() {
       <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
         {tags.map((tag) => (
           <div
+            ref={selectFieldsRef}
+            key={tag.courseCategoryId}
             onClick={() => {
               if (selectedField.includes(tag.courseCategoryId)) {
                 for (let i = 0; i < selectedField.length; i++) {
@@ -103,10 +105,10 @@ export default function FieldPage() {
               } else {
                 setSelectedField([...selectedField, tag.courseCategoryId]);
               }
-              console.log(selectedField);
+              // console.log(selectedField);
             }}
           >
-            <Tag key={tag.courseCategoryId} tag={tag} ref={selectFieldsRef} />
+            <Tag tag={tag} />
           </div>
         ))}
       </div>
@@ -137,7 +139,7 @@ export default function FieldPage() {
               className="flex-grow-0 flex-shrink-0 w-full h-[66px] rounded-[10px] border-[3px] border-[#b1b2ff] mb-3"
               ref={nicknameRef}
               minLength="1"
-              maxLength="5"
+              maxLength="6"
             />
             <input
               id="picture"

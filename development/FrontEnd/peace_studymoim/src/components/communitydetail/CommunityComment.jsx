@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import { Link } from "react-router-dom";
 
 export default function CommunityComment({ comment }) {

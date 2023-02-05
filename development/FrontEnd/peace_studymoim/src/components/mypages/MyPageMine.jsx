@@ -1,4 +1,4 @@
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import { useState } from "react";
 
 

@@ -1,5 +1,5 @@
 import useFetch from "../../hooks/useFetch";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import MainCourse from "./MainCourse";
 export default function MainLogIn() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;

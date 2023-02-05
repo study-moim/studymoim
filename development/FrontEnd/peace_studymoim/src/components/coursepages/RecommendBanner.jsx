@@ -1,5 +1,5 @@
 import useFetch from "../../hooks/useFetch";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import { Link } from "react-router-dom";
 
 export default function RecommendBanner() {

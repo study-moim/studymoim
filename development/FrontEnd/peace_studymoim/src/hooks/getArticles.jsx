@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {getArticleList} from "../zustand/articles";
+import getArticleList from "../zustand/articles";
 
 export default function getArticles() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;

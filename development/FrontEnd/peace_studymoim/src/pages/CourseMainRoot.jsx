@@ -3,7 +3,7 @@ import MainSearch from "../components/mainpages/MainSearch";
 import TagList from "../components/overall/TagList";
 import MainCourse from "../components/mainpages/MainCourse";
 import useFetch from "../hooks/useFetch";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 
 export default function CourseMainRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;

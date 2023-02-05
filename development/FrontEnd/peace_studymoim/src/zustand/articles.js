@@ -1,7 +1,7 @@
-import create from "zustand";
+import { create } from 'zustand';
 import { persist } from "zustand/middleware";
 
-export const getArticleList = create(
+const getArticleList = create(
   persist(
     (set) => ({
       articles: [],
@@ -13,3 +13,5 @@ export const getArticleList = create(
   }
   )
 );
+
+export default getArticleList

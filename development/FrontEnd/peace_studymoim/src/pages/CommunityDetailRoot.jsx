@@ -3,7 +3,7 @@ import CommunityCommentForm from "../components/communitydetail/CommunityComment
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 
 export default function CommunityDetailRoot() {
   // 로그인 컷 콤보

@@ -1,7 +1,7 @@
-import create from "zustand";
+import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const userInfo = create(
+const userInfo = create(
   persist(
     (set) => ({
       token: "",
@@ -15,7 +15,9 @@ export const userInfo = create(
   }),
   {
     name: 'userInfo', // unique name
-    getStorage: () => sessionStorage, // (optional) by default the 'localStorage' is used
+    getInfoStorage: () => sessionStorage, // (optional) by default the 'localStorage' is used
   }
   )
 );
+
+export default userInfo
