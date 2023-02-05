@@ -7,14 +7,14 @@ import Tag from "../components/overall/Tag";
 
 export default function FieldPage() {
   const navigate = useNavigate();
-  const { setInfo } = userInfo();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const { setInfo } = userInfo();
   const userInformation = useToken(`http://${API_SERVER}/api/v1/oauth/info`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
-
   useEffect(() => {
     setInfo(userInformation);
   }, [userInformation]);
+
+  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
 
   const [selectedField, setSelectedField] = useState([]);
   const [image, setImage] = useState(null);
@@ -67,6 +67,7 @@ export default function FieldPage() {
       body: JSON.stringify(changeNickname),
     }).then((res) => {
       if (res.ok) {
+        setInfo(userInformation)
         navigate("/");
       }
     });
