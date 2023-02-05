@@ -2,7 +2,6 @@ import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import Backdrop from "../components/overall/Backdrop";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 export default function StudyRecruitDetailPage(props) {
@@ -14,9 +13,9 @@ export default function StudyRecruitDetailPage(props) {
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const detailData = useFetch(`http:///${API_SERVER}/api/v1/study/${detailId}`);
-  console.log(detailData);
+
   function closeModalHandler() {
-    if (detailData.public) {
+    if (!detailData.public) {
       setShowNotOpenModal(false);
     } else {
       setShowOpenModal(false);
@@ -229,7 +228,7 @@ export default function StudyRecruitDetailPage(props) {
             <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
               커리큘럼
             </p>
-            {/* TODO: 커리큘럼은 강의 추가가 되면 하는 걸로!  */}
+            {/* TODO: 커리큘럼은 강의 추가가 되면 하는 걸로! 따로 만들어서 key 추가하기 ㅅㅂ  */}
             <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5 rounded-[20px] bg-white border-[3px] border-[#7b61ff]">
               {detailData.curricula &&
                 detailData.curricula.map((item) => {
@@ -296,9 +295,9 @@ export default function StudyRecruitDetailPage(props) {
                           <path
                             d="M47.6445 6.42036C46.4228 5.01898 44.9722 3.9073 43.3757 3.14884C41.7791 2.39038 40.0679 2 38.3397 2C36.6115 2 34.9003 2.39038 33.3037 3.14884C31.7072 3.9073 30.2566 5.01898 29.0349 6.42036L26.4994 9.32737L23.9639 6.42036C21.4961 3.59099 18.149 2.00147 14.659 2.00147C11.169 2.00147 7.82198 3.59099 5.35419 6.42036C2.88639 9.24973 1.5 13.0872 1.5 17.0885C1.5 21.0899 2.88639 24.9273 5.35419 27.7567L7.88969 30.6637L26.4994 52L45.109 30.6637L47.6445 27.7567C48.8668 26.356 49.8364 24.6928 50.498 22.8624C51.1595 21.0319 51.5 19.0699 51.5 17.0885C51.5 15.1071 51.1595 13.1452 50.498 11.3147C49.8364 9.4842 48.8668 7.82109 47.6445 6.42036Z"
                             stroke="#9A9A9A"
-                            stroke-width="2.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
                         </svg>
                       </div>
@@ -314,13 +313,9 @@ export default function StudyRecruitDetailPage(props) {
               onConfirm={closeModalHandler}
             />
           ) : null}
-          {showOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
-
           {showNotOpenModal ? (
             <StudyRecruitModalNotOpen onCancel={closeModalHandler} />
           ) : null}
-
-          {showNotOpenModal ? <Backdrop onCancel={closeModalHandler} /> : null}
         </div>
       </div>
     </>

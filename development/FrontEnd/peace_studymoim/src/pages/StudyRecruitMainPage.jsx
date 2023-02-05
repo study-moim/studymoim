@@ -4,7 +4,7 @@ import MainSearch from "../components/mainpages/MainSearch";
 import Tag from "../components/overall/Tag";
 import useFetch from "../hooks/useFetch";
 
-// TODO: 취소 버튼 구현 안함, 강좌 선택도 넣지 않았음
+// TODO: 취소 버튼 구현 안함
 export default function StudyRecruitMainPage() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);

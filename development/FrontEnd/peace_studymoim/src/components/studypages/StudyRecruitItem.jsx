@@ -15,7 +15,6 @@ export default function StudyRecruitItem({props}) {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-3.5 py-[3.5px]">
-        {/* TODO: 나중에 며칠 남았는 지 알려주면 좋을듯?? 추추추추추후에  */}
         <p className="text-[10px] font-bold text-center text-[#898989]">
           참가인원: {props.userGathered} / {props.userLimit} 명
         </p>

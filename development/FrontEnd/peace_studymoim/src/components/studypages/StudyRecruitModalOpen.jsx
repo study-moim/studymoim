@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 
 export default function StudyRecruitModalOpen(props) {
+  const studyId = useParams();
+
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       props.onCancel()
@@ -14,9 +16,8 @@ export default function StudyRecruitModalOpen(props) {
     props.onCancel();
   }
   
-  function confirmHandler() {
-    // TODO: 여기서 스터디 디테일 페이지로 넘어가게 하자앙!(디테일이 된다면!)  
-    navigate("/studyDetail");
+  function confirmHandler() {  
+    navigate(`/studyDetail/${studyId.study_recruit_id}`);
   }
   return (
     <>
