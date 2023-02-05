@@ -69,14 +69,12 @@ public class DataLoader implements CommandLineRunner {
         // UserLikeCategory 더미 데이터
         addUserLikeCategory();
 
-
         // CourseCategory 실제 사용할 데이터
         addCategory();
 
-
-
         // youtube api 세팅
-//        youtubeApiService.init();
+        youtubeApiService.init(true);
+
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
         // Memo 더미 데이터
@@ -319,27 +317,6 @@ public class DataLoader implements CommandLineRunner {
                     throw new RuntimeException(e);
                 }
             }
-
-//            List<CourseCategory> courseCategoryList = courseCategoryRepository.findAll();
-//            List<Course> courseList = courseRepository.findAll();
-//
-//            for (int i = 0; i < courseCategoryList.size(); i++) {
-//                CourseCategory courseCategory = courseCategoryList.get(i);
-//                for (int j = 0; j < courseList.size(); j++) {
-//                    Course course = courseList.get(j);
-//                    if(course.getTitle().contains(courseCategory.getName_kor())) {
-//                        courseTypeRepository.save(CourseType.builder()
-//                                .course(course)
-//                                .courseCategory(courseCategory)
-//                                .build());
-//                    } else if (course.getTitle().contains(courseCategory.getName_eng())) {
-//                        courseTypeRepository.save(CourseType.builder()
-//                                .course(course)
-//                                .courseCategory(courseCategory)
-//                                .build());
-//                    }
-//                }
-//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
