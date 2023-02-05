@@ -16,7 +16,6 @@ export default function FieldPage() {
     setInfo(userInformation);
   }, [userInformation]);
 
-  // TODO: 이 부분을 백엔드 쪽에 넣어서 업데이트되게 해야할 것 같음
   const [selectedField, setSelectedField] = useState([]);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
