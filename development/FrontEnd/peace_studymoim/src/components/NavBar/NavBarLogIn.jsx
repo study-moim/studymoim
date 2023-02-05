@@ -4,7 +4,6 @@ import MailIcon from "./MailIcon";
 import userInfo from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Backdrop from "../overall/Backdrop";
 import RingModal from "./RingModal";
 
 /** @function 로그인된상태네비게이션바 */
@@ -32,8 +31,6 @@ export default function NavBarLogIn() {
       </div>
 
       {showModal ? <RingModal onCancel={closeModalHandler} /> : null}
-
-      {showModal ? <Backdrop onCancel={closeModalHandler} /> : null}
       <Link to="/mail">
         <MailIcon />
       </Link>

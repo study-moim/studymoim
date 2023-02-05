@@ -39,21 +39,16 @@ export default function App() {
           {/* TODO: 동적라우터패쓰로 재설정 ex) /mypage/아이디 */}
           <Route path="/mypage/:user_id" element={<MyPageRoot />}></Route>
           <Route path="/mail" element={<MailMainRoot />}></Route>
-          {/* TODO: 관심사 선택페이지 이동용 라우트라서 나중에 지워야함 */}
           <Route path="/choice" element={<FieldPage />}></Route>
           <Route path="/community/create" element={<CommunityCreateForm />}></Route>
           <Route path="/community/free/:article_id" element={<CommunityDetailRoot />}></Route>
-          ​{/* TODO:  스터디 구인 폼 이동용 라우트라서 나중에 지우자 */}
 ​          <Route path="/study/study_recruit_form" element={<StudyMakePage/>} ></Route>
           <Route path="/study/:study_recruit_id" element={<StudyRecruitDetailPage/>}></Route> 
-
           <Route path="/player/:lecture_id" element={<StudyPlayerMainRoot/>}></Route> 
-          {/* TODO: Detail Page니까 스터디 id로 접근가능하게 해야함 지금은 스터디 정보가 없어 그냥 함 */}
-          <Route path='/studyDetail' element={<StudyDetailMainPage/>}></Route>
+          <Route path='/studyDetail/:study_id' element={<StudyDetailMainPage/>}></Route>
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
           <Route path='/login/kakao' element={<KakaoLoginRedirect />}></Route>
           <Route path='/search/:word' element={<Search/>} />
-  
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>
