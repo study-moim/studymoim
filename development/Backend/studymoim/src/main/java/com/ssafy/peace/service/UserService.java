@@ -39,21 +39,18 @@ public class UserService {
         return null;
     }
 
-    public User createUser(UserRegisterPostReq userRegisterInfo) {
+    public UserDto.Info createUser(UserRegisterPostReq userRegisterInfo) {
         User user = User.builder().email(userRegisterInfo.getEmail()).build();
-        return userRepository.save(user);
+        return UserDto.Info.fromEntity(userRepository.save(user));
     }
 
-    public User getUserByEmail(String email) {
+    public UserDto.Info getUserByEmail(String email) {
         // 디비에 유저 정보 조회 (userEmail을 통한 조회).
-        User user = userRepository.findByEmail(email);
-        return user;
+        return UserDto.Info.fromEntity(userRepository.findByEmail(email));
     }
 
     public UserDto.Info getUserInfo(Integer userId) throws RuntimeException {
-        return userRepository.findById(userId)
-                .map(UserDto.Info::fromEntity)
-                .get();
+        return UserDto.Info.fromEntity(userRepository.findById(userId).get());
     }
 
     public List<StudyDto.Info> getStudyList(Integer userId) throws RuntimeException {
