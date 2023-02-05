@@ -1,7 +1,7 @@
 import MainCarousel from "../components/mainpages/MainCarousel";
 import MainSearch from "../components/mainpages/MainSearch";
 import TagList from "../components/overall/TagList";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
 import MainStudy from "../components/mainpages/MainStudy";

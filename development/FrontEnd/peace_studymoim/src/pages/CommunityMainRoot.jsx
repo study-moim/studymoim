@@ -4,7 +4,7 @@ import FreeQuestion from "../components/communitypages/FreeQuestion";
 import { Link } from "react-router-dom";
 import axios from "axios"
 import getArticles from "../hooks/getArticles"
-import {getArticleList} from "../zustand/articles"
+import getArticleList from "../zustand/articles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
@@ -97,7 +97,7 @@ export default function CommunityMainRoot() {
           <div className="flex flex-col justify-start items-start w-full">
             {freeArticles.map((freeArticle) => (
                 <FreeQuestion
-                  key={freeArticle.free_board_id}
+                  key={freeArticle.freeBoardId}
                   freeArticle={freeArticle}
                 />
             ))}

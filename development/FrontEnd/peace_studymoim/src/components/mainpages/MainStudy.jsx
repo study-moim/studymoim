@@ -25,7 +25,7 @@ export default function MainStudy() {
         className="w-full my-2"
         preserveAspectRatio="none"
       >
-        <path d="M0 1.5L291 1.5" stroke="#D2DAFF" stroke-width={2} />
+        <path d="M0 1.5L291 1.5" stroke="#D2DAFF" strokeWidth={2} />
       </svg>
       <div className="flex flex-row justify-center items-center gap-2 mb-1 hover:scale-105 cursor-pointer">
         <img

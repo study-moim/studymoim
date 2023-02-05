@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import NavBarLogIn from "./NavBarLogIn";
 import NavBarNotLogIn from "./NavBarNotLogIn";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 
 export default function NavBarRouter() {
   const { logIn } = userInfo();
