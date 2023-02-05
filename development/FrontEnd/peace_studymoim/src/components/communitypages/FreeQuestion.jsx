@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function FreeQuestion({ freeArticle }) {
   const dateBase = new Date(freeArticle.publishTime);
-  const date = dateBase.toString().substring(11, 24);
+  const date = dateBase.toString().substring(0,24);
   const commentAmount = freeArticle.freeBoardComments.length;
   const slicedContent = freeArticle.content.substring(0, 100) + "...";
 
