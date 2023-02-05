@@ -5,11 +5,15 @@ export default function MainLogIn() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo(); 
   const userId = info.userId;
+    
+  const userInformation = useFetch(
+    `http://${API_SERVER}/api/v1/user/${userId}`
+  );
 
   const recommendCourses = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`);
   return (
     <>
-    <p className="text-xl">#닉네임(수정해야돼) 추천강좌</p>
+    <p className="text-xl">#{userInformation.nickname}님 추천강좌</p>
       <div className="grid sm:grid-cols-3 md:grid-cols-4 gap-10 grid-cols-2">
         {recommendCourses.map((course) => (
           <MainCourse key={course.course_id} propData={course} />

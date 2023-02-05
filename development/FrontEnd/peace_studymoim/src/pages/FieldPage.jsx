@@ -50,16 +50,34 @@ export default function FieldPage() {
 
     const enteredNickname = nicknameRef.current.value;
 
-    const loginData = {
+    const fieldData = {
       userId: userInformation.userId,
       categories: category,
     };
+
+    const changeNickname = {
+      nickname: enteredNickname, 
+      userId: userInformation.userId, 
+
+    }
+    fetch(`http://${API_SERVER}/api/v1/user/${userInformation.userId}/nickname`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(changeNickname),
+    }).then((res) => {
+      if (res.ok) {
+        navigate("/");
+      }
+    });
+
     fetch(`http://${API_SERVER}/api/v1/category/like`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify(fieldData),
     }).then((res) => {
       if (res.ok) {
         navigate("/");
@@ -69,30 +87,30 @@ export default function FieldPage() {
 
   return (
     <div className="container mx-auto my-auto flex flex-col justify-center items-center">
-     <p className="text-[40px] font-bold text-black my-5">
-          관심있는 분야를 선택해주세요!
-        </p>
+      <p className="text-[40px] font-bold text-black my-5">
+        관심있는 분야를 선택해주세요!
+      </p>
 
-        <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-          {tags.map((tag) => (
-            <div
-              onClick={() => {
-                if (selectedField.includes(tag.courseCategoryId)) {
-                  for (let i = 0; i < selectedField.length; i++) {
-                    if (selectedField[i] === tag.courseCategoryId) {
-                      selectedField.splice(i, 1);
-                    }
+      <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
+        {tags.map((tag) => (
+          <div
+            onClick={() => {
+              if (selectedField.includes(tag.courseCategoryId)) {
+                for (let i = 0; i < selectedField.length; i++) {
+                  if (selectedField[i] === tag.courseCategoryId) {
+                    selectedField.splice(i, 1);
                   }
-                } else {
-                  setSelectedField([...selectedField, tag.courseCategoryId]);
                 }
-                console.log(selectedField);
-              }}
-            >
-              <Tag key={tag.courseCategoryId} tag={tag} ref={selectFieldsRef} />
-            </div>
-          ))}
-        </div>
+              } else {
+                setSelectedField([...selectedField, tag.courseCategoryId]);
+              }
+              console.log(selectedField);
+            }}
+          >
+            <Tag key={tag.courseCategoryId} tag={tag} ref={selectFieldsRef} />
+          </div>
+        ))}
+      </div>
       <form
         onSubmit={submitHandler}
         className="container mx-auto my-auto flex flex-col justify-center items-center"
@@ -136,18 +154,12 @@ export default function FieldPage() {
                 }
               }}
             />
-             <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
-          제출하기
-        </button>
+            <button className="btn mt-5 w-[526px] h-10  rounded-[20px] bg-[#b1b2ff] text-lg font-bold text-center text-white hover:bg-[#8587eb]">
+              제출하기
+            </button>
           </div>
-       
         </div>
       </form>
-
-       
-
-        
-      
     </div>
   );
 }
