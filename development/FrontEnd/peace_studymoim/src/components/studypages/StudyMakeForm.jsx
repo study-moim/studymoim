@@ -16,7 +16,7 @@ export default function StudyMakeForm(props) {
   function closeModalHandler() {
     setShowModal(false);
   }
-  // TODO: assign 새로 배움 ㅋ
+
   const optionList = search.map((course) =>
     Object.assign({ value: course.course_id, label: course.title })
   );
@@ -72,12 +72,10 @@ export default function StudyMakeForm(props) {
       startTime: enteredStartDate,
       saveName: preview,
       userLimit: enteredRecruitMembers,
-      // TODO: id만 넘기기 !! 이거 해야됨
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
       public: enteredRecruitMethod,
     };
-    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 
