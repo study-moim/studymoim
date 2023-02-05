@@ -6,9 +6,15 @@ export default function RecommendBanner() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
   const userId = info.userId;
+  
+  const userInformation = useFetch(
+    `http://${API_SERVER}/api/v1/user/${userId}`
+  );
+
   const recommendCourse = useFetch(
     `http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`
   )[0];
+  
   console.log(recommendCourse);
 
   return (
@@ -16,7 +22,7 @@ export default function RecommendBanner() {
       <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-6/12 relative gap-[45px] pl-[150px] pr-[30px] py-[30px]">
         <p className="flex-grow-0 flex-shrink-0 w-full text-[60px] font-bold text-left">
           <span className="flex-grow-0 flex-shrink-0 w-full font-bold text-left text-[#a259ff]">
-            닉네임!
+            {userInformation.nickname}
           </span>
           <span className="flex-grow-0 flex-shrink-0 w-full font-bold text-left text-black">
             님과

@@ -20,7 +20,6 @@ export default function CourseMainRoot() {
           <MainSearch />
           <div className="w-full flex flex-col justify-between items-center">
             <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-            {/* TODO:  인기태그를 백에서 주면 좋을듯 */}
             <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
               {tags.map((tag) => (
                 <Tag key={tag.courseCategoryId} tag={tag} />

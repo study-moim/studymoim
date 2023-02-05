@@ -5,7 +5,6 @@ export default function CourseSearchBar() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const data = useFetch(`http://${API_SERVER}/api/v1/course/search/${searchtext}`); 
 
-  // 뻐킹 검색 안돼서 포기 
   return (
     <div className="w-full"> 
       <input
