@@ -7,6 +7,8 @@ import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +27,12 @@ public class QuestionBoardService {
     private final StudyRepository studyRepository;
     private final LectureRepository lectureRepository;
     @Transactional
-    public List<QuestionBoardDto.Info> getQuestionBoardList() throws RollbackException {
-        return questionBoardRepository.findAllByIsDeletedIsFalse().stream()
-                .map(QuestionBoardDto.Info::fromEntity)
-                .collect(Collectors.toList());
+    public Page<QuestionBoardDto.Info> getQuestionBoardList(Pageable pageable) throws RollbackException {
+//        return questionBoardRepository.findAllByIsDeletedIsFalse().stream()
+//                .map(QuestionBoardDto.Info::fromEntity)
+//                .collect(Collectors.toList());
+        return questionBoardRepository.findAllByIsDeletedIsFalse(pageable)
+                .map(m -> QuestionBoardDto.Info.fromEntity(m));
     }
 
     @Transactional

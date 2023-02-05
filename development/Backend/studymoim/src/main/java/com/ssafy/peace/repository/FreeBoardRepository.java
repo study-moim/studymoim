@@ -1,6 +1,8 @@
 package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.FreeBoard;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Integer> {
-    List<FreeBoard> findAllByIsDeletedIsFalse();
+//    List<FreeBoard> findAllByIsDeletedIsFalse();
+    Page<FreeBoard> findAllByIsDeletedIsFalse(Pageable pageable);
+
     List<FreeBoard> findAllByIsDeletedIsFalseAndUser_UserId(Integer userId);
     FreeBoard save(FreeBoard freeBoard);
     /*

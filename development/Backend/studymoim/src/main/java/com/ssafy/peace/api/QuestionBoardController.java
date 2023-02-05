@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +33,9 @@ public class QuestionBoardController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/")
-    public ResponseEntity<?> boardList() {
+    public ResponseEntity<?> boardList(@PageableDefault(size=10) Pageable pageable) {
         try{
-            return new ResponseEntity<>(questionBoardService.getQuestionBoardList(), HttpStatus.OK);
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardList(pageable), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

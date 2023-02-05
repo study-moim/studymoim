@@ -40,7 +40,9 @@ public class CourseService {
 //                .map(CourseDto.Info::fromEntity)
 //                .sorted(Comparator.comparing(CourseDto.Info::getLikeUserCount).reversed())
 //                .collect(Collectors.toList());
-        return CourseDto.Info.pageFromEntity(courseRepository.findAll(pageable));
+
+        return courseRepository.findAll(pageable).map(m -> CourseDto.Info.fromEntity(m));
+
 
 
     }

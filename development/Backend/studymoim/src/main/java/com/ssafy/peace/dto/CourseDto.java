@@ -43,22 +43,6 @@ public class CourseDto {
                                     .collect(Collectors.toList()))
                     .build();
         }
-        // Page<Entity> -> Page<Dto> 변환
-        public static Page<Info> pageFromEntity(Page<Course> coursePage) {
-            Page<Info> pageCourseInfo = coursePage.map(m -> Info.builder()
-                            .course_id(m.getCourseId())
-                            .title(m.getTitle())
-                            .content(m.getContent())
-                            .thumbnail(m.getThumbnail())
-                            .courseProviderName(CourseProviderDto.Info.fromEntity(m.getCourseProvider()).getName())
-                            .likeUserCount(m.getUserLikeCourses().size())
-                            .categoryList(m.getCourseTypes().stream().map(courseType ->
-                                            CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory()))
-                                            .collect(Collectors.toList()))
-                            .build()
-                    );
-            return pageCourseInfo;
-        }
     }
 
     // 구인 페이지에서 알려줄 DTO

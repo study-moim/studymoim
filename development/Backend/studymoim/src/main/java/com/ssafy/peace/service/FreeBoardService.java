@@ -12,6 +12,8 @@ import com.ssafy.peace.repository.FreeBoardRepository;
 import com.ssafy.peace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +31,12 @@ public class FreeBoardService {
     private final FreeBoardCommentRepository freeBoardCommentRepository;
     private final UserRepository userRepository;
     @Transactional
-    public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
-        return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
-                .map(FreeBoardDto.Detail::fromEntity)
-                .collect(Collectors.toList());
+    public Page<FreeBoardDto.Detail> getFreeBoardList(Pageable pageable) throws RollbackException {
+//        return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
+//                .map(FreeBoardDto.Detail::fromEntity)
+//                .collect(Collectors.toList());
+        return freeBoardRepository.findAllByIsDeletedIsFalse(pageable)
+                .map(m -> FreeBoardDto.Detail.fromEntity(m));
     }
 
     @Transactional
