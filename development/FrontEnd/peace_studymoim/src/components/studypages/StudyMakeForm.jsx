@@ -18,7 +18,7 @@ export default function StudyMakeForm(props) {
   }
 
   const {info} = userInfo()
-  console.log(info) 
+
   // if (!info) {
   //   alert("로그인이 필요합니다.");
   //   navigate("/login");
