@@ -41,6 +41,7 @@ public class YoutubeApiService {
     private final LectureRepository lectureRepository;
     private final CourseRepository courseRepository;
     private final PlatformRepository platformRepository;
+    private final CourseTypeService courseTypeService;
 
 
     // 추후 키 관리
@@ -102,6 +103,8 @@ public class YoutubeApiService {
                     throw new RuntimeException(e);
                 }
             }
+            // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
+            courseTypeService.insertCourseType();
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);
