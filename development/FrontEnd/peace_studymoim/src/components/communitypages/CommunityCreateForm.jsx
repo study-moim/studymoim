@@ -1,16 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
 import { userInfo } from "../../zustand/store";
 
 export default function CommunityCreateForm() {
+  // 로그인 컷 콤보
   const navigate = useNavigate();
-
-  const {info} = userInfo()
-  if (!info) {
-    alert("로그인이 필요합니다.");
-    navigate("/login");
-  }
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      alert("로그인이 필요합니다.")
+      navigate("/login");
+      return;
+    }
+  });
 
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
@@ -53,13 +56,11 @@ export default function CommunityCreateForm() {
   return (
     <div className="max-w-6xl mx-auto px-4 flex flex-col m-[100px]">
       <form onSubmit={onSubmit} className="flex flex-col gap-[30px] ">
-        <p className="text-3xl text-center font-bold">
-          글 작성하기
-        </p>
+        <p className="text-3xl text-center font-bold">글 작성하기</p>
         <input
-            className="px-7 text-xl font-bold focus:outline-none"
-            placeholder="제목을 입력하세요."
-            ref={titleRef}
+          className="px-7 text-xl font-bold focus:outline-none"
+          placeholder="제목을 입력하세요."
+          ref={titleRef}
         />
         <textarea
           className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
@@ -67,12 +68,12 @@ export default function CommunityCreateForm() {
           ref={contentRef}
         />
         <div className="flex gap-5">
-        <button className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300">
-          취소
-        </button>
-        <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
-          등록
-        </button>
+          <button className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300">
+            취소
+          </button>
+          <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
+            등록
+          </button>
         </div>
       </form>
     </div>
