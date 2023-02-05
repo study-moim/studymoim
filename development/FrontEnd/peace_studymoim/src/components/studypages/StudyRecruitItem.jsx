@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function StudyRecruitItem(props) {
+export default function StudyRecruitItem({props}) {
 
   return (
     <Link
@@ -11,10 +11,7 @@ export default function StudyRecruitItem(props) {
         <div className="border-t-0 border-r-0 border-b-[0.3px] border-l-0 border-black text-[22px] font-bold text-left text-black mb-4">
           {props.title}
         </div>
-
-        <p className="text-[16px] text-left text-[#898989]">
-          <div dangerouslySetInnerHTML={{ __html: props.content }}></div>
-        </p>
+        <div dangerouslySetInnerHTML={{ __html: props.content }}></div>
       </div>
 
       <div className="flex flex-col justify-center items-center gap-3.5 py-[3.5px]">

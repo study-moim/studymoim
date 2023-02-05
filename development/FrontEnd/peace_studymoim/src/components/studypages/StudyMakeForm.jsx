@@ -1,23 +1,31 @@
-// TODO: 백 완성되면 .. 해봐야지
 import { useEffect } from "react";
 import { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
-import Backdrop from "../overall/Backdrop";
 import useFetch from "../../hooks/useFetch";
-import CourseSearchBar from "./CourseSearchBar";
 import userInfo from "../../zustand/store";
+import Select from "react-select";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]); 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
+
   function closeModalHandler() {
     setShowModal(false);
   }
+  // TODO: assign 새로 배움 ㅋ
+  const optionList = search.map((course) =>
+    Object.assign({ value: course.course_id, label: course.title })
+  );
 
-  const {info} = userInfo()
+  function handleSelect(data) {
+    setSelectedOptions(data);
+  }
+
+  const { info } = userInfo();
 
   // if (!info) {
   //   alert("로그인이 필요합니다.");
@@ -27,14 +35,12 @@ export default function StudyMakeForm(props) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  const titleInputRef = useRef('');
-  const descriptionRef = useRef('');
-  const startDateRef = useRef('');
-  // img 는 따로
+  const titleInputRef = useRef("");
+  const descriptionRef = useRef("");
+  const startDateRef = useRef("");
   const recruitMembersRef = useRef();
-  // notice는 ''
-  // const courseListsRef = useRef();
   const recruitMethodRef = useRef();
+  const selectCourseRef = useRef([]); 
 
   useEffect(() => {
     if (image) {
@@ -44,7 +50,7 @@ export default function StudyMakeForm(props) {
       };
       reader.readAsDataURL(image);
     } else {
-      setPreview(null); 
+      setPreview(null);
     }
   }, [image]);
 
@@ -56,7 +62,10 @@ export default function StudyMakeForm(props) {
     const enteredRecruitMethod = recruitMethodRef.current.value;
     const enteredTitleInput = titleInputRef.current.value;
     const enteredDescription = descriptionRef.current.value;
-
+    const enteredSelectOptions = selectedOptions.map((course) => {
+      return course.value
+    })
+ 
     const studyRecruitData = {
       title: enteredTitleInput,
       content: enteredDescription,
@@ -64,10 +73,11 @@ export default function StudyMakeForm(props) {
       saveName: preview,
       userLimit: enteredRecruitMembers,
       // TODO: id만 넘기기 !! 이거 해야됨
-      courseIdList: [search[0].course_id],
+      courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
       public: enteredRecruitMethod,
     };
+    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 
@@ -93,7 +103,7 @@ export default function StudyMakeForm(props) {
               x2="1351.99"
               y2="7.50001"
               stroke="#7B61FF"
-              stroke-width={3}
+              strokeWidth={3}
             />
           </svg>
 
@@ -149,7 +159,18 @@ export default function StudyMakeForm(props) {
             {/* TODO: 강좌는 나중에 !! 다중 선택으로 해야 돼!!  */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[32px] text-left">강좌 선택(*)</p>
-              <CourseSearchBar />
+              <div className="w-full">
+                <Select
+                  options={optionList}
+                  placeholder="강좌를 검색하세요."
+                  value={selectedOptions}
+                  onChange={handleSelect}
+                  isSearchable={true}
+                  isMulti
+                  required
+                  ref={selectCourseRef} 
+                />
+              </div>
             </div>
 
             {/* 사진 */}
@@ -205,7 +226,7 @@ export default function StudyMakeForm(props) {
               x2="1351.99"
               y2="7.50001"
               stroke="#7B61FF"
-              stroke-width={3}
+              strokeWidth={3}
             />
           </svg>
           {/* 제목 */}
@@ -246,8 +267,6 @@ export default function StudyMakeForm(props) {
                   onConfirm={closeModalHandler}
                 />
               ) : null}
-
-              {showModal ? <Backdrop onCancel={closeModalHandler} /> : null}
             </div>
           </div>
         </div>
