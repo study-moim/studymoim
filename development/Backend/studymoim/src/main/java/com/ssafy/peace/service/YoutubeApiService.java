@@ -107,7 +107,7 @@ public class YoutubeApiService {
                     }
                 }
                 // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
-                courseTypeService.insertCourseType();
+                courseTypeService.insertCourseType(isInit, 0);
                 return "ok";
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -119,7 +119,7 @@ public class YoutubeApiService {
                 getPlayList(courseProviderList.get(i).getChannelId(), isInit);
             }
             // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
-            courseTypeService.insertCourseType();
+            courseTypeService.insertCourseType(isInit, courseProviderList.size() * INITNUM);
             return "ok";
         }
     }

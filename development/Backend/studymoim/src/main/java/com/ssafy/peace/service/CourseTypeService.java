@@ -21,24 +21,31 @@ public class CourseTypeService {
     private final CourseRepository courseRepository;
 
     @Transactional
-    public void insertCourseType() {
+    public void insertCourseType(boolean isInit, int initSize) {
         List<CourseCategory> courseCategoryList = courseCategoryRepository.findAll();
         List<Course> courseList = courseRepository.findAll();
 
         for (int i = 0; i < courseCategoryList.size(); i++) {
             CourseCategory courseCategory = courseCategoryList.get(i);
-            for (int j = 0; j < courseList.size(); j++) {
-                Course course = courseList.get(j);
-                if(course.getTitle().contains(courseCategory.getName_kor())) {
-                    courseTypeRepository.save(CourseType.builder()
-                            .course(course)
-                            .courseCategory(courseCategory)
-                            .build());
-                } else if (course.getTitle().contains(courseCategory.getName_eng())) {
-                    courseTypeRepository.save(CourseType.builder()
-                            .course(course)
-                            .courseCategory(courseCategory)
-                            .build());
+            if(isInit) {
+                for (int j = 0; j < courseList.size(); j++) {
+                    Course course = courseList.get(j);
+                    if (course.getTitle().contains(courseCategory.getName_kor()) || course.getTitle().contains(courseCategory.getName_eng())) {
+                        courseTypeRepository.save(CourseType.builder()
+                                .course(course)
+                                .courseCategory(courseCategory)
+                                .build());
+                    }
+                }
+            } else {
+                for (int j = initSize; j < courseList.size(); j++) {
+                    Course course = courseList.get(j);
+                    if (course.getTitle().contains(courseCategory.getName_kor()) || course.getTitle().contains(courseCategory.getName_eng())) {
+                        courseTypeRepository.save(CourseType.builder()
+                                .course(course)
+                                .courseCategory(courseCategory)
+                                .build());
+                    }
                 }
             }
         }
