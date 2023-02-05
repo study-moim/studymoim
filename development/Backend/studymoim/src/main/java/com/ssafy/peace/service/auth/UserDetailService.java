@@ -1,5 +1,6 @@
 package com.ssafy.peace.service.auth;
 
+import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.dto.auth.Principal;
 import com.ssafy.peace.entity.User;
 import com.ssafy.peace.service.UserService;
@@ -20,7 +21,7 @@ public class UserDetailService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.getUserByEmail(email);
+        UserDto.Info user = userService.getUserByEmail(email);
         if(user != null) {
             Principal principal = new Principal(user);
             return principal;

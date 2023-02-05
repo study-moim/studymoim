@@ -48,7 +48,7 @@ public class AuthController {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
         String email = kakaoAuthService.getUserInfo(REDIRECT_CONTEXT, code).getEmail();
         // DB 에 중복된 Kakao Id 가 있는지 확인
-        User kakaoUser = userService.getUserByEmail(email);
+        UserDto.Info kakaoUser = userService.getUserByEmail(email);
         // 카카오 정보로 회원가입
         if (kakaoUser == null) {
             UserRegisterPostReq registerInfo = new UserRegisterPostReq();
