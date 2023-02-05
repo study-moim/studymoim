@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 
 export default function useToken(url) {
   const { info, token } = userInfo();

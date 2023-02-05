@@ -7,7 +7,7 @@ import DeleteModal from "../overall/DeleteModal";
 import Backdrop from "../overall/Backdrop";
 import useFetch from "../../hooks/useFetch";
 import CourseSearchBar from "./CourseSearchBar";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);

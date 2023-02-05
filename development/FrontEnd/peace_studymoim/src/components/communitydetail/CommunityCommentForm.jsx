@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 
 export default function CommunityCommentForm({freeBoardId}) {
   const { info } = userInfo();

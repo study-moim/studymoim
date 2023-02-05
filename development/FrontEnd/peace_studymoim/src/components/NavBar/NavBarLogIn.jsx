@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import BellIcon from "./BellIcon";
 import MailIcon from "./MailIcon";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Backdrop from "../overall/Backdrop";

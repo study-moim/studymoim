@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { userInfo } from "../zustand/store";
+import userInfo from "../zustand/store";
 
 export default function KakaoLoginRedirect() {
   const { token, setToken, info, logIn, setLogIn, setInfo, setLogOut } = userInfo();
