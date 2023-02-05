@@ -10,6 +10,8 @@ import com.ssafy.peace.entity.Curriculum;
 import com.ssafy.peace.entity.UserLikeCourse;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +34,14 @@ public class CourseService {
 
     // 인기순으로 불러오기
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> getCourseInfoListFindAll() {
+    public Page<CourseDto.Info> getCourseInfoListFindAll(Pageable pageable) {
         // Course -> CourseDto.Info
-        return courseRepository.findAll().stream()
-                .map(CourseDto.Info::fromEntity)
-                .sorted(Comparator.comparing(CourseDto.Info::getLikeUserCount).reversed())
-                .collect(Collectors.toList());
+//        return (Page<CourseDto.Info>) courseRepository.findAll(pageable).stream()
+//                .map(CourseDto.Info::fromEntity)
+//                .sorted(Comparator.comparing(CourseDto.Info::getLikeUserCount).reversed())
+//                .collect(Collectors.toList());
+        return CourseDto.Info.pageFromEntity(courseRepository.findAll(pageable));
+
 
     }
 

@@ -4,6 +4,7 @@ import com.ssafy.peace.entity.Course;
 import com.ssafy.peace.entity.CourseProvider;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -38,9 +39,25 @@ public class CourseDto {
                     .courseProviderName(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()).getName())
                     .likeUserCount(courseEntity.getUserLikeCourses().size())
                     .categoryList(courseEntity.getCourseTypes().stream().map(courseType ->
-                        CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory())
-                    ).collect(Collectors.toList()))
+                                    CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory()))
+                                    .collect(Collectors.toList()))
                     .build();
+        }
+        // Page<Entity> -> Page<Dto> 변환
+        public static Page<Info> pageFromEntity(Page<Course> coursePage) {
+            Page<Info> pageCourseInfo = coursePage.map(m -> Info.builder()
+                            .course_id(m.getCourseId())
+                            .title(m.getTitle())
+                            .content(m.getContent())
+                            .thumbnail(m.getThumbnail())
+                            .courseProviderName(CourseProviderDto.Info.fromEntity(m.getCourseProvider()).getName())
+                            .likeUserCount(m.getUserLikeCourses().size())
+                            .categoryList(m.getCourseTypes().stream().map(courseType ->
+                                            CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory()))
+                                            .collect(Collectors.toList()))
+                            .build()
+                    );
+            return pageCourseInfo;
         }
     }
 
