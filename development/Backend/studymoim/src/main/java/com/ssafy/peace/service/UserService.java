@@ -46,6 +46,8 @@ public class UserService {
 
     public UserDto.Info getUserByEmail(String email) {
         // 디비에 유저 정보 조회 (userEmail을 통한 조회).
+        User user = userRepository.findByEmail(email);
+        if(user == null) return null;
         return UserDto.Info.fromEntity(userRepository.findByEmail(email));
     }
 
