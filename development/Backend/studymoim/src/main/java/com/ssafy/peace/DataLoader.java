@@ -248,6 +248,7 @@ public class DataLoader implements CommandLineRunner {
                 .userLimit(4)
                 .build();
         studyRepository.save(study1);
+        addCurriculum(study1);
 
         User user1 = userRepository.findByNickname("싸피킴");
         User user2 = userRepository.findByNickname("싸피팍");
@@ -271,27 +272,30 @@ public class DataLoader implements CommandLineRunner {
                 .study(study1)
                 .build();
         studyMemberRepository.save(sm3);
-        addCurriculum(study1);
+
     }
 
     public void addCurriculum(Study study){
 
-        Course course1 = courseRepository.findByTitle("웹개발자도구 shorts");
-        Course course2 = courseRepository.findByTitle("GIT Shorts");
-        Course course3 = courseRepository.findByTitle("2022 코딩애플 리액트 강의");
+        Course course1 = courseRepository.findById(32).get();
+        Course course2 = courseRepository.findById(39).get();
+        Course course3 = courseRepository.findById(46).get();
         Curriculum curriculum1 = Curriculum.builder()
                 .study(study)
                 .course(course1)
+                .curriculumOrder(0)
                 .build();
         curriculumRepository.save(curriculum1);
         Curriculum curriculum2 = Curriculum.builder()
                 .study(study)
                 .course(course2)
+                .curriculumOrder(1)
                 .build();
         curriculumRepository.save(curriculum2);
         Curriculum curriculum3 = Curriculum.builder()
                 .study(study)
                 .course(course3)
+                .curriculumOrder(2)
                 .build();
         curriculumRepository.save(curriculum3);
 
