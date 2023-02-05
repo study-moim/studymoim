@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +30,13 @@ public class CourseService {
     private final CourseProviderRepository courseProviderRepository;
     private final StudyRepository studyRepository;
 
+    // 인기순으로 불러오기
     @Transactional(readOnly = true)
     public List<CourseDto.Info> getCourseInfoListFindAll() {
         // Course -> CourseDto.Info
         return courseRepository.findAll().stream()
                 .map(CourseDto.Info::fromEntity)
+                .sorted(Comparator.comparing(CourseDto.Info::getLikeUserCount).reversed())
                 .collect(Collectors.toList());
 
     }

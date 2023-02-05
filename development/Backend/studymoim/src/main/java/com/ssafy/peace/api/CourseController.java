@@ -23,7 +23,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
-    @Operation(summary = "get course list", description = "강의 목록 불러오기")
+    @Operation(summary = "get course list", description = "강의 목록 인기순으로 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
