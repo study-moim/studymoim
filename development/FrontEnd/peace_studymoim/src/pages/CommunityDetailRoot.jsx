@@ -37,7 +37,7 @@ export default function CommunityDetailRoot() {
 
   const commentLength = newCommentList.length;
   const dateBase = new Date(articleDetail.publishTime);
-  const date = dateBase.toString().substring(11, 24);
+  const date = dateBase.toString().substring(0,24);
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">

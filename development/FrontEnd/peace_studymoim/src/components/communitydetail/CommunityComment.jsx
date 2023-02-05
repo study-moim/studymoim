@@ -1,27 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { userInfo } from "../../zustand/store";
 import { Link } from "react-router-dom";
 
 export default function CommunityComment({ comment }) {
-  const { info } = userInfo();
-
-  const [isMine, setIsMine] = useState(false);
   
+  const [pt, setPt] = useState(comment.publishTime)
+  if (pt === null) {
+    return null
+  }
+
+
+  const { info } = userInfo();
+  const [isMine, setIsMine] = useState(false);
   useEffect(() => {
     if (info.userId === comment.user["userId"]) {
       setIsMine(true);
-      console.log(isMine)
     }
-    console.log(isMine,"2222222222222222222222222222")
-  }, [])
 
+  }, []);
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const dateBase = new Date(comment.publishTime);
+  const date = dateBase.toString().substring(0,24);
+
+  // 수정하기를 위한 함수와 변수들
   const [modifyToggle, setModifyToggle] = useState(false);
   function clickModify() {
     setModifyToggle(!modifyToggle);
   }
-  const dateBase = new Date(comment.publishTime);
-  const date = dateBase.toString().substring(11, 24);
-  // const childLength = comment.children.length;
+
+  const [modifyRef, setModifyRef] = useState(comment.content);
+  const modifyContent = useRef();
+
+  const handleRemove = () => {
+    if (window.confirm(`댓글을 삭제하시겠습니까?`)) {
+      fetch(`http://${API_SERVER}/api/v1/articles/free/comment/${comment.freeBoardCommentId}/`, {
+        method: "DELETE",
+      }).then((res) => {
+        if (res.ok) {
+          alert("댓글 삭제완료");
+          window.location.reload()
+        }
+      });
+    }
+  };
+
+  const handleQuitEdit = () => {
+    setModifyToggle(false);
+    setModifyRef(comment.content);
+  };
+
+  // 수정완료시 이벤트처리할 함수
+  const handleEdit = () => {
+    if (localContent.length < 2) {
+      localContentInput.current.focus();
+      return;
+    }
+
+    if (window.confirm(`댓글을 정말 수정하시겠습니까?`)) {
+      fetch(`http://${API_SERVER}/api/v1/articles/free/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body : 수정을 위한 정보를 넣어줘야함
+        // + JSON 문자열로도 변환시켜줌
+        body: JSON.stringify({
+          title: titleRef.current.value,
+          content: contentRef.current.value,
+          userId: info.userId,
+        }),
+      }).then((res) => {
+        if (res.ok) {
+          alert("댓글이 수정되었습니다.");
+          window.location.reload();
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -38,14 +93,14 @@ export default function CommunityComment({ comment }) {
                 <Link
                   to={`/mypage/${comment.userId}`}
                   className="hover:text-[#989aff]"
-                  state={{clickWho: comment.userId}}
+                  state={{ clickWho: comment.userId }}
                 >
                   <div className="px-2.5 ext-[15px] font-bold">
-                    {comment.nickname}
+                    {comment.user.nickname}
                   </div>
                 </Link>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
-                {date}
+                  {date}
                 </div>
               </div>
             </div>
@@ -59,7 +114,7 @@ export default function CommunityComment({ comment }) {
                   수정하기
                 </button>
                 <button
-                  // onClick={clickModify}
+                  onClick={handleRemove}
                   className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
                 >
                   삭제하기
@@ -68,14 +123,14 @@ export default function CommunityComment({ comment }) {
             ) : (
               <div className="">
                 <button
-                  // onClick={clickModify}
-                  className="h-9  p-2 rounded-[10px] bg-[#F0DB4F] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f0d841] hover:scale-95"
+                  onClick={handleEdit}
+                  className="h-9  p-2 rounded-[10px] bg-[#99ff77] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#65e63a] hover:scale-95"
                 >
                   수정완료
                 </button>
                 <button
-                  onClick={clickModify}
-                  className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
+                  onClick={handleQuitEdit}
+                  className="h-9  p-2 rounded-[10px] bg-[#f9987a] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#da6e4d] hover:scale-95"
                 >
                   수정취소
                 </button>
@@ -88,11 +143,13 @@ export default function CommunityComment({ comment }) {
               {comment.content}
             </div>
           ) : (
-            <form className="flex w-11/12 m-[40px]">
+            <form className="max-w-4xl mx-auto flex flex-col items-end gap-3 mt-2">
               <textarea
-                className="w-full pl-2.5 pr-[100px] pt-[14px] pb-[50px] bg-white border-[3px] border-[#b1b2ff]"
-                style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-                placeholder="댓글 수정"
+                className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
+                placeholder="댓글을 입력해주세요."
+                value={modifyRef}
+                ref={modifyContent}
+                onChange={(e) => setModifyRef(e.target.value)}
               />
             </form>
           )}
