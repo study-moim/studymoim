@@ -52,7 +52,7 @@ public class YoutubeApiService {
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;
 
-    private final int INITNUM = 2;          // 연습용
+    private final int INITNUM = 1;          // 연습용
     private final int LIVENUM = 10;         // 실전용
 
     @Data
@@ -234,36 +234,36 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(!playListItems.isEmpty()) {
-                if (isInit == true) {
-                    int n = Math.min(playListItems.size(), INITNUM);
-                    for (int i = 0; i < n; i++) {
-                        // 데이터 가져오기
-                        String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
-                        String title = playListItems.get(i).getSnippet().getTitle().toString();
-                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
-//                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
+//                if (isInit == true) {
+//                    int n = Math.min(playListItems.size(), INITNUM);
+//                    for (int i = 0; i < n; i++) {
+//                        // 데이터 가져오기
+//                        String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
+//                        String title = playListItems.get(i).getSnippet().getTitle().toString();
+//                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
+////                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
+//
+//                        // Service -> Service
+//                        getVideoInfo(playlistId, videoId, title, thumbnail);
+//                    }
+//                } else {
+                int n = playListItems.size();
+                for (int i = INITNUM; i < n; i++) {
+                    // 데이터 가져오기
+                    String thumbnail;
+                    String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
+                    String title = playListItems.get(i).getSnippet().getTitle().toString();
+                    if(playListItems.get(i).getSnippet().getThumbnails().isEmpty()) {
+                        thumbnail = null;
+                    } else {
 
-                        // Service -> Service
-                        getVideoInfo(playlistId, videoId, title, thumbnail);
-                    }
-                } else {
-                    int n = Math.min(playListItems.size(), LIVENUM);
-                    for (int i = INITNUM; i < n; i++) {
-                        // 데이터 가져오기
-                        String thumbnail;
-                        String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
-                        String title = playListItems.get(i).getSnippet().getTitle().toString();
-                        if(playListItems.get(i).getSnippet().getThumbnails().isEmpty()) {
-                            thumbnail = null;
-                        } else {
-
-                            thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
+                        thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
 //                            thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
-                        }
-                        // Service -> Service
-                        getVideoInfo(playlistId, videoId, title, thumbnail);
-
                     }
+                    // Service -> Service
+                    getVideoInfo(playlistId, videoId, title, thumbnail);
+
+//                    }
                 }
             }
         } catch (GoogleJsonResponseException e) {
