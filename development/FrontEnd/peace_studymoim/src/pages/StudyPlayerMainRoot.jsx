@@ -142,7 +142,7 @@ export default function StudyPlayerMainRoot() {
         <div className="h-full p-3 bg-white border border-[#898989]">
           {currentClick === "memo" ? <PlayerMemo /> : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
-          {currentClick === "chat" ? <PlayerNowChat{publisherProps} /> : null}
+          {currentClick === "chat" ? <PlayerNowChat /> : null}
         </div>
       </div>
     </div>
