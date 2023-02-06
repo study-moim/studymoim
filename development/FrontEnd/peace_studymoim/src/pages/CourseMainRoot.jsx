@@ -19,16 +19,12 @@ export default function CourseMainRoot() {
     return course.title.replace(" ","").toLocaleLowerCase().includes(word.toLocaleLowerCase().replace(" ",""))
   })
 
-  filterTitle = courseInfo.filter((course) => {
+  let filterTag = courseInfo.filter((course) => {
     if(course.categoryList.length != 0 && course.categoryList[0].courseCategoryId == tagId){
       return course;
     }
   })
   
-  if(!word && !tagId){
-    filterTitle = courseInfo;
-  }
-
   return (
     <div className="">
       <div className="max-w-6xl mx-auto px-4">
@@ -49,7 +45,7 @@ export default function CourseMainRoot() {
                 type="text"
                 placeholder="전체 강좌 검색" 
                 className="w-full h-[50px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
-                onChange={(e) => setWord(e.target.value)}/>
+                onChange={(e) => {setWord(e.target.value); setTagId("");}}/>
             </div>
           </div>
         </div>
@@ -62,16 +58,21 @@ export default function CourseMainRoot() {
               </p>
             </button>
           {tags.map((tag) => (
-            <div key={tag.courseCategoryId} onClick={async() => setTagId(tag.courseCategoryId)}> 
+            <div key={tag.courseCategoryId} onClick={async() => {setWord("qwertyuiop"); setTagId(tag.courseCategoryId)}}> 
               <CourseTage tag={tag} />
             </div> 
           ))}
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 my-8 overflow-auto">
-          {filterTitle.map((course) => (
-            <MainCourse key={course.course_id} propData={course}/>
-          ))}
+          {
+            filterTitle.map((course) => (
+              <MainCourse key={course.course_id} propData={course}/>
+            ))}
+            {filterTag.map((course) => (
+              <MainCourse key={course.course_id} propData={course}/>
+            ))
+          }
         </div>
       </div>
     </div>
