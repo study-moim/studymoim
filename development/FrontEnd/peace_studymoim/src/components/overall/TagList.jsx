@@ -6,7 +6,7 @@ export default function TagList() {
   const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
 
   return (
-    <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto my-5">
+    <div className="flex flex-row flex-wrap gap-2">
     {tags.map((tag) => (
       <div key={tag.courseCategoryId} onClick={async() => { window.location.href = '/search/' + tag.name_kor;}}> 
         <Tag tag={tag} />

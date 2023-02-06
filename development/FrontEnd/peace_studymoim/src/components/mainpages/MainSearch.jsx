@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 export default function MainSearch() {
@@ -16,31 +18,20 @@ export default function MainSearch() {
   }
 
   return (
-    <div className="w-6/12 h-[63px] relative rounded-[20px] bg-[#eef] mt-5 shadow-xl">
-      {/* 돋보기 아이콘 */}
-      <svg 
-        width={50}
-        height={50}
-        viewBox="0 0 50 50"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-[40px] h-[40px] absolute m-3"
-        preserveAspectRatio="xMidYMid meet"
-        onClick={() => {onSubmit()}}
-      >
-        <path
-          d="M32.8234 29.6979H31.1776L30.5942 29.1354C32.6359 26.7604 33.8651 23.6771 33.8651 20.3229C33.8651 12.8437 27.8026 6.78125 20.3234 6.78125C12.8442 6.78125 6.78174 12.8437 6.78174 20.3229C6.78174 27.8021 12.8442 33.8646 20.3234 33.8646C23.6776 33.8646 26.7609 32.6354 29.1359 30.5937L29.6984 31.1771V32.8229L40.1151 43.2187L43.2192 40.1146L32.8234 29.6979ZM20.3234 29.6979C15.1359 29.6979 10.9484 25.5104 10.9484 20.3229C10.9484 15.1354 15.1359 10.9479 20.3234 10.9479C25.5109 10.9479 29.6984 15.1354 29.6984 20.3229C29.6984 25.5104 25.5109 29.6979 20.3234 29.6979Z"
-          fill="black"
-        />
-      </svg>  
-      {/* TODO: 인풋 부분 target해서 검색한 창띄우기*/}
-      <input
+    <div 
+    className="w-[80%] relative h-[50px] flex my-5"
+    
+    >
+      <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[7px] mr-[10px] text-white">
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
+      </button>
+      <input 
         type="text"
-        className="border-0 w-full h-[63px] bg-[#eef] text-lg font-medium rounded-[20px] pl-24 focus:outline-[#bb74f6]"
-        placeholder="듣고 싶은 기술을 검색하세요"
+        placeholder="전체 강좌 검색" 
+        className="w-full border border-[#B1B2FF] rounded-[30px] pl-4 bg-[#B1B2FF]/20 focus:outline-none focus:bg-white focus:border-gray-100"
+        style={{ boxShadow: "0px 3px 5px 0px #B1B2FF" }}
         onChange={(e) => setWord(e.target.value)}
-        onKeyPress={onKeyPress} 
-      />
+        onKeyPress={onKeyPress} />
     </div>
   );
 }
