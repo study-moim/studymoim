@@ -68,6 +68,18 @@ export default function CommunityDetailRoot() {
                 {date} &nbsp; 조회수 {articleDetail.hit}
               </div>
             </div>
+            <div className="absolute right-0">
+            <button
+                  className="text-[14px] text-center hover:font-bold"
+                >
+                  수정 &nbsp;
+                </button>
+                <button
+                  className="text-[14px] text-center hover:font-bold"
+                >
+                  삭제
+                </button>
+            </div>
           </div>
         </div>
 
