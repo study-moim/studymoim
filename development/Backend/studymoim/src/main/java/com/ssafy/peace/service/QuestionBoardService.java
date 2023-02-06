@@ -25,17 +25,28 @@ public class QuestionBoardService {
     private final StudyRepository studyRepository;
     private final LectureRepository lectureRepository;
     @Transactional
-    public List<QuestionBoardDto.Info> getQuestionBoardList() throws RollbackException {
+    public List<QuestionBoardDto.Detail> getQuestionBoardList() throws RollbackException {
         return questionBoardRepository.findAllByIsDeletedIsFalse().stream()
-                .map(QuestionBoardDto.Info::fromEntity)
+                .map(questionBoard -> {
+                    QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
+                    res.setQuestionBoardComments(
+                            QuestionBoardDto.Detail.fromEntity(questionBoard).getQuestionBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                })
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public QuestionBoardDto.Detail getQuestionBoardDetail(Integer lectureId) throws RollbackException {
-        Optional<QuestionBoard> result = questionBoardRepository.findById(lectureId);
-        if(!result.isPresent()) return null;
-        return QuestionBoardDto.Detail.fromEntity(result.get());
+    public QuestionBoardDto.Detail getQuestionBoardDetail(Integer articleId) throws RollbackException {
+        QuestionBoard questionBoard = questionBoardRepository.findById(articleId).get();
+        QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
+        res.setQuestionBoardComments(
+                QuestionBoardDto.Detail.fromEntity(questionBoard).getQuestionBoardComments().stream()
+                        .filter(comment -> !comment.isDeleted())
+                        .collect(Collectors.toList()));
+        return res;
     }
 
     @Transactional
@@ -65,7 +76,7 @@ public class QuestionBoardService {
 
     @Transactional
     public void deleteQuestion(Integer questionBoardId) throws RollbackException {
-        questionBoardRepository.deleteById(questionBoardId);
+        questionBoardRepository.save(questionBoardRepository.findById(questionBoardId).get().delete());
     }
 
     @Transactional
@@ -84,16 +95,23 @@ public class QuestionBoardService {
         QuestionBoardComment questionBoardComment = questionBoardCommentRepository.findById(commentId).get();
         return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
                         .questionBoard(questionBoardComment.getQuestionBoard())
-                        .content("(삭제된 메시지 입니다.)")
+                        .content(questionBoardComment.getContent())
                         .user(questionBoardComment.getUser())
                         .isDeleted(true)
                 .build().updateId(commentId)));
     }
 
     @Transactional
-    public List<QuestionBoardDto.Info> getQuestionBoardListByLecture(Integer lectureId) throws RollbackException {
+    public List<QuestionBoardDto.Detail> getQuestionBoardListByLecture(Integer lectureId) throws RollbackException {
         return questionBoardRepository.findAllByIsDeletedIsFalseAndLecture_LectureId(lectureId).stream()
-                .map(QuestionBoardDto.Info::fromEntity)
+                .map(questionBoard -> {
+                    QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
+                    res.setQuestionBoardComments(
+                            QuestionBoardDto.Detail.fromEntity(questionBoard).getQuestionBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                })
                 .collect(Collectors.toList());
     }
 
