@@ -37,10 +37,8 @@ export default function StudyPlayerMainRoot() {
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   const [chattings, setChattings] = useState([]);
   function changeChattings(message) {
-    setChattings((chattings) => {
-      chattings.push(message);
-      console.log(chattings, "pppppppppppppppppppppppp");
-    });
+    chattings.push(message);
+    setChattings([...chattings]);
     console.log(chattings, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   }
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -93,7 +91,7 @@ export default function StudyPlayerMainRoot() {
     const data = {
       type: "",
       studyId: study.studyId,
-      sender: info.nickname,
+      sender: user.nickname,
       message: messageRef.current.value,
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
@@ -170,12 +168,12 @@ export default function StudyPlayerMainRoot() {
               </div>
               <div className="text-black text-[20px] border">
                 <p>이 아래 나와야 함</p>
-                {chattings.map((chat) => {
+                {chattings.map((chat) => (
                   <div>
                     {" "}
                     {chat.sender} : {chat.message}{" "}
-                  </div>;
-                })}
+                  </div>
+                  ))}
               </div>
             </div>
           ) : null}
