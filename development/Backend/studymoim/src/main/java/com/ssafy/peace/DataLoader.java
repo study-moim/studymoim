@@ -103,7 +103,8 @@ public class DataLoader implements CommandLineRunner {
 
     private void addRegister(){
         User registerUser = userRepository.findById(5).get();
-        Study study = studyRepository.findById(378).get();
+        Study study = studyRepository.findById(382).get();
+
         studyRequestRepository.save(StudyRequest.builder()
                 .user(registerUser)
                 .content("열정적으로 참여하겠습니다!")
