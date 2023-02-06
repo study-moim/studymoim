@@ -66,9 +66,9 @@ export default function CommunityComment({ comment }) {
             <div className={!isMine ? "invisible" : "visible"}>
               <button
                 onClick={handleRemove}
-                className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
+                className="text-[14px] text-center hover:font-bold"
               >
-                삭제하기
+                삭제
               </button>
             </div>
           </div>
