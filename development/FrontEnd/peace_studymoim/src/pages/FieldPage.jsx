@@ -69,8 +69,7 @@ export default function FieldPage() {
       }
     ).then((res) => {
       if (res.ok) {
-        setInfo(userInformation);
-        navigate("/");
+        navigate("/temp");
       }
     });
 
@@ -82,7 +81,7 @@ export default function FieldPage() {
       body: JSON.stringify(fieldData),
     }).then((res) => {
       if (res.ok) {
-        navigate("/");
+        navigate("/temp");
       }
     });
   }

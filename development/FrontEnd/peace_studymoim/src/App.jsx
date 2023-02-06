@@ -21,6 +21,7 @@ import CourseDetailRoot from "./pages/CourseDetailRoot";
 import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
 import ScrollToTop from "./components/overall/ScrollToTop";
 import Search from "./pages/Search";
+import TempPage from "./components/overall/TempPage";
 
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
           <Route path='/study/:study_recruit_id/update' element={<StudyUpdatePage />}></Route>
           <Route path='/login/kakao' element={<KakaoLoginRedirect />}></Route>
           <Route path='/search/:word' element={<Search/>} />
+          <Route path='/temp' element={<TempPage />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>
