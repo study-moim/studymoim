@@ -35,26 +35,6 @@ export default function StudyPlayerMainRoot() {
   );
 
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  const [chattings, setChattings] = useState([]);
-  function changeChattings(message) {
-    chattings.push(message);
-    setChattings([...chattings]);
-    console.log(chattings, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-  }
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  ///// 더미데이터 /////
-  let study = {
-    studyId: 1,
-  };
-  let user = {
-    userId: 1,
-    nickname: "싸피킴",
-  };
-  ///// 더미데이터 끝 /////
-
-  const messageRef = useRef(null);
-
-  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   /*
    * 웹소켓 사용법
    * 1. connect로 http://localhost:8080/ws에 접속
@@ -64,42 +44,51 @@ export default function StudyPlayerMainRoot() {
    *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
    * 4. 채팅을 나가려면 disconnect 함수 호출
    * */
+  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
+  const [chattings, setChattings] = useState([]);
 
-  const stomp = Stomp.client(`ws://${API_SERVER}/ws`);
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  ///// 더미데이터 /////
+  let study = {
+    studyId: 0,
+  };
+  let user = {
+    userId: 1,
+    nickname: "싸피킴",
+  };
+  ///// 더미데이터 끝 /////
+
+  const messageRef = useRef(null);
+  let stomp = null;
   function connect(studyId) {
     //client 객체 생성 및 서버주소 입력
+    stomp = Stomp.client("ws://localhost:8080/ws");
     stomp.connect({}, function (frame) {
-      console.log("210u9001u2093u9012u903u0912u903")
       stomp.subscribe(`/sub/study/${studyId}`, (payload) => {
-        const newMessage = JSON.parse(payload.body);
-        console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ")
-        changeChattings(newMessage);
-        console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ2")
+        console.log("메시지 수신!", payload);
       });
     });
   }
-  useEffect(() => {
-    connect(study.studyId);
-  }, []);
-
-  function clearInput() {
-    const inputTag = document.getElementById("ipt")
-    inputTag.value = null
+  function disconnect() {
+    // 소켓 연결 종료시 호출되어야 하는 메소드
+    if (stomp !== null) {
+      stomp.disconnect();
+    }
+    stomp = null;
+    console.log("Disconnected");
   }
-
-  function sendMessage() {
+  const sendMessage = () => {
     const data = {
       type: "",
-      studyId: study.studyId,
-      sender: user.nickname,
+      roomId: study.studyId,
+      sender: info.userId,
       message: messageRef.current.value,
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/chat", {}, JSON.stringify(data));
-    // connect1(study.studyId)
-    clearInput()
-  }
+  };
   ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
+
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
@@ -157,23 +146,22 @@ export default function StudyPlayerMainRoot() {
           {currentClick === "memo" ? <PlayerMemo /> : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
           {currentClick === "chat" ? (
-            <div className="overflow-auto h-full">
-              <div>
-                <input id="ipt" className="border" type="text" ref={messageRef} />
-                <button onClick={() => {
-                  sendMessage()
-                }} className="border">
+            <div>
+              <div> {chattings}</div>
+              <div className="overflow-auto h-full">
+                <input className="border" type="text" ref={messageRef} />
+                <button onClick={() => sendMessage()} className="border">
                   전송
                 </button>
-              </div>
-              <div className="text-black text-[20px] border">
-                <p>이 아래 나와야 함</p>
-                {chattings.map((chat) => (
-                  <div>
-                    {" "}
-                    {chat.sender} : {chat.message}{" "}
-                  </div>
-                  ))}
+                <button
+                  onClick={() => connect(study.studyId)}
+                  className="border"
+                >
+                  connect
+                </button>
+                <button onClick={() => disconnect()} className="border">
+                  disconnect
+                </button>
               </div>
             </div>
           ) : null}
