@@ -34,7 +34,7 @@ public class CourseCategoryController {
 
     private final CourseCategoryService courseCategoryService;
 
-    @Operation(summary = "get category list", description = "강좌 태그 목록 불러오기")
+    @Operation(summary = "get category list", description = "강좌 태그 전체 목록 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -43,6 +43,20 @@ public class CourseCategoryController {
     public ResponseEntity<?> categoryList() {
         try{
             return new ResponseEntity<>(courseCategoryService.getCategoryList(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get best-ten category list", description = "인기 강좌 태그 10개 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/best")
+    public ResponseEntity<?> categoryListBestTen() {
+        try{
+            return new ResponseEntity<>(courseCategoryService.getCategoryListBestTen(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
