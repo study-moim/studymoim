@@ -1,5 +1,6 @@
 package com.ssafy.peace;
 
+import com.ssafy.peace.dto.StudyRequestDto;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.YoutubeApiService;
@@ -59,6 +60,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private StudyRequestRepository studyRequestRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -87,6 +91,19 @@ public class DataLoader implements CommandLineRunner {
 
         // Message 더미 데이터
         addMessage();
+
+        addRegister();
+    }
+
+    private void addRegister(){
+        User registerUser = userRepository.findById(5).get();
+        Study study = studyRepository.findById(378).get();
+        studyRequestRepository.save(StudyRequest.builder()
+                .user(registerUser)
+                .content("열정적으로 참여하겠습니다!")
+                .study(study)
+                .requestStatus(0)
+                .build());
     }
 
     private void addMessage() {
