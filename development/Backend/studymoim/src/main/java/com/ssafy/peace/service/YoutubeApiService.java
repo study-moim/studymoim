@@ -53,7 +53,7 @@ public class YoutubeApiService {
     private static YouTube youtube;
 
     private final int INITNUM = 1;          // 연습용
-    private final int LIVENUM = 10;         // 실전용
+    private final int LIVENUM = Integer.MAX_VALUE;         // 실전용
 
     @Data
     class Provider {
