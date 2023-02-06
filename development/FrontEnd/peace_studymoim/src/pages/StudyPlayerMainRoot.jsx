@@ -15,7 +15,6 @@ export default function StudyPlayerMainRoot() {
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
   };
-
   useEffect(
     (e) => {
       if (currentClick !== null) {
@@ -31,14 +30,24 @@ export default function StudyPlayerMainRoot() {
     [currentClick]
   );
 
+  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   let stompClient = null;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-
-  let studyId = 1;  // 스터디의 ID
+  ///// 더미데이터 /////
+  let studyId = 1;
   let user = {
     userId: 1,
     nickname: "이태희"
-  };  // 보내는 사용자
+  };
+  ///// 더미데이터 끝 /////
+  const publisherProps = { // 메시지를 보내기 위해 PlayerNow 컴포넌트에 전달되는 props
+    type: "",
+    userId: user.userId,
+    studyId: studyId,
+    message: message,
+    sendMessage,
+    receiveMessage
+  }
   /*
   * 웹소켓 사용법
   * 1. connect로 http://localhost:8080/ws에 접속
@@ -48,25 +57,23 @@ export default function StudyPlayerMainRoot() {
   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
   * 4. 채팅을 나가려면 disconnect 함수 호출
   * */
-  function connect(userId, studyId) {
+  function connect(userId, studyId) { // 소켓 연결시 호출되어야 하는 메소드
     var socket = new SockJS(`http://${API_SERVER}/ws`);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
       setConnected(true);
       console.log('Connected: ' + frame);
-      stompClient.subscribe(`/sub/study/${studyId}`, function () {
-        sendMessage(studyId, user, "안녕하세요?");
-      });
+      stompClient.subscribe(`/sub/study/${studyId}`, receiveMessage);
     });
   }
-  function disconnect() {
+  function disconnect() { // 소켓 연결 종료시 호출되어야 하는 메소드
     if (stompClient !== null) {
       stompClient.disconnect();
     }
     setConnected(false);
     console.log("Disconnected");
   }
-  function sendMessage(studyId, sender, message) {
+  function sendMessage(studyId, sender, message) { // 메시지 전송시 호출되어야 하는 메소드
     stompClient.send("/pub/chat", {}, JSON.stringify({
       "type": "",
       "sender": sender,
@@ -74,6 +81,11 @@ export default function StudyPlayerMainRoot() {
       "message": message
     }));
   }
+  function receiveMessage(payload) { // 메시지 수신시 호출되는 메소드
+    console.log(payload);
+  }
+  ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
+
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
@@ -130,7 +142,7 @@ export default function StudyPlayerMainRoot() {
         <div className="h-full p-3 bg-white border border-[#898989]">
           {currentClick === "memo" ? <PlayerMemo /> : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
-          {currentClick === "chat" ? <PlayerNowChat /> : null}
+          {currentClick === "chat" ? <PlayerNowChat{publisherProps} /> : null}
         </div>
       </div>
     </div>
