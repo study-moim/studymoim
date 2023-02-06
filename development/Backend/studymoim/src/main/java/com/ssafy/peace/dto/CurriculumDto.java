@@ -12,12 +12,12 @@ public class CurriculumDto {
     @Builder
     public static class Info {
         private int order;
-        private CourseDto.Recruit course;
+        private CourseDto.Info course;
         private StudyDto.Info study;
         public static Info fromEntity(Curriculum curriculumEntity) {
             return Info.builder()
                     .order(curriculumEntity.getCurriculumOrder())
-                    .course(CourseDto.Recruit.fromEntity(curriculumEntity.getCourse()))
+                    .course(CourseDto.Info.fromEntity(curriculumEntity.getCourse()))
                     .study(StudyDto.Info.fromEntity(curriculumEntity.getStudy()))
                     .build();
         }

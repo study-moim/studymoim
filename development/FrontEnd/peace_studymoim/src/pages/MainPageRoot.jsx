@@ -15,7 +15,9 @@ export default function MainPageRoot() {
     <div>
       <MainCarousel />
       <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px]">
-        <MainSearch />
+        <div className="w-[60%] flex justify-center">
+          <MainSearch />
+        </div>
         <div className="w-full flex flex-col justify-between items-center">
           <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
           <TagList /> 

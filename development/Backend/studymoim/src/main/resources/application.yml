@@ -39,7 +39,7 @@ spring:
     show-sql: true
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 logging:
   level:
     web: trace
@@ -96,5 +96,5 @@ jwt:
 
 
 youtubeapi:
-#  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
-  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g
+  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
+#  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g

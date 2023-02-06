@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import userInfo from "../../zustand/store";
 
-export default function CommunityCommentForm({freeBoardId}) {
+export default function CommunityCommentForm({ freeBoardId }) {
   const { info } = userInfo();
 
   // 생성중에는 create 못하게 하기
@@ -27,19 +27,22 @@ export default function CommunityCommentForm({freeBoardId}) {
         body: JSON.stringify({
           content: contentRef.current.value,
           freeBoardId: freeBoardId,
-          userId: info.userId
+          userId: info.userId,
         }),
       }).then((res) => {
         if (res.ok) {
           setIsLoading(false);
-          alert("댓글이 작성되었습니다.")
-          window.location.reload()
-          }
-      })
+          alert("댓글이 작성되었습니다.");
+          window.location.reload();
+        }
+      });
     }
   }
   return (
-    <form onSubmit={onSubmit} className="max-w-4xl mx-auto flex flex-col items-end gap-3 w-9/12 ">
+    <form
+      onSubmit={onSubmit}
+      className="max-w-4xl mx-auto flex flex-col items-end gap-3 w-9/12 "
+    >
       <textarea
         className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
         placeholder="댓글을 입력해주세요."

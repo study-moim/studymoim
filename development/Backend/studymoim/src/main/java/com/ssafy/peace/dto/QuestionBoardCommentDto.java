@@ -20,11 +20,13 @@ public class QuestionBoardCommentDto {
         private int questionBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
+        private boolean isDeleted;
         public static Info fromEntity(QuestionBoardComment questionBoardCommentEntity) {
             return Info.builder()
                     .questionBoardCommentId(questionBoardCommentEntity.getQuestionBoardCommentId())
                     .content(questionBoardCommentEntity.getContent())
                     .publishTime(questionBoardCommentEntity.getPublishTime())
+                    .isDeleted(questionBoardCommentEntity.isDeleted())
                     .build();
         }
     }
@@ -50,12 +52,14 @@ public class QuestionBoardCommentDto {
         private int questionBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
+        private boolean isDeleted;
         private UserDto.Info user;
         public static Detail fromEntity(QuestionBoardComment questionBoardCommentEntity) {
             return Detail.builder()
                     .questionBoardCommentId(questionBoardCommentEntity.getQuestionBoardCommentId())
                     .content(questionBoardCommentEntity.getContent())
                     .publishTime(questionBoardCommentEntity.getPublishTime())
+                    .isDeleted(questionBoardCommentEntity.isDeleted())
                     .user(UserDto.Info.fromEntity(questionBoardCommentEntity.getUser()))
                     .build();
         }

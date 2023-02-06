@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
 
 export default function CommunityCreateForm() {
-  // 로그인 컷 콤보
+  // TODO: 로그인 이걸 베끼세요 - 로그인 컷 콤보
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {

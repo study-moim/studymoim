@@ -1,65 +1,73 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { useRef, useEffect, useState } from "react";
+import userInfo from "../../zustand/store";
+import { useNavigate } from "react-router";
+import useFetch from "../../hooks/useFetch";
+import { useParams } from "react-router";
+import StudyMemberCoummunityComment from "./StudyMemberCommunityComment";
 
-export default function StudyMemberCoummunity() {
+export default function StudyMemberCoummunity({ propData }) {
+  const { info } = userInfo();
+  const studyId = useParams();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const contentRef = useRef(null);
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
+  const studyCommunity = useFetch(
+    `http://${API_SERVER}/api/v1/study/community/${studyId.study_id}`
+  );
+
+  useEffect(() => {
+    if (!info) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
+  });
+
+  function onSubmit(e) {
+    e.preventDefault();
+    if (!isLoading) {
+      setIsLoading(true);
+      fetch(`http://${API_SERVER}/api/v1/study/community`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: contentRef.current.value,
+          studyId: studyId.study_id,
+          userId: info.userId,
+        }),
+      }).then((res) => {
+        if (res.ok) {
+          setIsLoading(false);
+        }
+      });
+    }
+  }
+
   return (
     <div className="flex flex-col justify-start items-center w-full h-[1275px] relative overflow-hidden gap-5 p-[50px]">
-      <svg
-        viewBox="0 0 758 83"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="flex-grow-0 flex-shrink-0 w-3/4 relative"
-        preserveAspectRatio="none"
+      <form
+        onSubmit={onSubmit}
+        className="flex relative h-[42px] border border-slate-500 bg-white rounded-[30px] w-[500px]"
       >
-        <rect
-          width={757}
-          height={83}
-          transform="translate(0.5)"
-          fill="#EEF1FF"
-          fill-opacity="0.98"
+        <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </button>
+        <input
+          type="text"
+          placeholder="스터디원들과 대화해보세요!"
+          className="w-full rounded-[30px] pl-4"
+          ref={contentRef}
         />
-        <path
-          d="M702.017 56L737 41L702.017 26L702 37.6667L727 41L702 44.3333L702.017 56Z"
-          fill="black"
-        />
-      </svg>
-      <div
-        className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-full h-[74px] relative gap-5 px-[30px] bg-white border-t-0 border-r-0 border-b-0 border-l-[11px] border-[#eef1ff]/[0.98]"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-      >
-        <img
-          className="flex-grow-0 flex-shrink-0"
-          src="picture=true,-edit-icon=false.png"
-        />
-        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5">
-          <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center">
-            <span className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-black">
-              싸피킴 | 
-            </span>
-            <span className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-[#7b61ff]">
-              방장
-            </span>
-          </p>
-          <p className="flex-grow-0 flex-shrink-0 text-xl text-center text-black">
-            그럼 수요일 10시로 정하겠습니다 ㅎㅎ
-          </p>
-        </div>
-      </div>
-      <div
-        className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-full h-[74px] relative gap-5 px-[30px] bg-white border-t-0 border-r-0 border-b-0 border-l-[11px] border-[#eef1ff]/[0.98]"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-      >
-        <img
-          className="flex-grow-0 flex-shrink-0"
-          src="picture=true,-edit-icon=false.png"
-        />
-        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5">
-          <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-black">
-            싸피박
-          </p>
-          <p className="flex-grow-0 flex-shrink-0 text-xl text-center text-black">
-            저는 아무때나 다 좋아요!!
-          </p>
-        </div>
-      </div>
+      </form>
+      {studyCommunity.map((items) => {
+        return <StudyMemberCoummunityComment key={items.studyCommunityId} items={items}/>;
+      })}
     </div>
   );
 }

@@ -18,5 +18,7 @@
     {"name_eng" : "ios", "name_kor" : "아이폰", "image" :  "https://blog.kakaocdn.net/dn/uqJpZ/btqyenBIIXx/mh1Cc5F023UGpfQTFBdqV0/img.jpg"},
     {"name_eng" : "Web", "name_kor" : "웹", "image" :  "https://cdn.pixabay.com/photo/2016/11/30/17/10/web-1873373_1280.png"},
     {"name_eng" : "Algorithm", "name_kor" : "알고리즘", "image" :  "https://blog.kakaocdn.net/dn/xCxbD/btq3zN4NQ3x/0ZBXlRgaeTqT1hBmPBrOQk/img.png"},
-    {"name_eng" : "Sql", "name_kor" : "데이터베이스", "image" :  "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2019/07/image2-1.png?fit=600%2C315&ssl=1"}
+    {"name_eng" : "Sql", "name_kor" : "데이터베이스", "image" :  "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2019/07/image2-1.png?fit=600%2C315&ssl=1"},
+    {"name_eng" : "etc", "name_kor" : "기타 영상", "image" :  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_B2NL0mGvDYFFSCqn-0WTZgcwlPK06O11hg&usqp=CAU"}
+
 ]
