@@ -1,10 +1,17 @@
 import userInfo from "../../zustand/store";
 import { useState } from "react";
-
+import useFetch from "../../hooks/useFetch";
 
 
 export default function MyPageMine({getClick, myId, clickModal}) {
   const { info } = userInfo();
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const followingLength = useFetch(
+    `http://${API_SERVER}/api/v1/user/${myId}/follow/following`
+  );
+  const followerLength = useFetch(
+    `http://${API_SERVER}/api/v1/user/${myId}/follow/follower`
+  );
 
   return (
     <div className="w-[336px]">
@@ -24,7 +31,7 @@ export default function MyPageMine({getClick, myId, clickModal}) {
             id="follower"
             onClick={clickModal}
           >
-            팔로워 30.9M &nbsp;
+            팔로워 {followerLength} &nbsp;
           </span>
           | &nbsp;
           <span
@@ -32,7 +39,7 @@ export default function MyPageMine({getClick, myId, clickModal}) {
             className="cursor-pointer hover:text-[#989aff]"
             onClick={clickModal}
           >
-            팔로잉 0
+            팔로잉 {followingLength}
           </span>
         </p>
         <button

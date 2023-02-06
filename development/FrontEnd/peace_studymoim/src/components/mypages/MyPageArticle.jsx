@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 // import useFetch from "../../hooks/useFetch";
 
-export default function MyPageArticle() {
+export default function MyPageArticle({clickUserId}) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const articles = {
     header: ["제목", "작성일", "조회수"],
