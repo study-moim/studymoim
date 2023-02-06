@@ -13,32 +13,27 @@ export default function RecommendBanner() {
   )[0];
 
   return (
-    <div className="flex justify-center items-center bg-[#ebefff]">
-      <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-6/12 relative gap-[45px] pl-[150px] pr-[30px] py-[30px]">
-        <p className="flex-grow-0 flex-shrink-0 w-full text-[60px] font-bold text-left">
-          <span className="flex-grow-0 flex-shrink-0 w-full font-bold text-left text-[#a259ff]">
+    <div className="flex flex-col w-full bg-[#ebefff] p-[30px] gap-[20px]">
+        <p className="w-full text-[45px] font-bold">
+          <span className="font-bold text-[#a259ff]">
             {userNickname}
           </span>
-          <span className="flex-grow-0 flex-shrink-0 w-full font-bold text-left text-black">
-            님과
-          </span>
-          <br />
-          <span className="flex-grow-0 flex-shrink-0 w-full font-bold text-left text-black">
-            딱 맞는 강좌
+          <span className="font-bold text-black">
+            님과 딱 맞는 강좌
           </span>
         </p>
-        <p className="flex-grow-0 flex-shrink-0 w-full text-left text-[#58595d]">
-          <span className="flex-grow-0 flex-shrink-0 w-full text-2xl font-bold text-left text-[#58595d]">
+        <p className="w-full text-[#58595d]">
+          <span className="w-full text-lg font-bold text-[#58595d]">
             {recommendCourse && recommendCourse.title}
           </span>
           <br />
-          <span className="flex-grow-0 flex-shrink-0 w-full text-xl text-left text-[#58595d]">
+          <span className="w-full text-lg text-[#58595d]">
             {recommendCourse && recommendCourse.courseProviderName}
           </span>
         </p>
-        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-10 pr-[349.1875px]">
+        <div className="flex w-full">
           <div
-            className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative pl-[65px] pr-[66.046875px] py-[22px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35]"
+            className="px-[65px] py-[18px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35]"
             style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
           >
             {recommendCourse ? (
@@ -48,25 +43,24 @@ export default function RecommendBanner() {
                   propData: recommendCourse,
                 }}
               >
-                <button className="flex-grow-0 flex-shrink-0 text-base font-bold text-center uppercase text-white">
+                <button className="text-base font-bold text-center uppercase text-white">
                   강좌 들으러 가기
                 </button>
               </Link>
             ) : (
-              <button className="flex-grow-0 flex-shrink-0 text-base font-bold text-center uppercase text-white">
+              <button className="text-base font-bold text-center uppercase text-white">
                 강좌 들으러 가기
               </button>
             )}
           </div>
         </div>
-      </div>
-      <div className="flex w-6/12 justify-center items-center flex-grow-0 flex-shrink-0 ">
+      {/* <div className="flex w-6/12 justify-center items-center">
         {recommendCourse ? 
           <img src={recommendCourse.thumbnail} alt="" className="w-full" />
           :
           <img src="" alt="" /> 
         }
-      </div>
+      </div> */}
     </div>
   );
 }

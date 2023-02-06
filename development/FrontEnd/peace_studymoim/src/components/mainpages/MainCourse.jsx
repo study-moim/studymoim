@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 export default function MainCourse({ propData }) {
   const [isHover, setIsHover] = useState(false);
   const slicedTitle = propData.title.substring(0, 25) + "...";
+  const slicedContent = propData.content.substring(0, 100) + "...";
 
   return (
     <div
-      className="relative w-[234px]"
+      className="relative w-[260px]"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <div className="flex flex-col justify-start items-center h-[245px] relative gap-4 bg-white shadow-lg rounded-md">
+      <div className="h-[230px] relative border p-2">
         <img
           src={
             propData.thumbnail !== "path/to/image"
@@ -20,30 +21,29 @@ export default function MainCourse({ propData }) {
           }
           className="w-full h-[146px] object-cover"
         />
-        <p className="w-[209px] h-[65px] text-xl font-bold text-left text-black">
+        <p className="w-full h-[65px] text-[16px] font-bold text-center pt-3">
           {propData.title.length > 24 ? slicedTitle : propData.title}
         </p>
       </div>
       {isHover ? (
-        <div className="w-full h-[245px] absolute top-0 bg-neutral-800 opacity-90">
-          <div className="h-full flex flex-col justify-between items-center pt-2">
-            <Link
+        <Link
               to={`/course/${propData.course_id}`}
               state={{
                 propData: propData
               }}
-            >
-              <p className="w-[209px] h-[60px] text-xl font-bold text-left text-white cursor-pointer hover:scale-105 hover:text-[#9a71fa]">
-                {propData.title}
-              </p>
-            </Link>
-            <div className="flex justify-center items-center mb-5">
-              <p className="w-full h-fit text-base font-bold text-left mt-3 text-white">
+        >
+          <div className="w-full h-[230px] absolute top-0 bg-neutral-800 opacity-90 cursor-pointer p-5">
+            <p className="text-[16px] font-bold text-white">
+              {propData.title}
+            </p>
+            <p className="text-[14px] font-bold text-white mt-2">
+              {propData.content.length > 100 ? slicedContent : propData.content}
+            </p>
+            <p className="text-[14px] font-bold text-white mt-2">
                 채널명: {propData.courseProviderName}
-              </p> 
-            </div>
+            </p> 
           </div>
-        </div>
+        </Link>
       ) : null}
     </div>
   );
