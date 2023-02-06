@@ -1,4 +1,4 @@
-export default function StudyIntroduceBanner() {
+export default function StudyIntroduceBanner({ propData }) {
   return (
     <div className="w-full flex justify-start items-center relative gap-10">
       <div>
@@ -9,7 +9,7 @@ export default function StudyIntroduceBanner() {
       </div>
 
       <div className="flex flex-col justify-start items-start w-5/12 h-[212px] relative gap-2.5 px-[9px] py-[39.47999954223633px]">
-        <p className=" text-2xl font-bold text-left">스터디 이름</p>
+        <p className=" text-2xl font-bold text-left">{propData && propData.title}</p>
         <svg
           viewBox="0 0 493 6"
           fill="none"
@@ -25,18 +25,23 @@ export default function StudyIntroduceBanner() {
             strokeWidth={2}
           />
         </svg>
-        <p className=" text-xl text-left">프론트엔드 다 같이 하자!</p>
+        <p className=" text-xl text-left">{propData.content && propData.content}</p>
       </div>
 
       <div className="flex flex-col justify-start items-start">
         <div className="flex w-full justify-start items-center relative gap-[15px]">
           <p className=" text-2xl font-bold text-left">스터디장</p>
-          <p className=" text-[24px] text-left">스터디장 이름</p>
+          <p className=" text-[24px] text-left">{ propData.leadUser && propData.leadUser.nickname }</p>
         </div>
 
         <div className="flex w-full justify-start items-center relative gap-[15px]">
           <p className=" text-2xl font-bold text-left">스터디원</p>
-          <p className=" text-[24px] text-left">이름1, 이름2, 이름3, 이름4</p>
+          <div>
+          {propData.members && propData.members.map((member) => {
+            return member.nickname + ' '
+          })}
+          </div>
+          
         </div>
       </div>
     </div>
