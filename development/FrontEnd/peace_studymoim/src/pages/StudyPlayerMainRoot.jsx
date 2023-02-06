@@ -37,8 +37,9 @@ export default function StudyPlayerMainRoot() {
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   const [chattings, setChattings] = useState([]);
   function changeChattings(message) {
-    setChattings((prev) => {
-      [...prev, message];
+    setChattings((chattings) => {
+      chattings.push(message);
+      console.log(chattings, "pppppppppppppppppppppppp");
     });
     console.log(chattings, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   }
@@ -75,6 +76,7 @@ export default function StudyPlayerMainRoot() {
         const newMessage = JSON.parse(payload.body);
         console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ")
         changeChattings(newMessage);
+        console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ2")
       });
     });
   }
@@ -90,7 +92,7 @@ export default function StudyPlayerMainRoot() {
   function sendMessage() {
     const data = {
       type: "",
-      roomId: study.studyId,
+      studyId: study.studyId,
       sender: info.nickname,
       message: messageRef.current.value,
     };
