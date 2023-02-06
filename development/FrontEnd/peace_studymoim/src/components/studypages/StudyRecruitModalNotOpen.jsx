@@ -26,7 +26,7 @@ export default function StudyRecruitModalNotOpen(props) {
       content: enteredRequest,
       userId: info.userId,
     };
-    fetch(`http://${API_SERVER}/api/v1/${studyId.study_recruit_id}/request`, {
+    fetch(`http://${API_SERVER}/api/v1/study/${studyId.study_recruit_id}/request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function StudyRecruitModalNotOpen(props) {
               </p>
             </div>
             <div className="flex flex-col items-center justify-around p-6 gap-5">
-              <form className="flex flex-col justify-center items-center">
+              <form onSubmit={submitHandler} className="flex flex-col justify-center items-center">
                 <textarea
                   name=""
                   id=""

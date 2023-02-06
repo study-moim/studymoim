@@ -44,9 +44,9 @@ public class NoteController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/")
-    public ResponseEntity<?> noteWriteOrUpdate(@RequestBody NoteDto note) {
+    public ResponseEntity<?> noteWriteOrUpdate(@RequestBody NoteDto noteDto) {
         try{
-            noteService.noteWriteOrUpdate(note);
+            noteService.noteWriteOrUpdate(noteDto);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();

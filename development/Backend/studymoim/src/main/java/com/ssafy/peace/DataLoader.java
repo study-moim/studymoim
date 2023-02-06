@@ -1,5 +1,6 @@
 package com.ssafy.peace;
 
+import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.YoutubeApiService;
@@ -59,6 +60,12 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private StudyCommunityRepository studyCommunityRepository;
+
+    @Autowired
+    private StudyRequestRepository studyRequestRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -83,10 +90,26 @@ public class DataLoader implements CommandLineRunner {
         // Memo 더미 데이터
         addNote();
 
+        // 스터디 관련 더미 데이터
         addStudyAndMember();
+        addCurriculum();
+        addStudyCommunity();
 
         // Message 더미 데이터
         addMessage();
+
+        addRegister();
+    }
+
+    private void addRegister(){
+        User registerUser = userRepository.findById(5).get();
+        Study study = studyRepository.findById(378).get();
+        studyRequestRepository.save(StudyRequest.builder()
+                .user(registerUser)
+                .content("열정적으로 참여하겠습니다!")
+                .study(study)
+                .requestStatus(0)
+                .build());
     }
 
     private void addMessage() {
@@ -243,65 +266,149 @@ public class DataLoader implements CommandLineRunner {
     }
 
     public void addStudyAndMember(){
-        Study study1 = Study.builder()
-                .title("리액트 스터디")
-                .startTime(LocalDate.now())
-                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
-                .isPublic(true)
-                .userLimit(4)
-                .build();
-        studyRepository.save(study1);
-        addCurriculum(study1);
 
-        User user1 = userRepository.findByNickname("싸피킴");
-        User user2 = userRepository.findByNickname("싸피팍");
-        User user3 = userRepository.findByNickname("싸피정");
+        List<Study> studyList = new ArrayList<>();
+        List<StudyMember> studyMemberList = new ArrayList<>();
+        List<User> userList = userRepository.findAll();
+        for (int i = 0; i < 5; i++) {
+            if(i > 3) {
+                studyList.add(Study.builder()
+                        .title(i + "번째 스터디")
+                        .startTime(LocalDate.now())
+                        .content(i + "번째 스터디 설명")
+                        .isPublic(true)
+                        .isFinished(true)
+                        .userLimit(i + 2)
+                        .build());
+            } else if ( i % 2 == 0) {
+                studyList.add(Study.builder()
+                        .title(i + "번째 스터디")
+                        .startTime(LocalDate.now())
+                        .content(i + "번째 스터디 설명")
+                        .isPublic(true)
+                        .isClose(true)
+                        .userLimit(i + 2)
+                        .build());
+            } else {
+                studyList.add(Study.builder()
+                        .title(i + "번째 스터디")
+                        .startTime(LocalDate.now())
+                        .content(i + "번째 스터디 설명")
+                        .isPublic(false)
+                        .userLimit(i + 2)
+                        .build());
+            }
+            for (int j = 0; j < userList.size(); j++) {
+                if(i == j) {
+                    studyMemberList.add(StudyMember.builder()
+                            .user(userList.get(j))
+                            .memberRole(true)
+                            .study(studyList.get(i))
+                            .build());
+                } else if((i+j) % 4 == 0){
+                    studyMemberList.add(StudyMember.builder()
+                            .user(userList.get(j))
+                            .memberRole(false)
+                            .isBanned(true)
+                            .study(studyList.get(i))
+                            .build());
+                }
+            }
+        }
+        studyRepository.saveAll(studyList);
+        studyMemberRepository.saveAll(studyMemberList);
 
-        StudyMember sm1 = StudyMember.builder()
-                .user(user1)
-                .memberRole(true)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm1);
-        StudyMember sm2 = StudyMember.builder()
-                .user(user2)
-                .memberRole(false)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm2);
-        StudyMember sm3 = StudyMember.builder()
-                .user(user3)
-                .memberRole(false)
-                .study(study1)
-                .build();
-        studyMemberRepository.save(sm3);
+
+//        Study study1 = Study.builder()
+//                .title("리액트 스터디")
+//                .startTime(LocalDate.now())
+//                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
+//                .isPublic(true)
+//                .userLimit(4)
+//                .build();
+//        studyRepository.save(study1);
+//        addCurriculum(study1);
+//
+//        User user1 = userRepository.findByNickname("싸피킴");
+//        User user2 = userRepository.findByNickname("싸피팍");
+//        User user3 = userRepository.findByNickname("싸피정");
+//
+//        StudyMember sm1 = StudyMember.builder()
+//                .user(user1)
+//                .memberRole(true)
+//                .study(study1)
+//                .build();
+//        studyMemberRepository.save(sm1);
+//        StudyMember sm2 = StudyMember.builder()
+//                .user(user2)
+//                .memberRole(false)
+//                .study(study1)
+//                .build();
+//        studyMemberRepository.save(sm2);
+//        StudyMember sm3 = StudyMember.builder()
+//                .user(user3)
+//                .memberRole(false)
+//                .study(study1)
+//                .build();
+//        studyMemberRepository.save(sm3);
 
     }
 
-    public void addCurriculum(Study study){
+    public void addCurriculum(){
 
-        Course course1 = courseRepository.findById(32).get();
-        Course course2 = courseRepository.findById(39).get();
-        Course course3 = courseRepository.findById(46).get();
-        Curriculum curriculum1 = Curriculum.builder()
-                .study(study)
-                .course(course1)
-                .curriculumOrder(0)
-                .build();
-        curriculumRepository.save(curriculum1);
-        Curriculum curriculum2 = Curriculum.builder()
-                .study(study)
-                .course(course2)
-                .curriculumOrder(1)
-                .build();
-        curriculumRepository.save(curriculum2);
-        Curriculum curriculum3 = Curriculum.builder()
-                .study(study)
-                .course(course3)
-                .curriculumOrder(2)
-                .build();
-        curriculumRepository.save(curriculum3);
+        List<Curriculum> curriculumList = new ArrayList<>();
+        List<Study> studyList = studyRepository.findAll();
+        List<Course> courseList = courseRepository.findAll();
+        for (int i = 0; i < studyList.size(); i++) {
+            for (int j = 0; j < courseList.size(); j++) {
+                curriculumList.add(Curriculum.builder()
+                        .study(studyList.get(i))
+                        .course(courseList.get(j))
+                        .curriculumOrder(curriculumList.size())
+                        .build());
+            }
+        }
+        curriculumRepository.saveAll(curriculumList);
 
+
+//        Course course1 = courseRepository.findById(32).get();
+//        Course course2 = courseRepository.findById(39).get();
+//        Course course3 = courseRepository.findById(46).get();
+//        Curriculum curriculum1 = Curriculum.builder()
+//                .study(study)
+//                .course(course1)
+//                .curriculumOrder(0)
+//                .build();
+//        curriculumRepository.save(curriculum1);
+//        Curriculum curriculum2 = Curriculum.builder()
+//                .study(study)
+//                .course(course2)
+//                .curriculumOrder(1)
+//                .build();
+//        curriculumRepository.save(curriculum2);
+//        Curriculum curriculum3 = Curriculum.builder()
+//                .study(study)
+//                .course(course3)
+//                .curriculumOrder(2)
+//                .build();
+//        curriculumRepository.save(curriculum3);
+
+    }
+
+    public void addStudyCommunity() {
+        List<StudyCommunity> studyCommunityList = new ArrayList<>();
+        List<Study> studyList = studyRepository.findAll();
+        for (int i = 0; i < studyList.size(); i++) {
+            List<StudyMember> studyMemberList = studyMemberRepository.findAllByStudy_StudyId(studyList.get(i).getStudyId());
+            for (int j = 0; j < studyMemberList.size(); j++) {
+                studyCommunityList.add(StudyCommunity.builder()
+                        .content(studyList.get(i).getTitle()+" 스터디 community test " + j)
+                        .study(studyList.get(i))
+                        .user(studyMemberList.get(j).getUser())
+                        .build());
+            }
+        }
+        studyCommunityRepository.saveAll(studyCommunityList);
     }
 
     public void addCategory(){
