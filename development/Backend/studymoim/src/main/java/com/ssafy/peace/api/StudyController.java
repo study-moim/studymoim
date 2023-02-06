@@ -1,5 +1,6 @@
 package com.ssafy.peace.api;
 
+import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
 import com.ssafy.peace.dto.StudyRequestDto;
@@ -214,5 +215,41 @@ public class StudyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "get study community", description = "해당 스터디 커뮤니티 글 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/community/{studyId}")
+    public ResponseEntity<?> studyCommunityList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyCommunityList(studyId), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "post study community", description = "해당 스터디 글 등록하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/community")
+    public ResponseEntity<?> addStudyCommunity(@RequestBody StudyCommunityDto studyCommunityDto) {
+
+        try{
+            studyService.addStudyCommunity(studyCommunityDto);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
 
 }

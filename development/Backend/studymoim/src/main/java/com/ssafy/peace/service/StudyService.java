@@ -24,6 +24,7 @@ public class StudyService {
     private final UserRepository userRepository;
     private final CurriculumRepository curriculumRepository;
     private final CourseRepository courseRepository;
+    private final StudyCommunityRepository studyCommunityRepository;
 
     @Transactional
     public List<StudyDto.Info> getStudyList() throws RollbackException{
@@ -165,7 +166,19 @@ public class StudyService {
 
     }
 
+    @Transactional
+    public List<StudyCommunityDto> getStudyCommunityList(Integer studyId) {
+        return studyCommunityRepository.findAllByStudy_studyIdOrderByPublishTimeDesc(studyId).stream()
+                .map(studyCommunity -> StudyCommunityDto.fromEntity(studyCommunity))
+                .collect(Collectors.toList());
+    }
 
 
-
+    public void addStudyCommunity(StudyCommunityDto studyCommunityDto) {
+        studyCommunityRepository.save(StudyCommunity.builder()
+                .content(studyCommunityDto.getContent())
+                .user(userRepository.findByUserId(studyCommunityDto.getUserId()))
+                .study(studyRepository.findById(studyCommunityDto.getStudyId()).get())
+                .build());
+    }
 }
