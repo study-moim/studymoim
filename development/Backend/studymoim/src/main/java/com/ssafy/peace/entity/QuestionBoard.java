@@ -78,4 +78,9 @@ public class QuestionBoard {
         this.questionBoardId = id;
         return this;
     }
+
+    public QuestionBoard delete(){
+        this.isDeleted = true;
+        return this;
+    }
 }

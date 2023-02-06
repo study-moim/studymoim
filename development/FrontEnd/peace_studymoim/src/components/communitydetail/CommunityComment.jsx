@@ -3,12 +3,10 @@ import userInfo from "../../zustand/store";
 import { Link } from "react-router-dom";
 
 export default function CommunityComment({ comment }) {
-  
-  const [pt, setPt] = useState(comment.publishTime)
+  const [pt, setPt] = useState(comment.publishTime);
   if (pt === null) {
-    return null
+    return null;
   }
-
 
   const { info } = userInfo();
   const [isMine, setIsMine] = useState(false);
@@ -16,62 +14,21 @@ export default function CommunityComment({ comment }) {
     if (info.userId === comment.user["userId"]) {
       setIsMine(true);
     }
-
   }, []);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const dateBase = new Date(comment.publishTime);
-  const date = dateBase.toString().substring(0,24);
-
-  // 수정하기를 위한 함수와 변수들
-  const [modifyToggle, setModifyToggle] = useState(false);
-  function clickModify() {
-    setModifyToggle(!modifyToggle);
-  }
-
-  const [modifyRef, setModifyRef] = useState(comment.content);
-  const modifyContent = useRef();
+  const date = dateBase.toString().substring(0, 24);
 
   const handleRemove = () => {
     if (window.confirm(`댓글을 삭제하시겠습니까?`)) {
-      fetch(`http://${API_SERVER}/api/v1/articles/free/comment/${comment.freeBoardCommentId}/`, {
-        method: "DELETE",
-      }).then((res) => {
+      fetch(
+        `http://${API_SERVER}/api/v1/articles/free/comment/${comment.freeBoardCommentId}/`,
+        {
+          method: "DELETE",
+        }
+      ).then((res) => {
         if (res.ok) {
           alert("댓글 삭제완료");
-          window.location.reload()
-        }
-      });
-    }
-  };
-
-  const handleQuitEdit = () => {
-    setModifyToggle(false);
-    setModifyRef(comment.content);
-  };
-
-  // 수정완료시 이벤트처리할 함수
-  const handleEdit = () => {
-    if (localContent.length < 2) {
-      localContentInput.current.focus();
-      return;
-    }
-
-    if (window.confirm(`댓글을 정말 수정하시겠습니까?`)) {
-      fetch(`http://${API_SERVER}/api/v1/articles/free/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // body : 수정을 위한 정보를 넣어줘야함
-        // + JSON 문자열로도 변환시켜줌
-        body: JSON.stringify({
-          title: titleRef.current.value,
-          content: contentRef.current.value,
-          userId: info.userId,
-        }),
-      }).then((res) => {
-        if (res.ok) {
-          alert("댓글이 수정되었습니다.");
           window.location.reload();
         }
       });
@@ -105,54 +62,20 @@ export default function CommunityComment({ comment }) {
               </div>
             </div>
             {/* 수정 삭제 버튼 */}
-            {!modifyToggle ? (
-              <div className={!isMine ? "invisible" : "visible"}>
-                <button
-                  onClick={clickModify}
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  수정 &nbsp;
-                </button>
-                <button
-                  onClick={handleRemove}
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  삭제
-                </button>
-              </div>
-            ) : (
-              <div className="">
-                <button
-                  onClick={handleQuitEdit}
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  취소 &nbsp;
-                </button>
-                <button
-                  onClick={handleEdit}
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  등록
-                </button>
-              </div>
-            )}
+
+            <div className={!isMine ? "invisible" : "visible"}>
+              <button
+                onClick={handleRemove}
+                className="h-9  p-2 rounded-[10px] bg-[#F24E1E] text-[12px] font-bold text-center m-[5px] text-white hover:bg-[#f24f1ee8] hover:scale-95"
+              >
+                삭제하기
+              </button>
+            </div>
           </div>
           {/* 댓글 내용 */}
-          {!modifyToggle ? (
-            <div className="flex w-full justify-start mt-5 text-[15px] text-center">
-              {comment.content}
-            </div>
-          ) : (
-            <form className="max-w-4xl mx-auto flex flex-col items-end gap-3 mt-2">
-              <textarea
-                className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
-                placeholder="댓글을 입력해주세요."
-                value={modifyRef}
-                ref={modifyContent}
-                onChange={(e) => setModifyRef(e.target.value)}
-              />
-            </form>
-          )}
+          <div className="flex w-full justify-start mt-5 text-[15px] text-center">
+            {comment.content}
+          </div>
         </div>
       </div>
     </>

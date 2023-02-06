@@ -62,4 +62,9 @@ public class FreeBoard {
         return this;
     }
 
+    public FreeBoard delete(){
+        this.isDeleted = true;
+        return this;
+    }
+
 }
