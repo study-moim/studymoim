@@ -36,4 +36,5 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Intege
      */
     boolean existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(Integer userId, Integer studyId);
 
+    List<StudyMember> findAllByStudy_StudyId(Integer studyId);
 }
