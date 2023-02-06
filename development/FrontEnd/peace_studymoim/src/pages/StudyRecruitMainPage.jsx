@@ -55,8 +55,8 @@ export default function StudyRecruitMainPage() {
 
         <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black px-3">
           {LoadedStudyRecruits.map((recruit) => (
-            <div className="cursor-pointer hover:scale-105 w-11/12 ml-6">
-              <StudyRecruitItem key={recruit.studyId} props={recruit} />
+            <div key={recruit.studyId} className="cursor-pointer hover:scale-105 w-11/12 ml-6">
+              <StudyRecruitItem props={recruit} />
             </div>
           ))}
         </div>

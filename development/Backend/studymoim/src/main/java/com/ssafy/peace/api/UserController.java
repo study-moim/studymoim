@@ -171,6 +171,33 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "count followers", description = "팔로워 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follow/follower/list")
+    public ResponseEntity<?> getFollowersList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getFollowers(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "count followings", description = "팔로잉 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follow/following/list")
+    public ResponseEntity<?> getfollowingsList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getFollowings(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "check follow status", description = "사용자 팔로우 여부 확인하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
