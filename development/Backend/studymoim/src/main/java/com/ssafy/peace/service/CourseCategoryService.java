@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,6 +26,14 @@ public class CourseCategoryService {
     public List<CourseCategoryDto.Info> getCategoryList() {
         return courseCategoryRepository.findAll().stream()
                 .map(CourseCategoryDto.Info::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<CourseCategoryDto.Info> getCategoryListBestTen() {
+        return courseCategoryRepository.findAll().stream()
+                .map(CourseCategoryDto.Info::fromEntity)
+                .sorted(Comparator.comparing(CourseCategoryDto.Info::getUserLikeCount).reversed())
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
