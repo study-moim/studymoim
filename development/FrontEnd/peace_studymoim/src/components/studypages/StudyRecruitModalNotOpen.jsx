@@ -49,7 +49,7 @@ export default function StudyRecruitModalNotOpen(props) {
               </p>
             </div>
             <div className="flex flex-col items-center justify-around p-6 gap-5">
-              <form className="flex flex-col justify-center items-center">
+              <form onSubmit={submitHandler} className="flex flex-col justify-center items-center">
                 <textarea
                   name=""
                   id=""

@@ -1,23 +1,44 @@
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import userInfo from "../../zustand/store";
 
 export default function StudyRecruitModalOpen(props) {
   const studyId = useParams();
+  const { info } = userInfo();
+  const navigate = useNavigate();
+
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
-      props.onCancel()
+      props.onCancel();
     }
   };
-
-  const navigate = useNavigate();
 
   function cancelHandler() {
     props.onCancel();
   }
-  
-  function confirmHandler() {  
-    navigate(`/studyDetail/${studyId.study_recruit_id}`);
+
+  function confirmHandler() {
+    fetch(
+      `http://${API_SERVER}/api/v1/study/${studyId.study_recruit_id}/participate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: info.userId,
+          studyId: studyId.study_recruit_id,
+        }),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        navigate(`/studyDetail/${studyId.study_recruit_id}`);
+        console.log("신청됨!");
+      }
+    });
   }
   return (
     <>
@@ -63,14 +84,14 @@ export default function StudyRecruitModalOpen(props) {
                 <button
                   className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]"
                   onClick={confirmHandler}
-                > 
+                >
                   네, 신청하겠습니다.
                 </button>
                 <button
                   className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
                   onClick={cancelHandler}
                 >
-                  아니요, 다시 생각해볼래요. 
+                  아니요, 다시 생각해볼래요.
                 </button>
               </div>
             </div>
