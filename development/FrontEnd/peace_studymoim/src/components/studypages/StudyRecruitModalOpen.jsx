@@ -36,7 +36,6 @@ export default function StudyRecruitModalOpen(props) {
     ).then((res) => {
       if (res.ok) {
         navigate(`/studyDetail/${studyId.study_recruit_id}`);
-        console.log("신청됨!");
       }
     });
   }
