@@ -118,6 +118,18 @@ public class UserService {
         return followRepository.countAllByFromUser_UserId(userId);
     }
 
+    public List<UserDto.Info> getFollowers(Integer userId) {
+        return followRepository.findAllByToUser_UserId(userId).orElse(new ArrayList<>()).stream()
+                .map(follow -> UserDto.Info.fromEntity(follow.getFromUser()))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto.Info> getFollowings(Integer userId) {
+        return followRepository.findAllByFromUser_UserId(userId).orElse(new ArrayList<>()).stream()
+                .map(follow -> UserDto.Info.fromEntity(follow.getToUser()))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public boolean followingStatus(Integer myUserId, Integer targetUserId) {
         if (followRepository.findByFromUser_UserIdAndToUser_UserId(myUserId, targetUserId).isPresent()) {
