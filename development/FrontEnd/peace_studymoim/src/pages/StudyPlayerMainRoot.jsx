@@ -6,7 +6,6 @@ import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 import userInfo from "../zustand/store";
-import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
 export default function StudyPlayerMainRoot() {
@@ -37,16 +36,12 @@ export default function StudyPlayerMainRoot() {
 
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   const [chattings, setChattings] = useState([])
-  function receiveMessage(payload) {
-    // 메시지 수신시 호출되는 메소드
-    setChattings((chattings) => {
-      return [...chattings, payload]
-    })
-  }
-  let stompClient = null;
+
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   ///// 더미데이터 /////
-  let studyId = 1;
+  let study = {
+    studyId: 0
+  };
   let user = {
     userId: 1,
     nickname: "싸피킴",
@@ -55,6 +50,7 @@ export default function StudyPlayerMainRoot() {
   
   const messageRef = useRef(null);
 
+  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   /*
   * 웹소켓 사용법
   * 1. connect로 http://localhost:8080/ws에 접속
@@ -64,89 +60,35 @@ export default function StudyPlayerMainRoot() {
   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
   * 4. 채팅을 나가려면 disconnect 함수 호출
   * */
- // function connect(studyId) {
-   //   // 소켓 연결시 호출되어야 하는 메소드
-   //   var socket = new SockJS(`http://${API_SERVER}/ws`);
-   //   stompClient = Stomp.over(socket);
-   //   stompClient.connect({}, function (frame) {
-     //     setConnected(true);
-     //     console.log("Connected: " + frame);
-     //     stompClient.subscribe(`/sub/study/${studyId}`, receiveMessage);
-     //   });
-    // }
-    
-    const sock = new SockJS(`http://${API_SERVER}/ws`);
-    //client 객체 생성 및 서버주소 입력
-    const stomp = Stomp.over(sock);
-    //stomp로 감싸기
-    
+    let stomp = null;
+    function connect(studyId) {
+      //client 객체 생성 및 서버주소 입력
+      stomp = Stomp.client("ws://localhost:8080/ws");
+      stomp.connect({}, function (frame) {
+        stomp.subscribe(`/sub/study/${studyId}`, (payload) => {
+          console.log("메시지 수신!", payload)
+        });
+      });
+    };
+    function disconnect() {
+        // 소켓 연결 종료시 호출되어야 하는 메소드
+      if (stomp !== null) {
+        stomp.disconnect();
+      }
+      stomp = null;
+      console.log("Disconnected");
+    }
     const sendMessage = () => {
-      stomp.debug = null;
       const data = {
-        type: "TALK",
-        roomId: studyId,
+        type: "",
+        roomId: study.studyId,
         sender: info.userId,
         message: messageRef.current.value,
       };
       //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
-      stomp.send("/pub/chat", {}, JSON.stringify(data));
+      stomp.send('/pub/chat', {}, JSON.stringify(data));
     };
-    const connect = (studyId1) => {
-      try {
-        stomp.debug = null;
-        //웹소켓 연결시 stomp에서 자동으로 connect이 되었다는것을
-        //console에 보여주는데 그것을 감추기 위한 debug
-        stomp.connect({}, () => {
-          // console.log({}, "토큰?")
-          stomp.subscribe(
-            `/sub/study/${studyId1}`,
-            (data) => {
-              const newMessage = JSON.parse(data.body);
-              //데이터 파싱
-              
-            },
-            {}
-            );
-          });
-        } catch (err) {}
-      };
-      
-      useEffect(() => {
-        connect(studyId);
-      }, [props]);
-      
-      function disconnect() {
-        // 소켓 연결 종료시 호출되어야 하는 메소드
-        if (Stomp !== null) {
-          Stomp.disconnect();
-        }
-        setConnected(false);
-        console.log("Disconnected");
-      }
-      // function sendMessage() {
-        
-        //   // 메시지 전송시 호출되어야 하는 메소드
-  //   stomp.send(
-  //     "/pub/chat",
-  //     {},
-  //     JSON.stringify({
-    //       type: "",
-    //       sender: info.userId,
-    //       studyId: studyId,
-    //       message: messageRef.current.value,
-    //     })
-    //   );
-    // }
     ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
-    const publisherProps = {
-      // 메시지를 보내기 위해 PlayerNow 컴포넌트에 전달되는 props
-      type: "",
-      userId: info.userId,
-      studyId: studyId,
-      message: messageRef,
-      sendMessage,
-      receiveMessage,
-    };
     
     return (
       <div className="flex m-5">
@@ -210,6 +152,8 @@ export default function StudyPlayerMainRoot() {
               <div className="overflow-auto h-full">
                 <input className="border" type="text" ref={messageRef} />
                 <button onClick={() => sendMessage()} className="border">전송</button>
+                <button onClick={() => connect(study.studyId)} className="border">connect</button>
+                <button onClick={() => disconnect()} className="border">disconnect</button>
               </div>
             </div>
           ) : null}
