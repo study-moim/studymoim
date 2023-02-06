@@ -8,6 +8,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,8 @@ import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
-
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String DDL_CONFIG;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -68,6 +70,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // JPA DDL 설정 보고 실행 판단
+        if(!DDL_CONFIG.equals("create")) return;
 
         // User 3명
         addUsers();
