@@ -1,13 +1,18 @@
 // TODO: 이거보고 하기..
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
+import userInfo from "../zustand/store";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 export default function StudyPlayerMainRoot() {
   const props = useLocation().state.propData;
+  // console.log(props, "asdfasdfasfgdsgasd");
+  const { info } = userInfo();
 
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
@@ -31,23 +36,25 @@ export default function StudyPlayerMainRoot() {
   );
 
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
+  const [chattings, setChattings] = useState([])
+  function receiveMessage(payload) {
+    // 메시지 수신시 호출되는 메소드
+    setChattings((chattings) => {
+      return [...chattings, payload]
+    })
+  }
   let stompClient = null;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   ///// 더미데이터 /////
   let studyId = 1;
   let user = {
     userId: 1,
-    nickname: "이태희"
+    nickname: "싸피킴",
   };
   ///// 더미데이터 끝 /////
-  const publisherProps = { // 메시지를 보내기 위해 PlayerNow 컴포넌트에 전달되는 props
-    type: "",
-    userId: user.userId,
-    studyId: studyId,
-    message: message,
-    sendMessage,
-    receiveMessage
-  }
+  
+  const messageRef = useRef(null);
+
   /*
   * 웹소켓 사용법
   * 1. connect로 http://localhost:8080/ws에 접속
@@ -57,37 +64,92 @@ export default function StudyPlayerMainRoot() {
   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
   * 4. 채팅을 나가려면 disconnect 함수 호출
   * */
-  function connect(userId, studyId) { // 소켓 연결시 호출되어야 하는 메소드
-    var socket = new SockJS(`http://${API_SERVER}/ws`);
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-      setConnected(true);
-      console.log('Connected: ' + frame);
-      stompClient.subscribe(`/sub/study/${studyId}`, receiveMessage);
-    });
-  }
-  function disconnect() { // 소켓 연결 종료시 호출되어야 하는 메소드
-    if (stompClient !== null) {
-      stompClient.disconnect();
-    }
-    setConnected(false);
-    console.log("Disconnected");
-  }
-  function sendMessage(studyId, sender, message) { // 메시지 전송시 호출되어야 하는 메소드
-    stompClient.send("/pub/chat", {}, JSON.stringify({
-      "type": "",
-      "sender": sender,
-      "studyId": studyId,
-      "message": message
-    }));
-  }
-  function receiveMessage(payload) { // 메시지 수신시 호출되는 메소드
-    console.log(payload);
-  }
-  ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
-
-  return (
-    <div className="flex m-5">
+ // function connect(studyId) {
+   //   // 소켓 연결시 호출되어야 하는 메소드
+   //   var socket = new SockJS(`http://${API_SERVER}/ws`);
+   //   stompClient = Stomp.over(socket);
+   //   stompClient.connect({}, function (frame) {
+     //     setConnected(true);
+     //     console.log("Connected: " + frame);
+     //     stompClient.subscribe(`/sub/study/${studyId}`, receiveMessage);
+     //   });
+    // }
+    
+    const sock = new SockJS(`http://${API_SERVER}/ws`);
+    //client 객체 생성 및 서버주소 입력
+    const stomp = Stomp.over(sock);
+    //stomp로 감싸기
+    
+    const sendMessage = () => {
+      stomp.debug = null;
+      const data = {
+        type: "TALK",
+        roomId: studyId,
+        sender: info.userId,
+        message: messageRef.current.value,
+      };
+      //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
+      stomp.send("/pub/chat", {}, JSON.stringify(data));
+    };
+    const connect = (studyId1) => {
+      try {
+        stomp.debug = null;
+        //웹소켓 연결시 stomp에서 자동으로 connect이 되었다는것을
+        //console에 보여주는데 그것을 감추기 위한 debug
+        stomp.connect({}, () => {
+          // console.log({}, "토큰?")
+          stomp.subscribe(
+            `/sub/study/${studyId1}`,
+            (data) => {
+              const newMessage = JSON.parse(data.body);
+              //데이터 파싱
+              
+            },
+            {}
+            );
+          });
+        } catch (err) {}
+      };
+      
+      useEffect(() => {
+        connect(studyId);
+      }, [props]);
+      
+      function disconnect() {
+        // 소켓 연결 종료시 호출되어야 하는 메소드
+        if (Stomp !== null) {
+          Stomp.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+      }
+      // function sendMessage() {
+        
+        //   // 메시지 전송시 호출되어야 하는 메소드
+  //   stomp.send(
+  //     "/pub/chat",
+  //     {},
+  //     JSON.stringify({
+    //       type: "",
+    //       sender: info.userId,
+    //       studyId: studyId,
+    //       message: messageRef.current.value,
+    //     })
+    //   );
+    // }
+    ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
+    const publisherProps = {
+      // 메시지를 보내기 위해 PlayerNow 컴포넌트에 전달되는 props
+      type: "",
+      userId: info.userId,
+      studyId: studyId,
+      message: messageRef,
+      sendMessage,
+      receiveMessage,
+    };
+    
+    return (
+      <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
       <div className="flex flex-col justify-start items-start w-11/12 mx-3">
         <div className="w-full flex flex-row justify-between items-center mb-[10px]">
@@ -98,7 +160,7 @@ export default function StudyPlayerMainRoot() {
             강의 설명이 보이는 부분 ▼
           </div>
         </div>
-        <PlayingVideoFrame videoId={props.videoId}/>
+        <PlayingVideoFrame videoId={props.videoId} />
 
         <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
@@ -142,7 +204,15 @@ export default function StudyPlayerMainRoot() {
         <div className="h-full p-3 bg-white border border-[#898989]">
           {currentClick === "memo" ? <PlayerMemo /> : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
-          {currentClick === "chat" ? <PlayerNowChat{publisherProps} /> : null}
+          {currentClick === "chat" ? (
+            <div>
+              <div> { chattings }</div>
+              <div className="overflow-auto h-full">
+                <input className="border" type="text" ref={messageRef} />
+                <button onClick={() => sendMessage()} className="border">전송</button>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
