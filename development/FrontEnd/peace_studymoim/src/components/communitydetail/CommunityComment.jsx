@@ -3,6 +3,7 @@ import userInfo from "../../zustand/store";
 import { Link } from "react-router-dom";
 
 export default function CommunityComment({ comment }) {
+  console.log(comment)
   const [pt, setPt] = useState(comment.publishTime);
   if (pt === null) {
     return null;
@@ -48,9 +49,9 @@ export default function CommunityComment({ comment }) {
               />
               <div className="pl-3">
                 <Link
-                  to={`/mypage/${comment.userId}`}
+                  to={`/mypage/${comment.user.userId}`}
                   className="hover:text-[#989aff]"
-                  state={{ clickWho: comment.userId }}
+                  state={{ clickWho: comment.user.userId }}
                 >
                   <div className="px-2.5 ext-[15px] font-bold">
                     {comment.user.nickname}
