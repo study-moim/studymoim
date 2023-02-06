@@ -31,7 +31,14 @@ public class FreeBoardService {
     @Transactional
     public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
         return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
-                .map(FreeBoardDto.Detail::fromEntity)
+                .map(freeBoard -> {
+                    FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
+                    res.setFreeBoardComments(
+                        FreeBoardDto.Detail.fromEntity(freeBoard).getFreeBoardComments().stream()
+                            .filter(comment -> !comment.isDeleted())
+                            .collect(Collectors.toList()));
+                    return res;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -55,11 +62,18 @@ public class FreeBoardService {
 
     @Transactional
     public void deleteFreeBoard(Integer freeBoardId) throws RollbackException  {
-        freeBoardRepository.deleteById(freeBoardId);
+        freeBoardRepository.save(freeBoardRepository.findById(freeBoardId).get().delete());
     }
 
+    @Transactional
     public FreeBoardDto.Detail getfreeBoardDetail(Integer articleId) throws RollbackException {
-        return FreeBoardDto.Detail.fromEntity(freeBoardRepository.findById(articleId).get());
+        FreeBoard freeBoard = freeBoardRepository.findById(articleId).get();
+        FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
+        res.setFreeBoardComments(
+                FreeBoardDto.Detail.fromEntity(freeBoard).getFreeBoardComments().stream()
+                        .filter(comment -> !comment.isDeleted())
+                        .collect(Collectors.toList()));
+        return res;
     }
 
     @Transactional
@@ -77,7 +91,7 @@ public class FreeBoardService {
         FreeBoardComment freeBoardComment = freeBoardCommentRepository.findById(commentId).get();
         return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository.save(FreeBoardComment.builder()
                 .freeBoard(freeBoardComment.getFreeBoard())
-                .content("(삭제된 메시지 입니다.)")
+                .content(freeBoardComment.getContent())
                 .user(freeBoardComment.getUser())
                 .isDeleted(true)
                 .build().updateId(commentId)));
@@ -85,13 +99,27 @@ public class FreeBoardService {
 
     public List<FreeBoardDto.Detail> searchFreeBoardByTitle(String key) {
         return freeBoardRepository.findAllByTitleContaining(key).stream()
-                .map(FreeBoardDto.Detail::fromEntity)
+                .map(freeBoard -> {
+                    FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
+                    res.setFreeBoardComments(
+                            FreeBoardDto.Detail.fromEntity(freeBoard).getFreeBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                })
                 .collect(Collectors.toList());
     }
 
     public List<FreeBoardDto.Detail> searchFreeBoardByContent(String key) {
         return freeBoardRepository.findAllByContentContaining(key).stream()
-                .map(FreeBoardDto.Detail::fromEntity)
+                .map(freeBoard -> {
+                    FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
+                    res.setFreeBoardComments(
+                            FreeBoardDto.Detail.fromEntity(freeBoard).getFreeBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                })
                 .collect(Collectors.toList());
     }
 
