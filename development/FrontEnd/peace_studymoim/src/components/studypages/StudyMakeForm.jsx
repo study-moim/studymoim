@@ -188,10 +188,14 @@ export default function StudyMakeForm(props) {
 
               <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[21px] px-4">
                 <input
+                 className="block file:mr-4 file:py-2 file:px-4
+                 file:rounded-full file:border-0
+                 file:text-sm file:font-semibold
+                 file:bg-violet-100 file:text-violet-700
+                 hover:file:bg-violet-300"
                   id="picture"
                   type="file"
                   accept="image/*"
-                  className=""
                   onChange={(event) => {
                     const file = event.target.files[0];
                     if (file && file.type.substring(0, 5) === "image") {
