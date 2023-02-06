@@ -66,15 +66,18 @@ public class DataLoader implements CommandLineRunner {
         addUsers();
         // 글 한개 작성
         addFreeBoard();
-        // UserLikeCategory 더미 데이터
-        addUserLikeCategory();
+
+
 
         // CourseCategory 실제 사용할 데이터
         addCategory();
-
         // youtube api 세팅
         youtubeApiService.init(true);
 
+
+
+        // UserLikeCategory 더미 데이터
+        addUserLikeCategory();
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
         // Memo 더미 데이터
