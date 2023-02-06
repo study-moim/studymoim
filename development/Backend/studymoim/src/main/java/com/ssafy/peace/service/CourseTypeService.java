@@ -34,7 +34,7 @@ public class CourseTypeService {
                             .course(course)
                             .courseCategory(courseCategory)
                             .build());
-                } else if (course.getTitle().contains(courseCategory.getName_eng())) {
+                } else if (course.getTitle().toLowerCase().contains(courseCategory.getName_eng().toLowerCase())) {
                     courseTypeRepository.save(CourseType.builder()
                             .course(course)
                             .courseCategory(courseCategory)
