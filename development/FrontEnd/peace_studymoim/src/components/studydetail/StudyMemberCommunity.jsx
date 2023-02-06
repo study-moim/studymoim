@@ -14,7 +14,7 @@ export default function StudyMemberCoummunity() {
           height={83}
           transform="translate(0.5)"
           fill="#EEF1FF"
-          fill-opacity="0.98"
+          fillOpacity="0.98"
         />
         <path
           d="M702.017 56L737 41L702.017 26L702 37.6667L727 41L702 44.3333L702.017 56Z"
