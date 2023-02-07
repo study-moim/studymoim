@@ -18,5 +18,7 @@ public interface UserLikeCourseRepository extends JpaRepository<UserLikeCourse, 
      */
     Optional<UserLikeCourse> findAllByUser_userId(int userId);
 
+    Optional<UserLikeCourse> findByUser_userIdAndCourse_courseId(int userId, int courseId);
+
 
 }
