@@ -10,6 +10,7 @@ import MailMainRoot from "./pages/MailMainRoot";
 import FieldPage from "./pages/FieldPage";
 import Footer from "./components/overall/Footer";
 import CommunityDetailRoot from "./pages/CommunityDetailRoot";
+import CommunityQuestionDetailRoot from "./pages/CommunityQuestionDetailRoot";
 import NavBarRoot from "./components/NavBar/NavBarRoot";
 import StudyMakePage from "./pages/StudyMakePage";
 import StudyPlayerMainRoot from "./pages/StudyPlayerMainRoot";
@@ -50,6 +51,10 @@ export default function App() {
         <Route
           path="/community/free/:article_id"
           element={<CommunityDetailRoot />}
+        ></Route>
+        <Route
+          path="/community/question/:question_id"
+          element={<CommunityQuestionDetailRoot />}
         ></Route>
         ​{" "}
         <Route
