@@ -90,7 +90,7 @@ public class DataLoader implements CommandLineRunner {
         // CourseCategory 실제 사용할 데이터
         addCategory();
         // youtube api 세팅
-        youtubeApiService.init(true);
+//        youtubeApiService.init(true);
 
 
         // 자유글 작성
