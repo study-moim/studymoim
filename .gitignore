@@ -31,6 +31,7 @@ build/
 ### Backend ###
 development/Backend/studymoim/HELP.md
 development/Backend/studymoim/target/
+development/Backend/studymoim/src/main/resources/studymoim-gcs.json
 !development/Backend/studymoim/.mvn/wrapper/maven-wrapper.jar
 !development/Backend/studymoim/**/src/main/**/target/
 !development/Backend/studymoim/**/src/test/**/target/
