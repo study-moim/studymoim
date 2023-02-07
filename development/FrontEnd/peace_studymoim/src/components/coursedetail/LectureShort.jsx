@@ -1,20 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function LectureShort({ propData, lectureIndex }) {
   return (
-    <div className="px-10 w-full h-[180px] flex flex-row justify-between items-center border gap-5">
-      <p className="w-1/12 text-3xl font-bold">{lectureIndex}</p>
-      <img className="w-4/12 h-full" src={propData.thumbnail} alt="x" />
-      <p className="text-2xl font-bold w-6/12">{propData.title}</p>
       <Link
         to={`/player/${propData.lectureId}`}
         state={{
           propData: propData,
         }}
-        className="text-3xl pt-1 bg-[#a294fa] text-white text-center w-1/12 h-[50px] rounded-full cursor-pointer"
+        className="cursor-pointer w-full"
       >
-        ▶
-      </Link>
+    <div className="w-full h-[100px] flex flex-row items-center gap-2 py-2 hover:bg-gray-200 hover:rounded-[15px]">
+      <p className="w-[2%] px-5 text-base text-center">{lectureIndex}</p>
+      <img className="w-[23%] h-full rounded-[15px]" src={propData.thumbnail} alt="x" />
+      <p className="w-[65%] text-base">{propData.title}</p>
+        <FontAwesomeIcon icon={faCirclePlay} size="2x" color="#b1b2ff" className="w-[10%]"/>
     </div>
+      </Link>
   );
 }
