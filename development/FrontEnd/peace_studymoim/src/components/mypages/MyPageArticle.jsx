@@ -1,20 +1,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-// import useFetch from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
+import userInfo from "../../zustand/store";
 
 export default function MyPageArticle({getPageName}) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const articles = {
-    header: ["제목", "작성일", "조회수"],
-    data: [
-      { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "1" },
-      { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "453" },
-      { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "5" },
-      { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "445" },
-      { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "78" },
-    ],
-  };
-  // articles.data = useFetch(`http://${API_SERVER}/api/v1/user/1/articles`);
+  const myArticles = useFetch(`http://${API_SERVER}/api/v1/user/${getPageName}/articles/`);
+  // {
+  //   header: ["제목", "작성일", "조회수"],
+  //   data: [
+  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "1" },
+  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "453" },
+  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "5" },
+  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "445" },
+  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "78" },
+  //   ],
+  // };
+  console.log(myArticles, "Asdfasdfasdfasdf")
   return (
     <>
       <div>
@@ -31,20 +33,18 @@ export default function MyPageArticle({getPageName}) {
           <table class="table-auto w-full text-center mt-5">
             <thead>
               <tr className="h-20">
-                {articles.header.map((item) => {
-                return <th>{item}</th>;
+                {["제목", "작성일", "조회수"].map((item) => {
+                <th>{item}</th>;
                 })}
               </tr>
             </thead>
             <tbody>
-              {articles.data.map((item) => {
-              return (
+              {myArticles["free"].map((item) => {
                 <tr className="hover:bg-gray-200 cursor-pointer h-10">
                   <td className="w-[50%]">{item.title}</td>
                   <td className="w-[30%]">{item.publishTime}</td>
                   <td className="w-[20%]">{item.hit}</td>
                 </tr>
-                );
               })}
             </tbody>
           </table>
