@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 
 export default function TagList() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
+  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`);
 
   return (
     <div className="flex flex-row flex-wrap gap-2">
