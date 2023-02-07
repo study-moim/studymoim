@@ -1,4 +1,3 @@
-import MyPageCourse from "../mypages/MyPageCourse";
 import CourseSearchBar from "../studypages/CourseSearchBar";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router";
@@ -46,12 +45,13 @@ export default function LectureManage() {
               <div ref={provided.innerRef} {...provided.droppableProps}>
                   {items && items.map((item, index) => (
                     <Draggable
-                      key={item?.course.title}
-                      draggableId={item?.course.title}
+                      key={item.course.title}
+                      draggableId={item.course.title}
                       index={index}
                     >
                       {(provided) => (
                         <div
+                        
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -66,7 +66,6 @@ export default function LectureManage() {
             )}
           </Droppable>
         </DragDropContext>
-        <MyPageCourse />
       </div>
     </>
   );

@@ -17,9 +17,6 @@ export default function CourseGaro({ item }) {
           <p className="flex-grow-0 flex-shrink-0 w-[172.07px] text-xl text-left text-[#bd6ffc]">
           {item.course.providerChannelName}
           </p>
-          <p className="flex-grow-0 flex-shrink-0 w-[162.57px] text-xl text-left text-[#b1b2ff]">
-          강의 수: {item.course.lectures.length}개
-          </p>
           <FontAwesomeIcon icon={faHeart} />
         </div>
       </div>
