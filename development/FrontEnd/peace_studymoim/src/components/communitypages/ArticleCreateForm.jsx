@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
 
-export default function CommunityCreateForm() {
+export default function ArticleCreateForm() {
   // TODO: 로그인 이걸 베끼세요 - 로그인 컷 콤보
   const navigate = useNavigate();
   const { info } = userInfo();
@@ -22,10 +22,8 @@ export default function CommunityCreateForm() {
   const contentRef = useRef(null);
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-
   function onSubmit(e) {
     e.preventDefault();
-
     if (!isLoading) {
       setIsLoading(true);
       // Create 호출
@@ -55,21 +53,23 @@ export default function CommunityCreateForm() {
   return (
     <div className="max-w-6xl mx-auto px-4 flex flex-col m-[100px]">
       <form onSubmit={onSubmit} className="flex flex-col gap-[30px] ">
-        <p className="text-3xl text-center font-bold">글 작성하기</p>
+        <p className="text-3xl text-center font-bold">자유 글 작성하기</p>
         <input
           className="px-7 text-xl font-bold focus:outline-none"
           placeholder="제목을 입력하세요."
           ref={titleRef}
+          required
         />
         <textarea
           className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
           placeholder="마크다운 양식으로 입력이 가능합니다."
           ref={contentRef}
+          required
         />
-        <div className="flex gap-5">
-          <button className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300">
+        <div className="flex gap-5 justify-end">
+          <div className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer">
             취소
-          </button>
+          </div>
           <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
             등록
           </button>

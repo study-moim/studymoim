@@ -2,9 +2,9 @@ import userInfo from "../../zustand/store";
 import MyPageMine from "./MyPageMine";
 import MyPageYours from "./MyPageYours";
 
-export default function MyPageLeftBar({ getClick, clickModal, clickUserId }) {
+export default function MyPageLeftBar({ getClick, clickModal, getPageName }) {
   const { info } = userInfo();
-  if (clickUserId.clickWho === info.userId || clickUserId.clickWho === 0) {
+  if (getPageName === info.userId) {
     return (
       <MyPageMine
         getClick={getClick}
@@ -16,7 +16,7 @@ export default function MyPageLeftBar({ getClick, clickModal, clickUserId }) {
     return (
       <MyPageYours
         getClick={getClick}
-        yourId={clickUserId}
+        yourId={getPageName}
         clickModal={clickModal}
       />
     );

@@ -1,6 +1,6 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import userInfo from "../zustand/store";
@@ -55,15 +55,14 @@ export default function CommunityDetailRoot() {
               }
             />
             <div className="pl-3">
-              <Link
+              <NavLink
                 to={`/mypage/${userList.userId}`}
                 className="hover:text-[#989aff]"
-                state={{ clickWho: userList.userId }}
               >
                 <div className="px-2.5 ext-[15px] font-bold">
                   {userList.nickname}
                 </div>
-              </Link>
+              </NavLink>
               <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
                 {date} &nbsp; 조회수 {articleDetail.hit}
               </div>
@@ -98,6 +97,7 @@ export default function CommunityDetailRoot() {
         {newCommentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
+            commentUserId = {comment.user.userId}
             comment={comment}
             freeBoardId={articleDetail.freeBoardId}
           />

@@ -61,9 +61,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Object getCourseHistory(Integer userId) throws RuntimeException {
-        return null;
-        // TODO
+    public List<CourseDto.Info> getCourseHistory(Integer userId) {
+        return userHistoryRepository.findAllByUser_userId(userId).stream()
+                .map(uh -> CourseDto.Info.fromEntity(uh.getLecture().getCourse()))
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<LectureDto.Info> getLectureHistory(Integer userId) throws RuntimeException {
@@ -81,9 +83,11 @@ public class UserService {
     public Map<String, Object> getPostList(Integer userId) {
         List<FreeBoardDto.Info> fList = freeBoardRepository.findAllByIsDeletedIsFalseAndUser_UserId(userId).stream()
                 .map(FreeBoardDto.Info::fromEntity)
+                .sorted(Comparator.comparing(FreeBoardDto.Info::getPublishTime).reversed())
                 .collect(Collectors.toList());
         List<QuestionBoardDto.Info> qList = questionBoardRepository.findAllByIsDeletedIsFalseAndUser_UserId(userId).stream()
                 .map(QuestionBoardDto.Info::fromEntity)
+                .sorted(Comparator.comparing(QuestionBoardDto.Info::getPublishTime).reversed())
                 .collect(Collectors.toList());
         Map<String, Object> result = new HashMap<>();
         result.put("free", fList);
