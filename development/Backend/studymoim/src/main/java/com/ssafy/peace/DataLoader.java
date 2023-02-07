@@ -68,6 +68,15 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private StudyRequestRepository studyRequestRepository;
 
+    @Autowired
+    private QuestionBoardRepository questionBoardRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
+
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
         // JPA DDL 설정 보고 실행 판단
@@ -75,8 +84,10 @@ public class DataLoader implements CommandLineRunner {
 
         // User 3명
         addUsers();
-        // 글 한개 작성
+        // 자유글 작성
         addFreeBoard();
+        // 과목 질문글 작성
+        addQuestionBoard();
 
 
 
@@ -101,20 +112,75 @@ public class DataLoader implements CommandLineRunner {
 
         // Message 더미 데이터
         addMessage();
-
         addRegister();
+
+        // Follow 더미 데이터
+        addFollow();
+
+        // History 더미 데이터
+        addUserHistory();
+//        addStudyHistory();
+
+    }
+
+    private void addUserHistory() {
+        List<User> userList = userRepository.findAll();
+        List<Lecture> lectureList = lectureRepository.findAll();
+        List<UserHistory> userHistoryList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < lectureList.size(); j++) {
+                if(j%8 == 0) {
+                    userHistoryList.add(UserHistory.builder()
+                            .startTimeline(0)
+                            .endTimeline(20)
+                            .lecture(lectureList.get(j))
+                            .user(userList.get(i))
+                            .build());
+                }
+            }
+        }
+        userHistoryRepository.saveAll(userHistoryList);
+    }
+
+    private void addFollow() {
+        List<User> userList = userRepository.findAll();
+        List<Follow> followList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < userList.size(); j++) {
+                if(i == j)  continue;
+                else if(i > j) {
+                    followList.add(Follow.builder()
+                            .toUser(userList.get(i))
+                            .fromUser(userList.get(j))
+                            .build());
+                } else if((i + j) % 2 == 0) {
+                    followList.add(Follow.builder()
+                            .toUser(userList.get(i))
+                            .fromUser(userList.get(j))
+                            .build());
+                }
+            }
+        }
+        followRepository.saveAll(followList);
     }
 
     private void addRegister(){
-        User registerUser = userRepository.findById(5).get();
-        Study study = studyRepository.findById(382).get();
+        List<User> userList = userRepository.findAll();
+        List<Study> studyList = studyRepository.findAll();
+        List<StudyRequest> studyRequestList = new ArrayList<>();
 
-        studyRequestRepository.save(StudyRequest.builder()
-                .user(registerUser)
-                .content("열정적으로 참여하겠습니다!")
-                .study(study)
-                .requestStatus(0)
-                .build());
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < studyList.size(); j++) {
+                if(i != j && (i+j) %2 == 0)
+                studyRequestList.add(StudyRequest.builder()
+                        .user(userList.get(i))
+                        .content(userList.get(i).getNickname() + " 가입 메세지 테스트... 스터디 : "+ studyList.get(j).getTitle())
+                        .study(studyList.get(j))
+                        .requestStatus((i+j)%3)
+                        .build());
+            }
+        }
+        studyRequestRepository.saveAll(studyRequestList);
     }
 
     private void addMessage() {
@@ -230,7 +296,37 @@ public class DataLoader implements CommandLineRunner {
         userRepository.saveAll(userList);
     }
 
+
+
+    public void addQuestionBoard() {
+        List<User> userList = userRepository.findAll();
+        List<QuestionBoard> questionBoardList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < 20; j++) {
+                questionBoardList.add(QuestionBoard.builder()
+                        .user(userList.get(i))
+                        .title(i + "유저가 쓴 " + j + "번째 질문게시판 글")
+                        .content("pagination test 입니다")
+                        .build());
+            }
+        }
+        questionBoardRepository.saveAll(questionBoardList);
+    }
+
     public void addFreeBoard(){
+        List<User> userList =  userRepository.findAll();
+        List<FreeBoard> freeBoardList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = 0; j < 20; j++) {
+                freeBoardList.add(FreeBoard.builder()
+                        .user(userList.get(i))
+                        .title(i+"유저가 쓴 "+j+"번째 자유게시판 글")
+                        .content("pagination test 입니다")
+                        .build());
+            }
+        }
+        freeBoardRepository.saveAll(freeBoardList);
+
         User writer = userRepository.findById(1).orElse(null);
         FreeBoard freeBoard = FreeBoard.builder()
                 .user(writer)
@@ -267,7 +363,6 @@ public class DataLoader implements CommandLineRunner {
                 .freeBoard(targetBoard)
                 .build();
         freeBoardCommentRepository.save(freeBoardComment2);
-
     }
 
     public void addStudyAndMember(){
