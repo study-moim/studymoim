@@ -34,14 +34,16 @@ export default function StudyPlayerMainRoot() {
     [currentClick]
   );
 
+  /*
+ * 웹소켓 사용법
+ * 1. connect로 http://localhost:8080/ws에 접속
+ * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
+ *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
+ * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
+ *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
+ * 4. 채팅을 나가려면 disconnect 함수 호출
+ * */
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  const [chattings, setChattings] = useState([]);
-  function changeChattings(message) {
-    chattings.push(message);
-    setChattings([...chattings]);
-    console.log(chattings, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-  }
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   ///// 더미데이터 /////
   let study = {
     studyId: 1,
@@ -51,34 +53,34 @@ export default function StudyPlayerMainRoot() {
     nickname: "싸피킴",
   };
   ///// 더미데이터 끝 /////
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
+  const [chattings, setChattings] = useState([]);
+  function changeChattings(message) {
+    chattings.push(message);
+    setChattings([...chattings]);
+  }
   const messageRef = useRef(null);
-
-  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  /*
-   * 웹소켓 사용법
-   * 1. connect로 http://localhost:8080/ws에 접속
-   * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
-   *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
-   * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
-   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
-   * 4. 채팅을 나가려면 disconnect 함수 호출
-   * */
 
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
   //stomp.debug = null;
-  function connect(studyId) {
-    //client 객체 생성 및 서버주소 입력
-    stomp.connect({}, function (frame) {
 
+  useEffect(() => {
+    connect(study.studyId);
+    return () => {
+      disconnect();
+      console.log('컴포넌트가 화면에서 사라짐');
+    };
+  }, []);
+
+  async function connect(studyId) {
+    //client 객체 생성 및 서버주소 입력
+    await stomp.connect({}, function (frame) {
       stomp.subscribe(`/sub/study/${studyId}`, receive);
     });
   }
-  useEffect(() => {
-    connect(study.studyId);
-  }, []);
-  function disconnect() {
-    stomp.disconnect();
+  async function disconnect() {
+    await stomp.disconnect();
   }
   function clearInput() {
     const inputTag = document.getElementById("ipt")
@@ -91,15 +93,7 @@ export default function StudyPlayerMainRoot() {
   const videoFrameConductor = {
     onStateChange(playerInfo) {
       const newPlayerInfo = {
-        currentTime: playerInfo.currentTime,
-        playbackRate: playerInfo.playbackRate,
-        playerState: playerInfo.playerState
-      }
-      setPlayerInfo(newPlayerInfo);
-      sendPlayerSync(newPlayerInfo);
-    },
-    onStatePause(playerInfo) {
-      const newPlayerInfo = {
+        type: playerInfo.type,
         currentTime: playerInfo.currentTime,
         playbackRate: playerInfo.playbackRate,
         playerState: playerInfo.playerState
@@ -131,6 +125,24 @@ export default function StudyPlayerMainRoot() {
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/sync", {}, JSON.stringify(data));
+    /*
+    let msg = null;
+    if(data.payload.type == "PLAY") {
+      msg =`재생시간이 ${("00"+parseInt(data.payload.currentTime/60)).slice(-2)}:${("00"+parseInt(data.payload.currentTime%60)).slice(-2)} 로 변경되었습니다.`;
+    } else if(data.payload.type == "PAUSE") {
+      msg =`재생을 중지하였습니다.`;
+    }
+    if(msg != null) {
+      const alarm = {
+        type: "CHAT",
+        studyId: study.studyId,
+        sender: user.nickname,
+        payload: msg
+      };
+      //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
+      stomp.send("/pub/chat", {}, JSON.stringify(alarm));
+    }
+    */
   }
   function receive(data) {
     data = JSON.parse(data.body);

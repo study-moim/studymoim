@@ -22,6 +22,7 @@ export default function PlayingVideoFrame(props) {
         console.log(event.target);
         setPlayer(event.target);
         let data = {
+            type: "PLAY",
             currentTime: event.target.playerInfo.currentTime,
             playbackRate: event.target.playerInfo.playbackRate,
             playerState: 1
@@ -31,6 +32,7 @@ export default function PlayingVideoFrame(props) {
     const _onStatePause = (event) => {
         setPlayer(event.target);
         let data = {
+            type: "PAUSE",
             currentTime: event.target.playerInfo.currentTime,
             playbackRate: event.target.playerInfo.playbackRate,
             playerState: 2
