@@ -3,6 +3,7 @@ package com.ssafy.peace;
 import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
+import com.ssafy.peace.service.CourseTypeService;
 import com.ssafy.peace.service.YoutubeApiService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.json.simple.JSONObject;
@@ -57,6 +58,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private YoutubeApiService youtubeApiService;
     @Autowired
+    private CourseTypeService courseTypeService;
+
+    @Autowired
     private UserLikeCategoryRepository userLikeCategoryRepository;
 
     @Autowired
@@ -92,6 +96,11 @@ public class DataLoader implements CommandLineRunner {
         // youtube api 세팅
 //        youtubeApiService.init(true);
 
+        // 강좌, 강의 더미 데이터
+        addYTAndProvider();
+        addCourse();
+        addLecture();
+
 
         // 자유글 작성
         addFreeBoard();
@@ -121,7 +130,117 @@ public class DataLoader implements CommandLineRunner {
         addUserHistory();
 //        addStudyHistory();
 
+
+
+
     }
+
+    private void addYTAndProvider(){
+
+        // platform 유튜브 추가... 추후 여러개 플랫폼 추가하면 json으로?
+        try {
+            Platform platform = Platform.builder()
+                    .name("유튜브")
+                    .build();
+
+            platformRepository.saveAndFlush(platform);
+
+        } catch (ConstraintViolationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        ClassPathResource classPathResource = new ClassPathResource("provider.json");
+
+        try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
+
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+
+            List<JSONObject> data = (List<JSONObject>) ob;
+
+            for (JSONObject provider : data) {
+                try {
+                    CourseProvider courseProvider = CourseProvider.builder()
+                            .name((String) provider.get("name"))
+                            .channelId((String) provider.get("channelId"))
+                            .platform(platformRepository.findByName("유튜브"))
+                            .build();
+
+                    courseProviderRepository.saveAndFlush(courseProvider);
+
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+            // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
+//            courseTypeService.insertCourseType();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addCourse(){
+
+        ClassPathResource classPathResource = new ClassPathResource("course.json");
+
+        try {
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            List<JSONObject> data = (List<JSONObject>) ob;
+
+            for (JSONObject course : data) {
+                try {
+                    System.out.println("=========================================");
+                    int num = Integer.parseInt(String.valueOf(course.get("course_provider_id")));
+                    System.out.println(num);
+                    courseRepository.save(Course.builder()
+                            .title((String) course.get("title"))
+                            .content((String) course.get("content"))
+                            .playlistId((String) course.get("playlist_id"))
+                            .thumbnail((String) course.get("thumbnail"))
+                            .courseProvider(courseProviderRepository.findById(num).get())
+                            .build());
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+            courseTypeService.insertCourseType();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addLecture(){
+
+        ClassPathResource classPathResource = new ClassPathResource("lecture.json");
+
+        try {
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            List<JSONObject> data = (List<JSONObject>) ob;
+
+            for (JSONObject lecture : data) {
+                try {
+                    int length = Integer.parseInt(String.valueOf(lecture.get("length")));
+                    int num = Integer.parseInt(String.valueOf(lecture.get("course_id")));
+                    lectureRepository.save(Lecture.builder()
+                            .title((String) lecture.get("title"))
+                            .length(length)
+                            .thumbnail((String) lecture.get("thumbnail"))
+                            .content((String) lecture.get("content"))
+                            .videoId((String) lecture.get("video_id"))
+                            .course(courseRepository.findById(num).get())
+                            .build());
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private void addUserHistory() {
         List<User> userList = userRepository.findAll();
