@@ -15,6 +15,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     Course findByTitle(String title);
 
+    Course findByCourseId(Integer courseId);
+
     List<Course> findAllByTitleContains(String searchTitle);
 
     @Query("SELECT c FROM Course c WHERE c.courseId IN (:courseIdList)")

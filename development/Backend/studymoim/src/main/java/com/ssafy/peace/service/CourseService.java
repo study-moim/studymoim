@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +29,7 @@ public class CourseService {
     private final UserLikeCourseRepository userLikeCourseRepository;
     private final CourseProviderRepository courseProviderRepository;
     private final StudyRepository studyRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<CourseDto.Info> getCourseInfoListFindAll() {
@@ -71,5 +73,22 @@ public class CourseService {
                     .map(StudyDto.Info::fromEntity).get());
         }
         return result;
+    }
+
+    public boolean getUserLikeCourse(int userId, int courseId) {
+        Optional result = userLikeCourseRepository.findByUser_userIdAndCourse_courseId(userId, courseId);
+        if(!result.isPresent()) return false;
+        return true;
+    }
+
+    public void postUserLikeCourse(int userId, int courseId) {
+        userLikeCourseRepository.save(UserLikeCourse.builder()
+                .user(userRepository.findByUserId(userId))
+                .course(courseRepository.findByCourseId(courseId))
+                .build());
+    }
+
+    public void deleteUserLikeCourse(int userId, int courseId) {
+        userLikeCourseRepository.deleteById(userLikeCourseRepository.findByUser_userIdAndCourse_courseId(userId, courseId).get().getUserLikeCourseId());
     }
 }
