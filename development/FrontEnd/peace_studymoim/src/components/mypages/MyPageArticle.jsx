@@ -1,22 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import useFetch from "../../hooks/useFetch";
-import userInfo from "../../zustand/store";
+import useFetchObject from "../../hooks/useFetchObject";
+import MyPageArticleItem from "./MyPageArticleItem";
 
-export default function MyPageArticle({getPageName}) {
+export default function MyPageArticle({ getPageName }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const myArticles = useFetch(`http://${API_SERVER}/api/v1/user/${getPageName}/articles/`);
-  // {
-  //   header: ["제목", "작성일", "조회수"],
-  //   data: [
-  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "1" },
-  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "453" },
-  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "5" },
-  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "445" },
-  //     { title: "뷰3랑 리액트 중에 뭐 공부 할까요?", publishTime: "2023.02.04.05:21", hit: "78" },
-  //   ],
-  // };
-  console.log(myArticles, "Asdfasdfasdfasdf")
+
+  
+  const articles1 = useFetchObject(
+    `http://${API_SERVER}/api/v1/user/${getPageName}/articles/`
+  );
+  console.log(articles1);
   return (
     <>
       <div>
@@ -26,28 +20,19 @@ export default function MyPageArticle({getPageName}) {
             <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[7px] mr-[10px] text-white">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
-            <input type="text" placeholder="검색 키워드를 입력하세요" className="w-full rounded-[30px] pl-4" />
+            <input
+              type="text"
+              placeholder="검색 키워드를 입력하세요"
+              className="w-full rounded-[30px] pl-4"
+            />
           </form>
         </div>
-          {/* 아티클들 */}
-          <table class="table-auto w-full text-center mt-5">
-            <thead>
-              <tr className="h-20">
-                {["제목", "작성일", "조회수"].map((item) => {
-                <th>{item}</th>;
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {myArticles["free"].map((item) => {
-                <tr className="hover:bg-gray-200 cursor-pointer h-10">
-                  <td className="w-[50%]">{item.title}</td>
-                  <td className="w-[30%]">{item.publishTime}</td>
-                  <td className="w-[20%]">{item.hit}</td>
-                </tr>
-              })}
-            </tbody>
-          </table>
+        {/* 아티클들 */}
+
+        {articles1.free &&
+          articles1.free.map((article) => {
+            <MyPageArticleItem key={article.freeBoardId} article={article}/>
+          })}
       </div>
     </>
   );
