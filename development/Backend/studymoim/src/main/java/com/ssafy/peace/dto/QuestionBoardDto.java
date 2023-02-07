@@ -32,6 +32,7 @@ public class QuestionBoardDto {
                     .title(questionBoard.getTitle())
                     .content(questionBoard.getContent())
                     .questionTime(questionBoard.getQuestionTime())
+                    .publishTime(questionBoard.getPublishTime())
                     .hit(questionBoard.getHit())
                     .build();
         }
