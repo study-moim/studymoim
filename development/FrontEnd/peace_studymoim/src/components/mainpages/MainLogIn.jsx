@@ -10,8 +10,8 @@ export default function MainLogIn() {
   const recommendCourses = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`);
   return (
     <>
-    <p className="text-xl">#{userNickname}님 추천강좌</p>
-      <div className="grid sm:grid-cols-3 md:grid-cols-4 gap-10 grid-cols-2">
+    <p className="text-lg text-left font-bold my-5">#{userNickname}님 추천강좌</p>
+      <div className="gap-5 mb-8 flex flex-row flex-wrap">
         {recommendCourses.map((course) => (
           <MainCourse key={course.course_id} propData={course} />
         ))}
