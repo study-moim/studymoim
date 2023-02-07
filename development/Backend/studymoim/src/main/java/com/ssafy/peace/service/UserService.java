@@ -61,9 +61,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Object getCourseHistory(Integer userId) throws RuntimeException {
-        return null;
-        // TODO
+    public List<CourseDto.Info> getCourseHistory(Integer userId) {
+        return userHistoryRepository.findAllByUser_userId(userId).stream()
+                .map(uh -> CourseDto.Info.fromEntity(uh.getLecture().getCourse()))
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<LectureDto.Info> getLectureHistory(Integer userId) throws RuntimeException {

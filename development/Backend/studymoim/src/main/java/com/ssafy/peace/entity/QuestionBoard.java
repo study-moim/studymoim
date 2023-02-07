@@ -40,8 +40,8 @@ public class QuestionBoard {
     @ColumnDefault("0")
     private int hit;
 
-    @NotNull
-    private boolean isPublic;
+//    @NotNull
+//    private boolean isPublic;
 
     @CreationTimestamp
     private LocalDateTime publishTime;
@@ -54,24 +54,26 @@ public class QuestionBoard {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "study_id")
-    private Study study;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "study_id")
+//    private Study study;
 
     @OneToMany(mappedBy = "questionBoard")
     private List<QuestionBoardComment> questionBoardComments = new ArrayList<>();
 
     @Builder
-    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, boolean isPublic, Lecture lecture, User user, Study study) {
+//    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, boolean isPublic, Lecture lecture, User user, Study study) {
+    public QuestionBoard(String title, String content, int questionTime, int hit, boolean isDeleted, Lecture lecture, User user) {
+
         this.title = title;
         this.content = content;
         this.questionTime = questionTime;
         this.isDeleted = isDeleted;
         this.hit = hit;
-        this.isPublic = isPublic;
+//        this.isPublic = isPublic;
         this.lecture = lecture;
         this.user = user;
-        this.study = study;
+//        this.study = study;
     }
 
     public QuestionBoard updateId(Integer id){
