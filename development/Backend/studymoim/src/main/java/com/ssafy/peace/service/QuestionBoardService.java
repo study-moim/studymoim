@@ -22,7 +22,6 @@ public class QuestionBoardService {
     private final QuestionBoardRepository questionBoardRepository;
     private final QuestionBoardCommentRepository questionBoardCommentRepository;
     private final UserRepository userRepository;
-    private final StudyRepository studyRepository;
     private final LectureRepository lectureRepository;
     @Transactional
     public List<QuestionBoardDto.Detail> getQuestionBoardList() throws RollbackException {
@@ -54,10 +53,8 @@ public class QuestionBoardService {
         return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
                 .title(questionBoardDto.getTitle())
                 .content(questionBoardDto.getContent())
-                .isPublic(questionBoardDto.isPublic())
                 .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
                 .user(userRepository.findById(questionBoardDto.getUserId()).get())
-                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
                 .build()));
     }
 
@@ -66,10 +63,8 @@ public class QuestionBoardService {
         return QuestionBoardDto.Info.fromEntity(questionBoardRepository.save(QuestionBoard.builder()
                 .title(questionBoardDto.getTitle())
                 .content(questionBoardDto.getContent())
-                .isPublic(questionBoardDto.isPublic())
                 .lecture(lectureRepository.findById(questionBoardDto.getLectureId()).get())
                 .user(userRepository.findById(questionBoardDto.getUserId()).get())
-                .study(studyRepository.findById(questionBoardDto.getStudyId()).get())
                 .build()
                 .updateId(questionBoardId)));
     }
