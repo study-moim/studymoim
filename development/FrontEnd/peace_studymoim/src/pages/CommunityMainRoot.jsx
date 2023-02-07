@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import FreeRoot from "../components/communitypages/FreeRoot";
+import QuestionRoot from "../components/communitypages/QuestionRoot";
 
 export default function CommunityMainRoot() {
-  const [currentClick, setCurrentClick] = useState("all");
+  const [currentClick, setCurrentClick] = useState("lecture");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 전체/강의/자유 색이 바뀜
   const GetClick = (event) => {
@@ -34,13 +35,6 @@ export default function CommunityMainRoot() {
         <div className="flex flex-row justify-between w-full">
           <div className="flex flex-row">
             <div
-              id="all"
-              onClick={GetClick}
-              className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] font-bold text-center text-white cursor-pointer"
-            >
-              전체
-            </div>
-            <div
               id="lecture"
               onClick={GetClick}
               className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] font-bold text-center text-white cursor-pointer"
@@ -63,8 +57,9 @@ export default function CommunityMainRoot() {
         </div>
 
         <div className="flex flex-col justify-start items-start border">
-          {currentClick === "all" ? <div>엥</div> : null}
-          {currentClick === "lecture" ? <div>잉</div> : null}
+          {currentClick === "lecture" ? 
+            <QuestionRoot />
+          : null}
           {currentClick === "free" ? (
             <FreeRoot />
           ) : null}

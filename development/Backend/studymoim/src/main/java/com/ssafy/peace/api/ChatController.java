@@ -18,9 +18,16 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void message(ChatMessageDto message) {
-        System.out.println(message.getMessage());
+        System.out.println(message.getPayload());
         System.out.println(message.getStudyId());
         System.out.println(message.getSender());
+        template.convertAndSend("/sub/study/"+message.getStudyId(), message);
+    }
+    @MessageMapping("/sync")
+    public void sychronize(ChatMessageDto message) {
+        System.out.println(message.getPayload());
+        System.out.println(message.getStudyId());
+        System.out.println(message.getUserId());
         template.convertAndSend("/sub/study/"+message.getStudyId(), message);
     }
 }
