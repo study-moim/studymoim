@@ -1,6 +1,8 @@
 // import { useParams } from "react-router-dom";
 // import StudyMakeForm from "../components/studypages/StudyMakeForm"
-import useFetch from "../hooks/useFetch"
+// import useFetch from "../hooks/useFetch"
+import StudyUpdateForm from '../components/studypages/StudyUpdateForm'; 
+
 
 export default function StudyUpdatePage() {
   //const studyId = useParams();
@@ -10,7 +12,7 @@ export default function StudyUpdatePage() {
   // );
   return (
     <div>
-      
+      <StudyUpdateForm />
     </div>
   )
 }; 
