@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class CurriculumDto {
 
@@ -49,13 +50,11 @@ public class CurriculumDto {
     /* Request DTO */
     @Data
     @Builder
-    public static class Make {
-        @NotNull(message="order은 null 일 수 없습니다")
-        private int order;
-        @NotNull(message="courseId은 null 일 수 없습니다")
-        private int courseId;
-        @NotNull(message = "스터디는 null일 수 없습니다")
+    public static class Curricula {
+        @NotNull(message = "스터디 아이디는 null일 수 없습니다")
         private int studyId;
+        @NotNull(message="강좌 선택은 null 일 수 없습니다")
+        private List<Integer> courseIdList;
     }
 
 }
