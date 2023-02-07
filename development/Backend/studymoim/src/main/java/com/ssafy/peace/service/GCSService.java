@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,6 +30,8 @@ public class GCSService {
 
     private final Storage storage;
     private final UserRepository userRepository;
+
+    private final MultipartHttpServletRequest multipartHttpServletRequest;
 
     public void testGCS(MultipartFile multipartFile, UploadReqDto uploadReqDto) {
         User user = userRepository.findById(uploadReqDto.getUserId()).get();
@@ -89,6 +92,39 @@ public class GCSService {
 //
 //        return blobInfo;
         return null;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Transactional
+    public String test(MultipartFile file, UploadReqDto uploadReqDto) throws IOException {
+        User user = userRepository.findById(uploadReqDto.getUserId()).get();
+        int userId = uploadReqDto.getUserId();
+        String bucketName = "studymoim";
+        String saveFileName = UUID.randomUUID().toString() + StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println("uploadFileName = " + saveFileName);
+        try(InputStream inputStream = file.getInputStream()) {
+            Image processedImage = ImageIO.read(inputStream);
+
+            BufferedImage scaledBI = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = scaledBI.createGraphics();
+            g.drawImage(processedImage, 0, 0, 200, 200, null);
+            g.dispose();
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(scaledBI, "jpg", os);
+
+            InputStream processedInputStream = new ByteArrayInputStream(os.toByteArray());
+
+            storage.create(BlobInfo.newBuilder(bucketName, saveFileName).build(), processedInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(user.getSaveName());
+        userRepository.findById(uploadReqDto.getUserId()).get().updateSaveName(saveFileName);
+        System.out.println(user.getSaveName());
+        String result = "/" + saveFileName;
+        return result;
     }
 
     @SuppressWarnings("deprecation")
