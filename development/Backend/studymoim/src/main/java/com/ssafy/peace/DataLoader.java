@@ -84,10 +84,6 @@ public class DataLoader implements CommandLineRunner {
 
         // User 3명
         addUsers();
-        // 자유글 작성
-        addFreeBoard();
-        // 과목 질문글 작성
-        addQuestionBoard();
 
 
 
@@ -97,6 +93,10 @@ public class DataLoader implements CommandLineRunner {
         youtubeApiService.init(true);
 
 
+        // 자유글 작성
+        addFreeBoard();
+        // 과목 질문글 작성
+        addQuestionBoard();
 
         // UserLikeCategory 더미 데이터
         addUserLikeCategory();
@@ -300,14 +300,21 @@ public class DataLoader implements CommandLineRunner {
 
     public void addQuestionBoard() {
         List<User> userList = userRepository.findAll();
+        List<Lecture> lectureList = lectureRepository.findAll();
         List<QuestionBoard> questionBoardList = new ArrayList<>();
         for (int i = 0; i < userList.size(); i++) {
-            for (int j = 0; j < 20; j++) {
-                questionBoardList.add(QuestionBoard.builder()
-                        .user(userList.get(i))
-                        .title(i + "유저가 쓴 " + j + "번째 질문게시판 글")
-                        .content("pagination test 입니다")
-                        .build());
+            for (int j = 0; j < lectureList.size(); j++) {
+                if((i+j) % 4 == 0) {
+                    for (int k = 0; k < 5; k++) {
+                        questionBoardList.add(QuestionBoard.builder()
+                                .title(i + "유저가 쓴 " + j + "번째 질문게시판 글")
+                                .content("pagination test 입니다")
+                                .questionTime((int) (Math.random() * Integer.MAX_VALUE) % lectureList.get(j).getLength())
+                                .user(userList.get(i))
+                                .lecture(lectureList.get(j))
+                                .build());
+                    }
+                }
             }
         }
         questionBoardRepository.saveAll(questionBoardList);
