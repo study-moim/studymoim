@@ -34,14 +34,16 @@ export default function StudyPlayerMainRoot() {
     [currentClick]
   );
 
+  /*
+ * 웹소켓 사용법
+ * 1. connect로 http://localhost:8080/ws에 접속
+ * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
+ *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
+ * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
+ *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
+ * 4. 채팅을 나가려면 disconnect 함수 호출
+ * */
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  const [chattings, setChattings] = useState([]);
-  function changeChattings(message) {
-    chattings.push(message);
-    setChattings([...chattings]);
-    console.log(chattings, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-  }
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   ///// 더미데이터 /////
   let study = {
     studyId: 1,
@@ -51,55 +53,112 @@ export default function StudyPlayerMainRoot() {
     nickname: "싸피킴",
   };
   ///// 더미데이터 끝 /////
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
+  const [chattings, setChattings] = useState([]);
+  function changeChattings(message) {
+    chattings.push(message);
+    setChattings([...chattings]);
+  }
   const messageRef = useRef(null);
 
-  ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  /*
-   * 웹소켓 사용법
-   * 1. connect로 http://localhost:8080/ws에 접속
-   * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
-   *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
-   * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
-   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
-   * 4. 채팅을 나가려면 disconnect 함수 호출
-   * */
+  let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
+  //stomp.debug = null;
 
-  const stomp = Stomp.client(`ws://${API_SERVER}/ws`);
-  function connect(studyId) {
-    //client 객체 생성 및 서버주소 입력
-    stomp.connect({}, function (frame) {
-      console.log("210u9001u2093u9012u903u0912u903")
-      stomp.subscribe(`/sub/study/${studyId}`, (payload) => {
-        const newMessage = JSON.parse(payload.body);
-        console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ")
-        changeChattings(newMessage);
-        console.log(newMessage, "ㅊㅐㅌㅣㅇㅅㅡ2")
-      });
-    });
-  }
   useEffect(() => {
     connect(study.studyId);
+    return () => {
+      disconnect();
+      console.log('컴포넌트가 화면에서 사라짐');
+    };
   }, []);
 
+  async function connect(studyId) {
+    //client 객체 생성 및 서버주소 입력
+    await stomp.connect({}, function (frame) {
+      stomp.subscribe(`/sub/study/${studyId}`, receive);
+    });
+  }
+  async function disconnect() {
+    await stomp.disconnect();
+  }
   function clearInput() {
     const inputTag = document.getElementById("ipt")
     inputTag.value = null
   }
 
+  ////////////////////////////////////////////유튜브 싱크 맞추기///////////////////////////////////////////
+  const [playerInfo, setPlayerInfo] = useState({});
+
+  const videoFrameConductor = {
+    onStateChange(playerInfo) {
+      const newPlayerInfo = {
+        type: playerInfo.type,
+        currentTime: playerInfo.currentTime,
+        playbackRate: playerInfo.playbackRate,
+        playerState: playerInfo.playerState
+      }
+      setPlayerInfo(newPlayerInfo);
+      sendPlayerSync(newPlayerInfo);
+    }
+  }
+  ////////////////////////////////////////////유튜브 싱크 맞추기 끝///////////////////////////////////////////
+
   function sendMessage() {
     const data = {
-      type: "",
+      type: "CHAT",
       studyId: study.studyId,
       sender: user.nickname,
-      message: messageRef.current.value,
+      payload: messageRef.current.value,
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/chat", {}, JSON.stringify(data));
-    // connect1(study.studyId)
     clearInput()
   }
+  function sendPlayerSync(playerSync) {
+    const data = {
+      type: "SYNC",
+      studyId: study.studyId,
+      userId: user.userId,
+      sender: user.nickname,
+      payload: playerSync
+    };
+    //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
+    stomp.send("/pub/sync", {}, JSON.stringify(data));
+    /*
+    let msg = null;
+    if(data.payload.type == "PLAY") {
+      msg =`재생시간이 ${("00"+parseInt(data.payload.currentTime/60)).slice(-2)}:${("00"+parseInt(data.payload.currentTime%60)).slice(-2)} 로 변경되었습니다.`;
+    } else if(data.payload.type == "PAUSE") {
+      msg =`재생을 중지하였습니다.`;
+    }
+    if(msg != null) {
+      const alarm = {
+        type: "CHAT",
+        studyId: study.studyId,
+        sender: user.nickname,
+        payload: msg
+      };
+      //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
+      stomp.send("/pub/chat", {}, JSON.stringify(alarm));
+    }
+    */
+  }
+  function receive(data) {
+    data = JSON.parse(data.body);
+    if(data.type == "CHAT") {
+      const newMessage = data;
+      //console.log(newMessage);
+      changeChattings(newMessage);
+    } else if(data.type == "SYNC") {
+      //if(data.userId == user.userId) return;
+      const newSync = data.payload;
+      console.log(newSync);
+      setPlayerInfo(newSync);
+    }
+  }
   ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
+
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
@@ -112,15 +171,16 @@ export default function StudyPlayerMainRoot() {
             강의 설명이 보이는 부분 ▼
           </div>
         </div>
-        <PlayingVideoFrame videoId={props.videoId} />
+        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo} eventHandler={videoFrameConductor}/>
 
         <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
             &lt; 이전 강의
           </p>
-          <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
+          <button className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105"
+            onClick={disconnect}>
             종료하기
-          </p>
+          </button>
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
             다음 강의 &gt;
           </p>
@@ -169,10 +229,10 @@ export default function StudyPlayerMainRoot() {
               <div className="text-black text-[20px] border">
                 <p>이 아래 나와야 함</p>
                 {chattings.map((chat) => (
-                  <div>
+                  <p className="text-xs">
                     {" "}
-                    {chat.sender} : {chat.message}{" "}
-                  </div>
+                    {chat.sender} : {chat.payload}{" "}
+                  </p>
                   ))}
               </div>
             </div>
