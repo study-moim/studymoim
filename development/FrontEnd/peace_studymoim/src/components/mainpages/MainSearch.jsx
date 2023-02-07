@@ -19,10 +19,10 @@ export default function MainSearch() {
 
   return (
     <div 
-    className="w-[80%] relative h-[50px] flex my-5"
+    className="w-[50%] relative h-[50px] flex my-5"
     
     >
-      <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[7px] mr-[10px] text-white">
+      <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[10px] mr-[10px] text-white">
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
       <input 
