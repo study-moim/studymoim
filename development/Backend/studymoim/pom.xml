@@ -64,17 +64,17 @@
 		</dependency>
 
 		<!--		 https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube-->
-<!--		<dependency>-->
-<!--			<groupId>com.google.apis</groupId>-->
-<!--			<artifactId>google-api-services-youtube</artifactId>-->
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<groupId>com.google.api-client</groupId>-->
-<!--					<artifactId>google-api-client</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
-<!--			<version>v3-rev222-1.25.0</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-youtube</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.api-client</groupId>
+					<artifactId>google-api-client</artifactId>
+				</exclusion>
+			</exclusions>
+			<version>v3-rev222-1.25.0</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
 <!--		<dependency>-->
