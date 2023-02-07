@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
+import CourseGaro from "../components/overall/CourseGaro";
+
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
@@ -46,7 +48,7 @@ export default function StudyRecruitDetailPage(props) {
                 className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative pl-[65px] pr-[66.046875px] py-[22px] rounded-[15px] bg-[#ff6d2c] border-2 border-[#2e2f35]"
                 style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
               >
-                {/* TODO: 이거 누르면 modal 창!  */}
+              
                 {/* 방장이면 수정 버튼으로 나머지 사람들은 스터디 신청으로 바뀌게..?  */}
                 <button
                   onClick={acceptHandler}
@@ -228,81 +230,12 @@ export default function StudyRecruitDetailPage(props) {
             <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
               커리큘럼
             </p>
-            {/* TODO: 커리큘럼은 강의 추가가 되면 하는 걸로! 따로 만들어서 key 추가하기 ㅅㅂ  */}
-            <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5 rounded-[20px] bg-white border-[3px] border-[#7b61ff]">
+            <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5">
               {detailData.curricula &&
                 detailData.curricula.map((item) => {
-
                   return (
-                    <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 w-10/12 relative gap-1.5">
-                      <div className="flex-grow-0 flex-shrink-0 w-[412px] h-[220px] relative">
-                        <img
-                          src={item.course.thumbnail}
-                          className="w-[418px] h-[226px] absolute left-[-7px] top-[-1px] object-none"
-                        />
-                        <div className="flex flex-col justify-start items-center absolute left-[263.88px] top-[-0.88px] px-[45px] py-[70px] bg-black/[0.67]">
-                          <p className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-left text-white">
-                            {item.course.lectures.length}
-                          </p>
-                          <svg
-                            width={46}
-                            height={46}
-                            viewBox="0 0 46 46"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="flex-grow-0 flex-shrink-0 w-[45px] h-[45px] relative"
-                            preserveAspectRatio="xMidYMid meet"
-                          >
-                            <path
-                              d="M25.6963 16.0596H5.07129V19.8096H25.6963V16.0596Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M25.6963 8.55957H5.07129V12.3096H25.6963V8.55957Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M18.1963 23.5596H5.07129V27.3096H18.1963V23.5596Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M29.4463 21.6846V36.6846L40.6963 29.1846L29.4463 21.6846Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 h-[219px] w-3/12 relative gap-1.5">
-                        <p className="flex-grow-0 flex-shrink-0 w-[435.98px] h-[41.32px] text-[34px] font-bold text-left text-black">
-                          {item.course.title}
-                        </p>
-                        <p className="flex-grow-0 flex-shrink-0 w-[172.07px] text-xl text-left text-[#bd6ffc]">
-                          {item.course.providerChannelName}
-                        </p>
-                        <p className="flex-grow-0 flex-shrink-0 w-[162.57px] text-xl text-left text-[#b1b2ff]">
-                          강의 수: {item.course.lectures.length}개
-                        </p>
-                        <svg
-                          width={53}
-                          height={54}
-                          viewBox="0 0 53 54"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="flex-grow-0 flex-shrink-0"
-                          preserveAspectRatio="none"
-                        >
-                          <path
-                            d="M47.6445 6.42036C46.4228 5.01898 44.9722 3.9073 43.3757 3.14884C41.7791 2.39038 40.0679 2 38.3397 2C36.6115 2 34.9003 2.39038 33.3037 3.14884C31.7072 3.9073 30.2566 5.01898 29.0349 6.42036L26.4994 9.32737L23.9639 6.42036C21.4961 3.59099 18.149 2.00147 14.659 2.00147C11.169 2.00147 7.82198 3.59099 5.35419 6.42036C2.88639 9.24973 1.5 13.0872 1.5 17.0885C1.5 21.0899 2.88639 24.9273 5.35419 27.7567L7.88969 30.6637L26.4994 52L45.109 30.6637L47.6445 27.7567C48.8668 26.356 49.8364 24.6928 50.498 22.8624C51.1595 21.0319 51.5 19.0699 51.5 17.0885C51.5 15.1071 51.1595 13.1452 50.498 11.3147C49.8364 9.4842 48.8668 7.82109 47.6445 6.42036Z"
-                            stroke="#9A9A9A"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  );
+                    <CourseGaro key={item.course.course_id} item={item} /> 
+                  )
                 })}
             </div>
           </div>
