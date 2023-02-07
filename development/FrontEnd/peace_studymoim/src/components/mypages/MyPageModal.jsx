@@ -12,7 +12,7 @@ export default function MyPageModal({
   showModal,
   clickModal,
   setShowModal,
-  clickUserId,
+  getPageName,
 }) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
@@ -20,7 +20,7 @@ export default function MyPageModal({
     }
   };
   const { info } = userInfo()
-  const [userId, setUserId] = useState(clickUserId.clickWho)
+  const [userId, setUserId] = useState(getPageName)
   if (userId === 0) {
     setUserId(info.userId)
   }

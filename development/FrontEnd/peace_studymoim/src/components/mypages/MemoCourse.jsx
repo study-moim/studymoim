@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MemoLecture from "./MemoLecture";
 
-export default function MemoCourse({clickUserId}) {
+export default function MemoCourse({getPageName}) {
   const [memoLectureToggle, setMemoLectureToggle] = useState(false);
   const clickTriangle = () => {
     setMemoLectureToggle(!memoLectureToggle);

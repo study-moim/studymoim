@@ -6,20 +6,20 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
   const { info } = userInfo();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const yourInformation = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId.clickWho}/`
+    `http://${API_SERVER}/api/v1/user/${yourId}/`
   );
   const followingLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId.clickWho}/follow/following`
+    `http://${API_SERVER}/api/v1/user/${yourId}/follow/following`
   );
   const followerLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId.clickWho}/follow/follower`
+    `http://${API_SERVER}/api/v1/user/${yourId}/follow/follower`
   );
   const followCheck = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId.clickWho}/follow?userId=${info.userId}`
+    `http://${API_SERVER}/api/v1/user/${yourId}/follow?userId=${info.userId}`
   );
 
   function followFunction(methods) {
-    fetch(`http://${API_SERVER}/api/v1/user/${yourId.clickWho}/follow/`, {
+    fetch(`http://${API_SERVER}/api/v1/user/${yourId}/follow/`, {
       method: methods,
       headers: {
         "Content-Type": "application/json",
