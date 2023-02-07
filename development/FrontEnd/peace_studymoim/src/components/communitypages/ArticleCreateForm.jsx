@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
 
 export default function ArticleCreateForm() {
-  // TODO: 로그인 이걸 베끼세요 - 로그인 컷 콤보
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {

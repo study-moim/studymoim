@@ -1,15 +1,29 @@
-// import Tag from "../components/overall/Tag";
-// import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import StudySearch from "../components/studypages/StudySearch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import userInfo from "../zustand/store";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function StudyRecruitMainPage() {
+  const [showModal, setShowModal] = useState(false);
+
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      alert("로그인이 필요합니다.");
+      setShowModal(true);
+      return;
+    }
+  });
+
   //  모집중만 보이게 할 수 있는 toggle switch
   const [enabled, setEnabled] = useState(false);
-  // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
 
   return (
     <>
@@ -41,21 +55,19 @@ export default function StudyRecruitMainPage() {
               <FontAwesomeIcon icon={faPencil} /> 스터디 만들기
             </div>
           </Link>
-  
         </div>
 
         <div className="flex flex-col justify-start items-start border">
           <StudySearch />
         </div>
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </>
-    //   <div className="w-full flex flex-col justify-between items-center">
-    //   <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-    //     <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-    //       {tags.map((tag) => (
-    //         <Tag key={tag.courseCategoryId} tag={tag} />
-    //       ))}
-    //     </div>
-    //   </div>
   );
 }
+
