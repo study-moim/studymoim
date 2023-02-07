@@ -9,7 +9,6 @@ import MyPageRoot from "./pages/MyPageRoot";
 import MailMainRoot from "./pages/MailMainRoot";
 import FieldPage from "./pages/FieldPage";
 import Footer from "./components/overall/Footer";
-import CommunityCreateForm from "./components/communitypages/CommunityCreateForm";
 import CommunityDetailRoot from "./pages/CommunityDetailRoot";
 import NavBarRoot from "./components/NavBar/NavBarRoot";
 import StudyMakePage from "./pages/StudyMakePage";
@@ -23,6 +22,7 @@ import ScrollToTop from "./components/overall/ScrollToTop";
 import Search from "./pages/Search";
 import TempPage from "./components/overall/TempPage";
 import MyPageRealRoot from "./pages/MyPageRealRoot";
+import ArticleCreateForm from "./components/communitypages/ArticleCreateForm";
 
 export default function App() {
   return (
@@ -45,7 +45,7 @@ export default function App() {
         <Route path="/choice" element={<FieldPage />}></Route>
         <Route
           path="/community/create"
-          element={<CommunityCreateForm />}
+          element={<ArticleCreateForm />}
         ></Route>
         <Route
           path="/community/free/:article_id"
