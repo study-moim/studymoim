@@ -64,7 +64,7 @@ export default function CourseMainRoot() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 my-8 overflow-auto">
+        <div className="gap-5 my-8 flex flex-row flex-wrap">
           {
             filterTitle.map((course) => (
               <MainCourse key={course.course_id} propData={course}/>

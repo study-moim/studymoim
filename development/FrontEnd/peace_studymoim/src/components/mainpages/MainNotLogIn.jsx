@@ -7,8 +7,8 @@ export default function MainNotLogIn() {
 
   return (
     <>
-      <p className="text-xl">#전체 강좌</p>
-      <div className="grid sm:grid-cols-3 md:grid-cols-4 gap-10 grid-cols-2">
+      <p className="text-lg text-left font-bold my-5"># 전체 강좌</p>
+      <div className="gap-5 mb-8 flex flex-row flex-wrap">
         {courseInfo.map((course) => (
           <MainCourse key={course.course_id} propData={course} />
         ))}
