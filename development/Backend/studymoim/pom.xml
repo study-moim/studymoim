@@ -49,19 +49,39 @@
 			<version>1.6.14</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube -->
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/spring-cloud-gcp-starter -->
 		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-youtube</artifactId>
-			<version>v3-rev222-1.25.0</version>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter</artifactId>
+			<version>3.4.3</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/spring-cloud-gcp-storage -->
 		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.42.3</version>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>spring-cloud-gcp-storage</artifactId>
+			<version>3.4.3</version>
 		</dependency>
+
+		<!--		 https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube-->
+<!--		<dependency>-->
+<!--			<groupId>com.google.apis</groupId>-->
+<!--			<artifactId>google-api-services-youtube</artifactId>-->
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<groupId>com.google.api-client</groupId>-->
+<!--					<artifactId>google-api-client</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+<!--			<version>v3-rev222-1.25.0</version>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
+<!--		<dependency>-->
+<!--			<groupId>com.google.http-client</groupId>-->
+<!--			<artifactId>google-http-client-jackson2</artifactId>-->
+<!--			<version>1.42.3</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,13 +110,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.42.3</version>
-		</dependency>
-
 		<!-- spring security-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -123,12 +136,6 @@
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>3.4.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
-		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.42.3</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
