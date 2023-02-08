@@ -9,10 +9,10 @@ import userInfo from "../zustand/store";
 import Stomp from "stompjs";
 
 export default function StudyPlayerMainRoot() {
-  const props = useLocation().state.propData;
-  // console.log(props, "asdfasdfasfgdsgasd");
-  const { info } = userInfo();
-
+  const props = useLocation().state;
+  let study = props.study;
+  let user = props.user;
+  console.log(props)
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 전체/강의/자유 색이 바뀜
@@ -44,15 +44,6 @@ export default function StudyPlayerMainRoot() {
  * 4. 채팅을 나가려면 disconnect 함수 호출
  * */
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
-  ///// 더미데이터 /////
-  let study = {
-    studyId: 1,
-  };
-  let user = {
-    userId: 1,
-    nickname: "싸피킴",
-  };
-  ///// 더미데이터 끝 /////
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
   const [chattings, setChattings] = useState([]);
@@ -75,12 +66,12 @@ export default function StudyPlayerMainRoot() {
 
   async function connect(studyId) {
     //client 객체 생성 및 서버주소 입력
-    await stomp.connect({}, function (frame) {
+    await stomp.connect({"user-id": user.userId, "study-id": study.studyId}, function (frame) {
       stomp.subscribe(`/sub/study/${studyId}`, receive);
     });
   }
   async function disconnect() {
-    await stomp.disconnect();
+    await stomp.disconnect(()=>{}, {"user-id": user.userId, "study-id": study.studyId});
   }
   function clearInput() {
     const inputTag = document.getElementById("ipt")
