@@ -1,23 +1,45 @@
 import useFetch from "../hooks/useFetch";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
-import CourseGaro from "../components/overall/CourseGaro";
+import MainCourse from "../components/mainpages/MainCourse";
+// import CourseGaro from "../components/overall/CourseGaro";
+import userInfo from "../zustand/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarDays,
+  faUsers,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
-
   const studyId = useParams();
-
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const detailData = useFetch(`http:///${API_SERVER}/api/v1/study/${detailId}`);
+
+  const [studyDetail, setStudyDetail] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
+  const { info } = userInfo();
+
+  useEffect(() => {
+    fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setStudyDetail(data);
+        setUserList(data.leadUser);
+        setCurriculum(data.curricula);
+      });
+  });
 
   function closeModalHandler() {
-    if (!detailData.public) {
+    if (!studyDetail.public) {
       setShowNotOpenModal(false);
     } else {
       setShowOpenModal(false);
@@ -25,7 +47,7 @@ export default function StudyRecruitDetailPage(props) {
   }
 
   function acceptHandler() {
-    if (!detailData.public) {
+    if (!studyDetail.public) {
       setShowNotOpenModal(true);
     } else {
       setShowOpenModal(true);
@@ -34,222 +56,96 @@ export default function StudyRecruitDetailPage(props) {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Banner 부분  */}
-        <div className="flex justify-around items-center relative bg-[#d2daff] mb-10">
-          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
-            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-1/2 h-[214px] relative gap-2.5 py-2.5">
-              <p className="flex-grow-0 flex-shrink-0 text-[50px] font-bold text-left text-black">
-                {detailData.title}
-              </p>
-            </div>
-            <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 h-[168px] w-full gap-2.5 py-2.5">
-              <div
-                className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative pl-[65px] pr-[66.046875px] py-[22px] rounded-[15px] bg-[#ff6d2c] border-2 border-[#2e2f35]"
-                style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
+      <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
+        <div className="flex flex-col w-9/12">
+          <div className="w-full py-7 text-2xl font-bold text-black">
+            {studyDetail.title}
+          </div>
+          <div className="flex justify-start items-center relative pb-7 border-b">
+            <img
+              className="w-[50px] h-[50px] object-cover rounded-full"
+              src={studyDetail.saveName ? studyDetail.saveName : "/logo.png"}
+            />
+            <div className="pl-3">
+              <NavLink
+                to={`/mypage/${userList.userId}`}
+                className="hover:text-[#989aff]"
               >
-              
-                {/* 방장이면 수정 버튼으로 나머지 사람들은 스터디 신청으로 바뀌게..?  */}
+                <div className="px-2.5 ext-[15px] font-bold">
+                  {userList.nickname}
+                </div>
+              </NavLink>
+            </div>
+            <div className="absolute right-0">
+              {/* 방장인 경우에는 스터디 수정창 아니면 스터디 신청  */}
+              {info.userId === userList.userId ? (
+                <Link to={"update"}>
+                  <button className="text-[14px] text-center hover:font-bold">
+                    수정하기
+                  </button>
+                </Link>
+              ) : (
                 <button
                   onClick={acceptHandler}
-                  className="text-xl font-bold text-center uppercase text-white"
+                  className="text-[14px] text-center hover:font-bold"
                 >
                   스터디 신청
                 </button>
-              </div>
-              <Link to={"update"}>
-                <button className="text-xl font-bold text-center uppercase text-white">
-                  수정하기(임시버튼)
-                </button>
-              </Link>
+              )}
             </div>
           </div>
-          <img
-            src={detailData.saveName}
-            className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-3/4 w-2/5 relative gap-2.5 p-2.5"
-          />
         </div>
 
         {/* 스터디 정보 부분  */}
-        <div className="flex flex-col justify-start items-center relative gap-5">
-          <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
-            스터디 모집 상세
-          </p>
-          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-5">
-            <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-3">
-              <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-5 pl-5 pr-3 py-4 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
-                  />
-                </svg>
-
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-ml font-bold text-left uppercase text-[#2f343a]">
-                    시작예정일
-                  </p>
-                  <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                    {detailData.startTime}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 pt-2">
-                <svg
-                  width={2}
-                  height={80}
-                  viewBox="0 0 2 80"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="flex-grow-0 flex-shrink-0"
-                  preserveAspectRatio="none"
-                >
-                  <path d="M1 0V80" stroke="#E9EAED" />
-                </svg>
-              </div>
-
-              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-5 pl-5 pr-3 py-4 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
-                  />
-                </svg>
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-ml font-bold text-left uppercase text-[#2f343a]">
-                    모집현황
-                  </p>
-                  {detailData.close ? (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      모집완료
-                    </p>
-                  ) : (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      모집중
-                    </p>
-                  )}
-                </div>
-              </div>
+        <div className="w-9/12 py-7 bg-white text-2xl font-bold mt-10">
+          <div className="flex justify-around items-center">
+            <div className="flex flex-col justify-center items-center">
+              <FontAwesomeIcon icon={faCalendarDays} />
+              <p className="text-sm">시작예정일</p>
+              <p className="text-sm">{studyDetail.startTime}</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <FontAwesomeIcon icon={faUsers} />
+              <p className="text-sm">모집인원</p>
+              <p className="text-sm">{studyDetail.userLimit}</p>
+            </div>
+            <div className="flex flex-col justify-center items-center">
+              <FontAwesomeIcon icon={faCircleCheck} />
+              <p className="text-sm">모집방법</p>
+              {studyDetail.public ? <p className="text-sm"> 공개 </p> : <p className="text-sm"> 수락</p>}
             </div>
           </div>
-
-          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-5">
-            <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 gap-3">
-              <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-5 pl-5 pr-3 py-4 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
-                  />
-                </svg>
-
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-bold text-left uppercase text-[#2f343a]">
-                    모집인원
-                  </p>
-                  <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                    {detailData.userLimit}
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5 pt-2">
-                <svg
-                  width={2}
-                  height={80}
-                  viewBox="0 0 2 80"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="flex-grow-0 flex-shrink-0"
-                  preserveAspectRatio="none"
-                >
-                  <path d="M1 0V80" stroke="#E9EAED" />
-                </svg>
-              </div>
-              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-5 pl-5 pr-3 py-4 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-bold text-left uppercase text-[#2f343a]">
-                    인원 모집 방법
-                  </p>
-                  {detailData.public ? (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      공개
-                    </p>
-                  ) : (
-                    <p className="flex-grow-0 flex-shrink-0 w-[236px] text-xs text-left text-[#2f343a]">
-                      수락
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div dangerouslySetInnerHTML={{ __html: detailData.content }}></div>
-          </div>
-          <div className="flex flex-col justify-start items-center relative gap-9">
-            <p className="flex-grow-0 flex-shrink-0 text-2xl font-bold text-left">
+        <div className="flex justify-center items-center mt-10">
+          {/* TODO: 일단 md 바꾸고 이건 생각해보장 ㅋ  */}
+        {studyDetail.content}
+        </div>
+        <div className="flex flex-col justify-start items-center relative gap-9">
+            <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
               커리큘럼
             </p>
-            <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5">
-              {detailData.curricula &&
-                detailData.curricula.map((item) => {
+            {/* TODO: 캐러샐로 하자 ...  */}
+            <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5">
+              {curriculum &&
+                curriculum.map((item) => {
                   return (
-                    <CourseGaro key={item.course.course_id} item={item} /> 
+                    <MainCourse key={item.course.course_id} propData={item.course} /> 
+                   //  <CourseGaro key={item.course.course_id} item={item} /> 
                   )
                 })}
             </div>
           </div>
 
-          {showOpenModal ? (
-            <StudyRecruitModalOpen
-              onCancel={closeModalHandler}
-              onConfirm={closeModalHandler}
-            />
-          ) : null}
-          {showNotOpenModal ? (
-            <StudyRecruitModalNotOpen onCancel={closeModalHandler} />
-          ) : null}
         </div>
+
+        {showOpenModal ? (
+          <StudyRecruitModalOpen
+            onCancel={closeModalHandler}
+            onConfirm={closeModalHandler}
+          />
+        ) : null}
+        {showNotOpenModal ? (
+          <StudyRecruitModalNotOpen onCancel={closeModalHandler} />
+        ) : null}
       </div>
     </>
   );

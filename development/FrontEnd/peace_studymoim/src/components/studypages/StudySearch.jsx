@@ -43,8 +43,8 @@ export default function StudySearch() {
           className="px-[20px] w-[150px] h-[42px] border border-slate-500 rounded-[30px] cursor-pointer"
         >
           <option value="">정렬하기</option>
-          <option value="new">최신순</option>
-          <option value="old">오래된순</option>
+          {/* 많이 남은 순!   */}
+          <option value="full">정원순</option>
         </select>
       </div>
       <div className="flex flex-col justify-start items-start w-full">
