@@ -40,8 +40,16 @@ public class UserService {
     }
 
     public UserDto.Info createUser(UserRegisterPostReq userRegisterInfo) {
-        User user = User.builder().email(userRegisterInfo.getEmail()).build();
-        return UserDto.Info.fromEntity(userRepository.save(user));
+        userRepository.save(User.builder().email(userRegisterInfo.getEmail()).build());
+        User user = userRepository.findByEmail(userRegisterInfo.getEmail());
+        alarmRepository.save(Alarm.builder()
+                .content(user.getNickname() + "님 가입을 축하합니다.")
+                .user(user)
+                .url("#")
+                .build());
+        return UserDto.Info.fromEntity(user);
+//        User user = User.builder().email(userRegisterInfo.getEmail()).build();
+//        return UserDto.Info.fromEntity(userRepository.save(user));
     }
 
     public UserDto.Info getUserByEmail(String email) {
