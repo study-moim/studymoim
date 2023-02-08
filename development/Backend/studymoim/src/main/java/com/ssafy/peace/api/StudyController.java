@@ -53,6 +53,21 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "get study list by courseType", description = "특정 카테고리를 포함한 강좌를 가지고 있는 스터디 목록 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("category/{courseCategoryId}")
+    public ResponseEntity<?> studyList(@Parameter(description="courseCategoryId") @PathVariable Integer courseCategoryId) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyListContainCourseCategory(courseCategoryId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get study Detail", description = "스터디 상세 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
