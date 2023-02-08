@@ -2,15 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useFetchObject from "../../hooks/useFetchObject";
 import MyPageArticleItem from "./MyPageArticleItem";
+import { useState } from "react";
 
 export default function MyPageArticle({ getPageName }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
-  
+  const [article, setArticle] = useState([])
   const articles1 = useFetchObject(
     `http://${API_SERVER}/api/v1/user/${getPageName}/articles/`
   );
-  console.log(articles1);
+  console.log(articles1, "asdfasdf");
   return (
     <>
       <div>

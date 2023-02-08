@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import useFetch from "../hooks/useFetch";
-import MainCarousel from "../components/mainpages/MainCarousel";
 import TagList from "../components/overall/TagList";
 import MainSearch from "../components/mainpages/MainSearch";
 import MainCourse from "../components/mainpages/MainCourse";
@@ -14,7 +13,6 @@ export default function Search() {
 
   return (
     <div>
-      <MainCarousel />
       <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px]">
         <MainSearch />
         <div className="w-full flex flex-col justify-between items-center">

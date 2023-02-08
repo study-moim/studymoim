@@ -20,7 +20,7 @@ export default function FollowerList({ follower, userId }) {
   }
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const followCheck = useFetch(
-    `http://${API_SERVER}/api/v1/user/${info.userId}/follow?userId=${follower.userId}`
+    `http://${API_SERVER}/api/v1/user/${follower.userId}/follow?userId=${info.userId}`
   );
   return (
     <>
