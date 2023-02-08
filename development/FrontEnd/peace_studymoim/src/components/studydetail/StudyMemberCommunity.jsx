@@ -3,7 +3,6 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useEffect, useState } from "react";
 import userInfo from "../../zustand/store";
 import { useNavigate } from "react-router";
-import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import StudyMemberCoummunityComment from "./StudyMemberCommunityComment";
 
@@ -15,6 +14,8 @@ export default function StudyMemberCoummunity({ propData }) {
   const contentRef = useRef(null);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [studyCommunity, setStudyCommunity] = useState([]);
+
+
   useEffect(() => {
     const getStudyCommunity = async () => {
       await fetch(
@@ -27,7 +28,6 @@ export default function StudyMemberCoummunity({ propData }) {
     };
     getStudyCommunity(); 
 }, [studyCommunity]); 
-
 
   useEffect(() => {
     if (!info) {
@@ -76,7 +76,7 @@ export default function StudyMemberCoummunity({ propData }) {
         />
       </form>
       {studyCommunity.map((items) => {
-        return <StudyMemberCoummunityComment key={items.studyCommunityId} items={items}/>;
+        return <StudyMemberCoummunityComment key={items.studyCommunityId} items={items} />;
       })}
     </div>
   );

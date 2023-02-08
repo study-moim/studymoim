@@ -32,12 +32,14 @@ export default function StudyMakeForm(props) {
 
   // 시작예정일
   const [startSelect, setStartSelect] = useState("")  
+
   // 인원모집방법
   const [recruitSelect, setRecruitSelect] = useState()  
   const recruitOptionList = [
     { value: true, label: "공개" },
     { value: false, label: "수락" },
   ];
+
   // 강좌 선택
   const [selectedOptions, setSelectedOptions] = useState([]);
   function handleSelect(data) {
@@ -46,8 +48,10 @@ export default function StudyMakeForm(props) {
   const courseOptionList = search.map((course) =>
     Object.assign({ value: course.course_id, label: course.title })
   );
+
   // 제목
   const [titleInput, setTitleInput] = useState("")
+
   // 내용
   const [contentInput, setContentInput] = useState("")
  
@@ -57,6 +61,7 @@ export default function StudyMakeForm(props) {
     { value: true, label: "마감" },
     { value: false, label: "모집중" },
   ];
+
   // 스터디 종료 여부 
   const [close, setClose] = useState(false)
   const closeList = [
@@ -74,13 +79,11 @@ export default function StudyMakeForm(props) {
       title: titleInput,
       content: contentInput,
       startTime: startSelect,
-      // TODO : DTO 수정되면 지워라 
-      saveName: "", 
       userLimit: memberSelect,
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
       public: recruitSelect,
-      // TODO: 여기 넣으면 돼 finish/ close 
+      
     };
     console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);

@@ -22,8 +22,6 @@ export default function CourseBanner({ dataForBanner }) {
     getIsLike();
   }, [isLike]);
 
-  console.log(isLike);
-
   function likeFunction(methods) {
     fetch(`http://${API_SERVER}/api/v1/course/${dataForBanner.courseId}/${info.userId}`, {
       method: methods,

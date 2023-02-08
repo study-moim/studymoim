@@ -31,7 +31,8 @@ export default function StudyMakeForm(props) {
   ];
 
   // 시작예정일
-  const [startSelect, setStartSelect] = useState("")  
+  const [startSelect, setStartSelect] = useState("") 
+
   // 인원모집방법
   const [recruitSelect, setRecruitSelect] = useState()  
   const recruitOptionList = [
@@ -62,14 +63,11 @@ export default function StudyMakeForm(props) {
       title: titleInput,
       content: contentInput,
       startTime: startSelect,
-      // TODO : DTO 수정되면 지워라 
-      saveName: "", 
       userLimit: memberSelect,
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
       public: recruitSelect,
     };
-    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 

@@ -12,7 +12,7 @@ export default function RecommendBanner() {
     `http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`
   )[0];
 
-  console.log(recommendCourse);
+
   return (
     <div className="flex flex-col border w-full bg-[#ebefff] p-[30px] gap-[20px]">
       <p className="w-full text-[45px] font-bold">

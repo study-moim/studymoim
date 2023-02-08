@@ -3,7 +3,6 @@ import userInfo from "../../zustand/store";
 import { Link, NavLink } from "react-router-dom";
 
 export default function CommunityComment({ comment, commentUserId }) {
-  // console.log(comment)
   const [pt, setPt] = useState(comment.publishTime);
   if (pt === null) {
     return null;

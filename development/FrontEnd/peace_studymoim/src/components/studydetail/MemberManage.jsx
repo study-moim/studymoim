@@ -5,8 +5,6 @@ export default function MemberManage({ propData }) {
   const requestMembers = useFetch(
     `http://${API_SERVER}/api/v1/study/${propData.studyId}/request`
   );
-  console.log(requestMembers)
-  
   return (
     <>
       <div className="flex w-full flex-col justify-start items-center flex-grow-0 flex-shrink-0 gap-[53px] px-[73px] py-[50px]">

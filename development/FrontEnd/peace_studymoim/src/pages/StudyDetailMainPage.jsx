@@ -16,14 +16,28 @@ export default function StudyDetailMainPage() {
   const studyId = useParams();
   const { info } = userInfo();
   const userInformation = info.userId;
-
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const detailData = useFetch(
-    `http:///${API_SERVER}/api/v1/study/${studyId.study_id}`
-  );
-  const recentPlayed = useFetch(`http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`);
+  const [detailData, setDetailData] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
 
-  // console.log(detailData.leadUser.userId)
+  useEffect(() => {
+    const getData = async () => {
+      await fetch(`http:///${API_SERVER}/api/v1/study/${studyId.study_id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setDetailData(data);
+          setUserList(data.leadUser);
+          setCurriculum(data.curricula);
+        });
+    };
+    getData();
+  }, [detailData]);
+
+  const recentPlayed = useFetch(
+    `http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`
+  );
+
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
   };
@@ -45,72 +59,132 @@ export default function StudyDetailMainPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <StudyIntroduceBanner propData={detailData}/>
-      <StudyNotice propData={detailData} />
+      <StudyIntroduceBanner propData={detailData} />
+      <StudyNotice
+        propData={detailData}
+        props={userList}
+        userInfo={userInformation}
+      />
 
       <div className="flex flex-col w-full mt-10">
-        <div className="flex justify-start items-start w-full">
-          <button
-            id="realtime"
-            onClick={GetClick}
-            className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-          >
-            실시간 강의
-          </button>
-          <button
-            id="community"
-            onClick={GetClick}
-            className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-          >
-            커뮤니티
-          </button>
-          <button
-            id="progress"
-            onClick={GetClick}
-            className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-          >
-            강의별 진도율
-          </button>
-          <button
-            id="membermanagement"
-            onClick={GetClick}
-            className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-          >
-            멤버관리
-          </button>
-          <button
-            id="course"
-            onClick={GetClick}
-            className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-          >
-            강좌 관리
-          </button>
-        </div>
+        {info.userId === userList.userId ? (
+          <div className="flex justify-start items-start w-full">
+            <button
+              id="realtime"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              실시간 강의
+            </button>
+            <button
+              id="community"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              커뮤니티
+            </button>
+            <button
+              id="progress"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              강의별 진도율
+            </button>
+
+            <button
+              id="membermanagement"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              멤버관리
+            </button>
+            <button
+              id="course"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              강좌 관리
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-start items-start w-full">
+            <button
+              id="realtime"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              실시간 강의
+            </button>
+            <button
+              id="community"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              커뮤니티
+            </button>
+            <button
+              id="progress"
+              onClick={GetClick}
+              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+            >
+              강의별 진도율
+            </button>
+          </div>
+        )}
+
         {/* 태그들 안에 큰 네모 */}
 
-        {/* {{userInformation} === detailData.leadUser.userId ? (
+        {info.userId === userList.userId ? (
           <div className="p-3 bg-white border border-[#898989]">
-            {currentClick === "realtime" ? <NowPlayStudy /> : null}
-            {currentClick === "community" ? <StudyMemberCoummunity /> : null}
-            {currentClick === "progress" ? <LectureProgressList /> : null}
-            {currentClick === "membermanagement" ? <MemberManage /> : null}
-            {currentClick === "course" ? <LectureManage /> : null}
+            {currentClick === "realtime" ? (
+              <NowPlayStudy
+                propData={detailData}
+                state={{
+                  user: info,
+                  study: { studyId: studyId.study_id },
+                  recent: recentPlayed,
+                }}
+              />
+            ) : null}
+            {currentClick === "community" ? (
+              <StudyMemberCoummunity propData={detailData} />
+            ) : null}
+            {currentClick === "progress" ? (
+              <LectureProgressList
+                propData={detailData}
+                state={{ user: info, study: { studyId: studyId.study_id } }}
+              />
+            ) : null}
+            {currentClick === "membermanagement" ? (
+              <MemberManage propData={detailData} />
+            ) : null}
+            {currentClick === "course" ? (
+              <LectureManage propData={detailData} />
+            ) : null}
           </div>
         ) : (
           <div className="p-3 bg-white border border-[#898989]">
-            {currentClick === "realtime" ? <NowPlayStudy /> : null}
-            {currentClick === "community" ? <StudyMemberCoummunity /> : null}
-            {currentClick === "progress" ? <LectureProgressList /> : null}
+            {currentClick === "realtime" ? (
+              <NowPlayStudy
+                propData={detailData}
+                state={{
+                  user: info,
+                  study: { studyId: studyId.study_id },
+                  recent: recentPlayed,
+                }}
+              />
+            ) : null}
+            {currentClick === "community" ? (
+              <StudyMemberCoummunity propData={detailData} />
+            ) : null}
+            {currentClick === "progress" ? (
+              <LectureProgressList
+                propData={detailData}
+                state={{ user: info, study: { studyId: studyId.study_id } }}
+              />
+            ) : null}
           </div>
-          
-        )} */}
-        <div className="p-3 bg-white border border-[#898989]">
-            {currentClick === "realtime" ? <NowPlayStudy propData={detailData} state={{user: info, study: {studyId: studyId.study_id}, recent: recentPlayed}}/> : null}
-            {currentClick === "community" ? <StudyMemberCoummunity propData={detailData} /> : null}
-            {currentClick === "progress" ? <LectureProgressList propData={detailData} state={{user: info, study: {studyId: studyId.study_id}}} /> : null}
-            {currentClick === "membermanagement" ? <MemberManage propData={detailData} /> : null}
-            {currentClick === "course" ? <LectureManage propData={detailData} /> : null}
-          </div>
+        )}
       </div>
     </div>
   );
