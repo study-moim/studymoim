@@ -86,7 +86,7 @@ export default function App() {
         <Route path="/search/:word" element={<Search />} />
         <Route path="/temp" element={<TempPage />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
