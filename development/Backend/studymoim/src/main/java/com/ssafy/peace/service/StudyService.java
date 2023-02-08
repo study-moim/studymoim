@@ -22,6 +22,7 @@ public class StudyService {
     private final UserRepository userRepository;
     private final CurriculumRepository curriculumRepository;
     private final CourseRepository courseRepository;
+    private final LectureRepository lectureRepository;
     private final StudyCommunityRepository studyCommunityRepository;
 
     @Transactional
@@ -128,8 +129,24 @@ public class StudyService {
     }
 
     @Transactional
+    public Boolean checkLive(Integer studyId) throws RollbackException{
+        return studyRepository.findById(studyId).get().isLive();
+    }
+    @Transactional
+    public LectureDto.Info getRecentLiveLecture(Integer studyId) throws RollbackException{
+        return LectureDto.Info.fromEntity(
+                lectureRepository.findById(
+                        studyRepository.findById(studyId).get()
+                                .getRecentLectureId()
+                ).get());
+    }
+    @Transactional
     public StudyDto.Info updateLive(Integer studyId, boolean isLive) throws RollbackException{
         return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateLive(isLive));
+    }
+    @Transactional
+    public StudyDto.Info updateLive(Integer studyId, boolean isLive, Integer recentLectureId) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateLive(isLive, recentLectureId));
     }
 
     @Transactional

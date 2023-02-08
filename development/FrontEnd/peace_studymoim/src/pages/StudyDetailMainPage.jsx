@@ -21,6 +21,7 @@ export default function StudyDetailMainPage() {
   const detailData = useFetch(
     `http:///${API_SERVER}/api/v1/study/${studyId.study_id}`
   );
+  const recentPlayed = useFetch(`http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`);
 
   // console.log(detailData.leadUser.userId)
   const GetClick = (event) => {
@@ -104,7 +105,7 @@ export default function StudyDetailMainPage() {
           
         )} */}
         <div className="p-3 bg-white border border-[#898989]">
-            {currentClick === "realtime" ? <NowPlayStudy propData={detailData} /> : null}
+            {currentClick === "realtime" ? <NowPlayStudy propData={detailData} state={{user: info, study: {studyId: studyId.study_id}, recent: recentPlayed}}/> : null}
             {currentClick === "community" ? <StudyMemberCoummunity propData={detailData} /> : null}
             {currentClick === "progress" ? <LectureProgressList propData={detailData} state={{user: info, study: {studyId: studyId.study_id}}} /> : null}
             {currentClick === "membermanagement" ? <MemberManage propData={detailData} /> : null}

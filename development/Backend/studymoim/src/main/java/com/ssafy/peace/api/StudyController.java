@@ -229,6 +229,35 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "check study live streaming", description = "스터디 라이브 중인지 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{studyId}/live")
+    public ResponseEntity<?> studyIsLive(@Parameter(description="studyId") @PathVariable Integer studyId) {
+        try{
+            System.out.println(studyService.checkLive(studyId));
+            return new ResponseEntity<>(studyService.checkLive(studyId), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "check study live streaming", description = "스터디 라이브 중인지 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{studyId}/live/recent")
+    public ResponseEntity<?> getRecentLecture(@Parameter(description="studyId") @PathVariable Integer studyId) {
+        try{
+            return new ResponseEntity<>(studyService.getRecentLiveLecture(studyId), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @Operation(summary = "update study live streaming", description = "스터디 라이브 시작")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -236,9 +265,14 @@ public class StudyController {
     })
     @PutMapping("/{studyId}/live/{status}")
     public ResponseEntity<?> studyLiveUpdate(@Parameter(description="studyId") @PathVariable Integer studyId,
-                                            @Parameter(description="status(Enum - start/end)") @PathVariable String status) {
+                                             @Parameter(description="status(Enum - start/end)") @PathVariable String status,
+                                             @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
-            if(status.equals("start")) studyService.updateLive(studyId, true);
+            System.out.println("+++++++++++++live++++++++++");
+            if(status.equals("start")){
+                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
+                studyService.updateLive(studyId, true, lectureId);
+            }
             if(status.equals("end")) studyService.updateLive(studyId, false);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {

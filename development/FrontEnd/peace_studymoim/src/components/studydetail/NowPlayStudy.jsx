@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-export default function NowPlayStudy() {
+import useFetch from "../../hooks/useFetch.jsx";
+export default function NowPlayStudy(props) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const isLive = useFetch(`http://${API_SERVER}/api/v1/study/${props.state.study.studyId}/live`)
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
@@ -27,13 +30,21 @@ export default function NowPlayStudy() {
         />
         <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-1/2 relative gap-2.5 px-[140px] py-[27px] rounded-[20px] bg-[#b1b2ff]">
           {/* TODO: 나중에 현재 진행 중인 스터디로 보내줘야 함 !  */}
-
-          <Link
-            to='/player/40' 
+          {isLive ? (<Link
+            to={'/study/player/'+props.state.recent.lectureId}
+            state={{
+              user: props.state.user,
+              study: props.state.study,
+              videoId: props.state.recent.videoId
+            }}
             className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-center text-white"
           >
             스터디 참여
-          </Link>
+          </Link>) : (<Link
+              className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-center text-gray-100"
+          >
+            스터디 중이 아닙니다
+          </Link>)}
         </div>
       </div>
     </>
