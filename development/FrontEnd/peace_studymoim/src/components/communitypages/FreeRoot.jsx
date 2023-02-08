@@ -54,15 +54,15 @@ export default function FreeRoot() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-end items-center self-stretch h-[100px] gap-2.5">
-      <form className="flex relative h-[50px] w-[400px]">
-          <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] m-[10px] text-white">
+      <div className="flex justify-end items-center self-stretch h-[60px] gap-2.5">
+      <form className="flex relative h-[40px] w-[400px]">
+          <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] m-[5px] text-white">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           <input
             type="text"
             placeholder="궁금한 자유글을 검색해보세요!"
-            className="w-full h-[50px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
+            className="w-full h-[40px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
             onChange={(e) => {
               setWord(e.target.value);
             }}
@@ -70,7 +70,7 @@ export default function FreeRoot() {
         </form>
         <select
           name="커뮤니티정렬"
-          className="px-[20px] w-[150px] h-[50px] border border-slate-500 rounded-[30px] cursor-pointer"
+          className="px-[20px] w-[150px] h-[40px] border border-slate-500 rounded-[30px] cursor-pointer"
           onChange={(e) => {
             setSelected(e.target.value);
           }}

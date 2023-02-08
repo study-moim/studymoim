@@ -30,20 +30,20 @@ export default function CommunityMainRoot() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[50px]">
         <div className="flex flex-row justify-between w-full">
           <div className="flex flex-row">
             <div
               id="free"
               onClick={GetClick}
-              className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] text-center text-white cursor-pointer"
+              className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               자유
             </div>
             <div
               id="lecture"
               onClick={GetClick}
-              className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] text-center text-white cursor-pointer"
+              className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               강의
             </div>
@@ -51,7 +51,7 @@ export default function CommunityMainRoot() {
           {currentClick == "free" ? 
           (
             <Link to="/community/create">
-            <div className="flex items-center h-[36px] rounded-[10px] px-8 bg-[#ad9dfe] text-base text-white hover:bg-[#b1b2ff]/90">
+            <div className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[14px] text-center text-white cursor-pointer hover:bg-[#8871f9]">
               <FontAwesomeIcon icon={faPenToSquare} /> &nbsp; 글쓰기
             </div>
           </Link>
