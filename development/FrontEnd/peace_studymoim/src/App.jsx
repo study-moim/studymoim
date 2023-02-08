@@ -24,6 +24,7 @@ import Search from "./pages/Search";
 import TempPage from "./components/overall/TempPage";
 import MyPageRealRoot from "./pages/MyPageRealRoot";
 import ArticleCreateForm from "./components/communitypages/ArticleCreateForm";
+import LecturePlayerMainRoot from "./pages/LecturePlayerMainRoot.jsx";
 
 export default function App() {
   return (
@@ -67,7 +68,11 @@ export default function App() {
         ></Route>
         <Route
           path="/player/:lecture_id"
-          element={<StudyPlayerMainRoot />}
+          element={<LecturePlayerMainRoot />}
+        ></Route>
+        <Route
+            path="/study/player/:lecture_id"
+            element={<StudyPlayerMainRoot />}
         ></Route>
         <Route
           path="/studyDetail/:study_id"
