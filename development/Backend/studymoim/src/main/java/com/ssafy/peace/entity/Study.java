@@ -50,6 +50,9 @@ public class Study {
     @NotNull
     private boolean isPublic;
 
+    @NotNull
+    private boolean isLive;
+
     @Size(max = 100)
     private String notice;
 
@@ -76,7 +79,7 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, boolean isLive, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
         this.startTime = startTime;
@@ -84,6 +87,7 @@ public class Study {
         this.isClose = isClose;
         this.userLimit = userLimit;
         this.isPublic = isPublic;
+        this.isLive = isLive;
         this.notice = notice;
         this.isFinished = isFinished;
     }

@@ -84,6 +84,7 @@ public class StudyService {
                 .saveName(study.getSaveName())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
+                .isLive(false)
                 .build();
         StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
         // 스터디를 만든 사람이 곧 방장
