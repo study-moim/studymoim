@@ -32,7 +32,7 @@ export default function Tag({ tag }) {
             SetIsActive(!isActive);
           }}
           className={
-            "hover:bg-gray-200 bg-gray-400 text-white min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-2 border " +
+            "shadow-inner hover:bg-gray-200 bg-gray-300  min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-2 border " +
             (isActive && "")
           }
         >
