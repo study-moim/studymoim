@@ -52,9 +52,17 @@ export default function StudyMakeForm(props) {
   const [contentInput, setContentInput] = useState("")
  
   // 모집 마감 여부
-  const [finished, setFinished] = useState(false) 
+  const [finished, setFinished] = useState(false)
+  const finishedList = [
+    { value: true, label: "마감" },
+    { value: false, label: "모집중" },
+  ];
   // 스터디 종료 여부 
   const [close, setClose] = useState(false)
+  const closeList = [
+    { value: true, label: "종료" },
+    { value: false, label: "진행중" },
+  ];
 
   function submitHandler(event) {
     event.preventDefault();
@@ -72,6 +80,7 @@ export default function StudyMakeForm(props) {
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
       public: recruitSelect,
+      // TODO: 여기 넣으면 돼 finish/ close 
     };
     console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
@@ -109,7 +118,6 @@ export default function StudyMakeForm(props) {
               <div className="w-full">
                 <Select
                   id="recruitMembers"
-                  placeholder="모집인원을 선택하세요."
                   onChange={(e) => setMemberSelect(e.value)}
                   required
                   options={memberOptionList}
@@ -138,7 +146,6 @@ export default function StudyMakeForm(props) {
               <Select
                 id="recruitMethod"
                 onChange={(e) => setRecruitSelect(e.value)}
-                placeholder="인원 모집 방법을 선택하세요." 
                 required
                 options={recruitOptionList}
               />
@@ -151,7 +158,6 @@ export default function StudyMakeForm(props) {
               <div className="w-full">
                 <Select
                   options={courseOptionList}
-                  placeholder="강좌를 검색하세요."
                   value={selectedOptions}
                   onChange={handleSelect}
                   isSearchable={true}
@@ -160,7 +166,33 @@ export default function StudyMakeForm(props) {
                 />
               </div>
             </div>
+                   {/* 모집 여부  */}
+          <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[20px] text-left">모집여부</p>
+              <div className="w-full">
+              <Select
+                id="finishMethod"
+                onChange={(e) => setFinished(e.value)}
+                required
+                options={finishedList}
+              />
+              </div> 
+            </div>
+            {/* 종료 여부  */}
+            <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[20px] text-left">종료여부</p>
+              <div className="w-full">
+              <Select
+                id="closeMethod"
+                onChange={(e) => setClose(e.value)}
+                required
+                options={closeList}
+              />
+              </div> 
+            </div>
           </div>
+   
+
         </div>
 
         <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-[5px]">
@@ -213,8 +245,8 @@ export default function StudyMakeForm(props) {
               >
                 취소
               </div>
-              <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
-                수정하기
+              <button className="flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
+                수정
               </button>
 
               {showModal ? (
