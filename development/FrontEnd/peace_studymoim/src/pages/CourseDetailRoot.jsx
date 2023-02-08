@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import LectureShort from "../components/coursedetail/LectureShort";
 import StudyShort from "../components/coursedetail/StudyShort";
+import CourseQuestion from "../components/coursedetail/CourseQuestion";
 
 export default function CourseDetailRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -14,6 +15,11 @@ export default function CourseDetailRoot() {
   const studyInThisCourse = useFetch(
     `http://${API_SERVER}/api/v1/course/${props.course_id}/study_list`
   );
+
+  const questionInThisCourse = useFetch(
+    `http://${API_SERVER}/api/v1/articles/question/course/${props.course_id}`
+  );
+  console.log(questionInThisCourse)
   let totalTime = 0;
   lectureInThisCourse.forEach((lecture) => {
     totalTime += lecture.length;
@@ -93,21 +99,27 @@ export default function CourseDetailRoot() {
               ))}
             </div>
           ) : null}
-          {/* { currentClick==="study" ? 스터디페이지 : null } */}
           {currentClick === "study" ? (
             <div className="w-full flex flex-col justify-center items-center gap-[15px] p-3">
-            {studyInThisCourse.map((study, idx) => (
-              <StudyShort
-                key={study.studyId}
-                propData={study}
-                studyIndex={idx + 1}
-              />
-            ))}
-          </div>
-            // <div className="text-4xl">
-            //   스터디페이지: 백엔드가 할 일- 이 강좌를 담고 있는 스터디를 모아서
-            //   보여줘야함!!!!!!!!!!!!!!!!!! {}
-            // </div>
+              {studyInThisCourse.map((study, idx) => (
+                <StudyShort
+                  key={study.studyId}
+                  propData={study}
+                  studyIndex={idx + 1}
+                />
+              ))}
+            </div>
+          ) : null}
+          {currentClick === "community" ? (
+            <div className="w-full flex flex-col justify-center items-center gap-[15px] p-3">
+              {questionInThisCourse.map((question, idx) => (
+                <CourseQuestion
+                  key={question.questionBoardId}
+                  propData={question}
+                  questionIndex={idx + 1}
+                />
+              ))}
+            </div>
           ) : null}
         </div>
       </div>
