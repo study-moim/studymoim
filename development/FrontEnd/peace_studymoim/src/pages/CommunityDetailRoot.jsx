@@ -19,6 +19,8 @@ export default function CommunityDetailRoot() {
   const [articleDetail, setArticleDetail] = useState({});
   const [newCommentList, setNewCommentList] = useState([]);
   const [userList, setUserList] = useState([]);
+  const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
+  const image = IMAGE_ROOT + userList.saveName;
 
   const wlh = window.location.pathname.substring(16, 300);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -49,8 +51,8 @@ export default function CommunityDetailRoot() {
             <img
               className="w-[50px] h-[50px] object-cover rounded-full"
               src={
-                articleDetail.saveName
-                  ? freeArticle.saveName
+                image
+                  ? image
                   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjplK5Iw7kiaLK5XX1g5VJwc3W8m92UjVRgw&usqp=CAU"
               }
             />

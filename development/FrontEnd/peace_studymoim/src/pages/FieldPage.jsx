@@ -47,7 +47,6 @@ export default function FieldPage() {
     for (let i = 0; i < selectedField.length; i++) {
       setCategory([...category, { categoryId: selectedField[i] }]);
     }
-    // console.log(category);
   }, [selectedField]);
 
   const onChangeNickname = (nicknameCurrent) => {
@@ -65,7 +64,7 @@ export default function FieldPage() {
     event.preventDefault();
 
     const enteredNickname = nicknameRef.current.value;
-
+    
     const fieldData = {
       userId: userInformation.userId,
       categories: category,
@@ -75,6 +74,10 @@ export default function FieldPage() {
       nickname: enteredNickname,
       userId: userInformation.userId,
     };
+    const imgTemp = { userId: userInformation.userId, fileName: 'filename'}; 
+    const imageData = new FormData()
+    imageData.append('file', image)  
+    imageData.append('dto', JSON.stringify(imgTemp)) 
 
     fetch(
       `http://${API_SERVER}/api/v1/user/${userInformation.userId}/nickname`,
@@ -102,6 +105,19 @@ export default function FieldPage() {
         navigate("/temp");
       }
     });
+
+    fetch(`http://${API_SERVER}/api/v1/gcs/upload`, {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // }, 
+      body: imageData
+    }).then((res) => {
+      if (res.ok) {
+        console.log("이미지 되냐?")
+        navigate("/temp"); 
+      }
+    }); 
   }
   // console.log(selectedField);
   return (
@@ -140,7 +156,6 @@ export default function FieldPage() {
                           tag.courseCategoryId,
                         ]);
                       }
-                      // console.log(selectedField);
                     }}
                   >
                     <Tag tag={tag} />
