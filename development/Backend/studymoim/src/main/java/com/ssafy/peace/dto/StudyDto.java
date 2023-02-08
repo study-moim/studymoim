@@ -29,6 +29,7 @@ public class StudyDto {
         private int userLimit;
         private Long userGathered; // 모인 사람 수
         private boolean isPublic;
+        private boolean isLive;
         private String notice;
         private boolean isFinished;
         private List<CurriculumDto.Recruit> curricula;
@@ -47,6 +48,7 @@ public class StudyDto {
                     .userGathered(studyEntity.getStudyMembers().stream()
                             .filter(member -> !member.isBanned()).count())
                     .isPublic(studyEntity.isPublic())
+                    .isLive(studyEntity.isLive())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
                     .curricula(studyEntity.getCurricula().stream()
@@ -134,6 +136,7 @@ public class StudyDto {
         private int userLimit;
         private Long userGathered; // 모인 사람 수
         private boolean isPublic;
+        private boolean isLive;
         private String notice;
         private boolean isFinished;
         private List<UserDto.Info> members;
@@ -152,6 +155,7 @@ public class StudyDto {
                     .userGathered(studyEntity.getStudyMembers().stream()
                             .filter(member -> !member.isBanned()).count())
                     .isPublic(studyEntity.isPublic())
+                    .isLive(studyEntity.isLive())
                     .notice(studyEntity.getNotice())
                     .isFinished(studyEntity.isFinished())
                     .curricula(studyEntity.getCurricula().stream()
