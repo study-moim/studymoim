@@ -16,8 +16,6 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: create
-  springdoc:
-    use-fqn: true
   cloud:
     gcp:
       storage:
@@ -27,6 +25,8 @@ logging:
   level:
     web: trace
     sql: trace
+springdoc:
+  use-fqn: true
 oauth:
   kakao:
     redirect-context: localhost
@@ -45,6 +45,11 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: update
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:studymoim-gcs.json
 logging:
   level:
     web: trace
