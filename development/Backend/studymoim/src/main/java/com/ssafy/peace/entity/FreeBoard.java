@@ -67,4 +67,9 @@ public class FreeBoard {
         return this;
     }
 
+    public FreeBoard hit() {
+        this.hit++;
+        return this;
+    }
+
 }

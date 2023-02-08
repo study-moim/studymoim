@@ -47,7 +47,7 @@ public class QuestionBoard {
     private LocalDateTime publishTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -83,6 +83,11 @@ public class QuestionBoard {
 
     public QuestionBoard delete(){
         this.isDeleted = true;
+        return this;
+    }
+
+    public QuestionBoard hit() {
+        this.hit++;
         return this;
     }
 }
