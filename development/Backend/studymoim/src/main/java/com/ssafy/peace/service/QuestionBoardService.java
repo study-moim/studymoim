@@ -41,6 +41,7 @@ public class QuestionBoardService {
 
     @Transactional
     public QuestionBoardDto.Detail getQuestionBoardDetail(Integer articleId) throws RollbackException {
+        questionBoardRepository.save(questionBoardRepository.findById(articleId).get().hit());
         QuestionBoard questionBoard = questionBoardRepository.findById(articleId).get();
         QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
         res.setQuestionBoardComments(

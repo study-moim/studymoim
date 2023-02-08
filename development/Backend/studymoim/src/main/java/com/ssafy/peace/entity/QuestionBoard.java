@@ -85,4 +85,9 @@ public class QuestionBoard {
         this.isDeleted = true;
         return this;
     }
+
+    public QuestionBoard hit() {
+        this.hit++;
+        return this;
+    }
 }
