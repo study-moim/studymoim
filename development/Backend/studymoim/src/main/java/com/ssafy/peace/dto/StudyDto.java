@@ -25,7 +25,6 @@ public class StudyDto {
         private String title;
         private String content;
         private LocalDate startTime;
-        private String saveName;
         private boolean isClose;
         private int userLimit;
         private Long userGathered; // 모인 사람 수
@@ -43,7 +42,6 @@ public class StudyDto {
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
                     .startTime(studyEntity.getStartTime())
-                    .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
                     .userGathered(studyEntity.getStudyMembers().stream()
@@ -71,8 +69,6 @@ public class StudyDto {
         private String content;
         @NotEmpty(message="startTime은 빈값 일 수 없습니다")
         private LocalDate startTime;
-        @Size(max = 255)
-        private String saveName;
         @Max(value = 6, message = "userLimit은 7명 이상일 수 없습니다.")
         @NotNull(message="userLimit은 null 일 수 없습니다")
         private int userLimit;
@@ -134,7 +130,6 @@ public class StudyDto {
         private String title;
         private String content;
         private LocalDate startTime;
-        private String saveName;
         private boolean isClose;
         private int userLimit;
         private Long userGathered; // 모인 사람 수
@@ -152,7 +147,6 @@ public class StudyDto {
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
                     .startTime(studyEntity.getStartTime())
-                    .saveName(studyEntity.getSaveName())
                     .isClose(studyEntity.isClose())
                     .userLimit(studyEntity.getUserLimit())
                     .userGathered(studyEntity.getStudyMembers().stream()

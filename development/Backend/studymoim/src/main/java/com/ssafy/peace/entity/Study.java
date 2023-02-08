@@ -37,10 +37,6 @@ public class Study {
     @NotNull
     private LocalDate startTime;
 
-    // Todo: 디폴트 사진 정하기
-    @Size(max = 255)
-    private String saveName;
-
     @ColumnDefault("false")
     private boolean isClose;
 
@@ -76,11 +72,10 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+    public Study(String title, String content, LocalDate startTime, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
         this.startTime = startTime;
-        this.saveName = saveName;
         this.isClose = isClose;
         this.userLimit = userLimit;
         this.isPublic = isPublic;
