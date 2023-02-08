@@ -21,6 +21,7 @@ public class StudyDto {
     @Builder
     public static class Info {
         private int studyId;
+        private UserDto.Info leadUser;
         private String title;
         private String content;
         private LocalDate startTime;
@@ -36,6 +37,9 @@ public class StudyDto {
         public static Info fromEntity(Study studyEntity) {
             return Info.builder()
                     .studyId(studyEntity.getStudyId())
+                    .leadUser(UserDto.Info.fromEntity(studyEntity.getStudyMembers().stream()
+                            .filter(studyMember -> studyMember.isMemberRole())
+                            .findFirst().get().getUser()))
                     .title(studyEntity.getTitle())
                     .content(studyEntity.getContent())
                     .startTime(studyEntity.getStartTime())

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.RollbackException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,25 @@ public class StudyService {
                 .stream()
                 .map(StudyDto.Info::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<StudyDto.Detail> getStudyListIsDesc(boolean isDesc) {
+        if(isDesc) {
+            return studyRepository.findAllByIsCloseIsFalse().stream()
+                    .map(StudyDto.Detail::fromEntity)
+                    .sorted(Comparator.comparing(m -> {
+                        long n = studyMemberRepository.countByStudy_studyIdAndIsBannedIsFalse(m.getStudyId()) - m.getUserLimit();
+                        return n - m.getUserLimit();
+                    })).collect(Collectors.toList());
+        } else {
+            return studyRepository.findAllByIsCloseIsFalse().stream()
+                    .map(StudyDto.Detail::fromEntity)
+                    .sorted(Comparator.comparing(m -> {
+                        long n = studyMemberRepository.countByStudy_studyIdAndIsBannedIsFalse(m.getStudyId()) - m.getUserLimit();
+                        return m.getUserLimit() - n;
+                    })).collect(Collectors.toList());
+        }
     }
 
     @Transactional
