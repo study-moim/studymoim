@@ -2,24 +2,31 @@ import StudyPageCourseItemSmall from "./StudyPageCourseItemSmall.jsx";
 import LectureProgressBars from "./LectureProgressBars.jsx";
 import StudyPageLectureList from "./StudyPageLectureList.jsx"
 import {useState} from "react";
+import useFetch from "../../hooks/useFetch.jsx";
 
 export default function LectureProgress(props) {
-  console.log(props)
-  const [selectedCourse, setSelectedCourse] = useState({});
-  function onCourseClick(e){
-    e.target;
-    console.log("click")
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const [selectedCourse, setSelectedCourse] = useState('');
+  async function onCourseClick(course){
+    if(selectedCourse!=null && selectedCourse.course_id == course.course_id){
+      setSelectedCourse(null);
+      return;
+    }
+    let response = await fetch(`http://${API_SERVER}/api/v1/course/${course.course_id}`);
+    let courseDetail = await response.json();
+    setSelectedCourse(courseDetail);
   }
-
+  function onLiveStart(lectureId) {
+    console.log(lectureId)
+  }
   return (
     <>
       <div className="flex flex-col justify-center items-start w-full relative overflow-hidden gap-5 p-[3px] bg-[#ebefff]">
         <div className="flex justify-start items-start w-full gap-5 px-5">
-
           <div className="flex flex-col w-1/2 justify-start items-center flex-grow relative gap-[10px]">
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-5 mt-8 h-[600px] overflow-auto">
               {props.curricula.map((curriculum) => (
-                  <StudyPageCourseItemSmall key={curriculum.course} propData={curriculum.course} onClick={onCourseClick}/>
+                  <StudyPageCourseItemSmall key={curriculum.order} course={curriculum.course} onClick={onCourseClick}/>
               ))}
             </div>
             <div
@@ -31,8 +38,7 @@ export default function LectureProgress(props) {
               </p>
             </div>
           </div>
-        <StudyPageLectureList course={selectedCourse}/>
-        <LectureProgressBars />
+          {!selectedCourse ? <LectureProgressBars /> : <StudyPageLectureList course={selectedCourse} state={props.state} onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}/>}
         </div>
       </div>
     </>

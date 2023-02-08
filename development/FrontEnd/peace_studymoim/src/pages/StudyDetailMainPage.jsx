@@ -106,7 +106,7 @@ export default function StudyDetailMainPage() {
         <div className="p-3 bg-white border border-[#898989]">
             {currentClick === "realtime" ? <NowPlayStudy propData={detailData} /> : null}
             {currentClick === "community" ? <StudyMemberCoummunity propData={detailData} /> : null}
-            {currentClick === "progress" ? <LectureProgressList propData={detailData} /> : null}
+            {currentClick === "progress" ? <LectureProgressList propData={detailData} state={{user: info, study: {studyId: studyId.study_id}}} /> : null}
             {currentClick === "membermanagement" ? <MemberManage propData={detailData} /> : null}
             {currentClick === "course" ? <LectureManage propData={detailData} /> : null}
           </div>
