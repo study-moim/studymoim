@@ -1,6 +1,4 @@
 import { Link, NavLink } from "react-router-dom";
-import BellIcon from "./BellIcon";
-import MailIcon from "./MailIcon";
 import userInfo from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,19 +8,18 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 /** @function 로그인된상태네비게이션바 */
-export default function NavBarLogIn() {
+export default function NavBarLogInMd() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { setLogOut , info } = userInfo();
-  
+  const { setLogOut, info } = userInfo();
+
   if (!info) {
-    return null
+    return null;
   }
 
   function closeModalHandler() {
     setShowModal(false);
   }
-
 
   function logoutHandler() {
     setLogOut();
@@ -31,25 +28,27 @@ export default function NavBarLogIn() {
   }
 
   return (
-    <div className="flex justify-end items-center w-[360px] relative gap-[10px]">
+    <div className="flex flex-col w-[360px] relative gap-3">
       {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}
-      <div onClick={() => setShowModal(true)} className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
-        <FontAwesomeIcon icon={faBell} className="text-[20px]"/>
+      <div
+        onClick={() => setShowModal(true)}
+        className="flex items-center cursor-pointer hover:text-[#B1B2FF] text-[16px]"
+      >
+        알림
       </div>
       {showModal ? <RingModal onCancel={closeModalHandler} /> : null}
-      <Link to="/mail" className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
-      <FontAwesomeIcon icon={faEnvelope} className="text-[20px]"/>
+      <Link
+        to="/mail"
+        className="flex items-center cursor-pointer hover:text-[#B1B2FF] text-[16px]"
+      >
+        쪽지
       </Link>
       <a href={`/mypage/${info.userId}`}>
-        <button
-          className="text-[14px] w-[80px] text-white px-3 py-[6px] rounded-[10px] bg-[#f0db4f] hover:bg-[#ebd43c]"
-        >
-          MyPage
-        </button>
+        <button className="text-[16px] hover:text-[#B1B2FF]">MyPage</button>
       </a>
       {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
-        className="text-[14px] w-[80px] text-white px-3 py-[6px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
+        className="text-left text-[16px] hover:text-[#B1B2FF]"
         onClick={logoutHandler}
       >
         로그아웃

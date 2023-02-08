@@ -12,7 +12,7 @@ export default function NavBarNotLogIn() {
   return (
     <>
       <button
-        className="text-[14px] w-[80px] text-white px-3 py-[6px] rounded-[10px] bg-[#F7E600] hover:bg-[#ebd43c]"
+        className="text-left text-[16px] hover:text-[#B1B2FF]"
         onClick={() => setShowModal(true)}
       >
         로그인
