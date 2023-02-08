@@ -1,11 +1,9 @@
-import useFetch from "../hooks/useFetch";
 import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 import MainCourse from "../components/mainpages/MainCourse";
-// import CourseGaro from "../components/overall/CourseGaro";
 import userInfo from "../zustand/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -129,7 +127,6 @@ export default function StudyRecruitDetailPage(props) {
                 curriculum.map((item) => {
                   return (
                     <MainCourse key={item.course.course_id} propData={item.course} /> 
-                   //  <CourseGaro key={item.course.course_id} item={item} /> 
                   )
                 })}
             </div>
