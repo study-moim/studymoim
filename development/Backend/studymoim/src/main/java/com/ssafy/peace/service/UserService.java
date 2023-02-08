@@ -43,7 +43,7 @@ public class UserService {
         userRepository.save(User.builder().email(userRegisterInfo.getEmail()).build());
         User user = userRepository.findByEmail(userRegisterInfo.getEmail());
         alarmRepository.save(Alarm.builder()
-                .content(user.getNickname() + "님 가입을 축하합니다.")
+                .content("가입을 축하합니다! 열공 열공 열공!")
                 .user(user)
                 .url("#")
                 .build());
