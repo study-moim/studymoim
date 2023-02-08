@@ -1,5 +1,5 @@
 import useFetch from "../../hooks/useFetch";
-import Tag from '../overall/Tag';
+import Tag from "../overall/Tag";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -10,17 +10,22 @@ export default function StudySearch() {
   const LoadedStudyRecruits = useFetch(`http://${API_SERVER}/api/v1/study/`);
   const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`);
   const [word, setWord] = useState("");
+  const [sort, setSort] = useState();
   // const [tagId, setTagId] = useState("");
 
-  // filterTitle이지만 제목 + 내용 검색됨 
+  // filterTitle이지만 제목 + 내용 검색됨
   let filterTitle = LoadedStudyRecruits.filter((study) => {
-    return study.title.concat(study.content)
-    .replace(" ", "")
-    .toLocaleLowerCase()
-    .includes(word.toLocaleLowerCase().replace(" ", ""))   
+    return study.title
+      .concat(study.content)
+      .replace(" ", "")
+      .toLocaleLowerCase()
+      .includes(word.toLocaleLowerCase().replace(" ", ""));
   });
 
-  
+  let filterCourse = LoadedStudyRecruits.sort((a, b) => {
+    return b.userLimit - b.userGathered - (a.userLimit - a.userGathered);
+  });
+
   return (
     <div className="w-full">
       <div className="flex justify-center items-center self-stretch h-[100px] gap-2.5">
@@ -33,28 +38,29 @@ export default function StudySearch() {
             placeholder="찾고 있는 스터디를 검색하세요!"
             className="w-full rounded-[30px] pl-4"
             onChange={(e) => {
-              setWord(e.target.value); 
+              setWord(e.target.value);
             }}
           />
         </form>
         {/* TODO: 정렬도 해야 됨 원래는 백에서 주기로 한듯한데.. 우리가 해야될듯? ㅋ  */}
         <select
           name="커뮤니티정렬"
+          onChange={(e) => setSort(e.target.value)}
           className="px-[20px] w-[150px] h-[42px] border border-slate-500 rounded-[30px] cursor-pointer"
         >
           <option value="">정렬하기</option>
           {/* 많이 남은 순!   */}
-          <option value="full">정원순</option>
+          <option value="full">정렬순</option>
         </select>
       </div>
       <div className="flex flex-col justify-start items-start w-full">
-        <div  className="flex justify-evenly items-start w-full">
-        {/* TODO: 스터디 curricula 정보에 tag가 안들어가 있어서 필터가 안될듯? - 말하고 빼자 */}
-        {tags.map((tag) => (
-          <Tag key={tag.courseCategoryId} tag={tag} />
-        ))}
+        <div className="flex justify-evenly items-start w-full">
+          {/* TODO: 스터디 curricula 정보에 tag가 안들어가 있어서 필터가 안될듯? - 말하고 빼자 */}
+          {tags.map((tag) => (
+            <Tag key={tag.courseCategoryId} tag={tag} />
+          ))}
         </div>
-       
+
         {filterTitle.map((recruit) => (
           <div
             key={recruit.studyId}
@@ -63,6 +69,16 @@ export default function StudySearch() {
             <StudyRecruitItem props={recruit} />
           </div>
         ))}
+        {/* 정렬하기 돌아갔을 때 다시 되돌아가지지가 않음 copy 해서 해야될 것 같은디 모르겠음 */}
+        {sort === "full" &&
+          filterCourse.map((recruit) => {
+            <div
+              key={recruit.studyId}
+              className="cursor-pointer hover:scale-105 w-11/12 ml-6"
+            >
+              <StudyRecruitItem props={recruit} />
+            </div>;
+          })}
       </div>
     </div>
   );
