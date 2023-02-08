@@ -1,8 +1,25 @@
-import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
+import { useState, useMemo, useEffect } from "react";
 
 export default function FollowerList({ follower, userId }) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
+  const [isFollow, setIsFollow] = useState(false)
+  const [changeFollow, setChangeFollow] = useState(false)
+  useEffect(() => {
+    const getIsFollow = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/user/${follower.userId}/follow?userId=${info.userId}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setIsFollow(json);
+        });
+    };
+    getIsFollow()
+  }, [changeFollow]);
+
+
   function followFunction(methods) {
     fetch(`http://${API_SERVER}/api/v1/user/${follower.userId}/follow/`, {
       method: methods,
@@ -14,14 +31,11 @@ export default function FollowerList({ follower, userId }) {
       }),
     }).then((res) => {
       if (res.ok) {
-        window.location.reload();
+        setChangeFollow(!changeFollow)
       }
     });
   }
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const followCheck = useFetch(
-    `http://${API_SERVER}/api/v1/user/${follower.userId}/follow?userId=${info.userId}`
-  );
+
   return (
     <>
       <div className="flex justify-start items-center gap-5 relativel">
@@ -45,7 +59,7 @@ export default function FollowerList({ follower, userId }) {
         <div className="w-full">
           {follower.userId === info.userId ? null : (
             <div className="w-full">
-              {!followCheck ? (
+              {!isFollow ? (
                 <button
                   onClick={() => followFunction("POST")}
                   className="w-full rounded-[20px] bg-[#b1b2ff] text-base font-bold text-center text-white py-2 px-6 hover:bg-[#989aff]"

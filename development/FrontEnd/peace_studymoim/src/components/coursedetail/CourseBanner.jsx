@@ -4,7 +4,6 @@ import userInfo from "../../zustand/store";
 import { useState, useMemo, useEffect } from "react";
 
 export default function CourseBanner({ dataForBanner }) {
-  console.log(dataForBanner);
   const { info } = userInfo();
   const [likeCount, setLikeCount] = useState(dataForBanner.likeUserCount)
   // async 여기배끼셈
