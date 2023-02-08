@@ -16,8 +16,9 @@ export default function LectureProgress(props) {
     let courseDetail = await response.json();
     setSelectedCourse(courseDetail);
   }
-  function onLiveStart(lectureId) {
-    console.log(lectureId)
+  async function onLiveStart(lectureId) {
+    let response = await fetch(`http://${API_SERVER}/api/v1/study/${props.state.study.studyId}/live/start?lectureId=${lectureId}`, {method: 'PUT'})
+    console.log(response.status)
   }
   return (
     <>

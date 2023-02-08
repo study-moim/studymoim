@@ -1,5 +1,5 @@
 // TODO: 이거보고 하기..
-import { Link, useLocation } from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
@@ -7,6 +7,7 @@ import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 import userInfo from "../zustand/store";
 import Stomp from "stompjs";
+import useFetch from "../hooks/useFetch.jsx";
 
 export default function StudyPlayerMainRoot() {
   const props = useLocation().state;
@@ -45,7 +46,7 @@ export default function StudyPlayerMainRoot() {
  * */
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-
+  const navigate = useNavigate();
   const [chattings, setChattings] = useState([]);
   function changeChattings(message) {
     chattings.push(message);
@@ -72,6 +73,13 @@ export default function StudyPlayerMainRoot() {
   }
   async function disconnect() {
     await stomp.disconnect(()=>{}, {"user-id": user.userId, "study-id": study.studyId});
+  }
+  async function closeLive() {
+    if(confirm("라이브를 종료하시겠습니까?") == true) {
+      let response = await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`, {method: 'PUT'});
+      console.log(response.status)
+      navigate(`/studyDetail/${study.studyId}`);
+    }
   }
   function clearInput() {
     const inputTag = document.getElementById("ipt")
@@ -169,7 +177,7 @@ export default function StudyPlayerMainRoot() {
             &lt; 이전 강의
           </p>
           <button className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105"
-            onClick={disconnect}>
+            onClick={closeLive}>
             종료하기
           </button>
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
