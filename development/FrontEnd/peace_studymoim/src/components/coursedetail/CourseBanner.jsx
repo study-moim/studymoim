@@ -1,7 +1,50 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import userInfo from "../../zustand/store";
+import { useState, useMemo, useEffect } from "react";
 
 export default function CourseBanner({ dataForBanner }) {
+  const { info } = userInfo();
+  const [likeCount, setLikeCount] = useState(dataForBanner.likeUserCount)
+  // async 여기배끼셈
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const [isLike, setIsLike] = useState(false);
+  useEffect(() => {
+    const getIsLike = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/course/${dataForBanner.courseId}/${info.userId}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setIsLike(json);
+        });
+    };
+    getIsLike();
+  }, [isLike]);
+
+  console.log(isLike);
+
+  function likeFunction(methods) {
+    fetch(`http://${API_SERVER}/api/v1/course/${dataForBanner.courseId}/${info.userId}`, {
+      method: methods,
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((res) => {
+      if (res.ok) {
+        setIsLike(!isLike)
+        if (methods==="POST") {
+          setLikeCount(likeCount+1)
+        } else {
+          setLikeCount(likeCount-1)
+        }
+        console.log(likeCount, "ASDFASDFASDFASDFASDFASDF")
+      }
+    });
+  }
+
+
+
   return (
     <div className="w-full flex flex-col bg-[#ebefff] p-[30px] gap-[20px] rounded-[15px] ">
       <img className="w-[350px] h-[250px] " src={dataForBanner.thumbnail}></img>
@@ -16,14 +59,22 @@ export default function CourseBanner({ dataForBanner }) {
         </p>
       </div>
       <div className="flex gap-[10px] items-center pl-2">
-        <button className="text-[25px]">
-          <FontAwesomeIcon
-            icon={faHeart}
-            color="rgb(148 163 184)"
-            className="hover:text-red-500"
-          />
-        </button>
-        <p className="text-[20px]">{dataForBanner.likeUserCount}</p>
+        {!isLike ? (
+          <button className="text-[25px]" onClick={() => likeFunction("POST")}>
+            <FontAwesomeIcon
+              icon={faHeart}
+              className="hover:text-red-500 text-red-200"
+            />
+          </button>
+        ) : (
+          <button className="text-[25px]" onClick={() => likeFunction("DELETE")}>
+            <FontAwesomeIcon
+              icon={faHeart}
+              className="hover:text-red-200 text-red-500 border"
+            />
+          </button>
+        )}
+        <p className="text-[20px]">{likeCount}</p>
       </div>
       <button
         className="px-[65px] py-[18px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35] hover:animate-pulse text-base font-bold text-center uppercase text-white"

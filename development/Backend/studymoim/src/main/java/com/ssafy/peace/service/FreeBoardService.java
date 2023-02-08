@@ -69,6 +69,7 @@ public class FreeBoardService {
 
     @Transactional
     public FreeBoardDto.Detail getfreeBoardDetail(Integer articleId) throws RollbackException {
+        freeBoardRepository.save(freeBoardRepository.findById(articleId).get().hit());
         FreeBoard freeBoard = freeBoardRepository.findById(articleId).get();
         FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
         res.setFreeBoardComments(

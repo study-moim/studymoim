@@ -8,7 +8,7 @@ export default function LectureProgressList(props) {
           수강중인 강좌
         </p>
       </div>
-      <LectureProgress curricula={props.propData.curricula} />
+      <LectureProgress curricula={props.propData.curricula} state={props.state}/>
     </div>
   );
 }
