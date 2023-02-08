@@ -52,6 +52,7 @@ public class Study {
 
     @NotNull
     private boolean isLive;
+    private Integer recentLectureId;
 
     @Size(max = 100)
     private String notice;
@@ -104,6 +105,11 @@ public class Study {
 
     public Study updateLive(boolean isLive){
         this.isLive = isLive;
+        return this;
+    }
+    public Study updateLive(boolean isLive, Integer lectureId){
+        this.isLive = isLive;
+        this.recentLectureId = lectureId;
         return this;
     }
 
