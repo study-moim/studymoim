@@ -77,17 +77,16 @@ public class StudyService {
     }
 
     @Transactional
-    public StudyDto.Info makeStudy(StudyDto.Make study) throws RollbackException {
+    public void makeStudy(StudyDto.Make study) throws RollbackException {
         Study newStudy = Study.builder()
                 .title(study.getTitle())
                 .content(study.getContent())
                 .startTime(study.getStartTime())
-                .saveName(study.getSaveName())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
                 .isLive(false)
                 .build();
-        StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
+        studyRepository.save(newStudy);
         // 스터디를 만든 사람이 곧 방장
         studyMemberRepository.save(StudyMember.builder()
                 .user(userRepository.findById(study.getLeadUserId()).get())
@@ -106,8 +105,6 @@ public class StudyService {
             curricula.add(curriculum);
         }
         curriculumRepository.saveAll(curricula);
-
-        return result;
     }
 
     @Transactional
@@ -116,7 +113,6 @@ public class StudyService {
                 .title(study.getTitle())
                 .content(study.getContent())
                 .startTime(study.getStartTime())
-                .saveName(study.getSaveName())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
                 .build()

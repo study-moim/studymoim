@@ -14,10 +14,20 @@ export default function StudyMemberCoummunity({ propData }) {
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef(null);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const [studyCommunity, setStudyCommunity] = useState([]);
+  useEffect(() => {
+    const getStudyCommunity = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/study/community/${studyId.study_id}`
+      )
+      .then((res) => res.json())
+      .then((json) => {
+        setStudyCommunity(json); 
+      }); 
+    };
+    getStudyCommunity(); 
+}, [studyCommunity]); 
 
-  const studyCommunity = useFetch(
-    `http://${API_SERVER}/api/v1/study/community/${studyId.study_id}`
-  );
 
   useEffect(() => {
     if (!info) {
