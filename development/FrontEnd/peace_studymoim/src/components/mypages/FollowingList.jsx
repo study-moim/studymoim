@@ -1,10 +1,26 @@
-import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
+import { useState, useMemo, useEffect } from "react";
 
 export default function FollowingList({ following, userId }) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
-  async function followFunction(methods) {
-    await fetch(`http://${API_SERVER}/api/v1/user/${following.userId}/follow/`, {
+  const [isFollow, setIsFollow] = useState(false)
+  const [changeFollow, setChangeFollow] = useState(false)
+  useEffect(() => {
+    const getIsFollow = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/user/${following.userId}/follow?userId=${info.userId}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setIsFollow(json);
+        });
+    };
+    getIsFollow()
+  }, [changeFollow]);
+
+  function followFunction(methods) {
+    fetch(`http://${API_SERVER}/api/v1/user/${following.userId}/follow/`, {
       method: methods,
       headers: {
         "Content-Type": "application/json",
@@ -14,14 +30,11 @@ export default function FollowingList({ following, userId }) {
       }),
     }).then((res) => {
       if (res.ok) {
-        window.location.reload();
+        setChangeFollow(!changeFollow)
       }
     });
   }
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const followCheck = useFetch(
-    `http://${API_SERVER}/api/v1/user/${following.userId}/follow?userId=${info.userId}`
-  );
+
   return (
     <>
       <div className="flex justify-center items-center gap-5 relative">
@@ -45,7 +58,7 @@ export default function FollowingList({ following, userId }) {
         <div className="w-full">
           {following.userId === info.userId ? null : (
             <div className="w-full">
-              {!followCheck ? (
+              {!isFollow ? (
                 <button
                   onClick={() => followFunction("POST")}
                   className="w-full rounded-[20px] bg-[#b1b2ff] text-base font-bold text-center text-white py-2 px-6 hover:bg-[#989aff]"
