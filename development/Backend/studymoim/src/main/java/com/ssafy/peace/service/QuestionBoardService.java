@@ -1,6 +1,7 @@
 package com.ssafy.peace.service;
 
 import com.ssafy.peace.dto.FreeBoardDto;
+import com.ssafy.peace.dto.LectureDto;
 import com.ssafy.peace.dto.QuestionBoardCommentDto;
 import com.ssafy.peace.dto.QuestionBoardDto;
 import com.ssafy.peace.entity.*;
@@ -11,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.RollbackException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,4 +112,15 @@ public class QuestionBoardService {
                 .collect(Collectors.toList());
     }
 
+    public List<QuestionBoardDto.Info> getQuestionBoardListByCourse(Integer courseId) {
+        List<Lecture> lectureList = lectureRepository.findAllByCourse_CourseId(courseId);
+        List<QuestionBoardDto.Info> result = new ArrayList<>();
+        for (Lecture lecture : lectureList) {
+            result.addAll(questionBoardRepository.findAllByIsDeletedIsFalseAndLecture_LectureId(lecture.getLectureId()).stream()
+                    .map(QuestionBoardDto.Info::fromEntity)
+                    .collect(Collectors.toList()));
+        }
+        result.sort(Comparator.comparing(QuestionBoardDto.Info::getPublishTime).reversed());
+        return result;
+    }
 }

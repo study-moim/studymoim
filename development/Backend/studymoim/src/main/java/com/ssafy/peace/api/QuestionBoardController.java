@@ -40,6 +40,21 @@ public class QuestionBoardController {
         }
     }
 
+    @Operation(summary = "get questionBoard list By Course", description = "특정 강좌의 질문 게시판 글 목록 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<?> boardListByCourse(@Parameter(description="courseId") @PathVariable Integer courseId) {
+        try{
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardListByCourse(courseId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "post questionBoard", description = "질문 게시판 글 작성 및 수정하기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
