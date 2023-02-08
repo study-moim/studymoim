@@ -20,6 +20,7 @@ export default function CourseDetailRoot() {
   });
 
   const dataForBanner = {
+    courseId: props.course_id,
     title: props.title,
     thumbnail: props.thumbnail,
     courseProvider: props.courseProviderName,
