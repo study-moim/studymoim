@@ -181,7 +181,7 @@ export default function FieldPage() {
             </button>
             <div className="min-w-[800px] flex flex-col justify-center items-center">
               <p className="text-[30px] font-bold my-[50px]">
-                나만의 개성있는 프로필 완성하기
+                나만의 개성있는 프로필 완성해주세요
               </p>
               <form
                 onSubmit={submitHandler}
@@ -235,7 +235,7 @@ export default function FieldPage() {
                   )}
                 </div>
                 <button className="btn mt-5 w-[500px] h-10 rounded-[20px] bg-[#b1b2ff] text-lg text-center text-white hover:bg-[#8587eb]">
-                  제출하기
+                  공부 하러 가기!
                 </button>
               </form>
             </div>

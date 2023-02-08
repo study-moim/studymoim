@@ -14,7 +14,7 @@ export default function RecommendBanner() {
 
   console.log(recommendCourse);
   return (
-    <div className="flex flex-col w-full bg-[#ebefff] p-[30px] gap-[20px]">
+    <div className="flex flex-col border w-full bg-[#ebefff] p-[30px] gap-[20px]">
       <p className="w-full text-[45px] font-bold">
         <span className="font-bold text-[#a259ff]">{userNickname}</span>
         <span className="font-bold text-black">님과 딱 맞는 강좌</span>

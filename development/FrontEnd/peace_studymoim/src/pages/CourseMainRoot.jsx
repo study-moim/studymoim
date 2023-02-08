@@ -10,7 +10,7 @@ import CourseTage from "../components/coursepages/CourseTag";
 export default function CourseMainRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course/`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`).slice(0, 9);
+  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
   const { info } = userInfo();
   const [word, setWord] = useState("");
   const [tagId, setTagId] = useState("");
@@ -33,7 +33,7 @@ export default function CourseMainRoot() {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <div className="border mt-3">
+      <div className="mt-3">
         {/* 큰 추천 배너 */}
         {info ? <CourseBanner /> : null}
       </div>
@@ -58,7 +58,7 @@ export default function CourseMainRoot() {
           </div>
         </div>
       </div>
-      <p className="text-base mb-3"># 인기태그</p>
+      <p className="text-base mb-3"># 태그 검색</p>
       <div className="flex flex-row flex-wrap gap-2">
         <button
           className={
