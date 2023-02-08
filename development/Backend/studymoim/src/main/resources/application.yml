@@ -18,6 +18,11 @@ spring:
       ddl-auto: create
   springdoc:
     use-fqn: true
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:studymoim-gcs.json
 logging:
   level:
     web: trace

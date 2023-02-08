@@ -110,4 +110,9 @@ public class User {
         this.nickname = nickname;
         return this;
     }
+
+    public User updateSaveName(String saveName){
+        this.saveName = saveName;
+        return this;
+    }
 }

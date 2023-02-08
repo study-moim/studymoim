@@ -1,4 +1,3 @@
-import MainCarousel from "../components/mainpages/MainCarousel";
 import MainSearch from "../components/mainpages/MainSearch";
 import TagList from "../components/overall/TagList";
 import userInfo from "../zustand/store";
@@ -17,7 +16,6 @@ export default function MainPageRoot() {
 
   return (
     <div>
-      <MainCarousel />
       <div className="max-w-6xl mx-auto px-4 justify-start items-center">
         <div className="w-full my-3 flex flex-col justify-center items-center">
           <MainSearch />

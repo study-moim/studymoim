@@ -171,6 +171,36 @@ export default function StudyMakeForm(props) {
                 />
               </div>
             </div>
+            
+            {/* finished 여부  */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">모집마감 여부(*)</p>
+              <select
+                id="recruitMethod"
+                ref={recruitMethodRef}
+                required
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              >
+                <option></option>
+                <option value={true}>마감했어요</option>
+                <option value={false}>아직모집중ㅋ</option>
+              </select>
+            </div>
+
+            {/* close 여부 */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
+              <p className="text-[32px] text-left">스터디 종료(*)</p>
+              <select
+                id="recruitMethod"
+                ref={recruitMethodRef}
+                required
+                className="w-full h-[90px] relative rounded border-2 border-[#b1b2ff]"
+              >
+                <option></option>
+                <option value={true}>종료</option>
+                <option value={false}>아직 진행중</option>
+              </select>
+            </div>
 
             {/* 사진 */}
             <div className="flex justify-start items-start relative gap-2.5 p-2.5 w-full">
@@ -262,7 +292,7 @@ export default function StudyMakeForm(props) {
                 취소
               </div>
               <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
-                글쓰기
+                수정하기
               </button>
 
               {showModal ? (

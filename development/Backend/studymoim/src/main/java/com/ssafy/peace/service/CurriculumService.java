@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CurriculumService {
@@ -20,20 +23,21 @@ public class CurriculumService {
     private final StudyRepository studyRepository;
 
     @Transactional
-    public CurriculumDto.Info makeCurriculum() {
-        Course course = courseRepository.findById(12).get();
-        Study study = studyRepository.findById(21).get();
-        System.out.println(course);
-        System.out.println(study);
-        Curriculum newCurriculum = curriculumRepository.save(Curriculum.builder()
-                .course(course)
-                .study(study)
-                .curriculumOrder(0)
-                .build());
-        System.out.println(newCurriculum);
-        return CurriculumDto.Info.fromEntity(newCurriculum);
-
+    public void updateCurriculum(CurriculumDto.Curricula curriculumDto){
+        List<Curriculum> deleteCurricula = curriculumRepository.findAllByStudy_StudyIdOrderByCurriculumOrderAsc(curriculumDto.getStudyId());
+        curriculumRepository.deleteAll(deleteCurricula);
+        List<Curriculum> curricula = new ArrayList<>();
+        Study study = studyRepository.findById(curriculumDto.getStudyId()).get();
+        int order = 0;
+        for(int courseId : curriculumDto.getCourseIdList()){
+            Curriculum curriculum = Curriculum.builder()
+                    .course(courseRepository.findById(courseId).get())
+                    .study(study)
+                    .curriculumOrder(order++)
+                    .build();
+            curricula.add(curriculum);
+        }
+        curriculumRepository.saveAll(curricula);
 
     }
-
 }

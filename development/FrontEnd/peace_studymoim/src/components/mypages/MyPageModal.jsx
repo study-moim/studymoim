@@ -19,11 +19,7 @@ export default function MyPageModal({
       setShowModal(null);
     }
   };
-  const { info } = userInfo()
-  const [userId, setUserId] = useState(getPageName)
-  if (userId === 0) {
-    setUserId(info.userId)
-  }
+  const [userId, setUserId] = useState(getPageName);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const followings = useFetch(
     `http://${API_SERVER}/api/v1/user/${userId}/follow/following/list/`
@@ -65,11 +61,26 @@ export default function MyPageModal({
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <div className="my-4 text-slate-500 text-lg leading-relaxed overflow-auto">
-                    {showModal === "follower" ? <FollowerList /> : null}
+                    {showModal === "follower" ? (
+                      <div>
+                        {followers.map((follower) => (
+                          <FollowerList
+                            key={follower.userId}
+                            follower={follower}
+                            userId={userId}
+                          />
+                        ))}
+                      </div>
+                    ) : null}
+
                     {showModal === "following" ? (
                       <div>
                         {followings.map((following) => (
-                          <FollowingList key={following.userId} following={following} userId={userId}/>
+                          <FollowingList
+                            key={following.userId}
+                            following={following}
+                            userId={userId}
+                          />
                         ))}
                       </div>
                     ) : null}

@@ -72,7 +72,6 @@ public class StudyService {
         List<Curriculum> curricula = new ArrayList<>();
         int order = 0;
         for(int courseId : study.getCourseIdList()){
-            System.out.println(courseId);
             Curriculum curriculum = Curriculum.builder()
                     .course(courseRepository.findById(courseId).get())
                     .study(newStudy)
@@ -163,7 +162,6 @@ public class StudyService {
                 .build()
                 .updateId(studyMemberRepository.findByUser_userIdAndStudy_studyId(userId, studyId).getStudyMemberId())
         );
-
     }
 
     @Transactional
@@ -172,7 +170,6 @@ public class StudyService {
                 .map(studyCommunity -> StudyCommunityDto.fromEntity(studyCommunity))
                 .collect(Collectors.toList());
     }
-
 
     public void addStudyCommunity(StudyCommunityDto studyCommunityDto) {
         studyCommunityRepository.save(StudyCommunity.builder()

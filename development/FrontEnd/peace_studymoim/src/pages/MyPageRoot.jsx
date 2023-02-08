@@ -8,6 +8,7 @@ import MyPageLecture from "../components/mypages/MyPageLecture";
 import MyPageCourse from "../components/mypages/MyPageCourse";
 import MyPageStatic from "../components/mypages/MyPageStatic";
 import MyPageModal from "../components/mypages/MyPageModal";
+import useFetch from "../hooks/useFetch";
 
 
 export default function MyPageRoot() {
@@ -26,7 +27,6 @@ export default function MyPageRoot() {
   const clickModal = (event) => {
     setShowModal(event.target.id);
   };
-
   useEffect(
     (e) => {
       if (currentClick !== null) {

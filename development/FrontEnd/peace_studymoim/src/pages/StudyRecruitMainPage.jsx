@@ -1,66 +1,73 @@
-import StudyRecruitItem from "../components/studypages/StudyRecruitItem";
 import { Link } from "react-router-dom";
-import MainSearch from "../components/mainpages/MainSearch";
-import Tag from "../components/overall/Tag";
-import useFetch from "../hooks/useFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import StudySearch from "../components/studypages/StudySearch";
+import { useState, useEffect } from "react";
+import userInfo from "../zustand/store";
+import LoginModal from "../components/NavBar/LoginModal";
 
-// TODO: 취소 버튼 구현 안함
 export default function StudyRecruitMainPage() {
-  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
+  const [showModal, setShowModal] = useState(false);
 
-  const LoadedStudyRecruits = useFetch(`http://${API_SERVER}/api/v1/study/`);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
 
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      alert("로그인이 필요합니다.");
+      setShowModal(true);
+      return;
+    }
+  });
+
+  //  모집중만 보이게 할 수 있는 toggle switch
+  const [enabled, setEnabled] = useState(false);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px] mt-10">
-      <MainSearch />
-      
-      <div className="w-full flex flex-col justify-between items-center">
-      <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-        <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-          {tags.map((tag) => (
-            <Tag key={tag.courseCategoryId} tag={tag} />
-          ))}
-        </div>
-      </div>
-
-      <div className="w-full flex flex-col justify-start items-start">
-        <div className="flex w-full justify-end items-center self-stretch  h-[92px] gap-2.5 px-2.5 pb-2.5 bg-white border-t border-r-[0.3px] border-b-0 border-l-[0.3px] border-black">
-          <div className="flex justify-start items-start  gap-[23px]">
-            <Link to="/studyDetail">
-              <div>임시 버튼</div>
-            </Link>
-
-            <Link to="/study/study_recruit_form">
+    <>
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
+        <div className="flex flex-row justify-between w-full mb-2">
+          {/* TODO: 나중에 모집중만 보이게 하기  */}
+          <div className="relative flex flex-col items-center justify-center">
+            <label class="inline-flex relative items-center mr-5 cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={enabled}
+                readOnly
+              />
               <div
-                className="px-8 py-[13px] rounded-[10px] bg-[#b1b2ff]/50 text-xl font-bold text-black hover:bg-[#b1b2ff]/90 hover:scale-95"
-                style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-              >
-                스터디 만들기
-              </div>
-            </Link>
-
-            <select
-              name="커뮤니티정렬"
-              className="pl-[20px] w-[150px] h-[40px] mt-[10px] bg-[#f2f2f2] cursor-pointer"
-              style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-            >
-              <option value="">정렬하기</option>
-              <option value="new">최신순</option>
-              <option value="old">오래된순</option>
-            </select>
+                onClick={() => {
+                  setEnabled(!enabled);
+                }}
+                className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:[#ad9dfe] peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ad9dfe]"
+              ></div>
+              <span className="ml-2 text-sm font-medium text-gray-900">
+                모집중만 보기
+              </span>
+            </label>
           </div>
+
+          <Link to="/study/study_recruit_form">
+            <div className="px-8 py-[5px] rounded-[10px] bg-[#ad9dfe] text-base text-white hover:bg-[#b1b2ff]/90">
+              <FontAwesomeIcon icon={faPencil} /> 스터디 만들기
+            </div>
+          </Link>
         </div>
 
-        <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black px-3">
-          {LoadedStudyRecruits.map((recruit) => (
-            <div key={recruit.studyId} className="cursor-pointer hover:scale-105 w-11/12 ml-6">
-              <StudyRecruitItem props={recruit} />
-            </div>
-          ))}
+        <div className="flex flex-col justify-start items-start border">
+          <StudySearch />
         </div>
       </div>
-    </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
+    </>
   );
 }
+
