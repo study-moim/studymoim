@@ -229,6 +229,24 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "update study live streaming", description = "스터디 라이브 시작")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{studyId}/live/{status}")
+    public ResponseEntity<?> studyLiveUpdate(@Parameter(description="studyId") @PathVariable Integer studyId,
+                                            @Parameter(description="status(Enum - start/end)") @PathVariable String status) {
+        try{
+            if(status.equals("start")) studyService.updateLive(studyId, true);
+            if(status.equals("end")) studyService.updateLive(studyId, false);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "find study", description = "스터디 제목으로 찾기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),

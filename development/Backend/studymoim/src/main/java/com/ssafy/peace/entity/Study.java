@@ -102,4 +102,9 @@ public class Study {
         return this;
     }
 
+    public Study updateLive(boolean isLive){
+        this.isLive = isLive;
+        return this;
+    }
+
 }

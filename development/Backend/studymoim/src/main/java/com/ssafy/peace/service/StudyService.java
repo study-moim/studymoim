@@ -128,6 +128,11 @@ public class StudyService {
     }
 
     @Transactional
+    public StudyDto.Info updateLive(Integer studyId, boolean isLive) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateLive(isLive));
+    }
+
+    @Transactional
     public List<StudyDto.Info> getStudyInfoListFindByName(String searchText) throws RollbackException{
 
         return studyRepository.findAllByTitleContaining(searchText).stream()
