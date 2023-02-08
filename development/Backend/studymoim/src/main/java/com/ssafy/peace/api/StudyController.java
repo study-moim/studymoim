@@ -38,6 +38,21 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "get study list", description = "스터디 목록 정렬해서 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/order/{isDesc}")
+    public ResponseEntity<?> studyListIsDesc(@Parameter(description="isDesc") @PathVariable boolean isDesc) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyListIsDesc(isDesc), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "get study Detail", description = "스터디 상세 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -118,8 +133,6 @@ public class StudyController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    //그럼 이거도??
-//    @PutMapping("/{studyId}/request/{userId}")
     @PutMapping("/{studyId}/request/{requestId}")
     public ResponseEntity<?> decideRequest(@Parameter(description="studyId") @PathVariable Integer studyId,
                                            @Parameter(description="requestId") @PathVariable Integer requestId,
