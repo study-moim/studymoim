@@ -5,6 +5,33 @@ import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 
 export default function LecturePlayerMainRoot() {
+  ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+  };
+  useEffect(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", preventGoBack);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+      handleCloseDrawer();
+    };
+  }, []);
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+  //////////////////////////////////////////////////////////////////////
+  
   const navigate = useNavigate();
   const props = useLocation().state.propData;
   const [currentClick, setCurrentClick] = useState("memo");
@@ -51,7 +78,7 @@ export default function LecturePlayerMainRoot() {
             종료하기
           </button>
         </div>
-        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo}/>
+        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo} />
       </div>
       {/* 오른쪽 컴포들 */}
       <div className="flex flex-col w-[400px] h-[700px]">
@@ -74,8 +101,12 @@ export default function LecturePlayerMainRoot() {
         </div>
         {/* 태그들 안에 큰 네모 */}
         <div className="h-full p-3 bg-white border border-[#898989]">
-          {currentClick === "memo" ? <PlayerMemo lectureId={props.lectureId}/> : null}
-          {currentClick === "question" ? <PlayerQuestionList lectureId={props.lectureId}/> : null}
+          {currentClick === "memo" ? (
+            <PlayerMemo lectureId={props.lectureId} />
+          ) : null}
+          {currentClick === "question" ? (
+            <PlayerQuestionList lectureId={props.lectureId} />
+          ) : null}
         </div>
       </div>
     </div>
