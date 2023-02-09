@@ -1,92 +1,66 @@
-import { useEffect } from "react";
 import { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
-import useFetch from "../../hooks/useFetch";
-import userInfo from "../../zustand/store";
-import Select from "react-select";
+import { useNavigate, useParams } from "react-router";
+import { Navigate } from "react-router";
 
-
-export default function StudyMakeForm(props) {
-  const [showModal, setShowModal] = useState(false);
-
+export default function StudyMakeForm({propData}) { 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
-
+  const studyId = useParams(); 
+  const navigate = useNavigate(); 
+  const [showModal, setShowModal] = useState(false);
   function closeModalHandler() {
     setShowModal(false);
   }
 
-  const { info } = userInfo();
-
   // 모집인원
-  const [memberSelect, setMemberSelect] = useState()  
-  const memberOptionList = [
-    { value: 2, label: "2명" },
-    { value: 3, label: "3명" },
-    { value: 4, label: "4명" },
-    { value: 5, label: "5명" },
-    { value: 6, label: "6명" },
-  ];
+  const memberRef = useRef()
 
   // 시작예정일
-  const [startSelect, setStartSelect] = useState("")  
+  const startRef = useRef("") 
 
   // 인원모집방법
-  const [recruitSelect, setRecruitSelect] = useState()  
-  const recruitOptionList = [
-    { value: true, label: "공개" },
-    { value: false, label: "수락" },
-  ];
-
-  // 강좌 선택
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  function handleSelect(data) {
-    setSelectedOptions(data);
-  }
-  const courseOptionList = search.map((course) =>
-    Object.assign({ value: course.course_id, label: course.title })
-  );
+  const recruitRef = useRef("")  
 
   // 제목
-  const [titleInput, setTitleInput] = useState("")
+  const titleInputRef = useRef("") 
 
   // 내용
-  const [contentInput, setContentInput] = useState("")
+  const contentRef = useRef("") 
  
   // 모집 마감 여부
-  const [finished, setFinished] = useState(false)
-  const finishedList = [
-    { value: true, label: "마감" },
-    { value: false, label: "모집중" },
-  ];
+  const finishRef = useRef() 
 
   // 스터디 종료 여부 
-  const [close, setClose] = useState(false)
-  const closeList = [
-    { value: true, label: "종료" },
-    { value: false, label: "진행중" },
-  ];
+  const closeRef = useRef() 
 
   function submitHandler(event) {
     event.preventDefault();
-    const enteredSelectOptions = selectedOptions.map((course) => {
-      return course.value;
-    });
-
-    const studyRecruitData = {
-      title: titleInput,
-      content: contentInput,
-      startTime: startSelect,
-      userLimit: memberSelect,
-      courseIdList: enteredSelectOptions,
-      leadUserId: info.userId,
-      public: recruitSelect,
-      
+   
+    const studyUpdateData = {
+      title: titleInputRef.current.value,
+      content: contentRef.current.value, 
+      startTime: startRef.current.value, 
+      userLimit: memberRef.current.value, 
+      public: recruitRef.current.value, 
+      finished: finishRef.current.value,  
+      close: closeRef.current.value, 
     };
-    console.log(studyRecruitData);
-    props.onAddMeetup(studyRecruitData);
+    fetch(
+      `http://${API_SERVER}/api/v1/study/${studyId.study_recruit_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(studyUpdateData),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        navigate("/study");
+      }
+    });
   }
 
   return (
@@ -119,12 +93,17 @@ export default function StudyMakeForm(props) {
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">모집인원</p>
               <div className="w-full">
-                <Select
+                <select
                   id="recruitMembers"
-                  onChange={(e) => setMemberSelect(e.value)}
+                  ref={memberRef} 
                   required
-                  options={memberOptionList}
-                />
+                  defaultValue={propData.member}>
+                    <option value={2}>2명</option>
+                    <option value={3}>3명</option>
+                    <option value={4}>4명</option>
+                    <option value={5}>5명</option>
+                    <option value={6}>6명</option>
+                </select>
               </div>
             </div>
 
@@ -137,8 +116,9 @@ export default function StudyMakeForm(props) {
                 type="date"
                 min="2023-01-01"
                 max="2024-12-31"
-                onChange={(e) => setStartSelect(e.target.value)}
+                ref={startRef} 
                 className="rounded border-2"
+                defaultValue={propData.start} 
               />
             </div>
 
@@ -146,51 +126,47 @@ export default function StudyMakeForm(props) {
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">인원 모집 방법</p>
               <div className="w-full">
-              <Select
+              <select
                 id="recruitMethod"
-                onChange={(e) => setRecruitSelect(e.value)}
+                ref={recruitRef} 
                 required
-                options={recruitOptionList}
-              />
+                defaultValue={propData.publics}
+              >
+                <option value={true}>공개</option>
+                <option value={false}>수락</option>
+              </select>
               </div> 
             </div>
 
-            {/* 강좌 선택(required) */}
-            <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[20px] text-left">강좌 선택</p>
-              <div className="w-full">
-                <Select
-                  options={courseOptionList}
-                  value={selectedOptions}
-                  onChange={handleSelect}
-                  isSearchable={true}
-                  isMulti
-                  required 
-                />
-              </div>
-            </div>
-                   {/* 모집 여부  */}
+          {/* 모집 여부  */}
           <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">모집여부</p>
               <div className="w-full">
-              <Select
+              <select
                 id="finishMethod"
-                onChange={(e) => setFinished(e.value)}
+                ref={finishRef}
                 required
-                options={finishedList}
-              />
+                defaultValue={propData.finish}
+              >
+               <option value={false}>모집중</option>
+                <option value={true}>모집 마감</option>
+              </select>
               </div> 
             </div>
+
             {/* 종료 여부  */}
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">종료여부</p>
               <div className="w-full">
-              <Select
+              <select
                 id="closeMethod"
-                onChange={(e) => setClose(e.value)}
+                ref={closeRef}
                 required
-                options={closeList}
-              />
+                defaultValue={propData.close}
+              >
+                <option value={false}>진행중</option>
+                <option value={true}>종료</option>
+              </select>
               </div> 
             </div>
           </div>
@@ -223,22 +199,24 @@ export default function StudyMakeForm(props) {
           <div className="flex flex-col w-full justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
             <input
               type="text"
-              onChange={(e) => setTitleInput(e.target.value)}
+              ref={titleInputRef}
               id="title"
               required
               className="w-full mt-3 h-[50px] justify-center border"
               placeholder="제목을 입력해주세요"
               min={5}
               max={30}
+              defaultValue={propData.title}
             />
             {/* 설명 */}
             {/* TODO : CK editor로 바꿔야함!  */}
             <ReactQuill
               id="description"
-              onChange={setContentInput}
+              ref={contentRef}
               required
               placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
               className="w-full h-[400px] justify-center mb-5"
+              defaultValue={propData.content}
             />
 
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
