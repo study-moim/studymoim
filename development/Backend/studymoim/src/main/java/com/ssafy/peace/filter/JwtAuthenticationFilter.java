@@ -44,7 +44,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throws ServletException, IOException {
         // Read the Authorization header, where the JWT Token should be
         String header = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        log.info("================header: "+header);
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
@@ -56,7 +55,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
             Principal p = (Principal) authentication.getDetails();
-            log.info("=============================auth: "+p.getUser().getEmail());
         } catch (Exception ex) {
             ex.printStackTrace();
             ResponseBodyWriteUtil.sendError(request, response, ex);
@@ -75,14 +73,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             JwtTokenUtil.handleError(token);
             DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
             String email = decodedJWT.getSubject();
-            log.info("====================================email: "+email);
             // Search in the DB if we find the user by token subject (username)
             // If so, then grab user details and create spring auth token using username, pass, authorities/roles
             if (email != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
                 UserDto.Info user = userService.getUserByEmail(email);
                 if(user != null) {
-                    log.info("====================================user: "+user);
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     UserDetails principal = new Principal(user);
                     UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(email,
