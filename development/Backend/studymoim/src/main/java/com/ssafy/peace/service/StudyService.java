@@ -125,10 +125,6 @@ public class StudyService {
     }
 
     @Transactional
-    public Boolean checkLive(Integer studyId) throws RollbackException{
-        return studyRepository.findById(studyId).get().isLive();
-    }
-    @Transactional
     public LectureDto.Info getRecentLiveLecture(Integer studyId) throws RollbackException{
         return LectureDto.Info.fromEntity(
                 lectureRepository.findById(

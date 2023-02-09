@@ -234,21 +234,6 @@ public class StudyController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/{studyId}/live")
-    public ResponseEntity<?> studyIsLive(@Parameter(description="studyId") @PathVariable Integer studyId) {
-        try{
-            System.out.println(studyService.checkLive(studyId));
-            return new ResponseEntity<>(studyService.checkLive(studyId), HttpStatus.ACCEPTED);
-        } catch(Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @Operation(summary = "check study live streaming", description = "스터디 라이브 중인지 확인")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-    })
     @GetMapping("/{studyId}/live/recent")
     public ResponseEntity<?> getRecentLecture(@Parameter(description="studyId") @PathVariable Integer studyId) {
         try{
