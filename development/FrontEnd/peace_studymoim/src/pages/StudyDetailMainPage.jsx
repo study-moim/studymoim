@@ -60,7 +60,11 @@ export default function StudyDetailMainPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <StudyIntroduceBanner propData={detailData} />
+      <StudyIntroduceBanner
+        propData={detailData}
+        props={userList}
+        userInfo={userInformation}
+      />
       <StudyNotice
         propData={detailData}
         props={userList}

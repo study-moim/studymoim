@@ -19,7 +19,6 @@ export default function CourseDetailRoot() {
   const questionInThisCourse = useFetch(
     `http://${API_SERVER}/api/v1/articles/question/course/${props.course_id}`
   );
-  console.log(questionInThisCourse)
   let totalTime = 0;
   lectureInThisCourse.forEach((lecture) => {
     totalTime += lecture.length;

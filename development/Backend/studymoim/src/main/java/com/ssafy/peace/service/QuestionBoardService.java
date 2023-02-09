@@ -23,6 +23,8 @@ public class QuestionBoardService {
     private final QuestionBoardCommentRepository questionBoardCommentRepository;
     private final UserRepository userRepository;
     private final LectureRepository lectureRepository;
+    private final AlarmRepository alarmRepository;
+
     @Transactional
     public List<QuestionBoardDto.Detail> getQuestionBoardList() throws RollbackException {
         return questionBoardRepository.findAllByIsDeletedIsFalse().stream()
@@ -79,11 +81,17 @@ public class QuestionBoardService {
     @Transactional
     public QuestionBoardCommentDto.Info writeComment(QuestionBoardCommentDto.Write comment)
             throws RollbackException {
-        return QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
+        QuestionBoardCommentDto.Info result = QuestionBoardCommentDto.Info.fromEntity(questionBoardCommentRepository.save(QuestionBoardComment.builder()
                 .content(comment.getContent())
                 .questionBoard(questionBoardRepository.findById(comment.getQuestionBoardId()).get())
                 .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
+        alarmRepository.save(Alarm.builder()
+                .content(questionBoardRepository.findById(comment.getQuestionBoardId()).get().getTitle()+" 글에 댓글이 달렸습니다.")
+                .user(userRepository.findById(comment.getUserId()).get())
+                .url("/community/question/" + questionBoardRepository.findById(comment.getQuestionBoardId()).get().getQuestionBoardId())
+                .build());
+        return result;
     }
 
     @Transactional
