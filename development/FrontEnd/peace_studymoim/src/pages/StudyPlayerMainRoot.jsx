@@ -221,7 +221,7 @@ export default function StudyPlayerMainRoot() {
           {currentClick === "memo" ? (
             <PlayerMemo lectureId={props.videoInfo.lectureId} />
           ) : null}
-          {currentClick === "question" ? <PlayerQuestionList /> : null}
+          {currentClick === "question" ? <PlayerQuestionList lectureId={props.videoInfo.lectureId}/> : null}
           {currentClick === "chat" ? (
             <div className="h-full w-full">
               <div className="mb-2 w-full">
