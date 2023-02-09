@@ -260,7 +260,7 @@ export default function StudyPlayerMainRoot() {
               <div className="text-black text-[20px] border overflow-auto h-5/6">
                 {chattings.map((chat) => (
                   <div className="text-xs flex flex-row w-full">
-                    {chat.sender !== user.nickname ? (
+                    {chat.sender === user.nickname ? (
                       <div className="flex justify-end w-full">
                         <p className="bg-yellow-200 rounded-md p-1 m-1">
                           {chat.payload}
