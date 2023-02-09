@@ -89,6 +89,7 @@ public class QuestionBoardService {
         alarmRepository.save(Alarm.builder()
                 .content(questionBoardRepository.findById(comment.getQuestionBoardId()).get().getTitle()+" 글에 댓글이 달렸습니다.")
                 .user(userRepository.findById(comment.getUserId()).get())
+                .user(userRepository.findById(questionBoardRepository.findById(comment.getQuestionBoardId()).get().getUser().getUserId()).get())
                 .url("/community/question/" + comment.getQuestionBoardId())
                 .build());
         return result;

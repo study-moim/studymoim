@@ -1,19 +1,42 @@
 // TODO: 이거보고 하기..
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
-import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
-import userInfo from "../zustand/store";
 import Stomp from "stompjs";
-import useFetch from "../hooks/useFetch.jsx";
 
 export default function StudyPlayerMainRoot() {
+  
+  ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+  };
+  useEffect(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", preventGoBack);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, []);
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
+
   const props = useLocation().state;
   let study = props.study;
   let user = props.user;
-  console.log(props, "props");
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 메모/질문/채팅 색이 바뀜
@@ -55,7 +78,6 @@ export default function StudyPlayerMainRoot() {
   const messageRef = useRef(null);
 
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
-  //stomp.debug = null;
 
   useEffect(() => {
     connect(study.studyId);
@@ -226,7 +248,7 @@ export default function StudyPlayerMainRoot() {
           {currentClick === "memo" ? (
             <PlayerMemo lectureId={props.videoInfo.lectureId} />
           ) : null}
-          {currentClick === "question" ? <PlayerQuestionList /> : null}
+          {currentClick === "question" ? <PlayerQuestionList lectureId={props.videoInfo.lectureId}/> : null}
           {currentClick === "chat" ? (
             <div className="h-full w-full">
               <div className="mb-2 w-full">
@@ -272,6 +294,8 @@ export default function StudyPlayerMainRoot() {
           ) : null}
         </div>
       </div>
+
     </div>
+    
   );
 }

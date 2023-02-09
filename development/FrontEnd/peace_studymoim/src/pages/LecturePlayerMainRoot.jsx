@@ -1,18 +1,44 @@
-// TODO: 이거보고 하기..
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
-import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
-import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
-import userInfo from "../zustand/store";
-import Stomp from "stompjs";
+import PlayingVideoFrameSolo from "../components/studyplayer/PlayingVideoFrameSolo";
 
 export default function LecturePlayerMainRoot() {
-  const props = useLocation().state.propData;
-  // console.log(props, "asdfasdfasfgdsgasd");
-  const { info } = userInfo();
+  ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    alert("종료하기를 눌러주세요 :D");
+  };
 
+  // 브라우저에 렌더링 시 한 번만 실행하는 코드
+  useEffect(() => {
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+    })();
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, []);
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+  //////////////////////////////////////////////////////////////////////
+
+  const navigate = useNavigate();
+  const props = useLocation().state.propData;
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 전체/강의/자유 색이 바뀜
@@ -34,9 +60,9 @@ export default function LecturePlayerMainRoot() {
     [currentClick]
   );
 
-  const [playerInfo, setPlayerInfo] = useState({});
-  const videoFrameConductor = {
-    onStateChange(playerInfo) {
+  async function closeLive() {
+    if (confirm("라이브를 종료하시겠습니까?") == true) {
+      navigate(`/course`);
     }
   }
 
@@ -46,22 +72,16 @@ export default function LecturePlayerMainRoot() {
       <div className="flex flex-col justify-start items-start w-11/12 mx-3">
         <div className="w-full flex flex-row justify-between items-center mb-[10px]">
           <div className="text-2xl font-bold text-left text-black">
-            오쌤의 피그마 강좌
+            {props.title}
           </div>
-          <div className="text-xl font-bold text-right text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            강의 설명이 보이는 부분 ▼
-          </div>
+          <button
+            className="text-[16px] font-bold text-center text-[#d15353] cursor-pointer hover:text-[#9a3c3c] hover:scale-105"
+            onClick={closeLive}
+          >
+            종료하기
+          </button>
         </div>
-        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo} eventHandler={videoFrameConductor}/>
-
-        <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
-          <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            &lt; 이전 강의
-          </p>
-          <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            다음 강의 &gt;
-          </p>
-        </div>
+        <PlayingVideoFrameSolo videoId={props.videoId} />
       </div>
       {/* 오른쪽 컴포들 */}
       <div className="flex flex-col w-[400px] h-[700px]">
@@ -84,8 +104,12 @@ export default function LecturePlayerMainRoot() {
         </div>
         {/* 태그들 안에 큰 네모 */}
         <div className="h-full p-3 bg-white border border-[#898989]">
-          {currentClick === "memo" ? <PlayerMemo /> : null}
-          {currentClick === "question" ? <PlayerQuestionList /> : null}
+          {currentClick === "memo" ? (
+            <PlayerMemo lectureId={props.lectureId} />
+          ) : null}
+          {currentClick === "question" ? (
+            <PlayerQuestionList lectureId={props.lectureId} />
+          ) : null}
         </div>
       </div>
     </div>

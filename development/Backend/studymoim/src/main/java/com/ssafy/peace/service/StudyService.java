@@ -96,18 +96,9 @@ public class StudyService {
                 .memberRole(true)
                 .build());
         // 커리큘럼이랑 연결
-        List<Curriculum> curricula = new ArrayList<>();
-        int order = 0;
-        for(int courseId : study.getCourseIdList()){
-            Curriculum curriculum = Curriculum.builder()
-                    .course(courseRepository.findById(courseId).get())
-                    .study(newStudy)
-                     .curriculumOrder(order++)
-                    .build();
-            curricula.add(curriculum);
-        }
-        curriculumRepository.saveAll(curricula);
+        makeCurriculum(newStudy, study.getCourseIdList());
     }
+
 
     @Transactional
     public void updateStudy(Integer studyId, StudyDto.Update study) throws RollbackException{
@@ -249,18 +240,25 @@ public class StudyService {
     }
 
     @Transactional
-    public List<StudyCommunityDto> getStudyCommunityList(Integer studyId) {
+    public List<StudyCommunityDto.Info> getStudyCommunityList(Integer studyId) {
         return studyCommunityRepository.findAllByStudy_studyIdOrderByPublishTimeDesc(studyId).stream()
-                .map(studyCommunity -> StudyCommunityDto.fromEntity(studyCommunity))
+                .map(studyCommunity -> StudyCommunityDto.Info.fromEntity(studyCommunity))
                 .collect(Collectors.toList());
     }
 
-    public void addStudyCommunity(StudyCommunityDto studyCommunityDto) {
+    public void addStudyCommunity(StudyCommunityDto.Make studyCommunityDto) {
         studyCommunityRepository.save(StudyCommunity.builder()
                 .content(studyCommunityDto.getContent())
                 .user(userRepository.findByUserId(studyCommunityDto.getUserId()))
                 .study(studyRepository.findById(studyCommunityDto.getStudyId()).get())
                 .build());
+    }
+
+    public void updateStudyCurriculum(StudyDto.Curriculum curriculum){
+        // 이전의 커리큘럼 날리기
+        List<Curriculum> curricula = studyRepository.findById(curriculum.getStudyId()).get().getCurricula();
+        curriculumRepository.deleteAll(curricula);
+        makeCurriculum(studyRepository.findById(curriculum.getStudyId()).get(), curriculum.getCourseIdList());
     }
 
     private void addStudyMemberAndCheckUserLimit(Integer studyId, int userId) {
@@ -276,5 +274,19 @@ public class StudyService {
         if (studyDto.getUserGathered() + 1 == studyDto.getUserLimit()){
             study.updateCloseStatus();
         }
+    }
+
+    private void makeCurriculum(Study study, List<Integer> courseIdList) {
+        List<Curriculum> curricula = new ArrayList<>();
+        int order = 0;
+        for(int courseId : courseIdList){
+            Curriculum curriculum = Curriculum.builder()
+                    .course(courseRepository.findById(courseId).get())
+                    .study(study)
+                    .curriculumOrder(order++)
+                    .build();
+            curricula.add(curriculum);
+        }
+        curriculumRepository.saveAll(curricula);
     }
 }

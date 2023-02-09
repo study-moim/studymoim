@@ -228,6 +228,22 @@ public class StudyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "update study curriculum", description = "스터디 커리큘럼 업데이트하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/curriculum")
+    public ResponseEntity<?> studyCurriculumUpdate(@RequestBody StudyDto.Curriculum curriculum) {
+        try{
+            studyService.updateStudyCurriculum(curriculum);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @Operation(summary = "check study live streaming", description = "스터디 라이브 중인지 확인")
     @ApiResponses({
@@ -302,7 +318,7 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/community")
-    public ResponseEntity<?> addStudyCommunity(@RequestBody StudyCommunityDto studyCommunityDto) {
+    public ResponseEntity<?> addStudyCommunity(@RequestBody StudyCommunityDto.Make studyCommunityDto) {
 
         try{
             studyService.addStudyCommunity(studyCommunityDto);

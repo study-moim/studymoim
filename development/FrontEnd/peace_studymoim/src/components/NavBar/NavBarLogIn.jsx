@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
 import RingModal from "./RingModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import useFetch from "../../hooks/useFetch.jsx";
 
@@ -17,6 +17,7 @@ export default function NavBarLogIn() {
   const navigate = useNavigate();
   const { setLogOut , info } = userInfo();
   const [alarmList, setAlarmList] = useState([]);
+  const [alarmIsPresent, setAlarmStatus] = useState(false);
 
   useEffect(() => {
       checkAlarms();
@@ -31,7 +32,7 @@ export default function NavBarLogIn() {
       }
       let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${info.userId}/check/alarm`)
       let alarmIsPresent = await resp.json();
-      console.log(alarmIsPresent)
+      setAlarmStatus(alarmIsPresent)
   }
   async function getAlarmList(userId) {
       let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${userId}/alarms`)
@@ -45,9 +46,9 @@ export default function NavBarLogIn() {
       setShowModal(true);
   }
   function closeModalHandler() {
+    checkAlarms();
     setShowModal(false);
   }
-
 
   function logoutHandler() {
     setLogOut();
@@ -57,9 +58,9 @@ export default function NavBarLogIn() {
 
   return (
     <div className="flex justify-end items-center w-[360px] relative gap-[10px]">
-      {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}
       <div onClick={() => openModalHandler()} className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
         <FontAwesomeIcon icon={faBell} className="text-[20px]"/>
+        {alarmIsPresent ? (<span className="relative bottom-1 right-2 inline-flex rounded-full h-2 w-2 bg-red-500"></span>) : null}
       </div>
       {showModal ? <RingModal alarmList={alarmList} setAlarmList={setAlarmList} onCancel={closeModalHandler} /> : null}
       <Link to="/mail" className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
@@ -72,7 +73,6 @@ export default function NavBarLogIn() {
           MyPage
         </button>
       </a>
-      {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
         className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
         onClick={logoutHandler}

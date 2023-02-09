@@ -5,9 +5,15 @@ import NavBarRouter from "./NavBarRouter";
 import NavBarRouterMd from "./NavBarRouterMd";
 import { useState } from "react";
 import classNames from "classnames";
-import RingModal from "./RingModal";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  // 네비바 푸터 안보이기
+  const locationNow = useLocation();
+  if (locationNow.pathname.startsWith("/player")) return null;
+
+
+
   const { logIn } = userInfo();
   const [menuToggle, setMenuToggle] = useState(false);
   return (
