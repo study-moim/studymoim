@@ -7,7 +7,6 @@ export default function NavBarRouter() {
   const { logIn } = userInfo();
   return (
     <>
-      {/* TODO: 링크 누르면 토글 닫기 기능 추가 */}
       <div className="flex flex-col gap-3 px-4 pb-5 border-b pl-7 shadow-md">
         <Link
           to="/course"
@@ -27,7 +26,6 @@ export default function NavBarRouter() {
         >
           <b>커뮤니티</b>
         </Link>
-        {/* TODO: 작은화면에 맞춰 더 구성해야함 */}
         {logIn ? <NavBarLoginMd /> : <NavBarNotLogInMd />}
       </div>
     </>
