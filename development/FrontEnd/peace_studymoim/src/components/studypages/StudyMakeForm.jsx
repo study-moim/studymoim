@@ -10,13 +10,12 @@ import Select from "react-select";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
-
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
 
   function closeModalHandler() {
     setShowModal(false);
-  }
+  };
 
   const { info } = userInfo();
 
@@ -31,14 +30,15 @@ export default function StudyMakeForm(props) {
   ];
 
   // 시작예정일
-  const [startSelect, setStartSelect] = useState("") 
+  const [startSelect, setStartSelect] = useState("")  
 
   // 인원모집방법
-  const [recruitSelect, setRecruitSelect] = useState()  
+  const [recruitSelect, setRecruitSelect] = useState(true)  
   const recruitOptionList = [
     { value: true, label: "공개" },
     { value: false, label: "수락" },
   ];
+
   // 강좌 선택
   const [selectedOptions, setSelectedOptions] = useState([]);
   function handleSelect(data) {
@@ -47,6 +47,7 @@ export default function StudyMakeForm(props) {
   const courseOptionList = search.map((course) =>
     Object.assign({ value: course.course_id, label: course.title })
   );
+
   // 제목
   const [titleInput, setTitleInput] = useState("")
   // 내용
@@ -105,11 +106,11 @@ export default function StudyMakeForm(props) {
                   id="recruitMembers"
                   placeholder="모집인원을 선택하세요."
                   onChange={(e) => setMemberSelect(e.value)}
-                  required
+                  defaultValue={{ value: 2, label: "2명" }}
                   options={memberOptionList}
                 />
-              </div>
-            </div>
+              </div> 
+            </div> 
 
             {/* 시작 예정일 (required) */}
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
@@ -132,7 +133,7 @@ export default function StudyMakeForm(props) {
               <Select
                 id="recruitMethod"
                 onChange={(e) => setRecruitSelect(e.value)}
-                placeholder="인원 모집 방법을 선택하세요." 
+                value={{ value: true, label: "공개" }}
                 required
                 options={recruitOptionList}
               />
@@ -146,13 +147,14 @@ export default function StudyMakeForm(props) {
                 <Select
                   options={courseOptionList}
                   placeholder="강좌를 검색하세요."
-                  value={selectedOptions}
+                  value={courseOptionList[0]}
                   onChange={handleSelect}
                   isSearchable={true}
                   isMulti
                   required 
                 />
               </div>
+              
             </div>
           </div>
         </div>
