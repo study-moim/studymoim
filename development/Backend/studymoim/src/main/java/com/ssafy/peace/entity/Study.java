@@ -98,6 +98,11 @@ public class Study {
         return this;
     }
 
+    public Study updateCloseStatus(){
+        this.isClose = !this.isClose;
+        return this;
+    }
+
     public Study updateLive(boolean isLive){
         this.isLive = isLive;
         return this;

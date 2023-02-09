@@ -156,12 +156,11 @@ public class StudyService {
         int userId = studyMember.getUserId();
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return;
-        studyMemberRepository.save(StudyMember.builder()
-                .study(studyRepository.findById(studyId).get())
-                .user(userRepository.findById(userId).get())
-                .build()
-        );
+        addStudyMemberAndCheckUserLimit(studyId, userId);
+        // Todo: send alarm
     }
+
+
 
     @Transactional
     public StudyRequestDto.Info requestStudy(Integer studyId, StudyRequestDto.Request studyRequest) throws RollbackException  {
@@ -174,6 +173,7 @@ public class StudyService {
                 .study(studyRepository.findById(studyId).get())
                 .content(studyRequest.getContent())
                 .build()));
+        // Todo: send alarm
     }
 
     @Transactional
@@ -185,6 +185,15 @@ public class StudyService {
 
     @Transactional
     public StudyRequestDto.Info decideRequest(Integer studyId, Integer requestId, StudyRequestDto.Decide request){
+        // 수락하면 스터디에 인원 추가, 거절당하면 알람만 보내기
+        if (request.getRequestStatus() == 1) {
+            addStudyMemberAndCheckUserLimit(studyId, request.getUserId());
+            // Todo: send alarm
+
+        } else {
+            // Todo: send alarm
+        }
+
         return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
                 .content(studyRequestRepository.findById(requestId).get().getContent())
                 .requestStatus(request.getRequestStatus())
@@ -218,5 +227,20 @@ public class StudyService {
                 .user(userRepository.findByUserId(studyCommunityDto.getUserId()))
                 .study(studyRepository.findById(studyCommunityDto.getStudyId()).get())
                 .build());
+    }
+
+    private void addStudyMemberAndCheckUserLimit(Integer studyId, int userId) {
+        studyMemberRepository.save(StudyMember.builder()
+                .study(studyRepository.findById(studyId).get())
+                .user(userRepository.findById(userId).get())
+                .build()
+        );
+
+        // 인원이 꽉 차면 스터디 인원 모집을 마감한다
+        Study study = studyRepository.findById(studyId).get();
+        StudyDto.Info studyDto = StudyDto.Info.fromEntity(study);
+        if (studyDto.getUserGathered() + 1 == studyDto.getUserLimit()){
+            study.updateCloseStatus();
+        }
     }
 }
