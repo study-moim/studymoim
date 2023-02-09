@@ -87,13 +87,13 @@ export default function MainPageRoot() {
           <div className="flex flex-row flex-wrap gap-2">
             <button
               className={
-                "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-2 border "
+                "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-1 border "
               }
               onClick={async () => {
                 setSearchType("");
               }}
             >
-              <p className="text-base font-bold">전체</p>
+              <p className="text-[14px]">전체</p>
             </button>
             {tags.map((tag) => (
               <div
