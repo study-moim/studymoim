@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PlayerQuestionDetail from "./PlayerQuestionDetail";
 
-export default function PlayerQuestion({ propData }) {
+export default function PlayerQuestion({ propData, lectureId }) {
   const cutTitle = propData.title.substring(0, 8) + "...";
   const [detailToggle, setDetailToggle] = useState(false);
   const clickDetail = () => {
