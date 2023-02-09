@@ -1,19 +1,15 @@
 // TODO: 이거보고 하기..
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
-import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
-import userInfo from "../zustand/store";
 import Stomp from "stompjs";
-import useFetch from "../hooks/useFetch.jsx";
 
 export default function StudyPlayerMainRoot() {
   const props = useLocation().state;
   let study = props.study;
   let user = props.user;
-  console.log(props, "props");
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 메모/질문/채팅 색이 바뀜
@@ -55,7 +51,6 @@ export default function StudyPlayerMainRoot() {
   const messageRef = useRef(null);
 
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
-  //stomp.debug = null;
 
   useEffect(() => {
     connect(study.studyId);

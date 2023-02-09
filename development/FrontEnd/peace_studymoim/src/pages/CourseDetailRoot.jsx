@@ -94,6 +94,7 @@ export default function CourseDetailRoot() {
                   key={lecture.lectureId}
                   propData={lecture}
                   lectureIndex={idx + 1}
+                  courseId={props.course_id}
                 />
               ))}
             </div>
