@@ -107,6 +107,18 @@ public class StudyDto {
 
     }
 
+    @Data
+    @Builder
+    public static class Curriculum {
+        @NotNull(message="content은 null 일 수 없습니다")
+        @NotEmpty(message="content은 빈값 일 수 없습니다")
+        private int studyId;
+
+        @NotNull(message="강좌 선택은 null 일 수 없습니다")
+        @NotEmpty(message="강좌 선택은 빈값 일 수 없습니다")
+        private List<Integer> courseIdList;
+    }
+
 
 
     @Data

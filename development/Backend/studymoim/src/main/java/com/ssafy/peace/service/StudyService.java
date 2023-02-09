@@ -96,18 +96,9 @@ public class StudyService {
                 .memberRole(true)
                 .build());
         // 커리큘럼이랑 연결
-        List<Curriculum> curricula = new ArrayList<>();
-        int order = 0;
-        for(int courseId : study.getCourseIdList()){
-            Curriculum curriculum = Curriculum.builder()
-                    .course(courseRepository.findById(courseId).get())
-                    .study(newStudy)
-                     .curriculumOrder(order++)
-                    .build();
-            curricula.add(curriculum);
-        }
-        curriculumRepository.saveAll(curricula);
+        makeCurriculum(newStudy, study.getCourseIdList());
     }
+
 
     @Transactional
     public void updateStudy(Integer studyId, StudyDto.Update study) throws RollbackException{
@@ -263,6 +254,17 @@ public class StudyService {
                 .build());
     }
 
+    public void updateStudyCurriculum(StudyDto.Curriculum curriculum){
+        // 이전의 커리큘럼 날리기
+        List<Curriculum> curricula = new ArrayList<>();
+        for (int curriculumId :
+                curriculum.getCourseIdList()) {
+            curricula.add(curriculumRepository.findById(curriculumId).get());
+        }
+        curriculumRepository.deleteAll(curricula);
+        makeCurriculum(studyRepository.findById(curriculum.getStudyId()).get(), curriculum.getCourseIdList());
+    }
+
     private void addStudyMemberAndCheckUserLimit(Integer studyId, int userId) {
         studyMemberRepository.save(StudyMember.builder()
                 .study(studyRepository.findById(studyId).get())
@@ -276,5 +278,19 @@ public class StudyService {
         if (studyDto.getUserGathered() + 1 == studyDto.getUserLimit()){
             study.updateCloseStatus();
         }
+    }
+
+    private void makeCurriculum(Study study, List<Integer> courseIdList) {
+        List<Curriculum> curricula = new ArrayList<>();
+        int order = 0;
+        for(int courseId : courseIdList){
+            Curriculum curriculum = Curriculum.builder()
+                    .course(courseRepository.findById(courseId).get())
+                    .study(study)
+                    .curriculumOrder(order++)
+                    .build();
+            curricula.add(curriculum);
+        }
+        curriculumRepository.saveAll(curricula);
     }
 }
