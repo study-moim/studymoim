@@ -20,11 +20,7 @@ public class VideoController {
 
     private final VideoService videoService;
 
-    // 개인이 볼때 -> userId, lectureId
-    // 스터디에서 볼때 -> studyId, lectureId
-
-    // 영상 보기 시작할 때
-    @Operation(summary = "add user history", description = "개인 강의 시작, 히스토리 등록")
+    @Operation(summary = "add user history", description = "개인 강의 시작")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -39,7 +35,25 @@ public class VideoController {
         }
     }
 
-    @Operation(summary = "add study history", description = "스터디 강의 시작, 히스토리 등록")
+    @Operation(summary = "update user history", description = "개인 강의 종료")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/user/{userId}/{lectureId}/{endTimeline}")
+    public ResponseEntity<?> updateUserHistory(@Parameter(description="userId") @PathVariable Integer userId,
+                                               @Parameter(description="lectureId") @PathVariable Integer lectureId,
+                                               @Parameter(description="endTimeline") @PathVariable Integer endTimeline) {
+        try{
+            videoService.updateStartTimeForUser(userId, lectureId, endTimeline);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "add study history", description = "스터디 강의 시작")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
@@ -48,6 +62,24 @@ public class VideoController {
     public ResponseEntity<?> addStudyHistory(@Parameter(description="studyId") @PathVariable Integer studyId, @Parameter(description="lectureId") @PathVariable Integer lectureId) {
         try{
             return new ResponseEntity<>(videoService.getStartTimeForStudy(studyId, lectureId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "update study history", description = "스터디 강의 종료")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/study/{studyId}/{lectureId}/{endTimeline}")
+    public ResponseEntity<?> updateStudyHistory(@Parameter(description="studyId") @PathVariable Integer studyId,
+                                                @Parameter(description="lectureId") @PathVariable Integer lectureId,
+                                                @Parameter(description="endTimeline") @PathVariable Integer endTimeline) {
+        try{
+            videoService.updateStartTimeForStudy(studyId, lectureId, endTimeline);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

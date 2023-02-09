@@ -51,4 +51,10 @@ public class StudyHistory {
         this.lecture = lecture;
         this.study = study;
     }
+
+    public StudyHistory update(int endTimeline, LocalDateTime endTime) {
+        this.endTimeline = endTimeline;
+        this.endTime = endTime;
+        return this;
+    }
 }
