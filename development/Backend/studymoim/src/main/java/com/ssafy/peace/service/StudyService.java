@@ -249,9 +249,9 @@ public class StudyService {
     }
 
     @Transactional
-    public List<StudyCommunityDto> getStudyCommunityList(Integer studyId) {
+    public List<StudyCommunityDto.Info> getStudyCommunityList(Integer studyId) {
         return studyCommunityRepository.findAllByStudy_studyIdOrderByPublishTimeDesc(studyId).stream()
-                .map(studyCommunity -> StudyCommunityDto.fromEntity(studyCommunity))
+                .map(studyCommunity -> StudyCommunityDto.Info.fromEntity(studyCommunity))
                 .collect(Collectors.toList());
     }
 

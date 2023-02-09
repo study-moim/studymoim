@@ -302,7 +302,7 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/community")
-    public ResponseEntity<?> addStudyCommunity(@RequestBody StudyCommunityDto studyCommunityDto) {
+    public ResponseEntity<?> addStudyCommunity(@RequestBody StudyCommunityDto.Make studyCommunityDto) {
 
         try{
             studyService.addStudyCommunity(studyCommunityDto);

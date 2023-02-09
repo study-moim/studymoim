@@ -19,7 +19,6 @@ public class StudyCommunityDto {
         private String content;
         private LocalDateTime publishTime;
         private int studyId;
-        private int userId;
         private String nickname;
         private String saveName;
 
@@ -29,7 +28,6 @@ public class StudyCommunityDto {
                     .content(studyCommunity.getContent())
                     .publishTime(studyCommunity.getPublishTime())
                     .studyId(StudyDto.Info.fromEntity(studyCommunity.getStudy()).getStudyId())
-                    .userId(UserDto.Info.fromEntity(studyCommunity.getUser()).getUserId())
                     .nickname(UserDto.Info.fromEntity(studyCommunity.getUser()).getNickname())
                     .saveName(UserDto.Info.fromEntity(studyCommunity.getUser()).getSaveName())
                     .build();
@@ -42,7 +40,6 @@ public class StudyCommunityDto {
     public static class Make {
 
         private String content;
-        private LocalDateTime publishTime;
         private int studyId;
         private int userId;
     }
