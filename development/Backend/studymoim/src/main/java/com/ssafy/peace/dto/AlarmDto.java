@@ -9,6 +9,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 
 public class AlarmDto {
@@ -21,6 +22,7 @@ public class AlarmDto {
         private boolean isChecked;
         private String content;
         private String url;
+        private LocalDateTime publishTime;
 
         public static Info fromEntity(com.ssafy.peace.entity.Alarm alarmEntity){
             return Info.builder()
@@ -29,9 +31,9 @@ public class AlarmDto {
                     .isChecked(alarmEntity.isChecked())
                     .content(alarmEntity.getContent())
                     .url(alarmEntity.getUrl())
+                    .publishTime(alarmEntity.getPublishTime())
                     .build();
         }
-
     }
     @Data
     @Builder

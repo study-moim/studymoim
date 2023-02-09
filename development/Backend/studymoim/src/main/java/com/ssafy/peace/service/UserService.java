@@ -163,6 +163,11 @@ public class UserService {
                         .orElseThrow(NullPointerException::new))
                 .toUser(userRepository.findById(targetUserId)
                         .orElseThrow(NullPointerException::new)).build());
+        alarmRepository.save(Alarm.builder()
+                .content(userRepository.findById(myUserId).get().getNickname()+"님이 당신을 팔로우 하였습니다.")
+                .user(userRepository.findById(targetUserId).get())
+                .url("/mypage/"+myUserId)
+                .build());
         return UserDto.Info.fromEntity(userRepository.findById(targetUserId).orElseThrow(NullPointerException::new));
     }
 
