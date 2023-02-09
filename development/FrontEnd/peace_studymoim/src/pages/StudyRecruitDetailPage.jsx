@@ -23,7 +23,7 @@ export default function StudyRecruitDetailPage(props) {
   const [userList, setUserList] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
   const { info } = userInfo();
-
+  console.log("렌ㄷㄹ,ㅇ")
   useEffect(() => {
     fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
       .then((res) => {

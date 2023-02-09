@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
+import getArticles from "../../hooks/getArticles";
+
 
 export default function ArticleCreateForm() {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ export default function ArticleCreateForm() {
       }).then((res) => {
         if (res.ok) {
           alert("자유글 생성완료");
-          navigate("/community");
+          navigate("/temparticle");
           setIsLoading(false);
         }
       });
