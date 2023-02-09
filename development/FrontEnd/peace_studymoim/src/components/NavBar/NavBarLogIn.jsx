@@ -42,14 +42,14 @@ export default function NavBarLogIn() {
       </Link>
       <a href={`/mypage/${info.userId}`}>
         <button
-          className="text-[14px] w-[80px] text-white px-3 py-[6px] rounded-[10px] bg-[#f0db4f] hover:bg-[#ebd43c]"
+          className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#f0db4f] hover:bg-[#ebd43c]"
         >
           MyPage
         </button>
       </a>
       {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
-        className="text-[14px] w-[80px] text-white px-3 py-[6px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
+        className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
         onClick={logoutHandler}
       >
         로그아웃

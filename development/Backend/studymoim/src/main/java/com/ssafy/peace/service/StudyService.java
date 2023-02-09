@@ -22,6 +22,7 @@ public class StudyService {
     private final UserRepository userRepository;
     private final CurriculumRepository curriculumRepository;
     private final CourseRepository courseRepository;
+    private final LectureRepository lectureRepository;
     private final StudyCommunityRepository studyCommunityRepository;
 
     @Transactional
@@ -76,16 +77,16 @@ public class StudyService {
     }
 
     @Transactional
-    public StudyDto.Info makeStudy(StudyDto.Make study) throws RollbackException {
+    public void makeStudy(StudyDto.Make study) throws RollbackException {
         Study newStudy = Study.builder()
                 .title(study.getTitle())
                 .content(study.getContent())
                 .startTime(study.getStartTime())
-                .saveName(study.getSaveName())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
+                .isLive(false)
                 .build();
-        StudyDto.Info result = StudyDto.Info.fromEntity(studyRepository.save(newStudy));
+        studyRepository.save(newStudy);
         // 스터디를 만든 사람이 곧 방장
         studyMemberRepository.save(StudyMember.builder()
                 .user(userRepository.findById(study.getLeadUserId()).get())
@@ -104,8 +105,6 @@ public class StudyService {
             curricula.add(curriculum);
         }
         curriculumRepository.saveAll(curricula);
-
-        return result;
     }
 
     @Transactional
@@ -114,7 +113,6 @@ public class StudyService {
                 .title(study.getTitle())
                 .content(study.getContent())
                 .startTime(study.getStartTime())
-                .saveName(study.getSaveName())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
                 .build()
@@ -124,6 +122,27 @@ public class StudyService {
     @Transactional
     public StudyDto.Info updateNotice(Integer studyId, StudyDto.Notice notice) throws RollbackException{
         return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateNotice(notice.getNotice()));
+    }
+
+    @Transactional
+    public Boolean checkLive(Integer studyId) throws RollbackException{
+        return studyRepository.findById(studyId).get().isLive();
+    }
+    @Transactional
+    public LectureDto.Info getRecentLiveLecture(Integer studyId) throws RollbackException{
+        return LectureDto.Info.fromEntity(
+                lectureRepository.findById(
+                        studyRepository.findById(studyId).get()
+                                .getRecentLectureId()
+                ).get());
+    }
+    @Transactional
+    public StudyDto.Info updateLive(Integer studyId, boolean isLive) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateLive(isLive));
+    }
+    @Transactional
+    public StudyDto.Info updateLive(Integer studyId, boolean isLive, Integer recentLectureId) throws RollbackException{
+        return StudyDto.Info.fromEntity(studyRepository.findById(studyId).get().updateLive(isLive, recentLectureId));
     }
 
     @Transactional

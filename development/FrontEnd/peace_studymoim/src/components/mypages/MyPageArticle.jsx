@@ -16,7 +16,7 @@ export default function MyPageArticle({ getPageName }) {
     };
     getArticle();
   }, [getPageName]);
-  console.log(myArticles.free);
+
   return (
     <>
       <div>

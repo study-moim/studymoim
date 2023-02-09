@@ -108,18 +108,13 @@ export default function FieldPage() {
 
     fetch(`http://${API_SERVER}/api/v1/gcs/upload`, {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // }, 
       body: imageData
     }).then((res) => {
       if (res.ok) {
-        console.log("이미지 되냐?")
         navigate("/temp"); 
       }
     }); 
   }
-  // console.log(selectedField);
   return (
     <div className="max-w-[880px] mx-auto my-[100px] px-4">
       {/* 분야 선택 창 */}

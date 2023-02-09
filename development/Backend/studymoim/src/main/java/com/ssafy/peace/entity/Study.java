@@ -37,10 +37,6 @@ public class Study {
     @NotNull
     private LocalDate startTime;
 
-    // Todo: 디폴트 사진 정하기
-    @Size(max = 255)
-    private String saveName;
-
     @ColumnDefault("false")
     private boolean isClose;
 
@@ -49,6 +45,10 @@ public class Study {
 
     @NotNull
     private boolean isPublic;
+
+    @NotNull
+    private boolean isLive;
+    private Integer recentLectureId;
 
     @Size(max = 100)
     private String notice;
@@ -76,14 +76,14 @@ public class Study {
     private List<StudyRequest> studyRequests = new ArrayList<>();
 
     @Builder
-    public Study(String title, String content, LocalDate startTime, String saveName, boolean isClose, int userLimit, boolean isPublic, String notice, boolean isFinished) {
+    public Study(String title, String content, LocalDate startTime, boolean isClose, int userLimit, boolean isPublic, boolean isLive, String notice, boolean isFinished) {
         this.title = title;
         this.content = content;
         this.startTime = startTime;
-        this.saveName = saveName;
         this.isClose = isClose;
         this.userLimit = userLimit;
         this.isPublic = isPublic;
+        this.isLive = isLive;
         this.notice = notice;
         this.isFinished = isFinished;
     }
@@ -95,6 +95,16 @@ public class Study {
 
     public Study updateNotice(String notice){
         this.notice = notice;
+        return this;
+    }
+
+    public Study updateLive(boolean isLive){
+        this.isLive = isLive;
+        return this;
+    }
+    public Study updateLive(boolean isLive, Integer lectureId){
+        this.isLive = isLive;
+        this.recentLectureId = lectureId;
         return this;
     }
 

@@ -20,7 +20,6 @@ export default function CourseSearchBar() {
     if (data.length === 0) {
       filterData = [];
     }
-    console.log(filterData) 
     setSearch(filterData);
   };
 

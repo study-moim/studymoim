@@ -25,8 +25,7 @@ export default function LectureManage() {
     setItems(studyInfo)
   }, [studyInfo])
 
-  const onDragEnd = (result) => {
-    console.log(result) 
+  const onDragEnd = (result) => { 
     if(!result.destination) {
       return; 
     }

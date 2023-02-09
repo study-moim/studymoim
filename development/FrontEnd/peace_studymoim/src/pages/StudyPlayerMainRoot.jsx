@@ -1,5 +1,5 @@
 // TODO: 이거보고 하기..
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerNowChat from "../components/studyplayer/PlayerNowChat";
@@ -7,15 +7,16 @@ import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 import userInfo from "../zustand/store";
 import Stomp from "stompjs";
+import useFetch from "../hooks/useFetch.jsx";
 
 export default function StudyPlayerMainRoot() {
   const props = useLocation().state;
   let study = props.study;
   let user = props.user;
-  console.log(props)
+  console.log(props, "props");
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
-  // 누르면 전체/강의/자유 색이 바뀜
+  // 누르면 메모/질문/채팅 색이 바뀜
   const GetClick = (event) => {
     setCurrentClick(event.target.id);
   };
@@ -35,17 +36,17 @@ export default function StudyPlayerMainRoot() {
   );
 
   /*
- * 웹소켓 사용법
- * 1. connect로 http://localhost:8080/ws에 접속
- * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
- *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
- * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
- *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
- * 4. 채팅을 나가려면 disconnect 함수 호출
- * */
+   * 웹소켓 사용법
+   * 1. connect로 http://localhost:8080/ws에 접속
+   * 2. 메시지를 보내는 사용자는 http://localhost:8080/ws/pub/chat으로 메시지 전송할 수 있음.
+   *    사용자 정보, 스터디 ID, 메시지를 포함하여 전송하면 됨. sendMessage 함수 참고.
+   * 3. http://localhost:8080/ws/sub/study/{스터디ID} 에서 subscribe를 하고있는 사용자들은 보낸 메시지를 받을 수 있음.
+   *    connect() 메소드 내의 stompClient.subscribe 메소드 참고.
+   * 4. 채팅을 나가려면 disconnect 함수 호출
+   * */
   ////////////////////////////////////////////웹소켓 부스러기///////////////////////////////////////////
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-
+  const navigate = useNavigate();
   const [chattings, setChattings] = useState([]);
   function changeChattings(message) {
     chattings.push(message);
@@ -60,22 +61,38 @@ export default function StudyPlayerMainRoot() {
     connect(study.studyId);
     return () => {
       disconnect();
-      console.log('컴포넌트가 화면에서 사라짐');
+      console.log("컴포넌트가 화면에서 사라짐");
     };
   }, []);
 
   async function connect(studyId) {
     //client 객체 생성 및 서버주소 입력
-    await stomp.connect({"user-id": user.userId, "study-id": study.studyId}, function (frame) {
-      stomp.subscribe(`/sub/study/${studyId}`, receive);
-    });
+    await stomp.connect(
+      { "user-id": user.userId, "study-id": study.studyId },
+      function (frame) {
+        stomp.subscribe(`/sub/study/${studyId}`, receive);
+      }
+    );
   }
   async function disconnect() {
-    await stomp.disconnect(()=>{}, {"user-id": user.userId, "study-id": study.studyId});
+    await stomp.disconnect(() => {}, {
+      "user-id": user.userId,
+      "study-id": study.studyId,
+    });
+  }
+  async function closeLive() {
+    if (confirm("라이브를 종료하시겠습니까?") == true) {
+      let response = await fetch(
+        `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
+        { method: "PUT" }
+      );
+      console.log(response.status);
+      navigate(`/studyDetail/${study.studyId}`);
+    }
   }
   function clearInput() {
-    const inputTag = document.getElementById("ipt")
-    inputTag.value = null
+    const inputTag = document.getElementById("ipt");
+    inputTag.value = null;
   }
 
   ////////////////////////////////////////////유튜브 싱크 맞추기///////////////////////////////////////////
@@ -87,15 +104,18 @@ export default function StudyPlayerMainRoot() {
         type: playerInfo.type,
         currentTime: playerInfo.currentTime,
         playbackRate: playerInfo.playbackRate,
-        playerState: playerInfo.playerState
-      }
+        playerState: playerInfo.playerState,
+      };
       setPlayerInfo(newPlayerInfo);
       sendPlayerSync(newPlayerInfo);
-    }
-  }
+    },
+  };
   ////////////////////////////////////////////유튜브 싱크 맞추기 끝///////////////////////////////////////////
 
   function sendMessage() {
+    if (messageRef.current.value.length < 1) {
+      return
+    }
     const data = {
       type: "CHAT",
       studyId: study.studyId,
@@ -104,7 +124,7 @@ export default function StudyPlayerMainRoot() {
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/chat", {}, JSON.stringify(data));
-    clearInput()
+    clearInput();
   }
   function sendPlayerSync(playerSync) {
     const data = {
@@ -112,7 +132,7 @@ export default function StudyPlayerMainRoot() {
       studyId: study.studyId,
       userId: user.userId,
       sender: user.nickname,
-      payload: playerSync
+      payload: playerSync,
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/sync", {}, JSON.stringify(data));
@@ -137,19 +157,22 @@ export default function StudyPlayerMainRoot() {
   }
   function receive(data) {
     data = JSON.parse(data.body);
-    if(data.type == "CHAT") {
+    if (data.type == "CHAT") {
       const newMessage = data;
-      //console.log(newMessage);
       changeChattings(newMessage);
-    } else if(data.type == "SYNC") {
+    } else if (data.type == "SYNC") {
       //if(data.userId == user.userId) return;
       const newSync = data.payload;
-      console.log(newSync);
+
       setPlayerInfo(newSync);
     }
   }
   ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
-
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter') {
+      sendMessage(); 
+    }
+  }
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
@@ -162,14 +185,20 @@ export default function StudyPlayerMainRoot() {
             강의 설명이 보이는 부분 ▼
           </div>
         </div>
-        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo} eventHandler={videoFrameConductor}/>
+        <PlayingVideoFrame
+          videoId={props.videoId}
+          playerSync={playerInfo}
+          eventHandler={videoFrameConductor}
+        />
 
         <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
             &lt; 이전 강의
           </p>
-          <button className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105"
-            onClick={disconnect}>
+          <button
+            className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105"
+            onClick={closeLive}
+          >
             종료하기
           </button>
           <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
@@ -208,23 +237,45 @@ export default function StudyPlayerMainRoot() {
           {currentClick === "memo" ? <PlayerMemo /> : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
           {currentClick === "chat" ? (
-            <div className="overflow-auto h-full">
-              <div>
-                <input id="ipt" className="border" type="text" ref={messageRef} />
-                <button onClick={() => {
-                  sendMessage()
-                }} className="border">
+            <div className="h-full w-full">
+              <div className="mb-2 w-full">
+                <input
+                  id="ipt"
+                  className="border w-[80%] h-10 mr-1 rounded-lg pl-2"
+                  placeholder=""
+                  type="text"
+                  ref={messageRef}
+                  required
+                  onKeyPress={onKeyPress}
+                />
+                <button
+                  onClick={() => {
+                    sendMessage();
+                  }}
+                  className="border py-1 px-2 rounded-lg hover:bg-slate-100 hover:scale-95 drop-shadow-sm shadow"
+                >
                   전송
                 </button>
               </div>
-              <div className="text-black text-[20px] border">
-                <p>이 아래 나와야 함</p>
+              <div className="text-black text-[20px] border overflow-auto h-5/6">
                 {chattings.map((chat) => (
-                  <p className="text-xs">
-                    {" "}
-                    {chat.sender} : {chat.payload}{" "}
-                  </p>
-                  ))}
+                  <div className="text-xs flex flex-row w-full">
+                    {chat.sender !== user.nickname ? (
+                      <div className="flex justify-end w-full">
+                        <p className="bg-yellow-200 rounded-md p-1 m-1">
+                          {chat.payload}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col justify-start">
+                        <p>{chat.sender}</p>
+                        <p className="bg-slate-200 rounded-md p-1 m-1">
+                          {chat.payload}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           ) : null}
