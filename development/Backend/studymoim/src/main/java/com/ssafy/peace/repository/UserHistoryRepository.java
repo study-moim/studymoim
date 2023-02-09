@@ -15,4 +15,6 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory, Intege
      */
     List<UserHistory> findAllByUser_userId(int userId);
 
+    Optional<UserHistory> findFirstByUser_UserIdAndLecture_LectureIdOrderByEndTimeDesc(int userId, int lectureId);
+
 }
