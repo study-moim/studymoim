@@ -62,7 +62,7 @@ export default function QuestionRoot() {
           <input
             type="text"
             placeholder="궁금한 강의 질문을 검색해보세요!"
-            className="w-full h-[40px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
+            className="w-full h-[40px] text-[14px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
             onChange={(e) => {
               setWord(e.target.value);
             }}
@@ -70,7 +70,7 @@ export default function QuestionRoot() {
         </form>
         <select
           name="커뮤니티정렬"
-          className="px-[20px] w-[150px] h-[40px] border border-slate-500 rounded-[30px] cursor-pointer"
+          className="px-[20px] w-[150px] h-[40px] text-[14px] border border-slate-500 rounded-[30px] cursor-pointer"
           onChange={(e) => {
             setSelected(e.target.value);
           }}
