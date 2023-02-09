@@ -15,8 +15,8 @@ public interface StudyHistoryRepository extends JpaRepository<StudyHistory, Inte
     List<StudyHistory> findAllByStudy_studyId(int studyId);
 
     /*
-    특정 스터디의 가장 최근 히스토리 가져오기
+    특정 스터디, 특정 강좌의 가장 최근 히스토리 가져오기
      */
-    Optional<StudyHistory> findFirstByStudy_studyIdOrderByEndTimeDesc(int studyId);
+    Optional<StudyHistory> findFirstByStudy_studyIdAndLecture_lectureIdOrderByEndTimeDesc(int studyId, int lectureId);
 
 }

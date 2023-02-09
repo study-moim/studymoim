@@ -6,6 +6,8 @@ import { useState, useMemo, useEffect } from "react";
 export default function CourseBanner({ dataForBanner }) {
   const { info } = userInfo();
   const [likeCount, setLikeCount] = useState(dataForBanner.likeUserCount)
+
+  const minute = parseInt(dataForBanner.totalTime / 60)
   // async 여기배끼셈
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [isLike, setIsLike] = useState(false);
@@ -36,7 +38,6 @@ export default function CourseBanner({ dataForBanner }) {
         } else {
           setLikeCount(likeCount-1)
         }
-        console.log(likeCount, "ASDFASDFASDFASDFASDFASDF")
       }
     });
   }
@@ -52,7 +53,7 @@ export default function CourseBanner({ dataForBanner }) {
           {dataForBanner.courseProvider}
         </p>
         <p className="text-base text-[#58595d]">
-          {/* 총 N시간 N분 28개 강의 */}총 {dataForBanner.totalTime}초,{" "}
+          총 {minute}분,{" "}
           {dataForBanner.totalLecture}개 강의
         </p>
       </div>

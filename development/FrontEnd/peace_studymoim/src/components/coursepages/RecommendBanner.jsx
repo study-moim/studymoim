@@ -14,17 +14,17 @@ export default function RecommendBanner() {
 
 
   return (
-    <div className="flex flex-col border w-full bg-[#ebefff] p-[30px] gap-[20px]">
-      <p className="w-full text-[45px] font-bold">
+    <div className="flex flex-col w-full bg-[#ebefff] pt-[15px] pb-[30px] px-[25px] gap-[15px]">
+      <p className="w-full text-[40px] font-bold">
         <span className="font-bold text-[#a259ff]">{userNickname}</span>
         <span className="font-bold text-black">님과 딱 맞는 강좌</span>
       </p>
-      <p className="w-full text-[#58595d]">
-        <span className="w-full text-lg font-bold text-[#58595d]">
+      <p className="w-full text-[#58595d] pl-[5px]">
+        <span className="w-full text-[17px] font-bold text-[#58595d]">
           {recommendCourse && recommendCourse.title}
         </span>
         <br />
-        <span className="w-full text-lg text-[#58595d]">
+        <span className="w-full text-[14px] text-[#58595d]">
           {recommendCourse && recommendCourse.courseProviderName}
         </span>
       </p>
@@ -35,7 +35,7 @@ export default function RecommendBanner() {
             state={{
               propData: recommendCourse,
             }}
-            className="px-[65px] py-[18px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35] hover:animate-pulse"
+            className="px-[65px] py-[14px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35] hover:animate-pulse"
             style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
           >
             <button className="text-base font-bold text-center uppercase text-white">
@@ -43,9 +43,7 @@ export default function RecommendBanner() {
             </button>
           </Link>
         ) : (
-          <button className="text-base font-bold text-center uppercase text-white">
-            강좌 들으러 가기
-          </button>
+          null
         )}
       </div>
       {/* <div className="flex w-6/12 justify-center items-center">
