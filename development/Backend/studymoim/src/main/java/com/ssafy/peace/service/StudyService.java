@@ -255,7 +255,7 @@ public class StudyService {
                 .collect(Collectors.toList());
     }
 
-    public void addStudyCommunity(StudyCommunityDto studyCommunityDto) {
+    public void addStudyCommunity(StudyCommunityDto.Make studyCommunityDto) {
         studyCommunityRepository.save(StudyCommunity.builder()
                 .content(studyCommunityDto.getContent())
                 .user(userRepository.findByUserId(studyCommunityDto.getUserId()))
