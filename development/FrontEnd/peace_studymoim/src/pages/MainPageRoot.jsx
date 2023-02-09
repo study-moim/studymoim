@@ -9,23 +9,62 @@ import getQuestions from "../hooks/getQuestions";
 import useFetch from "../hooks/useFetch";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import CourseTag from "../components/coursepages/CourseTag"
+import { faMagnifyingGlass, faCircleArrowRight, faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import CourseTag from "../components/coursepages/CourseTag";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function MainPageRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`).slice(0, 9);
+  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`).slice(
+    0,
+    9
+  );
   const [word, setWord] = useState("");
   const [searchType, setSearchType] = useState("");
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    arrows:true, 
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeend: 100,
+  };
+
+  const twoSettings = {
+    dots: false, 
+    arrows: true,
+    nextArrow: <FontAwesomeIcon icon={faCircleArrowRight}/>, 
+    prevArrow: <FontAwesomeIcon icon={faCircleArrowLeft}/>, 
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeend: 100,
+    responsive: [{ breakpoint: 1200, twoSettings: { slidesToShow: 2 } }],
+  };
+
   getArticles();
-  getQuestions()
+  getQuestions();
   const { logIn } = userInfo();
 
   return (
     <div>
       <div className="max-w-6xl mx-auto px-4 justify-start items-center">
+        <Slider {...settings}>
+          <div>
+            <img src="/banner1.png" alt="" />
+          </div>
+          <div>
+            <img src="/banner2.png" alt="" />
+          </div>
+        </Slider>
         <div className="w-full my-3 flex flex-col justify-center items-center">
           <div className="w-[50%] relative h-[50px] flex my-5">
             <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[10px] mr-[10px] text-white">
@@ -46,28 +85,28 @@ export default function MainPageRoot() {
         <div className="w-full flex flex-col">
           <p className="text-lg text-left font-bold mb-5"># 인기태그</p>
           <div className="flex flex-row flex-wrap gap-2">
-        <button
-          className={
-            "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-2 border "
-          }
-          onClick={async () => {
-            setSearchType("");
-          }}
-        >
-          <p className="text-base font-bold">전체</p>
-        </button>
-        {tags.map((tag) => (
-          <div
-            key={tag.courseCategoryId}
-            onClick={async () => {
-              setSearchType("tag");
-              setWord(tag.courseCategoryId);
-            }}
-          >
-            <CourseTag tag={tag} />
+            <button
+              className={
+                "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-2 border "
+              }
+              onClick={async () => {
+                setSearchType("");
+              }}
+            >
+              <p className="text-base font-bold">전체</p>
+            </button>
+            {tags.map((tag) => (
+              <div
+                key={tag.courseCategoryId}
+                onClick={async () => {
+                  setSearchType("tag");
+                  setWord(tag.courseCategoryId);
+                }}
+              >
+                <CourseTag tag={tag} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
         </div>
         {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
         {logIn ? (
@@ -77,11 +116,13 @@ export default function MainPageRoot() {
         )}
         <div>
           <p className="text-lg text-left font-bold mb-5"># 진행 중인 스터디</p>
-          <div className="w-full mb-[50px] flex flex-row flex-wrap gap-5">
+          <Slider {...twoSettings}>
             {studyInfo.map((study) => (
-              <MainStudy key={study.studyId} propData={study} />
+              <div key={study.studyId}>
+                <MainStudy key={study.studyId} propData={study} />
+              </div>
             ))}
-          </div>
+          </Slider>       
         </div>
       </div>
     </div>
