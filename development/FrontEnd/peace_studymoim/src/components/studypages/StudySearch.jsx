@@ -58,7 +58,7 @@ export default function StudySearch() {
             <input
               type="text"
               placeholder="찾고 있는 스터디를 검색하세요!"
-              className="w-full h-[40px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300 text-[15px]"
+              className="w-full h-[40px] text-[14px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300 "
               onChange={(e) => {
                 setSearchType("word");
                 setWord(e.target.value);
