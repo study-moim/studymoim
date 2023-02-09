@@ -34,6 +34,8 @@ export default function StudyDetailMainPage() {
                 setCurriculum(data.curricula);
             });
     };
+    getData();
+  }, [studyId.study_id]);
 
   const recentPlayed = useFetch(
     `http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`
@@ -60,7 +62,11 @@ export default function StudyDetailMainPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <StudyIntroduceBanner propData={detailData} />
+      <StudyIntroduceBanner
+        propData={detailData}
+        props={userList}
+        userInfo={userInformation}
+      />
       <StudyNotice
         propData={detailData}
         props={userList}

@@ -34,7 +34,7 @@ export default function StudyRecruitDetailPage(props) {
         setUserList(data.leadUser);
         setCurriculum(data.curricula);
       });
-  });
+  }, [detailId]);
 
   function closeModalHandler() {
     if (!studyDetail.public) {
