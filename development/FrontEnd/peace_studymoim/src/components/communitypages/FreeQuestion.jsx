@@ -25,7 +25,7 @@ export default function FreeQuestion({ freeArticle }) {
             {freeArticle.title}
           </div>
           <div className="text-[12px] my-3 text-gray-800">
-            {freeArticle.content > 100 ? slicedContent :freeArticle.content}
+            {freeArticle.content.length > 100 ? slicedContent : freeArticle.content}
           </div>
           <div className="flex flex-row items-center gap-[30px] pb-5">
             <p className="text-[12px] font-bold">
