@@ -27,7 +27,7 @@ export default function RingModal(props) {
                 </div>
                 <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
                     <p className="flex-grow-0 flex-shrink-0 text-sm text-left text-[#a5acb8]">
-                        {props.alarm.publishTime}
+                        {props.alarm.publishTime.replace('T', ' ')}
                     </p>
                 </div>
             </div>
