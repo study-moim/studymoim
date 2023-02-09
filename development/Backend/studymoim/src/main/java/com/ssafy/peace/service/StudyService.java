@@ -256,11 +256,7 @@ public class StudyService {
 
     public void updateStudyCurriculum(StudyDto.Curriculum curriculum){
         // 이전의 커리큘럼 날리기
-        List<Curriculum> curricula = new ArrayList<>();
-        for (int curriculumId :
-                curriculum.getCourseIdList()) {
-            curricula.add(curriculumRepository.findById(curriculumId).get());
-        }
+        List<Curriculum> curricula = studyRepository.findById(curriculum.getStudyId()).get().getCurricula();
         curriculumRepository.deleteAll(curricula);
         makeCurriculum(studyRepository.findById(curriculum.getStudyId()).get(), curriculum.getCourseIdList());
     }
