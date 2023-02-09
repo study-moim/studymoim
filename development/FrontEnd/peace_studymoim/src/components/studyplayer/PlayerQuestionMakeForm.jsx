@@ -33,7 +33,7 @@ export default function PlayerQuestionMakeForm({ clickNew, lectureId }) {
       }).then((res) => {
         if (res.ok) {
           setIsLoading(false);
-          clickNew()
+          clickNew();
         }
       });
     }
@@ -41,29 +41,34 @@ export default function PlayerQuestionMakeForm({ clickNew, lectureId }) {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="flex flex-col justify-start items-start gap-2.5 bg-white w-full mb-5">
-        <p className="text-xl font-bold text-left text-[#7b61ff]">질문 작성</p>
-        <p className=" text-lg font-bold text-left text-black">제목</p>
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col justify-start items-start gap-2.5 bg-white w-full mb-5"
+      >
+        <p className="text-base font-bold text-left text-[#7b61ff]">
+          질문 작성
+        </p>
+        <p className=" text-sm font-bold text-left text-black">제목</p>
         <input
-          className="rounded-[5px] border border-[#7b7474] w-full h-10 px-2"
+          className="rounded-[5px] border border-[#7b7474] w-full h-10 px-2 text-sm"
           placeholder="제목을 입력하세요"
           ref={titleRef}
         />
-        <p className=" text-lg font-bold text-left text-black">내용</p>
+        <p className=" text-sm font-bold text-left text-black">내용</p>
         <textarea
-          className="h-[350px] relative overflow-auto rounded-[5px] border border-[#7b7474] w-full p-2"
+          className="text-sm h-[350px] relative overflow-auto rounded-[5px] border border-[#7b7474] w-full p-2"
           placeholder="내용을 입력하세요"
           ref={contentRef}
         />
 
-        <div className="flex justify-start items-start gap-[70px]">
+        <div className="flex justify-end items-start w-full gap-4">
           <div
-            className="rounded-[5px] bg-[#ff8484] text-[17px] text-center text-black p-2 w-24 cursor-pointer"
+            className="rounded-[5px] bg-[#ff8484] text-[11px] text-center text-black px-2 py-1 cursor-pointer hover:bg-[#e65f5f]"
             onClick={clickNew}
           >
             취소
           </div>
-          <button className="rounded-[5px] bg-[#aab9fd] text-[17px] text-center text-black p-2 w-24">
+          <button className="rounded-[5px] bg-[#aab9fd] text-[11px] text-center text-black px-2 py-1 hover:bg-[#6e84e4]">
             작성
           </button>
         </div>

@@ -69,7 +69,6 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
             팔로잉 {followingLength}
           </span>
         </p>
-        {/* TODO: 온클릭으로 팔로우 언팔로우 구현 */}
         {!followCheck ? (
           <button
             onClick={() => followFunction("POST")}

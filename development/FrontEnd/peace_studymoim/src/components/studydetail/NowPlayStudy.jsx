@@ -23,7 +23,7 @@ export default function NowPlayStudy(props) {
           </p>
           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-1/2 relative gap-2.5 px-[140px] py-[27px] rounded-[20px] bg-[#b1b2ff]">
             <Link
-              to={'/study/player/'+props.state.recent.lectureId}
+              to={'/player/study/'+props.state.recent.lectureId}
               state={{
                 user: props.state.user,
                 study: props.state.study,
