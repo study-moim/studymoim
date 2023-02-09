@@ -5,6 +5,7 @@ import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
 import MainStudy from "../components/mainpages/MainStudy";
 import getArticles from "../hooks/getArticles";
+import getQuestions from "../hooks/getQuestions";
 import useFetch from "../hooks/useFetch";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +20,7 @@ export default function MainPageRoot() {
   const [searchType, setSearchType] = useState("");
 
   getArticles();
+  getQuestions()
   const { logIn } = userInfo();
 
   return (

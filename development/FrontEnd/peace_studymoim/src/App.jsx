@@ -22,6 +22,7 @@ import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
 import ScrollToTop from "./components/overall/ScrollToTop";
 import Search from "./pages/Search";
 import TempPage from "./components/overall/TempPage";
+import TempPageForArticle from "./components/communitypages/TempPageForArticle";
 import MyPageRealRoot from "./pages/MyPageRealRoot";
 import ArticleCreateForm from "./components/communitypages/ArticleCreateForm";
 import LecturePlayerMainRoot from "./pages/LecturePlayerMainRoot.jsx";
@@ -85,6 +86,7 @@ export default function App() {
         <Route path="/login/kakao" element={<KakaoLoginRedirect />}></Route>
         <Route path="/search/:word" element={<Search />} />
         <Route path="/temp" element={<TempPage />} />
+        <Route path="/temparticle" element={<TempPageForArticle />} />
       </Routes>
       <Footer />
     </BrowserRouter>
