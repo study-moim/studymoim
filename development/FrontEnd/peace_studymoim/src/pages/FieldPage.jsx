@@ -64,7 +64,7 @@ export default function FieldPage() {
     event.preventDefault();
 
     const enteredNickname = nicknameRef.current.value;
-    
+
     const fieldData = {
       userId: userInformation.userId,
       categories: category,
@@ -74,10 +74,11 @@ export default function FieldPage() {
       nickname: enteredNickname,
       userId: userInformation.userId,
     };
-    const imgTemp = { userId: userInformation.userId, fileName: 'filename'}; 
-    const imageData = new FormData()
-    imageData.append('file', image)  
-    imageData.append('dto', JSON.stringify(imgTemp)) 
+
+    const imgTemp = { userId: userInformation.userId, fileName: "filename" };
+    const imageData = new FormData();
+    imageData.append("file", image);
+    imageData.append("dto", JSON.stringify(imgTemp));
 
     fetch(
       `http://${API_SERVER}/api/v1/user/${userInformation.userId}/nickname`,
@@ -108,26 +109,35 @@ export default function FieldPage() {
 
     fetch(`http://${API_SERVER}/api/v1/gcs/upload`, {
       method: "POST",
-      body: imageData
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+      body: imageData,
     }).then((res) => {
       if (res.ok) {
-        navigate("/temp"); 
+        console.log("이미지 되냐?");
+        navigate("/temp");
       }
-    }); 
+    });
   }
+
+  // console.log(selectedField);
   return (
-    <div className="max-w-[880px] mx-auto mt-[50px] mb-[100px] px-4">
+    <div className="max-w-6xl mx-auto mt-[50px] mb-[100px] px-4">
       {/* 분야 선택 창 */}
       {!visible && (
-        <div className="min-w-[800px]">
+        <div className="w-full">
           <div className="flex justify-center">
-            <div className="w-[30%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="max-w-[300px] w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#b1b2ff] h-2.5 rounded-full"
                 style={{ width: "50%" }}
               ></div>
             </div>
           </div>
+          <p className="text-[25px] font-bold my-[40px] text-center">
+            STEP 1. 관심 분야 설정
+          </p>
           <div className="flex flex-row">
             <div className="flex flex-col justify-center items-center">
               <p className="text-[25px] font-bold my-[40px]">
@@ -172,41 +182,45 @@ export default function FieldPage() {
 
       {/* 프로필 설정 창 */}
       {visible && (
-        <div className="min-w-[800px]">
+        <div className="w-full">
           <div className="flex justify-center">
-            <div className="w-[30%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="max-w-[300px] w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#b1b2ff] h-2.5 rounded-full"
                 style={{ width: "100%" }}
               ></div>
             </div>
           </div>
-          <div className="flex flex-row">
-            <button className="prevBtn" onClick={() => setVisible(false)}>
+          <p className="text-[25px] font-bold mt-[40px] mb-[30px] text-center">
+            STEP 2. 나만의 프로필
+          </p>
+          <div className="flex justify-center">
+            <button
+              className="prevBtn"
+              onClick={() => setVisible(false)}
+              onKeyUpCapture={() => setVisible(true)}
+            >
               <FontAwesomeIcon
                 icon={faChevronLeft}
                 size="2x"
                 className="animate-bounce"
               />
             </button>
-            <div className="min-w-[800px] flex flex-col justify-center items-center">
-              <p className="text-[25px] font-bold mt-[40px] mb-[20px]">
-                나만의 개성있는 프로필 완성해주세요
-              </p>
+            <div className="flex flex-col justify-center items-center w-[80%]">
               <form
                 onSubmit={submitHandler}
-                className="flex flex-col justify-center items-center gap-3"
+                className="flex flex-col justify-center items-center w-[80%] gap-4"
               >
                 {preview ? (
                   <img
                     src={preview}
                     required
-                    className="object-cover border rounded-full w-[160px] h-[160px]"
+                    className="border rounded-full w-[160px] h-[160px]"
                   />
                 ) : (
                   <img
                     src={"/logo.png"}
-                    className="object-cover border rounded-full w-[160px] h-[160px]"
+                    className="border rounded-full w-[160px] h-[160px]"
                   />
                 )}
                 <input
@@ -228,24 +242,22 @@ export default function FieldPage() {
                     }
                   }}
                 />
-                <div className="text-center">
-                  <input
-                    type="text"
-                    className="text-center w-[400px] border-b-2 pb-2 focus:outline-none focus:border-b-[#B1B2FF] mb-1"
-                    ref={nicknameRef}
-                    minLength="2"
-                    maxLength="6"
-                    placeholder="닉네임을 입력해주세요(2-6자)"
-                    value={nickname}
-                    onChange={(e) => onChangeNickname(e.target.value)}
-                  />
-                  {nickname.length > 0 && (
-                    <p className="text-[13px] text-[#8587eb]">
-                      {nicknameMessage}
-                    </p>
-                  )}
-                </div>
-                <button className="btn mt-5 w-[500px] h-10 rounded-[20px] bg-[#b1b2ff] text-lg text-center text-white hover:bg-[#8587eb]">
+
+                <input
+                  type="text"
+                  className="text-center w-[80%] border-b-2 pb-2 focus:outline-none focus:border-b-[#B1B2FF] mb-1"
+                  ref={nicknameRef}
+                  minLength="2"
+                  maxLength="6"
+                  placeholder="닉네임을 입력해주세요(2-6자)"
+                  onChange={(e) => onChangeNickname(e.target.value)}
+                />
+                {nickname.length > 0 && (
+                  <p className="text-[13px] text-[#8587eb]">
+                    {nicknameMessage}
+                  </p>
+                )}
+                <button className="btn mt-5 w-[80%] h-10 rounded-[20px] bg-[#b1b2ff] text-lg text-center text-white hover:bg-[#8587eb]">
                   공부 하러 가기!
                 </button>
               </form>
