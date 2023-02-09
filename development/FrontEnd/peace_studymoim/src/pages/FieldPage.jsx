@@ -116,12 +116,12 @@ export default function FieldPage() {
     }); 
   }
   return (
-    <div className="max-w-[880px] mx-auto my-[100px] px-4">
+    <div className="max-w-[880px] mx-auto mt-[50px] mb-[100px] px-4">
       {/* 분야 선택 창 */}
       {!visible && (
         <div className="min-w-[800px]">
           <div className="flex justify-center">
-            <div className="w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="w-[30%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#b1b2ff] h-2.5 rounded-full"
                 style={{ width: "50%" }}
@@ -130,7 +130,7 @@ export default function FieldPage() {
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col justify-center items-center">
-              <p className="text-[30px] font-bold my-[50px]">
+              <p className="text-[25px] font-bold my-[40px]">
                 관심있는 분야를 선택해주세요!
               </p>
               <div className="flex flex-row flex-wrap w-[80%] justify-center gap-2">
@@ -174,7 +174,7 @@ export default function FieldPage() {
       {visible && (
         <div className="min-w-[800px]">
           <div className="flex justify-center">
-            <div className="w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="w-[30%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#b1b2ff] h-2.5 rounded-full"
                 style={{ width: "100%" }}
@@ -190,12 +190,12 @@ export default function FieldPage() {
               />
             </button>
             <div className="min-w-[800px] flex flex-col justify-center items-center">
-              <p className="text-[30px] font-bold my-[50px]">
+              <p className="text-[25px] font-bold mt-[40px] mb-[20px]">
                 나만의 개성있는 프로필 완성해주세요
               </p>
               <form
                 onSubmit={submitHandler}
-                className="flex flex-col justify-center items-center gap-5"
+                className="flex flex-col justify-center items-center gap-3"
               >
                 {preview ? (
                   <img
@@ -236,6 +236,7 @@ export default function FieldPage() {
                     minLength="2"
                     maxLength="6"
                     placeholder="닉네임을 입력해주세요(2-6자)"
+                    value={nickname}
                     onChange={(e) => onChangeNickname(e.target.value)}
                   />
                   {nickname.length > 0 && (
