@@ -52,8 +52,8 @@ spring:
           location: classpath:studymoim-gcs.json
 logging:
   level:
-    web: trace
-    sql: trace
+    web: debug
+    sql: error
 springdoc:
   use-fqn: true
 oauth:
