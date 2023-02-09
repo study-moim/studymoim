@@ -10,7 +10,6 @@ import RingModal from "./RingModal";
 export default function Navbar() {
   const { logIn } = userInfo();
   const [menuToggle, setMenuToggle] = useState(false);
-  
   return (
     <>
       <div className="max-w-6xl mx-auto p-4">
