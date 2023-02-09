@@ -249,13 +249,13 @@ public class StudyService {
     }
 
     @Transactional
-    public List<StudyCommunityDto> getStudyCommunityList(Integer studyId) {
+    public List<StudyCommunityDto.Info> getStudyCommunityList(Integer studyId) {
         return studyCommunityRepository.findAllByStudy_studyIdOrderByPublishTimeDesc(studyId).stream()
-                .map(studyCommunity -> StudyCommunityDto.fromEntity(studyCommunity))
+                .map(studyCommunity -> StudyCommunityDto.Info.fromEntity(studyCommunity))
                 .collect(Collectors.toList());
     }
 
-    public void addStudyCommunity(StudyCommunityDto studyCommunityDto) {
+    public void addStudyCommunity(StudyCommunityDto.Make studyCommunityDto) {
         studyCommunityRepository.save(StudyCommunity.builder()
                 .content(studyCommunityDto.getContent())
                 .user(userRepository.findByUserId(studyCommunityDto.getUserId()))

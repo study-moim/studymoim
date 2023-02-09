@@ -13,7 +13,7 @@ export default function StudyMemberCoummunityComment({ items }) {
         <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 relative gap-2.5">
           <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center">
             <span className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-black">
-              {items.userId}  
+              {items.nickname}  
             </span>
             {/* <span className="flex-grow-0 flex-shrink-0 text-xl fo2nt-bold text-center text-[#7b61ff]">
               방장
