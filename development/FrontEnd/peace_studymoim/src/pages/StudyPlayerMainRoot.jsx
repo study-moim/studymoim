@@ -114,7 +114,7 @@ export default function StudyPlayerMainRoot() {
 
   function sendMessage() {
     if (messageRef.current.value.length < 1) {
-      return
+      return;
     }
     const data = {
       type: "CHAT",
@@ -169,42 +169,31 @@ export default function StudyPlayerMainRoot() {
   }
   ////////////////////////////////////////////웹소켓 부스러기 끝///////////////////////////////////////////
   const onKeyPress = (e) => {
-    if(e.key == 'Enter') {
-      sendMessage(); 
+    if (e.key == "Enter") {
+      sendMessage();
     }
-  }
+  };
+
   return (
     <div className="flex m-5">
       {/* 왼쪽 컴포들 */}
       <div className="flex flex-col justify-start items-start w-11/12 mx-3">
         <div className="w-full flex flex-row justify-between items-center mb-[10px]">
           <div className="text-2xl font-bold text-left text-black">
-            오쌤의 피그마 강좌
+            {props.videoInfo.title}
           </div>
-          <div className="text-xl font-bold text-right text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            강의 설명이 보이는 부분 ▼
-          </div>
+          <button
+            className="text-[16px] font-bold text-center text-[#d15353] cursor-pointer hover:text-[#9a3c3c] hover:scale-105"
+            onClick={closeLive}
+          >
+            종료하기
+          </button>
         </div>
         <PlayingVideoFrame
           videoId={props.videoId}
           playerSync={playerInfo}
           eventHandler={videoFrameConductor}
         />
-
-        <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[185px] px-5 pt-2">
-          <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            &lt; 이전 강의
-          </p>
-          <button
-            className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105"
-            onClick={closeLive}
-          >
-            종료하기
-          </button>
-          <p className="text-[16px] font-bold text-center text-black cursor-pointer hover:text-[#b1b2ff] hover:scale-105">
-            다음 강의 &gt;
-          </p>
-        </div>
       </div>
       {/* 오른쪽 컴포들 */}
       <div className="flex flex-col w-[400px] h-[700px]">
@@ -234,7 +223,9 @@ export default function StudyPlayerMainRoot() {
         </div>
         {/* 태그들 안에 큰 네모 */}
         <div className="h-full p-3 bg-white border border-[#898989]">
-          {currentClick === "memo" ? <PlayerMemo /> : null}
+          {currentClick === "memo" ? (
+            <PlayerMemo lectureId={props.videoInfo.lectureId} />
+          ) : null}
           {currentClick === "question" ? <PlayerQuestionList /> : null}
           {currentClick === "chat" ? (
             <div className="h-full w-full">

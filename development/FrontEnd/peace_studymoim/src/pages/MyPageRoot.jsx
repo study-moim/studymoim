@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
 import MyPageLeftBar from "../components/mypages/MyPageLeftBar";
 import StudyList from "../components/mypages/StudyList";
-import MemoCourse from "../components/mypages/MemoCourse";
+import MyPageMemo from "../components/mypages/MyPageMemo";
 import MyPageLikeCourse from "../components/mypages/MyPageLikeCourse";
 import MyPageArticle from "../components/mypages/MyPageArticle";
 import MyPageLecture from "../components/mypages/MyPageLecture";
 import MyPageCourse from "../components/mypages/MyPageCourse";
 import MyPageStatic from "../components/mypages/MyPageStatic";
 import MyPageModal from "../components/mypages/MyPageModal";
-import useFetch from "../hooks/useFetch";
-
 
 export default function MyPageRoot() {
-  
   // 윈도우창 패쓰네임을 가져오기
-  const [getPageName, setGetPageName] = useState(window.location.pathname.substring(8, 255) * 1)
+  const [getPageName, setGetPageName] = useState(
+    window.location.pathname.substring(8, 255) * 1
+  );
 
   // 클릭 로직
   const [currentClick, setCurrentClick] = useState("study");
@@ -62,13 +61,27 @@ export default function MyPageRoot() {
         />
         {/* 안쪽 중요 내용 */}
         <div className="flex flex-col justify-start w-full p-[20px]">
-          {currentClick === "study" ? <StudyList getPageName={getPageName}/> : null}
-          {currentClick === "course" ? <MyPageCourse getPageName={getPageName}/> : null}
-          {currentClick === "lecture" ? <MyPageLecture getPageName={getPageName}/> : null}
-          {currentClick === "memo" ? <MemoCourse getPageName={getPageName}/> : null}
-          {currentClick === "article" ? <MyPageArticle getPageName={getPageName}/> : null}
-          {currentClick === "like" ? <MyPageLikeCourse getPageName={getPageName}/> : null}
-          {currentClick === "static" ? <MyPageStatic getPageName={getPageName}/> : null}
+          {currentClick === "study" ? (
+            <StudyList getPageName={getPageName} />
+          ) : null}
+          {currentClick === "course" ? (
+            <MyPageCourse getPageName={getPageName} />
+          ) : null}
+          {currentClick === "lecture" ? (
+            <MyPageLecture getPageName={getPageName} />
+          ) : null}
+          {currentClick === "memo" ? (
+            <MyPageMemo getPageName={getPageName} />
+          ) : null}
+          {currentClick === "article" ? (
+            <MyPageArticle getPageName={getPageName} />
+          ) : null}
+          {currentClick === "like" ? (
+            <MyPageLikeCourse getPageName={getPageName} />
+          ) : null}
+          {currentClick === "static" ? (
+            <MyPageStatic getPageName={getPageName} />
+          ) : null}
         </div>
       </div>
     </div>
