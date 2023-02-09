@@ -36,7 +36,7 @@ export default function RingModal(props) {
             </div>
           </div>
         {props.alarmList.map((alarm) => (
-          <RingModalItem key={alarm} alarm={alarm}/>
+          <RingModalItem key={alarm.alarmId} alarm={alarm} onLinkClick={cancelHandler}/>
         ))}
         {props.alarmList.length==0 ? (
             <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0">
