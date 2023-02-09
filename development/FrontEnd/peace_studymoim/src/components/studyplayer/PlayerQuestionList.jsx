@@ -2,7 +2,7 @@ import PlayerQuestion from "./PlayerQuestion";
 import { useState } from "react";
 import PlayerQuestionMakeForm from "./PlayerQuestionMakeForm";
 
-export default function PlayerQuestionList() {
+export default function PlayerQuestionList({lectureId}) {
   const dummy = [
     {
       id: 1,
@@ -46,14 +46,14 @@ export default function PlayerQuestionList() {
           {
             newToggle
             ?
-            <PlayerQuestionMakeForm clickNew={clickNew} />
+            <PlayerQuestionMakeForm clickNew={clickNew} lectureId={lectureId}/>
             :
             null
           }
         </div>
         <div className="flex flex-col justify-start items-start gap-[15px]">
           {dummy.map((obj) => (
-            <PlayerQuestion key={obj.id} propData={obj} />
+            <PlayerQuestion key={obj.id} propData={obj} lectureId={lectureId}/>
           ))}
         </div>
       </div>
