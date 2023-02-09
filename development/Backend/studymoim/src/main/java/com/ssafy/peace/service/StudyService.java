@@ -108,15 +108,17 @@ public class StudyService {
     }
 
     @Transactional
-    public StudyDto.Info updateStudy(Integer studyId, StudyDto.Make study) throws RollbackException{
-        return StudyDto.Info.fromEntity(studyRepository.save(Study.builder()
+    public void updateStudy(Integer studyId, StudyDto.Update study) throws RollbackException{
+        studyRepository.save(Study.builder()
                 .title(study.getTitle())
                 .content(study.getContent())
                 .startTime(study.getStartTime())
                 .userLimit(study.getUserLimit())
                 .isPublic(study.isPublic())
+                .isClose(study.isClose())
+                .isFinished(study.isFinished())
                 .build()
-                .updateId(studyId)));
+                .updateId(studyId));
     }
 
     @Transactional

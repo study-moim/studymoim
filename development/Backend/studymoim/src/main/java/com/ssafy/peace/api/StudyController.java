@@ -204,7 +204,7 @@ public class StudyController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PutMapping("/{studyId}")
-    public ResponseEntity<?> studyUpdate(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyDto.Make study) {
+    public ResponseEntity<?> studyUpdate(@Parameter(description="studyId") @PathVariable Integer studyId, @RequestBody StudyDto.Update study) {
         try{
             studyService.updateStudy(studyId, study);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
