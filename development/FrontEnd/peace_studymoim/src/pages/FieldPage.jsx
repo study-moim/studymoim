@@ -140,9 +140,6 @@ export default function FieldPage() {
           </p>
           <div className="flex flex-row">
             <div className="flex flex-col justify-center items-center">
-              <p className="text-[25px] font-bold my-[40px]">
-                관심있는 분야를 선택해주세요!
-              </p>
               <div className="flex flex-row flex-wrap w-[80%] justify-center gap-2">
                 {tags.map((tag) => (
                   <div
@@ -168,7 +165,8 @@ export default function FieldPage() {
                 ))}
               </div>
             </div>
-            <button className="nextBtn" onClick={() => setVisible(true)}>
+            <button className="nextBtn" 
+            onClick={() => selectedField.length !== 0 ? setVisible(true) : alert("태그 눌러라 ㅡ,,ㅡ")}>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 size="2x"
@@ -214,7 +212,6 @@ export default function FieldPage() {
                 {preview ? (
                   <img
                     src={preview}
-                    required
                     className="border rounded-full w-[160px] h-[160px]"
                   />
                 ) : (
@@ -250,6 +247,7 @@ export default function FieldPage() {
                   minLength="2"
                   maxLength="6"
                   placeholder="닉네임을 입력해주세요(2-6자)"
+                  required
                   onChange={(e) => onChangeNickname(e.target.value)}
                 />
                 {nickname.length > 0 && (
