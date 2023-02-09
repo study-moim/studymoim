@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import StudySearch from "../components/studypages/StudySearch";
 import { useState, useEffect } from "react";
 import userInfo from "../zustand/store";
@@ -24,18 +24,18 @@ export default function StudyRecruitMainPage() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
-        <div className="flex flex-row justify-end w-full mb-2">
-      
-        
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[50px]">
+        <div className="flex flex-row justify-between w-full border-b">
+        <p className="text-[18px] font-bold">
+          모집 중인 스터디
+        </p>
           <Link to="/study/study_recruit_form">
-            <div className="px-8 py-[5px] rounded-[10px] bg-[#ad9dfe] text-base text-white hover:bg-[#b1b2ff]/90">
-              <FontAwesomeIcon icon={faPencil} /> 스터디 만들기
+            <div className="flex justify-center items-center w-[200px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] text-[14px] text-center text-white cursor-pointer hover:bg-[#8871f9]">
+              <FontAwesomeIcon icon={faPenToSquare} /> 스터디 만들기
             </div>
           </Link>
         </div>
-
-        <div className="flex flex-col justify-start items-start border">
+        <div className="flex flex-col justify-start items-start">
           <StudySearch />
         </div>
       </div>
@@ -48,4 +48,3 @@ export default function StudyRecruitMainPage() {
     </>
   );
 }
-

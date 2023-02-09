@@ -1,84 +1,108 @@
 import useFetch from "../../hooks/useFetch";
-import Tag from "../overall/Tag";
-import { useState } from "react";
+import CourseTag from "../coursepages/CourseTag";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import StudyRecruitItem from "./StudyRecruitItem";
 
 export default function StudySearch() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const LoadedStudyRecruits = useFetch(`http://${API_SERVER}/api/v1/study/`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`);
+  const studyRecruits = useFetch(`http://${API_SERVER}/api/v1/study/`);
+  const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
   const [word, setWord] = useState("");
-  const [sort, setSort] = useState();
-  // const [tagId, setTagId] = useState("");
+  const [searchType, setSearchType] = useState("");
+  const [filterInfo, setFilterInfo] = useState(studyRecruits);
 
-  // filterTitle이지만 제목 + 내용 검색됨
-  let filterTitle = LoadedStudyRecruits.filter((study) => {
-    return study.title
-      .concat(study.content)
-      .replace(" ", "")
-      .toLocaleLowerCase()
-      .includes(word.toLocaleLowerCase().replace(" ", ""));
-  });
-
-  let filterCourse = LoadedStudyRecruits.sort((a, b) => {
-    return b.userLimit - b.userGathered - (a.userLimit - a.userGathered);
-  });
+  useEffect(() => {
+    const getWord = async () => {
+      if (searchType == "word") {
+        setFilterInfo(
+          studyRecruits.filter((study) => {
+            return study.title
+              .replace(" ", "")
+              .toLocaleLowerCase()
+              .includes(word.toLocaleLowerCase().replace(" ", ""));
+          })
+        );
+      } else if (searchType == "tag") {
+        const getTagSearchStudy = async () => {
+          await fetch(`http://${API_SERVER}/api/v1/study/category/${word}`)
+            .then((res) => res.json())
+            .then((json) => {
+              setFilterInfo(json);
+            });
+        };
+        getTagSearchStudy();
+      } else {
+        const getStudyRecruits = async () => {
+          await fetch(`http://${API_SERVER}/api/v1/study/`)
+            .then((res) => res.json())
+            .then((json) => {
+              setFilterInfo(json);
+            });
+        };
+        getStudyRecruits();
+      }
+    };
+    getWord();
+  }, [word]);
 
   return (
     <div className="w-full">
-      <div className="flex justify-center items-center self-stretch h-[100px] gap-2.5">
-        <form className="flex relative h-[42px] border border-slate-500 bg-white rounded-[30px] w-[400px]">
-          <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </button>
-          <input
-            type="text"
-            placeholder="찾고 있는 스터디를 검색하세요!"
-            className="w-full rounded-[30px] pl-4"
-            onChange={(e) => {
-              setWord(e.target.value);
-            }}
-          />
-        </form>
-        {/* TODO: 정렬도 해야 됨 원래는 백에서 주기로 한듯한데.. 우리가 해야될듯? ㅋ  */}
-        <select
-          name="커뮤니티정렬"
-          onChange={(e) => setSort(e.target.value)}
-          className="px-[20px] w-[150px] h-[42px] border border-slate-500 rounded-[30px] cursor-pointer"
-        >
-          <option value="">정렬하기</option>
-          {/* 많이 남은 순!   */}
-          <option value="full">정렬순</option>
-        </select>
+      <div className="flex justify-end items-end self-stretch h-[50px]">
+        <div className="flex gap-2.5">
+          <form className="flex relative h-[40px] w-[400px]">
+            <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+            <input
+              type="text"
+              placeholder="찾고 있는 스터디를 검색하세요!"
+              className="w-full h-[40px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300 text-[15px]"
+              onChange={(e) => {
+                setSearchType("word");
+                setWord(e.target.value);
+              }}
+            />
+          </form>
+          {/* TODO: 정렬도 해야 됨 원래는 백에서 주기로 한듯한데.. 우리가 해야될듯? ㅋ  */}
+        </div>
       </div>
       <div className="flex flex-col justify-start items-start w-full">
-        <div className="flex justify-evenly items-start w-full">
-          {/* TODO: 스터디 curricula 정보에 tag가 안들어가 있어서 필터가 안될듯? - 말하고 빼자 */}
-          {tags.map((tag) => (
-            <Tag key={tag.courseCategoryId} tag={tag} />
+        <div className="w-full flex flex-col">
+          <p className="text-base"># 태그 검색</p>
+          <div className="flex flex-row flex-wrap gap-2 mt-3">
+            <button
+              className={
+                "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-1 border "
+              }
+              onClick={async () => {
+                setSearchType("");
+                setWord("");
+              }}
+            >
+              <p className="text-[14px]">전체</p>
+            </button>
+            {tags.map((tag) => (
+              <div
+                key={tag.courseCategoryId}
+                onClick={async () => {
+                  setSearchType("tag");
+                  setWord(tag.courseCategoryId);
+                }}
+              >
+                <CourseTag tag={tag} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-row flex-wrap gap-3 w-full mt-10">
+          {filterInfo.map((recruit) => (
+            <div key={recruit.studyId} className="cursor-pointer w-[12/12]">
+              <StudyRecruitItem props={recruit} />
+            </div>
           ))}
         </div>
-
-        {filterTitle.map((recruit) => (
-          <div
-            key={recruit.studyId}
-            className="cursor-pointer hover:scale-105 w-11/12 ml-6"
-          >
-            <StudyRecruitItem props={recruit} />
-          </div>
-        ))}
-        {/* 정렬하기 돌아갔을 때 다시 되돌아가지지가 않음 copy 해서 해야될 것 같은디 모르겠음 */}
-        {sort === "full" &&
-          filterCourse.map((recruit) => {
-            <div
-              key={recruit.studyId}
-              className="cursor-pointer hover:scale-105 w-11/12 ml-6"
-            >
-              <StudyRecruitItem props={recruit} />
-            </div>;
-          })}
       </div>
     </div>
   );
