@@ -90,7 +90,7 @@ public class FreeBoardService {
         alarmRepository.save(Alarm.builder()
                 .content(freeBoardRepository.findById(comment.getFreeBoardId()).get().getTitle() +" 글에 댓글이 달렸습니다.")
                 .user(userRepository.findById(comment.getUserId()).get())
-                .url("/community/free/" + freeBoardRepository.findById(comment.getFreeBoardId()).get().getFreeBoardId())
+                .url("/community/free/" + comment.getFreeBoardId())
                 .build());
         return result;
     }

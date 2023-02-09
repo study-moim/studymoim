@@ -24,6 +24,8 @@ public class StudyService {
     private final CourseRepository courseRepository;
     private final LectureRepository lectureRepository;
     private final StudyCommunityRepository studyCommunityRepository;
+    private final AlarmRepository alarmRepository;
+    private final AlarmService alarmService;
 
     @Transactional
     public List<StudyDto.Info> getStudyList() throws RollbackException{
@@ -157,7 +159,15 @@ public class StudyService {
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return;
         addStudyMemberAndCheckUserLimit(studyId, userId);
-        // Todo: send alarm
+        List<UserDto.Info> studyMembers = StudyDto.Detail.fromEntity(studyRepository.findById(studyId).get()).getMembers();
+        studyMembers.add(StudyDto.Detail.fromEntity(studyRepository.findById(studyId).get()).getLeadUser());
+        for (UserDto.Info user: studyMembers) {
+            alarmRepository.save(Alarm.builder()
+                    .content(userRepository.findById(studyMember.getUserId()).get().getNickname() + "님이 " + studyRepository.findById(studyId).get().getTitle() +" 스터디에 가입하셨습니다.")
+                    .user(userRepository.findById(user.getUserId()).get())
+                    .url("/studydetail/" + studyId)
+                    .build());
+        }
     }
 
 
@@ -168,12 +178,19 @@ public class StudyService {
         if(studyRequestRepository.existsByUser_UserIdAndStudy_StudyId(userId, studyId)) return null;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyId(userId, studyId)) return null;
         if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) return null;
+        // 스터디장에게 알람
+        alarmRepository.save(Alarm.builder()
+                .content(userRepository.findById(studyRequest.getUserId()).get().getNickname() + "님이 " + studyRepository.findById(studyId).get().getTitle() +" 스터디에 가입을 요청했습니다.")
+                .user(userRepository.findById(StudyDto.Info.fromEntity(studyRepository.findById(studyId).get()).getLeadUser().getUserId()).get())
+                .url("/studydetail/" + studyId)
+                .build());
         return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
                 .user(userRepository.findById(studyRequest.getUserId()).get())
                 .study(studyRepository.findById(studyId).get())
                 .content(studyRequest.getContent())
                 .build()));
-        // Todo: send alarm
+
+
     }
 
     @Transactional
@@ -188,10 +205,27 @@ public class StudyService {
         // 수락하면 스터디에 인원 추가, 거절당하면 알람만 보내기
         if (request.getRequestStatus() == 1) {
             addStudyMemberAndCheckUserLimit(studyId, request.getUserId());
-            // Todo: send alarm
+
+            alarmRepository.save(Alarm.builder()
+                    .content(studyRepository.findById(studyId).get().getTitle() +" 스터디에 가입되셨습니다.")
+                    .user(userRepository.findById(request.getUserId()).get())
+                    .url("/studydetail/" + studyId)
+                    .build());
+            List<UserDto.Info> studyMembers = StudyDto.Detail.fromEntity(studyRepository.findById(studyId).get()).getMembers();
+            for (UserDto.Info user: studyMembers) {
+                alarmRepository.save(Alarm.builder()
+                        .content(userRepository.findById(request.getUserId()).get().getNickname() + "님이 " + studyRepository.findById(studyId).get().getTitle() +" 스터디에 가입하셨습니다.")
+                        .user(userRepository.findById(user.getUserId()).get())
+                        .url("/studydetail/" + studyId)
+                        .build());
+            }
 
         } else {
-            // Todo: send alarm
+            alarmRepository.save(Alarm.builder()
+                    .content(studyRepository.findById(studyId).get().getTitle() +" 스터디 가입 거절되셨습니다.")
+                    .user(userRepository.findById(request.getUserId()).get())
+                    .url("/study/")
+                    .build());
         }
 
         return StudyRequestDto.Info.fromEntity(studyRequestRepository.save(StudyRequest.builder()
