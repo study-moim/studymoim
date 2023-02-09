@@ -1,13 +1,32 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import userInfo from "../../zustand/store";
+import useFetch from "../../hooks/useFetch";
 
 export default function PlayerMemo({ lectureId }) {
   const { info } = userInfo();
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
-  const contentRef = useRef(null);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
+  const [prevMemo, setPrevMemo] = useState("");
+  const contentRef = useRef(prevMemo.content);
+  useEffect(() => {
+    const getPrevMemo = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/note/${lectureId}/${info.userId}`
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setPrevMemo(data);
+          let memoContent = document.getElementById("memoText")
+          memoContent.value = data.content
+        });
+    };
+    getPrevMemo();
+  }, []);
 
   function onSubmit(e) {
     e.preventDefault();
