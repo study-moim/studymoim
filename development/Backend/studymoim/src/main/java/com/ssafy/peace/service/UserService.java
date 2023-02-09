@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.RollbackException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class UserService {
     private final MessageRepository messageRepository;
     private final CourseTypeRepository courseTypeRepository;
     private final CourseRepository courseRepository;
+    private final UserLikeCourseRepository userLikeCourseRepository;
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
@@ -117,9 +119,10 @@ public class UserService {
                 .build()).collect(Collectors.toList()));
     }
 
-    public Object getLikeList(Integer userId) {
-        return null;
-        // TODO
+    public List<CourseDto.Info> getLikeList(Integer userId) {
+        return userLikeCourseRepository.findAllByUser_userId(userId).get().stream()
+                .map(userLikeCourse -> CourseDto.Info.fromEntity(userLikeCourse.getCourse()))
+                .collect(Collectors.toList());
     }
 
     public long countFollowers(Integer userId) {

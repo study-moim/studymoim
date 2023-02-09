@@ -3,10 +3,8 @@ package com.ssafy.peace.service;
 import com.ssafy.peace.dto.FreeBoardCommentDto;
 import com.ssafy.peace.dto.FreeBoardDto;
 import com.ssafy.peace.dto.QuestionBoardCommentDto;
-import com.ssafy.peace.entity.FreeBoard;
-import com.ssafy.peace.entity.FreeBoardComment;
-import com.ssafy.peace.entity.QuestionBoardComment;
-import com.ssafy.peace.entity.User;
+import com.ssafy.peace.entity.*;
+import com.ssafy.peace.repository.AlarmRepository;
 import com.ssafy.peace.repository.FreeBoardCommentRepository;
 import com.ssafy.peace.repository.FreeBoardRepository;
 import com.ssafy.peace.repository.UserRepository;
@@ -29,6 +27,8 @@ public class FreeBoardService {
     private final FreeBoardRepository freeBoardRepository;
     private final FreeBoardCommentRepository freeBoardCommentRepository;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
+
     @Transactional
     public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
         return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
@@ -81,12 +81,18 @@ public class FreeBoardService {
 
     @Transactional
     public FreeBoardCommentDto.Info writeComment(FreeBoardCommentDto.Write comment) {
-        return FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository
+        FreeBoardCommentDto.Info result =  FreeBoardCommentDto.Info.fromEntity(freeBoardCommentRepository
                 .save(FreeBoardComment.builder()
                         .content(comment.getContent())
                         .freeBoard(freeBoardRepository.findById(comment.getFreeBoardId()).get())
                         .user(userRepository.findById(comment.getUserId()).get())
                 .build()));
+        alarmRepository.save(Alarm.builder()
+                .content(freeBoardRepository.findById(comment.getFreeBoardId()).get().getTitle() +" 글에 댓글이 달렸습니다.")
+                .user(userRepository.findById(comment.getUserId()).get())
+                .url("/community/free/" + freeBoardRepository.findById(comment.getFreeBoardId()).get().getFreeBoardId())
+                .build());
+        return result;
     }
 
     @Transactional
