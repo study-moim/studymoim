@@ -46,10 +46,7 @@ export default function App() {
         </Route>
         <Route path="/mail" element={<MailMainRoot />}></Route>
         <Route path="/choice" element={<FieldPage />}></Route>
-        <Route
-          path="/community/create"
-          element={<ArticleCreateForm />}
-        ></Route>
+        <Route path="/community/create" element={<ArticleCreateForm />}></Route>
         <Route
           path="/community/free/:article_id"
           element={<CommunityDetailRoot />}
@@ -58,7 +55,6 @@ export default function App() {
           path="/community/question/:question_id"
           element={<CommunityQuestionDetailRoot />}
         ></Route>
-        ​{" "}
         <Route
           path="/study/study_recruit_form"
           element={<StudyMakePage />}
@@ -66,14 +62,6 @@ export default function App() {
         <Route
           path="/study/:study_recruit_id"
           element={<StudyRecruitDetailPage />}
-        ></Route>
-        <Route
-          path="/player/:lecture_id"
-          element={<LecturePlayerMainRoot />}
-        ></Route>
-        <Route
-            path="/study/player/:lecture_id"
-            element={<StudyPlayerMainRoot />}
         ></Route>
         <Route
           path="/studyDetail/:study_id"
@@ -87,6 +75,14 @@ export default function App() {
         <Route path="/search/:word" element={<Search />} />
         <Route path="/temp" element={<TempPage />} />
         <Route path="/temparticle" element={<TempPageForArticle />} />
+        <Route
+          path="/player/:lecture_id"
+          element={<LecturePlayerMainRoot />}
+        ></Route>
+        <Route
+          path="/player/study/:lecture_id"
+          element={<StudyPlayerMainRoot />}
+        ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

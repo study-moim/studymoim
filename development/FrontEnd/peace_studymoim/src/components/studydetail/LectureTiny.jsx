@@ -8,7 +8,7 @@ export default function LectureTiny({
 }) {
   return (
     <Link
-      to={`/study/player/${propData.lectureId}`}
+      to={`/player/study/${propData.lectureId}`}
       state={{
         user: state.user,
         study: state.study,

@@ -58,7 +58,6 @@ export default function NavBarLogIn() {
 
   return (
     <div className="flex justify-end items-center w-[360px] relative gap-[10px]">
-      {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}
       <div onClick={() => openModalHandler()} className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
         <FontAwesomeIcon icon={faBell} className="text-[20px]"/>
         {alarmIsPresent ? (<span className="relative bottom-1 right-2 inline-flex rounded-full h-2 w-2 bg-red-500"></span>) : null}
@@ -74,7 +73,6 @@ export default function NavBarLogIn() {
           MyPage
         </button>
       </a>
-      {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
         className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
         onClick={logoutHandler}

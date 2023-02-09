@@ -62,7 +62,7 @@ export default function PlayerMemo({ lectureId }) {
       >
         <textarea
           id="memoText"
-          className="w-full h-full border p-2"
+          className="w-full h-full border p-2 scrollbar-none"
           placeholder="마크다운 양식으로 작성하기"
           ref={contentRef}
         ></textarea>

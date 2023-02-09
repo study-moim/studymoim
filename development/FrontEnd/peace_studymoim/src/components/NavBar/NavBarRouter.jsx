@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 export default function NavBarRouter() {
   return (
     <>
-      {/* TODO: 링크누르면 누른 상태가 보이도록 설정 */}
       <Link to="/">
         <img src="/logo.png" className="h-[46px]"/>
       </Link>

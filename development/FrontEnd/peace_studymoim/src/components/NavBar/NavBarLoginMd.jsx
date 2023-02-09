@@ -29,7 +29,6 @@ export default function NavBarLogInMd() {
 
   return (
     <div className="flex flex-col w-[360px] relative gap-3">
-      {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}
       <div
         onClick={() => setShowModal(true)}
         className="flex items-center cursor-pointer hover:text-[#B1B2FF] text-[16px]"
@@ -46,7 +45,6 @@ export default function NavBarLogInMd() {
       <a href={`/mypage/${info.userId}`}>
         <button className="text-[16px] hover:text-[#B1B2FF]">MyPage</button>
       </a>
-      {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
       <button
         className="text-left text-[16px] hover:text-[#B1B2FF]"
         onClick={logoutHandler}
