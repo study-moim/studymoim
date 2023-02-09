@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
-import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
+import PlayingVideoFrameSolo from "../components/studyplayer/PlayingVideoFrameSolo";
 
 export default function LecturePlayerMainRoot() {
   ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
@@ -12,13 +12,18 @@ export default function LecturePlayerMainRoot() {
   };
   const preventGoBack = () => {
     history.pushState(null, "", location.href);
+    alert("종료하기를 눌러주세요 :D");
   };
+
+  // 브라우저에 렌더링 시 한 번만 실행하는 코드
   useEffect(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", preventGoBack);
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+    })();
+
     return () => {
       window.removeEventListener("popstate", preventGoBack);
-      handleCloseDrawer();
     };
   }, []);
   useEffect(() => {
@@ -31,7 +36,7 @@ export default function LecturePlayerMainRoot() {
     };
   }, []);
   //////////////////////////////////////////////////////////////////////
-  
+
   const navigate = useNavigate();
   const props = useLocation().state.propData;
   const [currentClick, setCurrentClick] = useState("memo");
@@ -55,8 +60,6 @@ export default function LecturePlayerMainRoot() {
     [currentClick]
   );
 
-  const [playerInfo, setPlayerInfo] = useState({});
-
   async function closeLive() {
     if (confirm("라이브를 종료하시겠습니까?") == true) {
       navigate(`/course`);
@@ -78,7 +81,7 @@ export default function LecturePlayerMainRoot() {
             종료하기
           </button>
         </div>
-        <PlayingVideoFrame videoId={props.videoId} playerSync={playerInfo} />
+        <PlayingVideoFrameSolo videoId={props.videoId} />
       </div>
       {/* 오른쪽 컴포들 */}
       <div className="flex flex-col w-[400px] h-[700px]">

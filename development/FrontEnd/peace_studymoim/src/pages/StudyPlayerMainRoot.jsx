@@ -21,7 +21,6 @@ export default function StudyPlayerMainRoot() {
     window.addEventListener("popstate", preventGoBack);
     return () => {
       window.removeEventListener("popstate", preventGoBack);
-      handleCloseDrawer();
     };
   }, []);
   useEffect(() => {
@@ -295,6 +294,8 @@ export default function StudyPlayerMainRoot() {
           ) : null}
         </div>
       </div>
+
     </div>
+    
   );
 }
