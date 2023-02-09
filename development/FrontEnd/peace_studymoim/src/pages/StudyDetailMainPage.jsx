@@ -35,7 +35,6 @@ export default function StudyDetailMainPage() {
             });
     };
 
-
   const recentPlayed = useFetch(
     `http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`
   );
