@@ -43,13 +43,13 @@ export default function CourseMainRoot() {
         </div>
         <div className="w-[50%] flex justify-end">
           <div className="w-[80%] relative flex my-5">
-            <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
+            <button className="absolute right-0 bg-[#B1B2FF] text-[15px] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
             <input
               type="text"
               placeholder="전체 강좌 검색"
-              className="w-full h-[40px] border border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
+              className="w-full h-[40px] border text-[14px] border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
               onChange={(e) => {
                 setWord(e.target.value);
                 setTagId("");

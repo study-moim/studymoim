@@ -8,7 +8,7 @@ export default function StudyRecruitItem({ props }) {
 
   return (
     <Link to={`/study/${props.studyId}`}>
-      <div className="max-w-[4/12] rounded-[15px] border px-5  py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md">
+      <div className="min-w-[4/12] rounded-[15px] border px-5 py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md">
         <div className="font-bold text-[18px] my-3">{props.title}</div>
         <div className="text-[12px] my-3 text-gray-800">
           {props.content > 100 ? slicedContent : props.content}
