@@ -22,17 +22,19 @@ export default function StudyDetailMainPage() {
   const [curriculum, setCurriculum] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      await fetch(`http:///${API_SERVER}/api/v1/study/${studyId.study_id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setDetailData(data);
-          setUserList(data.leadUser);
-          setCurriculum(data.curricula);
-        });
-    };
     getData();
-  }, [studyId.study_id]);
+  }, []);
+
+    const getData = async () => {
+        await fetch(`http:///${API_SERVER}/api/v1/study/${studyId.study_id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setDetailData(data);
+                setUserList(data.leadUser);
+                setCurriculum(data.curricula);
+            });
+    };
+
 
   const recentPlayed = useFetch(
     `http://${API_SERVER}/api/v1/study/${studyId.study_id}/live/recent`
