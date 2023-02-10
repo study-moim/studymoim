@@ -11,7 +11,7 @@ public class StudyHistoryDto {
     @Data
     @Builder
     public static class Info {
-        private StudyDto.Info study;
+        private int studyId;
         private LectureDto.Info lecture;
         private int startTimeline;
         private int endTimeline;
@@ -19,7 +19,7 @@ public class StudyHistoryDto {
         private LocalDateTime endTime;
         public static Info fromEntity(StudyHistory studyHistoryEntity){
             return Info.builder()
-                    .study(StudyDto.Info.fromEntity(studyHistoryEntity.getStudy()))
+                    .studyId(studyHistoryEntity.getStudy().getStudyId())
                     .lecture(LectureDto.Info.fromEntity(studyHistoryEntity.getLecture()))
                     .startTimeline(studyHistoryEntity.getStartTimeline())
                     .endTimeline(studyHistoryEntity.getEndTimeline())

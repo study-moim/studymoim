@@ -105,6 +105,7 @@ public class UserService {
     public List<LectureDto.Info> getLectureHistory(Integer userId) throws RuntimeException {
         return userHistoryRepository.findAllByUser_userId(userId).stream()
                 .map(uh -> LectureDto.Info.fromEntity(uh.getLecture()))
+                .distinct()
                 .collect(Collectors.toList());
     }
 
