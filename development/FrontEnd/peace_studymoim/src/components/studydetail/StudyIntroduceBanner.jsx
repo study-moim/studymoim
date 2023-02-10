@@ -1,61 +1,60 @@
 import { NavLink, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 
 export default function StudyIntroduceBanner({ propData, props, userInfo }) {
-  console.log(propData) 
+
   return (
-    <div className="w-full flex justify-start items-center relative gap-10 border borer-2">
-      <div className="flex flex-col justify-start items-start w-5/12 h-[212px] relative gap-10 px-[9px] py-[39.47999954223633px]">
-        <p className=" text-2xl font-bold text-left">
+    <div className="flex flex-row justify-between bg-[#ebefff]"> 
+      <div className="flex flex-col w-10/12 pt-[15px] pb-[30px] px-[25px] gap-[15px]">
+      <p className="w-full text-[40px] font-bold">
+        <span className="font-bold text-[#a259ff]">
           {propData && propData.title}
-        </p>
-        <p className=" text-xl text-left">
-          {propData.content && propData.content} 
-        </p>
-        {/* 방장만 수정하기 버튼 보여야함  */}
-       {props.userId === userInfo && (
-          <Link to={`/study/${propData.studyId}/update`}>
-          <button className="text-[14px] text-center hover:font-bold">
-            수정하기
-          </button>
-        </Link>
-        )}
-        
-      </div>
-
-      <div className="flex flex-col justify-start items-start gap-10">
-        <div className="flex w-full justify-start items-center relative gap-[15px]">
-          <p className=" text-2xl font-bold text-left">스터디장</p>
-
+        </span>
+      </p>
+      <p className="w-full text-[#58595d] pl-[5px]">
+        <div className="flex w-full justify-start items-center relative gap-[10px]">
           {props && (
             <NavLink
               to={`/mypage/${props.userId}`}
               className="hover:text-[#989aff]"
             >
-              <div className="px-2.5 ext-[15px] font-bold">
-                {props.nickname}
-              </div>
+              <div className="px-1 ext-[15px] font-bold">{props.nickname}</div>
             </NavLink>
           )}
-        </div>
 
-        <div className="flex w-full justify-start items-center relative gap-[15px]">
-          <p className=" text-2xl font-bold text-left">스터디원</p>
+          <FontAwesomeIcon icon={faCrown} />
 
           {propData.members &&
             propData.members.map((member) => {
               return (
-                <NavLink
-                  to={`/mypage/${member.userId}`}
-                  className="hover:text-[#989aff]"
-                >
-                  <div className="px-2.5 ext-[15px] font-bold">
-                    {member.nickname}
-                  </div>
-                </NavLink>
+                  <NavLink
+                    to={`/mypage/${member.userId}`}
+                    className="hover:text-[#989aff]"
+                  >
+                    <div className="px-2.5 ext-[15px] font-bold">
+                      {member.nickname}
+                    </div> 
+                  </NavLink>
               );
             })}
         </div>
+      </p>
       </div>
+      <div className="flex justify-between items-end mb-3 mr-3">
+        {props.userId === userInfo && (
+          <Link
+            to={`/study/${propData.studyId}/update`}
+            className="px-[30px] py-[10px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35] hover:animate-pulse"
+          >
+            <button className="font-bold text-center uppercase text-white">
+              수정하기
+            </button>
+          </Link>
+        )}
+      </div>
+    
     </div>
+    
   );
 }

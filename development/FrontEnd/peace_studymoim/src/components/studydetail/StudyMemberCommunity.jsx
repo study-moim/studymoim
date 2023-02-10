@@ -23,11 +23,11 @@ export default function StudyMemberCoummunity({ propData }) {
       )
       .then((res) => res.json())
       .then((json) => {
-        setStudyCommunity(json); 
+        setStudyCommunity(json);
       }); 
     };
     getStudyCommunity(); 
-}, [studyCommunity]); 
+}, [studyId.study_id]); 
 
   useEffect(() => {
     if (!info) {
@@ -54,6 +54,7 @@ export default function StudyMemberCoummunity({ propData }) {
       }).then((res) => {
         if (res.ok) {
           setIsLoading(false);
+          window.location.reload();
         }
       });
     }
