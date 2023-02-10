@@ -121,11 +121,17 @@ public class StudyService {
 
     @Transactional
     public LectureDto.Info getRecentLiveLecture(Integer studyId) throws RollbackException{
-        return LectureDto.Info.fromEntity(
-                lectureRepository.findById(
-                        studyRepository.findById(studyId).get()
-                                .getRecentLectureId()
-                ).get());
+        if (studyRepository.findById(studyId).get().getRecentLectureId() != null){
+            return LectureDto.Info.fromEntity(
+                    lectureRepository.findById(
+                            studyRepository.findById(studyId).get()
+                                    .getRecentLectureId()
+                    ).get());
+        } else{
+            return null;
+        }
+
+
     }
     @Transactional
     public StudyDto.Info updateLive(Integer studyId, boolean isLive) throws RollbackException{
