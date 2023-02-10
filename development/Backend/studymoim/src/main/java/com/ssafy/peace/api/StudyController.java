@@ -82,6 +82,21 @@ public class StudyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Operation(summary = "get study curriculum", description = "스터디 커리큘럼, 진행도 불러오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{studyId}")
+    public ResponseEntity<?> studyCurriculumDetail(@Parameter(description="studyId") @PathVariable Integer studyId) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyDetail(studyId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @Operation(summary = "get study History", description = "스터디 히스토리 불러오기")
     @ApiResponses({

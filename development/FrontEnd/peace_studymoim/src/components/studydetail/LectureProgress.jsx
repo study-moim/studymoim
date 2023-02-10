@@ -5,6 +5,8 @@ import {useState} from "react";
 import useFetch from "../../hooks/useFetch.jsx";
 
 export default function LectureProgress(props) {
+  console.log("????????")
+  console.log(props)
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [selectedCourse, setSelectedCourse] = useState('');
   async function onCourseClick(course){

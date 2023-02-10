@@ -25,7 +25,7 @@ public class StudyService {
     private final LectureRepository lectureRepository;
     private final StudyCommunityRepository studyCommunityRepository;
     private final AlarmRepository alarmRepository;
-    private final AlarmService alarmService;
+    private final ;
 
     @Transactional
     public List<StudyDto.Info> getStudyList() throws RollbackException{
@@ -65,6 +65,19 @@ public class StudyService {
     public StudyDto.Detail getStudyDetail(Integer studyId) throws RollbackException{
         Optional<Study> result = studyRepository.findById(studyId);
         if(!result.isPresent()) return null;
+        return StudyDto.Detail.fromEntity(result.get());
+    }
+
+    @Transactional
+    public StudyDto.Detail getStudyCurriculum(Integer studyId) throws RollbackException{
+        List<Curriculum> curricula = studyRepository.findById(studyId).get().getCurricula();
+        List<Object> result = new ArrayList<>();
+        for (Curriculum curriculum : curricula) {
+            Map<String, Object> progress = new HashMap<>();
+            studyHistoryRepository.findAllByStudy_studyId(studyId).stream()
+                    .collect(Collectors.toList())
+            progress.put("study", )
+        }
         return StudyDto.Detail.fromEntity(result.get());
     }
 

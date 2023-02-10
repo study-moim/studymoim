@@ -6,6 +6,7 @@ export default function LectureProgress(props) {
 
                 <p className="absolute left-0 top-0 text-xl text-center text-black">
                     강의 진도율
+                    {props.curricula}
                 </p>
                 <div className="w-full h-[31px] absolute left-0 top-[51px]">
                     <div
