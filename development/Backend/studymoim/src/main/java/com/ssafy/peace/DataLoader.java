@@ -2,6 +2,7 @@ package com.ssafy.peace;
 
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
+import com.ssafy.peace.service.YoutubeApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -36,20 +37,22 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private CurriculumRepository curriculumRepository;
 
+    @Autowired
+    private YoutubeApiService youtubeApiService;
+
 
     @Override
     public void run(String... args) throws Exception {
 
-        // User 3명
-        addUsers();
+//        // User 3명
+//        addUsers();
+//
+//        // 글 한개 작성
+//        addFreeBoard();
+//
+//        addPlatformAndCourseProvider();
 
-        // 글 한개 작성
-        addFreeBoard();
-
-        addPlatformAndCourseProvider();
-
-
-
+        youtubeApiService.init();
 
     }
 
