@@ -31,12 +31,12 @@ export default function MyPageRoot() {
       if (currentClick !== null) {
         let current = document.getElementById(currentClick);
         current.className =
-          "cursor-pointer text-lg font-bold text-center text-[#989aff] hover:scale-105";
+          "cursor-pointer text-[15px] font-bold text-center text-[#989aff]";
       }
       if (prevClick !== null) {
         let prev = document.getElementById(prevClick);
         prev.className =
-          "cursor-pointer text-base text-center text-black hover:scale-105";
+          "cursor-pointer text-[15px] text-center text-black";
       }
 
       setPrevClick(currentClick);

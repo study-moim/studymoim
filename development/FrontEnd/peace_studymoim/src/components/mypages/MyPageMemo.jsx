@@ -7,11 +7,10 @@ export default function MyPageMemo({ getPageName }) {
   const courseInfo = useFetch(
     `http://${API_SERVER}/api/v1/user/${getPageName}/courses`
   );
-  console.log(courseInfo)
   return (
-    <div>
+    <div className="max-w-2xl">
       {courseInfo.map((data) => (
-        <MemoCourse key={data.courseId} courseData={data} />
+        <MemoCourse key={data.course_id} courseData={data} />
       ))}
     </div>
   );
