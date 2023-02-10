@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.jsx";
 export default function NowPlayStudy(props) {
   const isLive = props.propData.live
-  console.log(props)
+
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
   const date = now.getDate();
-  console.log(props.state.recent)
+
   return (
     <>
       {isLive ? (<div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-[700px] w-full relative overflow-hidden gap-5 p-[50px]">

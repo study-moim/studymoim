@@ -1,5 +1,5 @@
 export default function StudyMemberCoummunityComment({ items }) {
-
+  console.log(items) 
   return (
     <div>
       <div

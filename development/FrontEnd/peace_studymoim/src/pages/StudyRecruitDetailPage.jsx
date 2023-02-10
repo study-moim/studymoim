@@ -186,7 +186,7 @@ export default function StudyRecruitDetailPage(props) {
                   })}
                 </Slider>
               ) : (
-                <p>아직 등록된 강좌가 없어요 .. </p>
+                <p>아직 등록된 강좌가 없어요</p>
               )}
             {/* </div> */}
         </div>
