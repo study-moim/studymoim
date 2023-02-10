@@ -86,10 +86,6 @@ public class DataLoader implements CommandLineRunner {
         // JPA DDL 설정 보고 실행 판단
         if(!DDL_CONFIG.equals("create")) return;
 
-        // User 3명
-        addUsers();
-
-
 
         // CourseCategory 실제 사용할 데이터
         addCategory();
@@ -100,6 +96,9 @@ public class DataLoader implements CommandLineRunner {
         addYTAndProvider();
         addCourse();
         addLecture();
+
+        // User 5명
+        addUsers();
 
 
         // 자유글 작성
@@ -130,9 +129,7 @@ public class DataLoader implements CommandLineRunner {
         addUserHistory();
 //        addStudyHistory();
 
-
-
-
+        System.out.println("DataLoader clear");
     }
 
     private void addYTAndProvider(){
@@ -190,10 +187,8 @@ public class DataLoader implements CommandLineRunner {
 
             for (JSONObject course : data) {
                 try {
-                    System.out.println("=========================================");
                     int num = Integer.parseInt(String.valueOf(course.get("course_provider_id")));
-                    System.out.println(num);
-                    courseRepository.save(Course.builder()
+                    courseRepository.saveAndFlush(Course.builder()
                             .title((String) course.get("title"))
                             .content((String) course.get("content"))
                             .playlistId((String) course.get("playlist_id"))
@@ -258,7 +253,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        userHistoryRepository.saveAll(userHistoryList);
+        userHistoryRepository.saveAllAndFlush(userHistoryList);
     }
 
     private void addFollow() {
@@ -280,7 +275,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        followRepository.saveAll(followList);
+        followRepository.saveAllAndFlush(followList);
     }
 
     private void addRegister(){
@@ -299,7 +294,7 @@ public class DataLoader implements CommandLineRunner {
                         .build());
             }
         }
-        studyRequestRepository.saveAll(studyRequestList);
+        studyRequestRepository.saveAllAndFlush(studyRequestList);
     }
 
     private void addMessage() {
@@ -360,7 +355,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        noteRepository.saveAll(noteList);
+        noteRepository.saveAllAndFlush(noteList);
     }
 
     private void addUserLikeCourse() {
@@ -379,7 +374,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        userLikeCourseRepository.saveAll(userLikeCourseList);
+        userLikeCourseRepository.saveAllAndFlush(userLikeCourseList);
     }
 
     public void addUsers(){
@@ -412,7 +407,7 @@ public class DataLoader implements CommandLineRunner {
 
 
 
-        userRepository.saveAll(userList);
+        userRepository.saveAllAndFlush(userList);
     }
 
 
@@ -426,7 +421,7 @@ public class DataLoader implements CommandLineRunner {
                 if((i+j) % 4 == 0) {
                     for (int k = 0; k < 5; k++) {
                         questionBoardList.add(QuestionBoard.builder()
-                                .title(i + "유저가 쓴 " + j + "번째 질문게시판 글")
+                                .title(i + "유저 " + j + "번째 질문글")
                                 .content("pagination test 입니다")
                                 .questionTime((int) (Math.random() * Integer.MAX_VALUE) % lectureList.get(j).getLength())
                                 .user(userList.get(i))
@@ -436,7 +431,7 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        questionBoardRepository.saveAll(questionBoardList);
+        questionBoardRepository.saveAllAndFlush(questionBoardList);
     }
 
     public void addFreeBoard(){
@@ -451,44 +446,7 @@ public class DataLoader implements CommandLineRunner {
                         .build());
             }
         }
-        freeBoardRepository.saveAll(freeBoardList);
-
-        User writer = userRepository.findById(1).orElse(null);
-        FreeBoard freeBoard = FreeBoard.builder()
-                .user(writer)
-                .title("에러가 너무 많이 나요")
-                .content("문제 해결을 못하겠어요")
-                .build();
-        freeBoardRepository.save(freeBoard);
-        addComment(freeBoard);
-
-        User writer2 = userRepository.findById(2).orElse(null);
-        FreeBoard freeBoard2 = FreeBoard.builder()
-                .user(writer2)
-                .title("카카오 로그인이 안대요")
-                .content("포기해도 되나요?")
-                .build();
-        freeBoardRepository.save(freeBoard2);
-    }
-
-    public void addComment(FreeBoard freeBoard){
-        FreeBoard targetBoard = freeBoardRepository.findById(freeBoard.getFreeBoardId()).orElse(null);
-        User commenter = userRepository.findById(2).orElse(null);
-        User commenter2 = userRepository.findById(3).orElse(null);
-
-
-        FreeBoardComment freeBoardComment = FreeBoardComment.builder()
-                .user(commenter)
-                .content("컴퓨터 함 밀어버리세요")
-                .freeBoard(targetBoard)
-                .build();
-        freeBoardCommentRepository.save(freeBoardComment);
-        FreeBoardComment freeBoardComment2 = FreeBoardComment.builder()
-                .user(commenter2)
-                .content("너무 과격한거 아닌가요")
-                .freeBoard(targetBoard)
-                .build();
-        freeBoardCommentRepository.save(freeBoardComment2);
+        freeBoardRepository.saveAllAndFlush(freeBoardList);
     }
 
     public void addStudyAndMember(){
@@ -541,43 +499,8 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
-        studyRepository.saveAll(studyList);
-        studyMemberRepository.saveAll(studyMemberList);
-
-
-//        Study study1 = Study.builder()
-//                .title("리액트 스터디")
-//                .startTime(LocalDate.now())
-//                .content("널널하게 하실 분 구해요~ 매주 목 금 저녁 ㄱㄱ")
-//                .isPublic(true)
-//                .userLimit(4)
-//                .build();
-//        studyRepository.save(study1);
-//        addCurriculum(study1);
-//
-//        User user1 = userRepository.findByNickname("싸피킴");
-//        User user2 = userRepository.findByNickname("싸피팍");
-//        User user3 = userRepository.findByNickname("싸피정");
-//
-//        StudyMember sm1 = StudyMember.builder()
-//                .user(user1)
-//                .memberRole(true)
-//                .study(study1)
-//                .build();
-//        studyMemberRepository.save(sm1);
-//        StudyMember sm2 = StudyMember.builder()
-//                .user(user2)
-//                .memberRole(false)
-//                .study(study1)
-//                .build();
-//        studyMemberRepository.save(sm2);
-//        StudyMember sm3 = StudyMember.builder()
-//                .user(user3)
-//                .memberRole(false)
-//                .study(study1)
-//                .build();
-//        studyMemberRepository.save(sm3);
-
+        studyRepository.saveAllAndFlush(studyList);
+        studyMemberRepository.saveAllAndFlush(studyMemberList);
     }
 
     public void addCurriculum(){
@@ -594,31 +517,7 @@ public class DataLoader implements CommandLineRunner {
                         .build());
             }
         }
-        curriculumRepository.saveAll(curriculumList);
-
-
-//        Course course1 = courseRepository.findById(32).get();
-//        Course course2 = courseRepository.findById(39).get();
-//        Course course3 = courseRepository.findById(46).get();
-//        Curriculum curriculum1 = Curriculum.builder()
-//                .study(study)
-//                .course(course1)
-//                .curriculumOrder(0)
-//                .build();
-//        curriculumRepository.save(curriculum1);
-//        Curriculum curriculum2 = Curriculum.builder()
-//                .study(study)
-//                .course(course2)
-//                .curriculumOrder(1)
-//                .build();
-//        curriculumRepository.save(curriculum2);
-//        Curriculum curriculum3 = Curriculum.builder()
-//                .study(study)
-//                .course(course3)
-//                .curriculumOrder(2)
-//                .build();
-//        curriculumRepository.save(curriculum3);
-
+        curriculumRepository.saveAllAndFlush(curriculumList);
     }
 
     public void addStudyCommunity() {
@@ -634,7 +533,7 @@ public class DataLoader implements CommandLineRunner {
                         .build());
             }
         }
-        studyCommunityRepository.saveAll(studyCommunityList);
+        studyCommunityRepository.saveAllAndFlush(studyCommunityList);
     }
 
     public void addCategory(){
@@ -646,12 +545,11 @@ public class DataLoader implements CommandLineRunner {
 
             for (JSONObject category : data) {
                 try {
-                    courseCategoryRepository.save(CourseCategory.builder()
+                    courseCategoryRepository.saveAndFlush(CourseCategory.builder()
                             .name_kor((String) category.get("name_kor"))
                             .name_eng((String) category.get("name_eng"))
                             .imgurl((String) category.get("image"))
                             .build());
-                    System.out.println((String) category.get("image"));
                 } catch (ConstraintViolationException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
