@@ -7,6 +7,33 @@ import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 import Stomp from "stompjs";
 
 export default function StudyPlayerMainRoot() {
+  
+  ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+  };
+  useEffect(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", preventGoBack);
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, []);
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
+  }, []);
+
+
   const props = useLocation().state;
   let study = props.study;
   let user = props.user;
@@ -267,6 +294,8 @@ export default function StudyPlayerMainRoot() {
           ) : null}
         </div>
       </div>
+
     </div>
+    
   );
 }
