@@ -213,7 +213,7 @@ public class DataLoader implements CommandLineRunner {
                 try {
                     int length = Integer.parseInt(String.valueOf(lecture.get("length")));
                     int num = Integer.parseInt(String.valueOf(lecture.get("course_id")));
-                    lectureRepository.save(Lecture.builder()
+                    lectureRepository.saveAndFlush(Lecture.builder()
                             .title((String) lecture.get("title"))
                             .length(length)
                             .thumbnail((String) lecture.get("thumbnail"))
