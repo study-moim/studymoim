@@ -15,7 +15,7 @@ export default function StudyMakeForm(props) {
 
   function closeModalHandler() {
     setShowModal(false);
-  };
+  }
 
   const { info } = userInfo();
 
@@ -40,13 +40,16 @@ export default function StudyMakeForm(props) {
   ];
 
   // 강좌 선택
+ 
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const courseOptionList = search.map((course) =>
+  Object.assign({ value: course.course_id, label: course.title })
+  );
+  
   function handleSelect(data) {
     setSelectedOptions(data);
   }
-  const courseOptionList = search.map((course) =>
-    Object.assign({ value: course.course_id, label: course.title })
-  );
+ 
 
   // 제목
   const [titleInput, setTitleInput] = useState("")
@@ -147,7 +150,7 @@ export default function StudyMakeForm(props) {
                 <Select
                   options={courseOptionList}
                   placeholder="강좌를 검색하세요."
-                  value={courseOptionList[0]}
+                  value={selectedOptions}
                   onChange={handleSelect}
                   isSearchable={true}
                   isMulti
