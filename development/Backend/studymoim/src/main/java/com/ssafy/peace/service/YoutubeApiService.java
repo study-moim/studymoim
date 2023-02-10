@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,8 +53,7 @@ public class YoutubeApiService {
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static YouTube youtube;
 
-    private final int INITNUM = 1;          // 연습용
-    private final int LIVENUM = 10;         // 실전용
+    private final int INITNUM = Integer.MAX_VALUE;          // 연습용
 
     @Data
     class Provider {
@@ -66,61 +66,52 @@ public class YoutubeApiService {
      * @return
      */
     @Transactional
-    public String init(boolean isInit) {
-        if(isInit) {
+    public String init() {
+        // platform 유튜브 추가... 추후 여러개 플랫폼 추가하면 json으로?
+        try {
+            Platform platform = Platform.builder()
+                    .name("유튜브")
+                    .build();
 
-            // platform 유튜브 추가... 추후 여러개 플랫폼 추가하면 json으로?
-            try {
-                Platform platform = Platform.builder()
-                        .name("유튜브")
-                        .build();
+            platformRepository.saveAndFlush(platform);
 
-                platformRepository.saveAndFlush(platform);
+        } catch (ConstraintViolationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
 
-            } catch (ConstraintViolationException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+        ClassPathResource classPathResource = new ClassPathResource("provider.json");
 
-            ClassPathResource classPathResource = new ClassPathResource("provider.json");
+        try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
 
-            try (InputStream is = new BufferedInputStream(classPathResource.getInputStream())) {
+            Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            List<CourseProvider> courseProviderList = new ArrayList<>();
+            List<JSONObject> data = (List<JSONObject>) ob;
 
-                Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
-
-                List<JSONObject> data = (List<JSONObject>) ob;
-
-                for (JSONObject provider : data) {
-                    try {
-                        CourseProvider courseProvider = CourseProvider.builder()
-                                .name((String) provider.get("name"))
-                                .channelId((String) provider.get("channelId"))
-                                .platform(platformRepository.findByName("유튜브"))
-                                .build();
-
-                        courseProviderRepository.saveAndFlush(courseProvider);
-
-                        getPlayList(courseProvider.getChannelId(), isInit);
-                    } catch (ConstraintViolationException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+            for (JSONObject provider : data) {
+                try {
+                    courseProviderList.add(CourseProvider.builder()
+                            .name((String) provider.get("name"))
+                            .channelId((String) provider.get("channelId"))
+                            .platform(platformRepository.findByName("유튜브"))
+                            .build());
+                } catch (ConstraintViolationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
-                courseTypeService.insertCourseType(isInit, 0);
-                return "ok";
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
-        } else {
-            // Init 아니고 실제 데이터 추가
-            List<CourseProvider> courseProviderList = courseProviderRepository.findAll();
-            for (int i = 0; i < courseProviderList.size(); i++) {
-                getPlayList(courseProviderList.get(i).getChannelId(), isInit);
+            courseProviderRepository.saveAllAndFlush(courseProviderList);
+            List<CourseProvider> templist = courseProviderRepository.findAll();
+            System.out.println(templist.size());
+            for (int i = 0; i < templist.size(); i++) {
+                System.out.println(templist.get(i).toString());
+                getPlayList(templist.get(i).getChannelId());
             }
-            // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
-            courseTypeService.insertCourseType(isInit, courseProviderList.size() * INITNUM);
+//            // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
+//            courseTypeService.insertCourseType();
             return "ok";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -129,7 +120,7 @@ public class YoutubeApiService {
      * @param channelId
      * @return
      */
-    public void getPlayList(String channelId, boolean isInit) {
+    public void getPlayList(String channelId) {
         try {
             youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
@@ -142,67 +133,28 @@ public class YoutubeApiService {
             playlistRequest.setChannelId(channelId);
             playlistRequest.setMaxResults(1000l);
             List<Playlist> playLists = playlistRequest.execute().getItems();
-
+            List<Course> courseList = new ArrayList<>();
             if(!playLists.isEmpty()) {
-                if(isInit == true) {
-                    int n = Math.min(playLists.size(), INITNUM);
-                    for (int i = 0; i < n; i++) {
-                        // 데이터 가져오기
-                        try {
-                            playLists.get(i).getSnippet();
-                            Course course = Course.builder()
-                                    .title(playLists.get(i).getSnippet().getTitle())
-                                    .content(playLists.get(i).getSnippet().getLocalized().getDescription())
-                                    .playlistId(playLists.get(i).getId().toString())
-                                    .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
-//                                    .thumbnail(playLists.get(i).getSnippet().getThumbnails().getDefault().getUrl())
-                                    .courseProvider(courseProviderRepository.getByChannelId(channelId))
-                                    .build();
+                int n = Math.min(playLists.size(), INITNUM);
+                for (int i = 0; i < n; i++) {
+                    // 데이터 가져오기
+                    try {
+                        Course course = Course.builder()
+                                .title(playLists.get(i).getSnippet().getTitle())
+                                .content(playLists.get(i).getSnippet().getLocalized().getDescription())
+                                .playlistId(playLists.get(i).getId().toString())
+                                .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
+                                .courseProvider(courseProviderRepository.getByChannelId(channelId))
+                                .build();
 
-                            courseRepository.saveAndFlush(course);
-
-                            getPlayListItem(course.getPlaylistId(), isInit);
-                        } catch (ConstraintViolationException e) {
-                            e.printStackTrace();
-                            throw new RuntimeException(e);
-                        }
-                    }
-                } else {
-                    // 추가 데이터
-                    int n = Math.min(playLists.size(), LIVENUM);
-                    for (int i = INITNUM; i < n; i++) {
-                        // 데이터 가져오기
-                        try {
-                            playLists.get(i).getSnippet();
-                            Course course;
-                            if(playLists.get(i).getSnippet().getThumbnails().isEmpty()) {
-                                course = Course.builder()
-                                        .title(playLists.get(i).getSnippet().getTitle())
-                                        .content(playLists.get(i).getSnippet().getLocalized().getDescription())
-                                        .playlistId(playLists.get(i).getId().toString())
-//                                    .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
-                                        .thumbnail(null)
-                                        .courseProvider(courseProviderRepository.getByChannelId(channelId))
-                                        .build();
-                            } else {
-                                course = Course.builder()
-                                        .title(playLists.get(i).getSnippet().getTitle())
-                                        .content(playLists.get(i).getSnippet().getLocalized().getDescription())
-                                        .playlistId(playLists.get(i).getId().toString())
-                                        .thumbnail(playLists.get(i).getSnippet().getThumbnails().getHigh().getUrl())
-//                                        .thumbnail(playLists.get(i).getSnippet().getThumbnails().getDefault().getUrl())
-                                        .courseProvider(courseProviderRepository.getByChannelId(channelId))
-                                        .build();
-                            }
-                            courseRepository.saveAndFlush(course);
-
-                            getPlayListItem(course.getPlaylistId(), isInit);
-                        } catch (ConstraintViolationException e) {
-                            e.printStackTrace();
-                            throw new RuntimeException(e);
-                        }
+                        courseRepository.saveAndFlush(course);
+                        getPlayListItem(course.getPlaylistId());
+                    } catch (ConstraintViolationException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
                 }
+
             }
 
         } catch (GoogleJsonResponseException e) {
@@ -220,7 +172,7 @@ public class YoutubeApiService {
      * @param playlistId
      * @return
      */
-    public void getPlayListItem(String playlistId, boolean isInit) {
+    public void getPlayListItem(String playlistId) {
         try {
             youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
@@ -234,21 +186,9 @@ public class YoutubeApiService {
             playlistItemRequest.setMaxResults(100l);
             List<PlaylistItem> playListItems = playlistItemRequest.execute().getItems();
             if(!playListItems.isEmpty()) {
-//                if (isInit == true) {
-//                    int n = Math.min(playListItems.size(), INITNUM);
-//                    for (int i = 0; i < n; i++) {
-//                        // 데이터 가져오기
-//                        String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
-//                        String title = playListItems.get(i).getSnippet().getTitle().toString();
-//                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
-////                        String thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
-//
-//                        // Service -> Service
-//                        getVideoInfo(playlistId, videoId, title, thumbnail);
-//                    }
-//                } else {
-                int n = playListItems.size();
-                for (int i = INITNUM; i < n; i++) {
+//                int n = playListItems.size();
+                int n = Math.min(playListItems.size(), INITNUM);
+                for (int i = 0; i < n; i++) {
                     // 데이터 가져오기
                     String thumbnail;
                     String videoId = playListItems.get(i).getSnippet().getResourceId().getVideoId();
@@ -256,14 +196,10 @@ public class YoutubeApiService {
                     if(playListItems.get(i).getSnippet().getThumbnails().isEmpty()) {
                         thumbnail = null;
                     } else {
-
                         thumbnail = playListItems.get(i).getSnippet().getThumbnails().getHigh().getUrl().toString();
-//                            thumbnail = playListItems.get(i).getSnippet().getThumbnails().getDefault().getUrl().toString();
                     }
                     // Service -> Service
                     getVideoInfo(playlistId, videoId, title, thumbnail);
-
-//                    }
                 }
             }
         } catch (GoogleJsonResponseException e) {

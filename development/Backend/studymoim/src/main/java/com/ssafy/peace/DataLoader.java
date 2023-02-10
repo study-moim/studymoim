@@ -64,28 +64,30 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // User 3명
-        addUsers();
-        // 글 한개 작성
-        addFreeBoard();
-        // UserLikeCategory 더미 데이터
-        addUserLikeCategory();
 
         // CourseCategory 실제 사용할 데이터
         addCategory();
 
         // youtube api 세팅
-        youtubeApiService.init(true);
+        youtubeApiService.init();
 
-        // Course 좋아요 더미 데이터
-        addUserLikeCourse();
-        // Memo 더미 데이터
-        addNote();
 
-        addStudyAndMember();
-
-        // Message 더미 데이터
-        addMessage();
+//        // User 5명
+//        addUsers();
+//        // 글 한개 작성
+//        addFreeBoard();
+//        // UserLikeCategory 더미 데이터
+//        addUserLikeCategory();
+//
+//        // Course 좋아요 더미 데이터
+//        addUserLikeCourse();
+//        // Memo 더미 데이터
+//        addNote();
+//
+//        addStudyAndMember();
+//
+//        // Message 더미 데이터
+//        addMessage();
     }
 
     private void addMessage() {
@@ -229,44 +231,6 @@ public class DataLoader implements CommandLineRunner {
             }
         }
         freeBoardRepository.saveAll(freeBoardList);
-
-        User writer = userRepository.findById(1).orElse(null);
-        FreeBoard freeBoard = FreeBoard.builder()
-                .user(writer)
-                .title("에러가 너무 많이 나요")
-                .content("문제 해결을 못하겠어요")
-                .build();
-        freeBoardRepository.save(freeBoard);
-        addComment(freeBoard);
-
-        User writer2 = userRepository.findById(2).orElse(null);
-        FreeBoard freeBoard2 = FreeBoard.builder()
-                .user(writer2)
-                .title("카카오 로그인이 안대요")
-                .content("포기해도 되나요?")
-                .build();
-        freeBoardRepository.save(freeBoard2);
-    }
-
-    public void addComment(FreeBoard freeBoard){
-        FreeBoard targetBoard = freeBoardRepository.findById(freeBoard.getFreeBoardId()).orElse(null);
-        User commenter = userRepository.findById(2).orElse(null);
-        User commenter2 = userRepository.findById(3).orElse(null);
-
-
-        FreeBoardComment freeBoardComment = FreeBoardComment.builder()
-                .user(commenter)
-                .content("컴퓨터 함 밀어버리세요")
-                .freeBoard(targetBoard)
-                .build();
-        freeBoardCommentRepository.save(freeBoardComment);
-        FreeBoardComment freeBoardComment2 = FreeBoardComment.builder()
-                .user(commenter2)
-                .content("너무 과격한거 아닌가요")
-                .freeBoard(targetBoard)
-                .build();
-        freeBoardCommentRepository.save(freeBoardComment2);
-
     }
 
     public void addStudyAndMember(){

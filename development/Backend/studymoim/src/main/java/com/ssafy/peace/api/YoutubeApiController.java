@@ -31,9 +31,9 @@ public class YoutubeApiController {
     private final YoutubeApiService youtubeApiService;
 
     @GetMapping("/init")
-    public String initYoutube() {
-        String result = youtubeApiService.init(false).toString();
-        return result;
+    public boolean initYoutube() {
+        youtubeApiService.init();
+        return true;
 
     }
 }
