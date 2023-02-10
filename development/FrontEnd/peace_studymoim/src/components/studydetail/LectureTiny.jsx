@@ -14,6 +14,7 @@ export default function LectureTiny({
         study: state.study,
         videoId: propData.videoId,
         videoInfo: propData,
+        lectureId: propData.lectureId
       }}
       className="cursor-pointer w-full"
     >

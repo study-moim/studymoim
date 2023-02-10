@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrameSolo from "../components/studyplayer/PlayingVideoFrameSolo";
+import userInfo from "../zustand/store";
 
 export default function LecturePlayerMainRoot() {
   ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
@@ -39,6 +40,35 @@ export default function LecturePlayerMainRoot() {
 
   const navigate = useNavigate();
   const props = useLocation().state.propData;
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const { info } = userInfo();
+  /////////////////////////---HISTORY---////////////////////////////
+  const [enterPlayer, setEnterPlayer] = useState(false);
+  const [nowVideo, setNowVideo] = useState(0);
+  const [startVideo, setStartVideo] = useState(0);
+  // 입장 get
+  useEffect(() => {
+    const getHistory = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/video/user/${info.userId}/${props.lectureId}`
+      ).then(res => res.json()).then(data=>setStartVideo(data));
+    };
+    getHistory();
+  }, [enterPlayer]);
+  // 퇴장 put
+  const putHistory = async () => {
+    await fetch(
+      `http://${API_SERVER}/api/v1/video/user/${info.userId}/${props.lectureId}/${Math.round(nowVideo*1)}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+  /////////////////////////------------////////////////////////////
+
   const [currentClick, setCurrentClick] = useState("memo");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 전체/강의/자유 색이 바뀜
@@ -62,6 +92,7 @@ export default function LecturePlayerMainRoot() {
 
   async function closeLive() {
     if (confirm("라이브를 종료하시겠습니까?") == true) {
+      putHistory()
       navigate(`/course`);
     }
   }
@@ -81,7 +112,11 @@ export default function LecturePlayerMainRoot() {
             종료하기
           </button>
         </div>
-        <PlayingVideoFrameSolo videoId={props.videoId} />
+        <PlayingVideoFrameSolo
+          videoId={props.videoId}
+          setNowVideo={setNowVideo}
+          startVideo={startVideo}
+        />
       </div>
       {/* 오른쪽 컴포들 */}
       <div className="flex flex-col w-[400px] h-[700px]">

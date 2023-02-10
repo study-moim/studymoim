@@ -5,9 +5,9 @@ import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
 import Stomp from "stompjs";
+import userInfo from "../zustand/store";
 
 export default function StudyPlayerMainRoot() {
-  
   ////////////////뒤로가기막기 + 창닫기 새로고침 막기//////////////////////
   const preventClose = (e) => {
     e.preventDefault();
@@ -32,7 +32,6 @@ export default function StudyPlayerMainRoot() {
       window.removeEventListener("beforeunload", preventClose);
     };
   }, []);
-
 
   const props = useLocation().state;
   let study = props.study;
@@ -77,6 +76,53 @@ export default function StudyPlayerMainRoot() {
   }
   const messageRef = useRef(null);
 
+  /////////////////////////---HISTORY---////////////////////////////
+  const [enterPlayer, setEnterPlayer] = useState(false);
+  const [nowVideo, setNowVideo] = useState(0);
+  const [startVideo, setStartVideo] = useState(0);
+  const { info } = userInfo();
+  // 입장 get
+  useEffect(() => {
+    const getHistory = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/video/study/${study.studyId}/${props.lectureId}`
+      )
+        .then((res) => res.json())
+        .then((data) => {setStartVideo(data)
+        
+          console.log(startVideo, "STartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTart")
+        });
+    };
+    getHistory();
+  }, [enterPlayer]);
+  // 퇴장 put
+  const putHistory = () => {
+    console.log(nowVideo, "nowVideonowVideonowVideonowVideonowVideonowVideo")
+    fetch(
+      `http://${API_SERVER}/api/v1/video/study/${study.studyId}/${
+        props.lectureId
+      }/${Math.round(nowVideo * 1)}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    fetch(
+      `http://${API_SERVER}/api/v1/video/user/${info.userId}/${
+        props.lectureId
+      }/${Math.round(nowVideo * 1)}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+  /////////////////////////------------////////////////////////////
+
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
 
   useEffect(() => {
@@ -104,6 +150,7 @@ export default function StudyPlayerMainRoot() {
   }
   async function closeLive() {
     if (confirm("라이브를 종료하시겠습니까?") == true) {
+      putHistory();
       let response = await fetch(
         `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
         { method: "PUT" }
@@ -215,6 +262,8 @@ export default function StudyPlayerMainRoot() {
           videoId={props.videoId}
           playerSync={playerInfo}
           eventHandler={videoFrameConductor}
+          setNowVideo={setNowVideo}
+          startVideo={startVideo}
         />
       </div>
       {/* 오른쪽 컴포들 */}
@@ -248,7 +297,9 @@ export default function StudyPlayerMainRoot() {
           {currentClick === "memo" ? (
             <PlayerMemo lectureId={props.videoInfo.lectureId} />
           ) : null}
-          {currentClick === "question" ? <PlayerQuestionList lectureId={props.videoInfo.lectureId}/> : null}
+          {currentClick === "question" ? (
+            <PlayerQuestionList lectureId={props.videoInfo.lectureId} />
+          ) : null}
           {currentClick === "chat" ? (
             <div className="h-full w-full">
               <div className="mb-2 w-full">
@@ -294,8 +345,6 @@ export default function StudyPlayerMainRoot() {
           ) : null}
         </div>
       </div>
-
     </div>
-    
   );
 }
