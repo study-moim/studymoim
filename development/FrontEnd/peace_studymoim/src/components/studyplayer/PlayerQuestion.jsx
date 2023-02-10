@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PlayerQuestionDetail from "./PlayerQuestionDetail";
 
-export default function PlayerQuestion({ propData, lectureId }) {
-  const cutTitle = propData.title.substring(0, 8) + "...";
+export default function PlayerQuestion({ propData, lectureId,getCreateComment }) {
+  const cutTitle = propData.title.substring(0, 18) + "...";
   const [detailToggle, setDetailToggle] = useState(false);
   const clickDetail = () => {
     setDetailToggle(!detailToggle);
@@ -15,15 +15,17 @@ export default function PlayerQuestion({ propData, lectureId }) {
           onClick={clickDetail}
           className="w-full flex justify-between items-center h-[40px] relative gap-[18px] rounded-[15px] border px-[20px] border-[#b1b2ff] cursor-pointer hover:scale-105"
         >
-          <p className="h-[30px] text-[16px] font-bold text-center text-[#bd6ffc]">
-            {propData.time}
-          </p>
-          <p className="h-[30px] text-[16px] font-bold text-center text-black">
+          <div className="h-[30px] text-[14px] font-bold text-center text-black">
             {cutTitle}
-          </p>
+          </div>
         </div>
       ) : (
-        <PlayerQuestionDetail clickDetail={clickDetail} />
+        <PlayerQuestionDetail
+          clickDetail={clickDetail}
+          propData={propData}
+          lectureId={lectureId}
+          getCreateComment={getCreateComment}
+        />
       )}
     </>
   );
