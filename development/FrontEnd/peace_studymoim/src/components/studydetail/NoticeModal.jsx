@@ -33,7 +33,7 @@ export default function NoticeModal(props) {
     }).then((res) => {
       if (res.ok) {
         props.onCancel();
-        window.location.reload(); 
+        location.reload(); 
       }
     });
   }

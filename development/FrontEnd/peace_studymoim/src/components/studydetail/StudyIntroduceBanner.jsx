@@ -12,7 +12,7 @@ export default function StudyIntroduceBanner({ propData, props, userInfo }) {
           {propData && propData.title}
         </span>
       </p>
-      <p className="w-full text-[#58595d] pl-[5px]">
+
         <div className="flex w-full justify-start items-center relative gap-[10px]">
           {props && (
             <NavLink
@@ -39,7 +39,7 @@ export default function StudyIntroduceBanner({ propData, props, userInfo }) {
               );
             })}
         </div>
-      </p>
+      
       </div>
       <div className="flex justify-between items-end mb-3 mr-3">
         {props.userId === userInfo && (
