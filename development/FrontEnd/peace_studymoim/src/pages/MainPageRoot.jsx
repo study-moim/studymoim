@@ -9,7 +9,11 @@ import getQuestions from "../hooks/getQuestions";
 import useFetch from "../hooks/useFetch";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faCircleArrowRight, faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faCircleArrowRight,
+  faCircleArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import CourseTag from "../components/coursepages/CourseTag";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -22,13 +26,17 @@ export default function MainPageRoot() {
     0,
     9
   );
+  const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
+    <span {...props}>{children}</span>
+  );
+
   const [word, setWord] = useState("");
   const [searchType, setSearchType] = useState("");
 
   const settings = {
     dots: true,
     infinite: true,
-    arrows:true, 
+    arrows: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -37,17 +45,37 @@ export default function MainPageRoot() {
   };
 
   const twoSettings = {
-    dots: false, 
-    arrows: true,
-    nextArrow: <FontAwesomeIcon icon={faCircleArrowRight}/>, 
-    prevArrow: <FontAwesomeIcon icon={faCircleArrowLeft}/>, 
+    dots: false,
     infinite: true,
-    speed: 500,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeend: 100,
-    responsive: [{ breakpoint: 1200, twoSettings: { slidesToShow: 2 } }],
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   getArticles();
@@ -56,7 +84,7 @@ export default function MainPageRoot() {
 
   return (
     <div>
-      <div className="max-w-6xl mx-auto px-4 justify-start items-center">
+      <div className="max-w-6xl mx-auto px-4 justify-center items-center">
         <Slider {...settings}>
           <div>
             <img src="/banner1.png" alt="" />
@@ -114,7 +142,7 @@ export default function MainPageRoot() {
         ) : (
           <MainNotLogIn searchKey={searchType} searchData={word} />
         )}
-        <div>
+        <div className="mb-5">
           <p className="text-lg text-left font-bold mb-5"># 진행 중인 스터디</p>
           <Slider {...twoSettings}>
             {studyInfo.map((study) => (
@@ -122,7 +150,7 @@ export default function MainPageRoot() {
                 <MainStudy key={study.studyId} propData={study} />
               </div>
             ))}
-          </Slider>       
+          </Slider>
         </div>
       </div>
     </div>
