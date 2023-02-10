@@ -8,7 +8,6 @@ import MainStudy from "../components/mainpages/MainStudy";
 import getArticles from "../hooks/getArticles";
 
 export default function MainPageRoot() {
-  getArticles();
   const { logIn } = userInfo();
 
   return (
