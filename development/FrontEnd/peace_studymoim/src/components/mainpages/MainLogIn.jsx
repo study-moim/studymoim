@@ -17,11 +17,11 @@ export default function MainLogIn({ searchKey, searchData }) {
   const navigate = useNavigate();
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
   };
 
   const recommendCourses = useFetch(
@@ -55,8 +55,8 @@ export default function MainLogIn({ searchKey, searchData }) {
 
   return (
     <>
-      <div className="flex flex-row justify-around items-start">
-        <div className="flex flex-col justify-start w-1/3 mb-10">
+      <div className="flex flex-row justify-evenly items-start">
+        <div className="flex flex-col justify-start w-5/12 mb-10">
           {myCourses.length ? 
             <div> 
               {/* 듣던 강좌 있으면 내 강좌 띄워주고 없으면 추천 강좌 띄워줌  */}
@@ -66,7 +66,7 @@ export default function MainLogIn({ searchKey, searchData }) {
                 </p>
               </div>
               <Slider {...settings}>
-                {myCourses.map((course) => (
+                {myCourses.slice(0, 3).map((course) => (
                   <MainCourse key={course.course_id} propData={course} />
                 ))}
               </Slider>
@@ -78,15 +78,17 @@ export default function MainLogIn({ searchKey, searchData }) {
                   #이런 강좌는 어떨까요?
                 </p>
               </div>
-              <Slider {...settings}>
-                {recommendCourses.map((course) => (
+
+                  <Slider {...settings}>
+                {recommendCourses.slice(0, 3).map((course) => (
                   <MainCourse key={course.course_id} propData={course} />
                 ))}
               </Slider>
+              
             </div>
           }
         </div>
-        <div className="flex flex-col justify-start w-1/3 mb-10">
+        <div className="flex flex-col justify-start w-5/12 mb-10">
           {myStudies.length ? 
             <div>
               <div className="flex justify-start items-center"> 
@@ -101,7 +103,7 @@ export default function MainLogIn({ searchKey, searchData }) {
             />
           </div>
           <Slider {...settings}>
-            {myStudies.map((study) => (
+            {myStudies.slice(0, 3).map((study) => (
               <MainStudy key={study.studyId} propData={study} />
             ))}
           </Slider>
@@ -114,7 +116,7 @@ export default function MainLogIn({ searchKey, searchData }) {
             </p>
           </div>
           <Slider {...settings}>
-            {studyInfo.map((study) => (
+            {studyInfo.slice(0, 3).map((study) => (
               <MainStudy key={study.studyId} propData={study} />
             ))}
           </Slider>
