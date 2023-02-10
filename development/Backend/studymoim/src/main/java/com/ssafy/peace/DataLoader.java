@@ -95,41 +95,36 @@ public class DataLoader implements CommandLineRunner {
         // 강좌, 강의 더미 데이터
         addYTAndProvider();
         addCourse();
+        System.out.println("DataLoader 30% clear");
         addLecture();
+        System.out.println("DataLoader 60% clear");
 
         // User 5명
         addUsers();
-
-
         // 자유글 작성
         addFreeBoard();
         // 과목 질문글 작성
         addQuestionBoard();
-
         // UserLikeCategory 더미 데이터
         addUserLikeCategory();
         // Course 좋아요 더미 데이터
         addUserLikeCourse();
         // Memo 더미 데이터
         addNote();
-
         // 스터디 관련 더미 데이터
         addStudyAndMember();
         addCurriculum();
         addStudyCommunity();
-
         // Message 더미 데이터
         addMessage();
         addRegister();
-
         // Follow 더미 데이터
         addFollow();
-
         // History 더미 데이터
         addUserHistory();
 //        addStudyHistory();
 
-        System.out.println("DataLoader clear");
+        System.out.println("DataLoader 100% clear");
     }
 
     private void addYTAndProvider(){
