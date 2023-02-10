@@ -1,17 +1,17 @@
-export default function MemoLecture() {
+import useFetch from "../../hooks/useFetch";
+import MemoItem from "./MemoItem";
+
+export default function MemoLecture({ props }) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const lectureInfo = useFetch(
+    `http://${API_SERVER}/api/v1/lecture/${props}`
+  );
+  
   return (
     <>
-      <div className="flex justify-center items-center relative gap-10 py-[20px] rounded-[10px] bg-white border-[1px] border-[#eef1ff]/[0.98] cursor-pointer mt-1 hover:border-[#7b61ff]">
-        <p className="text-base font-bold text-black">
-          1강. 피그마 심화 들어가기
-        </p>
-        <p className="text-base text-gray-500">
-          2023-01-16
-        </p>
-        <p className="text-base text-right font-bold text-[#7b61ff]">
-          자세히
-        </p>
-      </div>
+      {lectureInfo.map((lecture) => (
+        <MemoItem key={lecture.lectureId} lectureData={lecture} />
+      ))}
     </>
   );
 }

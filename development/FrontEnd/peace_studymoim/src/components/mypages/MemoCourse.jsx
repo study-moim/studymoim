@@ -1,34 +1,38 @@
 import { useState } from "react";
 import MemoLecture from "./MemoLecture";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function MemoCourse({ courseData }) {
   const [memoLectureToggle, setMemoLectureToggle] = useState(false);
   const clickTriangle = () => {
     setMemoLectureToggle(!memoLectureToggle);
   };
-  // 강좌 -> 강의 -> 메모
-  // TODO: 히스토리가 뚫려야 할 수 있음
+  const slicedTitle = courseData.title.substring(0, 50) + "...";
   return (
     <div>
-      <div className="flex justify-start items-center pl-3 pr-5 py-3 rounded-[10px] bg-white border-[1px] border-[#eef1ff]/[0.98] mt-2">
-        <img
-          className="w-[106px] h-[82px] rounded-[10px]"
-          src={courseData.thumbnail}
-        />
-        <div className="flex justify-between w-full ml-3">
-          <div className="text-lg font-bold text-left text-black">
-            {courseData.title}
-          </div>
-          <div className="text-lg font-bold text-center">5/6</div>
-          <div
-            className="text-xl text-left font-bold text-[#b1b2ff] hover: scale-105 hover:text-[#7b61ff] cursor-pointer"
-            onClick={clickTriangle}
-          >
-            {!memoLectureToggle ? "OPEN" : "CLOSE"}
-          </div>
+      <div
+        onClick={clickTriangle}
+        className="cursor-pointer flex justify-between items-center pl-3 pr-5 py-2 bg-white border-b border-[#eef1ff]/[0.98] hover:bg-gray-100"
+      >
+        <div className="text-[15px] font-bold text-left text-black min-w-[70%] max-w-[70%]">
+          {courseData.title.length > 50 ? slicedTitle : courseData.title}
+        </div>
+        <div className="min-w-[5%] max-w-[5%] text-right">
+          {!memoLectureToggle ? (
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              className="text-[30px] font-bold text-[#b1b2ff] hover:text-[#7b61ff] cursor-pointer"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className="text-[30px] font-bold text-[#b1b2ff] hover:text-[#7b61ff] cursor-pointer"
+            />
+          )}
         </div>
       </div>
-      {memoLectureToggle ? <MemoLecture /> : null}
+      {memoLectureToggle ? <MemoLecture key={courseData.course_id} props={courseData.course_id} /> : null}
     </div>
   );
 }
