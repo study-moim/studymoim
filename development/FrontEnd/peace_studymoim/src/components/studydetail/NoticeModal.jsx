@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 
 export default function NoticeModal(props) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -33,6 +33,7 @@ export default function NoticeModal(props) {
     }).then((res) => {
       if (res.ok) {
         props.onCancel();
+        window.location.reload(); 
       }
     });
   }
@@ -62,7 +63,7 @@ export default function NoticeModal(props) {
                   ref={requestRef}
                 ></textarea>
               <button
-                className="flex justify-center items-center flex-grow h-11 mt-3 relative gap-2.5 px-1 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]"
+                className="flex justify-center items-center flex-grow h-11 mt-3 relative gap-2.5 p-2.5 rounded-lg text-sm text-white  bg-[#b1b2ff]"
               >
                 제출하기 
               </button>
