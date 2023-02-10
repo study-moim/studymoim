@@ -77,7 +77,10 @@ export default function StudyMemberCoummunity({ propData }) {
         />
       </form>
       {studyCommunity.map((items) => {
-        return <StudyMemberCoummunityComment key={items.studyCommunityId} items={items} />;
+        return <div className="w-full" key={items.studyCommunityId}>
+          <StudyMemberCoummunityComment key={items.studyCommunityId} items={items} />
+        </div>
+        
       })}
     </div>
   );
