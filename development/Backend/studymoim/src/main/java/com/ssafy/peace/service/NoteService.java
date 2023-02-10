@@ -1,6 +1,10 @@
 package com.ssafy.peace.service;
 
+import com.ssafy.peace.dto.CourseDto;
+import com.ssafy.peace.dto.LectureDto;
 import com.ssafy.peace.dto.NoteDto;
+import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.Lecture;
 import com.ssafy.peace.entity.Note;
 import com.ssafy.peace.repository.LectureRepository;
 import com.ssafy.peace.repository.NoteRepository;
@@ -11,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +50,20 @@ public class NoteService {
                     .lecture(lectureRepository.findById(noteDto.getLectureId()).get())
                     .build().updateId(result.get(0).getNoteId()));
         }
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<CourseDto.Info> getCourseListExistNote(int userId) {
+        return noteRepository.findAllCourseListExistNote(userId).stream()
+                .map(CourseDto.Info::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<LectureDto.Info> getLectureListExistNote(int userId, int courseId) {
+        return noteRepository.findAllLectureListExistNote(userId, courseId).stream()
+                .map(LectureDto.Info::fromEntity)
+                .collect(Collectors.toList());
     }
 }
