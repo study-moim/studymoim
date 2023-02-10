@@ -1,5 +1,5 @@
 export default function PlayerQuestionComment({comment}) {
-  console.log(comment,"90u21u30u09312u90312")
+
   return (
     <div className="flex flex-col justify-start items-start gap-2.5 w-full" >
       <div className="flex flex-col justify-start items-start gap-2.5 p-2.5 rounded-[5px] w-full bg-[#eef]">

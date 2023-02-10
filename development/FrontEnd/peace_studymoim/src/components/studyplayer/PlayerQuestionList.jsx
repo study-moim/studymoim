@@ -20,7 +20,7 @@ export default function PlayerQuestionList({ lectureId }) {
     };
     getQuestions();
   }, [createThings]);
-  console.log(questions)
+
 
   const clickNew = () => {
     setNewToggle(!newToggle);
