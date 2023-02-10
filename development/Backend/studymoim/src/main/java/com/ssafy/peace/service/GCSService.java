@@ -25,16 +25,12 @@ import java.util.UUID;
 public class GCSService {
 
     private final Storage storage;
-    private final UserRepository userRepository;
 
     @SuppressWarnings("deprecation")
     @Transactional
-    public String uploadProfileImage(MultipartFile file, UploadReqDto uploadReqDto) throws IOException {
-        User user = userRepository.findById(uploadReqDto.getUserId()).get();
-        int userId = uploadReqDto.getUserId();
+    public String uploadProfileImage(MultipartFile file, User user) throws IOException {
         String bucketName = "studymoim";
-        String saveFileName = UUID.randomUUID().toString() + StringUtils.cleanPath(file.getOriginalFilename());
-        System.out.println("uploadFileName = " + saveFileName);
+        String saveFileName = UUID.randomUUID() + StringUtils.cleanPath(file.getOriginalFilename());
         try(InputStream inputStream = file.getInputStream()) {
             Image processedImage = ImageIO.read(inputStream);
 
@@ -53,15 +49,13 @@ public class GCSService {
             e.printStackTrace();
         }
 
-        System.out.println(user.getSaveName());
-        userRepository.findById(uploadReqDto.getUserId()).get().updateSaveName(saveFileName);
-        System.out.println(user.getSaveName());
+        user.updateSaveName(saveFileName);
         String result = "/" + saveFileName;
         return result;
     }
-
-    public Blob getImage(String saveName) {
-        Blob blob = storage.get("studymoim", saveName);
-        return blob;
-    }
+//    // 사진 가져오기
+//    public Blob getImage(String saveName) {
+//        Blob blob = storage.get("studymoim", saveName);
+//        return blob;
+//    }
 }

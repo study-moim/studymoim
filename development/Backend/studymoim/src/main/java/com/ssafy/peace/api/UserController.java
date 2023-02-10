@@ -1,5 +1,7 @@
 package com.ssafy.peace.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.peace.dto.UploadReqDto;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -45,6 +50,25 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Operation(summary = "create user start information", description = "사용자 시작 정보 입력")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/")
+    public ResponseEntity<?> userStartInfo(@RequestParam(value = "file", required = false) MultipartFile file,
+                                           @RequestParam("dto") String dto) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        UserDto.Start userDto = mapper.readValue(dto, UserDto.Start.class);
+        try{
+            return new ResponseEntity<>(userService.createFirstUserInfo(file, userDto), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @Operation(summary = "get study list", description = "사용자가 참여중인 스터디 목록 불러오기")
     @ApiResponses({
@@ -329,23 +353,6 @@ public class UserController {
     public ResponseEntity<?> userRecommendCourses(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.getRecommendCourses(userId), HttpStatus.OK);
-        } catch(Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Operation(summary = "change user nickname", description = "유저 닉네임 바꾸기")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-    })
-    @PutMapping("/{userId}/nickname")
-    public ResponseEntity<?> userChangeNickname(@Parameter(description="userId") @PathVariable Integer userId,
-                                                @RequestBody UserDto.Nickname nickname) {
-        try{
-            userService.updateNickname(userId, nickname);
-            return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
