@@ -45,7 +45,7 @@ export default function FieldPage() {
 
   useEffect(() => {
     for (let i = 0; i < selectedField.length; i++) {
-      setCategory([...category, { categoryId: selectedField[i] }]);
+      setCategory([...category, selectedField[i]]);
     }
   }, [selectedField]);
 
@@ -65,49 +65,16 @@ export default function FieldPage() {
 
     const enteredNickname = nicknameRef.current.value;
 
-    const fieldData = {
+    const startInfo = {
       userId: userInformation.userId,
+      nickname: enteredNickname,
       categories: category,
     };
 
-    const changeNickname = {
-      nickname: enteredNickname,
-      userId: userInformation.userId,
-    };
-
-    const imgTemp = { userId: userInformation.userId, fileName: "filename" };
     const imageData = new FormData();
     imageData.append("file", image);
-    imageData.append("dto", JSON.stringify(imgTemp));
-
-    fetch(
-      `http://${API_SERVER}/api/v1/user/${userInformation.userId}/nickname`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(changeNickname),
-      }
-    ).then((res) => {
-      if (res.ok) {
-        navigate("/temp");
-      }
-    });
-
-    fetch(`http://${API_SERVER}/api/v1/category/like`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fieldData),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/temp");
-      }
-    });
-
-    fetch(`http://${API_SERVER}/api/v1/gcs/upload`, {
+    imageData.append("dto", JSON.stringify(startInfo));
+    fetch(`http://${API_SERVER}/api/v1/user/`, {
       method: "POST",
       // headers: {
       //   "Content-Type": "multipart/form-data",
@@ -115,13 +82,11 @@ export default function FieldPage() {
       body: imageData,
     }).then((res) => {
       if (res.ok) {
-        console.log("이미지 되냐?");
         navigate("/temp");
       }
     });
   }
 
-  // console.log(selectedField);
   return (
     <div className="max-w-6xl mx-auto mt-[50px] mb-[100px] px-4">
       {/* 분야 선택 창 */}

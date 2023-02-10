@@ -23,24 +23,25 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/gcs")
 public class GCSController {
-
-    private final GCSService gcsService;
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadToGCS(@RequestParam("file") MultipartFile file,
-                               @RequestParam("dto") String dto) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        UploadReqDto uploadReqDto = mapper.readValue(dto, UploadReqDto.class);
-        return new ResponseEntity<>(gcsService.uploadProfileImage(file, uploadReqDto), HttpStatus.OK);
-    }
-    @Operation(summary = "gcs download", description = "gcs test")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-    })
-    @GetMapping ("/test/{saveName}")
-    public ResponseEntity<?> getFromGCS(@Parameter(description="saveName") @PathVariable String saveName) throws IOException {
-        Blob blob = gcsService.getImage(saveName);
-        return new ResponseEntity<>(blob.toString(), HttpStatus.OK);
-    }
+//
+//    private final GCSService gcsService;
+//    @PostMapping("/upload")
+//    public ResponseEntity<?> uploadToGCS(@RequestParam("file") MultipartFile file,
+//                               @RequestParam("dto") String dto) throws IOException {
+//        ObjectMapper mapper = new ObjectMapper();
+//        UploadReqDto uploadReqDto = mapper.readValue(dto, UploadReqDto.class);
+//        return null;
+////        return new ResponseEntity<>(gcsService.uploadProfileImage(file, uploadReqDto), HttpStatus.OK);
+//    }
+//    @Operation(summary = "gcs download", description = "gcs test")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+//    })
+//    @GetMapping ("/test/{saveName}")
+//    public ResponseEntity<?> getFromGCS(@Parameter(description="saveName") @PathVariable String saveName) throws IOException {
+//        Blob blob = gcsService.getImage(saveName);
+//        return new ResponseEntity<>(blob.toString(), HttpStatus.OK);
+//    }
 
 }

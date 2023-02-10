@@ -1,5 +1,6 @@
 package com.ssafy.peace.service;
 
+import com.google.cloud.storage.Storage;
 import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.dto.auth.KakaoUserInfo;
@@ -11,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.RollbackException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +39,7 @@ public class UserService {
     private final CourseTypeRepository courseTypeRepository;
     private final CourseRepository courseRepository;
     private final UserLikeCourseRepository userLikeCourseRepository;
+    private final GCSService gcsService;
 
     public List<UserDto.Info> getUserList() throws RuntimeException {
         return null;
@@ -54,6 +58,26 @@ public class UserService {
 //        return UserDto.Info.fromEntity(userRepository.save(user));
     }
 
+//    public boolean checkUserNickname()
+    @Transactional
+    public UserDto.Info createFirstUserInfo(MultipartFile file, UserDto.Start startInfo) throws RuntimeException, IOException {
+        User user = userRepository.findById(startInfo.getUserId()).get();
+        // 카테고리 등록
+        startInfo.getCategories().forEach(category -> userLikeCategoryRepository.save(UserLikeCategory.builder()
+                        .courseCategory(courseCategoryRepository.findById(category).get())
+                        .user(user)
+                        .build()));
+        // 프로필 사진 등록
+        if(file.isEmpty()){
+            user.updateSaveName("logo.png");
+        } else{
+            gcsService.uploadProfileImage(file, user);
+        }
+        // 닉네임 등록
+        user.updateNickname(startInfo.getNickname());
+        System.out.println(user.getNickname());
+        return UserDto.Info.fromEntity(user);
+    }
     public UserDto.Info getUserByEmail(String email) {
         // 디비에 유저 정보 조회 (userEmail을 통한 조회).
         User user = userRepository.findByEmail(email);
@@ -245,8 +269,4 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public UserDto.Info updateNickname(Integer userId, UserDto.Nickname nickname) throws RollbackException {
-        return UserDto.Info.fromEntity(userRepository.findById(userId).get().updateNickname(nickname.getNickname()));
-    }
 }
