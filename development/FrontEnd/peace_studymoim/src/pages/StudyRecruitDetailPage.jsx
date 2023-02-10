@@ -11,6 +11,9 @@ import {
   faUsers,
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
@@ -18,12 +21,48 @@ export default function StudyRecruitDetailPage(props) {
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
+    <span {...props}>{children}</span>
+  );
+  const settings = {
+    dots: false,
+    infinite: true,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeend: 100,
+    responsive: [
+      {
+        breakpoint: 780,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 450,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   const [studyDetail, setStudyDetail] = useState([]);
   const [userList, setUserList] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
   const { info } = userInfo();
-  console.log("렌ㄷㄹ,ㅇ")
+
   useEffect(() => {
     fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
       .then((res) => {
@@ -110,28 +149,46 @@ export default function StudyRecruitDetailPage(props) {
             <div className="flex flex-col justify-center items-center">
               <FontAwesomeIcon icon={faCircleCheck} />
               <p className="text-sm">모집방법</p>
-              {studyDetail.public ? <p className="text-sm"> 공개 </p> : <p className="text-sm"> 수락</p>}
+              {studyDetail.public ? (
+                <p className="text-sm"> 공개 </p>
+              ) : (
+                <p className="text-sm"> 수락</p>
+              )}
             </div>
           </div>
-        <div className="flex justify-center items-center mt-10">
-          {/* TODO: 일단 md 바꾸고 이건 생각해보장 ㅋ  */}
-        {studyDetail.content}
-        </div>
-        <div className="flex flex-col justify-start items-center relative gap-9">
+          <div className="flex justify-center items-center mt-10">
+            {/* TODO: 일단 md 바꾸고 이건 생각해보장 ㅋ  */}
+            {studyDetail.content}
+          </div>
+          
             <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
               커리큘럼
             </p>
-            {/* TODO: 캐러샐로 하자 ...  */}
-            <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5">
-              {curriculum &&
-                curriculum.map((item) => {
-                  return (
-                    <MainCourse key={item.course.course_id} propData={item.course} /> 
-                  )
-                })}
-            </div>
-          </div>
 
+            {/* <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5"> */}
+              {/* {curriculum.map((item) => {
+                return (
+                  <MainCourse
+                    key={item.course.course_id}
+                    propData={item.course}
+                  />
+                );
+              })} */}
+              {curriculum ? (
+                <Slider {...settings}>
+                  {curriculum.map((item) => {
+                    return (
+                      <MainCourse
+                        key={item.course.course_id}
+                        propData={item.course}
+                      />
+                    );
+                  })}
+                </Slider>
+              ) : (
+                <p>아직 등록된 강좌가 없어요 .. </p>
+              )}
+            {/* </div> */}
         </div>
 
         {showOpenModal ? (
