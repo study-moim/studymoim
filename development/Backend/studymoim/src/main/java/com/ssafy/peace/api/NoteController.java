@@ -53,4 +53,36 @@ public class NoteController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @Operation(summary = "get course list if exist note", description = "유저 Note가 쓰여진 강좌 목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/course/{userId}")
+    public ResponseEntity<?> getCourseListExistNote(@Parameter(description = "userId") @PathVariable int userId) {
+        try{
+            return new ResponseEntity<>(noteService.getCourseListExistNote(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get lecture list if exist note", description = "유저 Note가 쓰여진 강좌의 강의 목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/lecture/{userId}/{courseId}")
+    public ResponseEntity<?> getLectureListExistNote(@Parameter(description = "userId") @PathVariable int userId,
+                                                     @Parameter(description = "courseId") @PathVariable int courseId) {
+        try{
+            return new ResponseEntity<>(noteService.getLectureListExistNote(userId, courseId), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

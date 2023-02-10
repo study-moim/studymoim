@@ -69,4 +69,26 @@ public class CourseDto {
         }
     }
 
+    public static class CourseNote {
+        private int course_id;
+        private String title;
+        private String content;
+        private String thumbnail;
+        private List<LectureDto.Info> lectures;
+        private String providerPlatformName;
+        private String providerChannelName;
+
+        public static Recruit fromEntity(Course courseEntity) {
+            return Recruit.builder()
+                    .course_id(courseEntity.getCourseId())
+                    .title(courseEntity.getTitle())
+                    .content(courseEntity.getContent())
+                    .thumbnail(courseEntity.getThumbnail())
+                    .lectures(courseEntity.getLectures().stream().map(LectureDto.Info::fromEntity).collect(Collectors.toList()))
+                    .providerPlatformName(courseEntity.getCourseProvider().getPlatform().getName())
+                    .providerChannelName(courseEntity.getCourseProvider().getName())
+                    .build();
+        }
+    }
+
 }
