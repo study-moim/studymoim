@@ -10,6 +10,9 @@ import com.ssafy.peace.repository.FreeBoardRepository;
 import com.ssafy.peace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +33,8 @@ public class FreeBoardService {
     private final AlarmRepository alarmRepository;
 
     @Transactional
-    public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
-        return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
+    public List<FreeBoardDto.Detail> getFreeBoardList(Pageable page) throws RollbackException {
+        return freeBoardRepository.findAllByIsDeletedIsFalse(page).stream()
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
