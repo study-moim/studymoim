@@ -104,8 +104,12 @@ public class YoutubeApiService {
             List<CourseProvider> templist = courseProviderRepository.findAll();
             System.out.println(templist.size());
             for (int i = 0; i < templist.size(); i++) {
-                System.out.println(templist.get(i).toString());
                 getPlayList(templist.get(i).getChannelId());
+            }
+
+            List<Course> tempCourseList = courseRepository.findAll();
+            for (int i = 0; i < tempCourseList.size(); i++) {
+                getPlayListItem(tempCourseList.get(i).getPlaylistId());
             }
 //            // 모든 강좌, 강의 DB 등록 후, 모든 강좌에 태그 달아주기
 //            courseTypeService.insertCourseType();
@@ -148,13 +152,11 @@ public class YoutubeApiService {
                                 .build();
 
                         courseRepository.saveAndFlush(course);
-                        getPlayListItem(course.getPlaylistId());
                     } catch (ConstraintViolationException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 }
-
             }
 
         } catch (GoogleJsonResponseException e) {
