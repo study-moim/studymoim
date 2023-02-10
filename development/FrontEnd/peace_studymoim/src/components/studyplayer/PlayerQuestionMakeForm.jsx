@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import userInfo from "../../zustand/store";
 
-export default function PlayerQuestionMakeForm({ clickNew, lectureId }) {
+export default function PlayerQuestionMakeForm({ clickNew, lectureId, getCreateComment }) {
   const { info } = userInfo();
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +34,7 @@ export default function PlayerQuestionMakeForm({ clickNew, lectureId }) {
         if (res.ok) {
           setIsLoading(false);
           clickNew();
+          getCreateComment()
         }
       });
     }

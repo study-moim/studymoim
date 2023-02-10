@@ -21,8 +21,8 @@ export default function PlayerMemo({ lectureId }) {
         })
         .then((data) => {
           setPrevMemo(data);
-          let memoContent = document.getElementById("memoText")
-          memoContent.value = data.content
+          let memoContent = document.getElementById("memoText");
+          memoContent.value = data.content;
         });
     };
     getPrevMemo();
@@ -50,6 +50,7 @@ export default function PlayerMemo({ lectureId }) {
       }).then((res) => {
         if (res.ok) {
           setIsLoading(false);
+          alert("메모가 저장되었습니다.")
         }
       });
     }
@@ -66,9 +67,12 @@ export default function PlayerMemo({ lectureId }) {
           placeholder="마크다운 양식으로 작성하기"
           ref={contentRef}
         ></textarea>
-        <button className="shadow-innerDown w-[100px] h-[30px] mt-[10px] bg-[#b1b2ff] font-bold text-white rounded-md hover:bg-[#8b8dff] hover:shadow-innerUp">
-          저장하기
-        </button>
+        <div className="flex flex-row gap-6 justify-center items-center">
+          <div className="text-xs">*저장하기를 눌러 수정 반영</div>
+          <button className="shadow-innerDown w-[65px] h-[30px] mt-[10px] bg-[#b1b2ff] font-bold text-white text-[9pt] rounded-md hover:bg-[#8b8dff] hover:shadow-innerUp">
+            저장하기
+          </button>
+        </div>
       </form>
     </>
   );
