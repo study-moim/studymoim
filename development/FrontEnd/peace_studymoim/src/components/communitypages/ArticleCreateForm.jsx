@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
-import getArticles from "../../hooks/getArticles";
-
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 export default function ArticleCreateForm() {
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      alert("로그인이 필요합니다.")
+      alert("로그인이 필요합니다.");
       navigate("/login");
       return;
     }
@@ -20,7 +20,8 @@ export default function ArticleCreateForm() {
 
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
   const titleRef = useRef(null);
-  const contentRef = useRef(null);
+  const [contentInput, setContentInput] = useState("");
+  // const contentRef = useRef(null);
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   function onSubmit(e) {
@@ -38,7 +39,8 @@ export default function ArticleCreateForm() {
         // + JSON 문자열로도 변환시켜줌
         body: JSON.stringify({
           title: titleRef.current.value,
-          content: contentRef.current.value,
+          // content: contentRef.current.value,
+          content: contentInput,
           userId: info.userId,
         }),
       }).then((res) => {
@@ -61,12 +63,19 @@ export default function ArticleCreateForm() {
           ref={titleRef}
           required
         />
-        <textarea
-          className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
-          placeholder="마크다운 양식으로 입력이 가능합니다."
-          ref={contentRef}
-          required
-        />
+        <div className="container">
+          <MDEditor
+            required
+            value={contentInput}
+            textareaProps={{
+              placeholder: "마크다운 양식으로 입력이 가능합니다.",
+            }}
+            onChange={setContentInput}
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
+          />
+        </div>
         <div className="flex gap-5 justify-end">
           <div className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer">
             취소
