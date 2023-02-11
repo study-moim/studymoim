@@ -1,7 +1,6 @@
 package com.ssafy.peace.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.peace.dto.UploadReqDto;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,7 +62,7 @@ public class UserController {
         ObjectMapper mapper = new ObjectMapper();
         UserDto.Start userDto = mapper.readValue(dto, UserDto.Start.class);
         try{
-            return new ResponseEntity<>(userService.createFirstUserInfo(file, userDto), HttpStatus.OK);
+            return new ResponseEntity<>(userService.updateUserInfo(file, userDto), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

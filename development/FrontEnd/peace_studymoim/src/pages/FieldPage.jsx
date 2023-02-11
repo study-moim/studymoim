@@ -44,9 +44,7 @@ export default function FieldPage() {
   }, [image]);
 
   useEffect(() => {
-    for (let i = 0; i < selectedField.length; i++) {
-      setCategory([...category, selectedField[i]]);
-    }
+    setCategory(selectedField)
   }, [selectedField]);
 
   const onChangeNickname = (nicknameCurrent) => {
@@ -64,6 +62,7 @@ export default function FieldPage() {
     event.preventDefault();
 
     const enteredNickname = nicknameRef.current.value;
+    console.log("??????", category)
 
     const startInfo = {
       userId: userInformation.userId,

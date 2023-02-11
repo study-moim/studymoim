@@ -1,22 +1,16 @@
 package com.ssafy.peace.service;
 
-import com.google.cloud.storage.Storage;
 import com.ssafy.peace.dto.auth.UserRegisterPostReq;
 import com.ssafy.peace.dto.*;
-import com.ssafy.peace.dto.auth.KakaoUserInfo;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
-import com.ssafy.peace.service.auth.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.RollbackException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,11 +52,11 @@ public class UserService {
 //        return UserDto.Info.fromEntity(userRepository.save(user));
     }
 
-//    public boolean checkUserNickname()
     @Transactional
-    public UserDto.Info createFirstUserInfo(MultipartFile file, UserDto.Start startInfo) throws RuntimeException, IOException {
+    public UserDto.Info updateUserInfo(MultipartFile file, UserDto.Start startInfo) throws RuntimeException, IOException {
         User user = userRepository.findById(startInfo.getUserId()).get();
-        // 카테고리 등록
+        // 카테고리 초기화 후 새로 등록
+        userLikeCategoryRepository.deleteAllByUser_userId(startInfo.getUserId());
         startInfo.getCategories().forEach(category -> userLikeCategoryRepository.save(UserLikeCategory.builder()
                         .courseCategory(courseCategoryRepository.findById(category).get())
                         .user(user)
