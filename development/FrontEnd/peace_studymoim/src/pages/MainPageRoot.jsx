@@ -144,13 +144,23 @@ export default function MainPageRoot() {
         )}
         <div className="mb-5">
           <p className="text-lg text-left font-bold mb-5"># 진행 중인 스터디</p>
-          <Slider {...twoSettings}>
-            {studyInfo.map((study) => (
-              <div key={study.studyId}>
-                <MainStudy key={study.studyId} propData={study} />
-              </div>
-            ))}
-          </Slider>
+          {studyInfo.length > 2 ? (
+            <Slider {...twoSettings}>
+              {studyInfo.map((study) => (
+                <div key={study.studyId}>
+                  <MainStudy key={study.studyId} propData={study} />
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div>
+              {studyInfo.map((study) => (
+                <div key={study.studyId}>
+                  <MainStudy key={study.studyId} propData={study} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
