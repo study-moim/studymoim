@@ -6,6 +6,7 @@ import { useState } from "react";
 import userInfo from "../zustand/store";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
 import ArticleEditForm from "../components/communitypages/ArticleEditForm";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function CommunityDetailRoot() {
   // 로그인 컷 콤보
@@ -105,9 +106,10 @@ export default function CommunityDetailRoot() {
             </div>
           </div>
           <div className="w-9/12 py-7">
-            <div className="bg-white text-[18px] font-bold">
-              {articleDetail.content}
-            </div>
+            <MDEditor.Markdown
+              source={articleDetail.content}
+              style={{ whiteSpace: "pre-wrap" }}
+            />
           </div>
         </div>
       ) : (

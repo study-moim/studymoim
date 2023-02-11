@@ -36,10 +36,9 @@ export default function StudySearch() {
               }}
             />
           </form>
-          {/* TODO: 정렬도 해야 됨 원래는 백에서 주기로 한듯한데.. 우리가 해야될듯? ㅋ  */}
         </div>
       </div>
-        <div className="flex flex-row flex-wrap justify-between gap-1 mt-10 w-full">
+        <div className="flex flex-row flex-wrap justify-start gap-1 mt-10 w-full">
           {filterInfo.map((recruit) => (
             <div key={recruit.studyId} className="cursor-pointer min-w-[33%]">
               <StudyRecruitItem props={recruit} />
