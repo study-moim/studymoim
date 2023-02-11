@@ -4,8 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import FreeRoot from "../components/communitypages/FreeRoot";
 import QuestionRoot from "../components/communitypages/QuestionRoot";
+import getArticles from "../hooks/getArticles";
 
 export default function CommunityMainRoot() {
+  getArticles()
+  
   const [currentClick, setCurrentClick] = useState("free");
   const [prevClick, setPrevClick] = useState(null);
   // 누르면 전체/강의/자유 색이 바뀜
