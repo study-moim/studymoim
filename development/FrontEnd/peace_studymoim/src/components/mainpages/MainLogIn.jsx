@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
+import StudyRecruitItem from "../studypages/StudyRecruitItem";
 
 export default function MainLogIn({ searchKey, searchData }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -66,7 +67,7 @@ export default function MainLogIn({ searchKey, searchData }) {
                 </p>
               </div>
               <Slider {...settings}>
-                {myCourses.slice(0, 3).map((course) => (
+                {myCourses.map((course) => (
                   <MainCourse key={course.course_id} propData={course} />
                 ))}
               </Slider>
@@ -80,7 +81,7 @@ export default function MainLogIn({ searchKey, searchData }) {
               </div>
 
                   <Slider {...settings}>
-                {recommendCourses.slice(0, 3).map((course) => (
+                {recommendCourses.map((course) => (
                   <MainCourse key={course.course_id} propData={course} />
                 ))}
               </Slider>
@@ -103,7 +104,7 @@ export default function MainLogIn({ searchKey, searchData }) {
             />
           </div>
           <Slider {...settings}>
-            {myStudies.slice(0, 3).map((study) => (
+            {myStudies.map((study) => (
               <MainStudy key={study.studyId} propData={study} />
             ))}
           </Slider>
@@ -116,7 +117,7 @@ export default function MainLogIn({ searchKey, searchData }) {
             </p>
           </div>
           <Slider {...settings}>
-            {studyInfo.slice(0, 3).map((study) => (
+            {studyInfo.map((study) => (
               <MainStudy key={study.studyId} propData={study} />
             ))}
           </Slider>

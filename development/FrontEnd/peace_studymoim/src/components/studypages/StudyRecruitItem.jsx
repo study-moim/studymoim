@@ -11,7 +11,7 @@ export default function StudyRecruitItem({ props }) {
       <Link to={`/study/${props.studyId}`}>
         <div className="font-bold text-[18px] my-3">{props.title}</div>
         <div className="text-[12px] my-3 text-gray-800">
-          {props.content > 100 ? slicedContent : props.content}
+          {/* {props.content > 100 ? slicedContent : props.content} */}
           {/* <div dangerouslySetInnerHTML={{ __html: props.content }}></div> */}
         </div>
         <div className="flex flex-col justify-start items-start pb-2 border-b">
@@ -19,9 +19,10 @@ export default function StudyRecruitItem({ props }) {
             참가인원: {props.userGathered} / {props.userLimit} 명
           </p>
           <p className="text-[12px]">{props.startTime} 시작 예정</p>
-          <p className=" text-[12px]">
-            {firstcourse[0]} 외 {props.curricula.length - 1}개 강의
-          </p>
+            {props.curricula.length ? 
+            <p className=" text-[12px]"> {firstcourse[0]} 외 {props.curricula.length - 1}개 강좌 </p> 
+          : <p className=" text-[12px]"> 등록된 강좌가 없음 </p> }
+            
         </div>
       </Link>
       <NavLink
