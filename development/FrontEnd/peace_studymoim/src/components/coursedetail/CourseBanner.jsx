@@ -69,7 +69,7 @@ export default function CourseBanner({ dataForBanner }) {
           <button className="text-[25px]" onClick={() => likeFunction("DELETE")}>
             <FontAwesomeIcon
               icon={faHeart}
-              className="hover:text-red-200 text-red-500 border"
+              className="hover:text-red-200 text-red-500"
             />
           </button>
         )}
