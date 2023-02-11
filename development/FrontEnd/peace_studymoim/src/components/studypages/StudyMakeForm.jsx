@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useRef, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 import Select from "react-select";
-
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +19,7 @@ export default function StudyMakeForm(props) {
   const { info } = userInfo();
 
   // 모집인원
-  const [memberSelect, setMemberSelect] = useState()  
+  const [memberSelect, setMemberSelect] = useState();
   const memberOptionList = [
     { value: 2, label: "2명" },
     { value: 3, label: "3명" },
@@ -30,32 +29,30 @@ export default function StudyMakeForm(props) {
   ];
 
   // 시작예정일
-  const [startSelect, setStartSelect] = useState("")  
+  const [startSelect, setStartSelect] = useState("");
 
   // 인원모집방법
-  const [recruitSelect, setRecruitSelect] = useState(true)  
+  const [recruitSelect, setRecruitSelect] = useState(true);
   const recruitOptionList = [
     { value: true, label: "공개" },
     { value: false, label: "수락" },
   ];
 
   // 강좌 선택
- 
+
   const [selectedOptions, setSelectedOptions] = useState([]);
   const courseOptionList = search.map((course) =>
-  Object.assign({ value: course.course_id, label: course.title })
+    Object.assign({ value: course.course_id, label: course.title })
   );
-  
+
   function handleSelect(data) {
     setSelectedOptions(data);
   }
- 
 
   // 제목
-  const [titleInput, setTitleInput] = useState("")
+  const [titleInput, setTitleInput] = useState("");
   // 내용
-  const [contentInput, setContentInput] = useState("")
- 
+  const [contentInput, setContentInput] = useState("");
 
   function submitHandler(event) {
     event.preventDefault();
@@ -72,6 +69,7 @@ export default function StudyMakeForm(props) {
       leadUserId: info.userId,
       public: recruitSelect,
     };
+    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 
@@ -100,7 +98,6 @@ export default function StudyMakeForm(props) {
             />
           </svg>
           <div className="flex justify-between items-center p-2.5">
-
             {/* 모집인원 (required) */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">모집인원</p>
@@ -112,8 +109,8 @@ export default function StudyMakeForm(props) {
                   defaultValue={{ value: 2, label: "2명" }}
                   options={memberOptionList}
                 />
-              </div> 
-            </div> 
+              </div>
+            </div>
 
             {/* 시작 예정일 (required) */}
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
@@ -133,14 +130,14 @@ export default function StudyMakeForm(props) {
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">인원 모집 방법</p>
               <div className="w-full">
-              <Select
-                id="recruitMethod"
-                onChange={(e) => setRecruitSelect(e.value)}
-                value={{ value: true, label: "공개" }}
-                required
-                options={recruitOptionList}
-              />
-              </div> 
+                <Select
+                  id="recruitMethod"
+                  onChange={(e) => setRecruitSelect(e.value)}
+                  value={{ value: true, label: "공개" }}
+                  required
+                  options={recruitOptionList}
+                />
+              </div>
             </div>
 
             {/* 강좌 선택(required) */}
@@ -154,10 +151,9 @@ export default function StudyMakeForm(props) {
                   onChange={handleSelect}
                   isSearchable={true}
                   isMulti
-                  required 
+                  required
                 />
               </div>
-              
             </div>
           </div>
         </div>
@@ -195,16 +191,20 @@ export default function StudyMakeForm(props) {
               min={5}
               max={30}
             />
-            {/* 설명 */}
-            {/* TODO : CK editor로 바꿔야함!  */}
-            <ReactQuill
-              id="description"
-              onChange={setContentInput}
-              required
-              placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
-              className="w-full h-[400px] justify-center mb-5"
-            />
 
+            <div className="container">
+              <MDEditor
+                required
+                value={contentInput}
+                textareaProps={{
+                  placeholder: "스터디 설명을 써주세요.",
+                }}
+                onChange={setContentInput}
+                previewOptions={{
+                  rehypePlugins: [[rehypeSanitize]],
+                }}
+              />
+            </div>
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
                 className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
