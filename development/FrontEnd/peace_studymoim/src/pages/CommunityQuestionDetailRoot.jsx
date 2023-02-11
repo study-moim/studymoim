@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import userInfo from "../zustand/store";
 import QuestionCommentForm from "../components/communitydetail/QuestionCommentForm";
+import QustionLectureShort from "../components/communitydetail/QuestionLectureShort";
 
 export default function CommunityQuestionDetailRoot() {
   // 로그인 컷 콤보
@@ -23,8 +24,8 @@ export default function CommunityQuestionDetailRoot() {
   const wlh = window.location.pathname.substring(20, 300);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
-  useEffect(() => {
-    fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}`)
+  const getQuestion = async () => {
+    await fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}`)
       .then((res) => {
         return res.json();
       })
@@ -33,12 +34,15 @@ export default function CommunityQuestionDetailRoot() {
         setNewCommentList(data.questionBoardComments);
         setUserList(data.user);
       });
+  };
+  useEffect(() => {
+    getQuestion();
   }, [wlh]);
 
   const commentLength = newCommentList.length;
   const dateBase = new Date(questionDetail.publishTime);
-  const date = dateBase.toString().substring(0,24);
-  console.log(questionDetail)
+  const date = dateBase.toString().substring(0, 24);
+
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
@@ -69,28 +73,27 @@ export default function CommunityQuestionDetailRoot() {
               </div>
             </div>
             <div className="absolute right-0">
-            <button
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  수정 &nbsp;
-                </button>
-                <button
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  삭제
-                </button>
+              <button className="text-[14px] text-center hover:font-bold">
+                수정 &nbsp;
+              </button>
+              <button className="text-[14px] text-center hover:font-bold">
+                삭제
+              </button>
             </div>
           </div>
         </div>
 
-        {/* 수정 삭
         {/* TODO: 마크다운 형식으로 적용되게 하기 */}
         <div className="w-9/12 py-7 bg-white text-[20px] font-bold">
           {questionDetail.content}
         </div>
       </div>
-
-      <div className="flex flex-col justify-center items-center bg-gray-100 py-[30px] mt-[50px] px-7">
+      <div className="w-full bg-gray-100 mt-[50px] border-b-2">
+        <div className="flex justify-center">
+          <QustionLectureShort lecture={questionDetail.lecture} />
+        </div>
+      </div>
+      <div className="flex flex-col justify-center items-center bg-gray-100 py-[30px]  px-7">
         <div className="max-w-4xl mx-auto font-bold text-[#7b61ff] my-5 w-9/12">
           댓글 {commentLength}
         </div>
@@ -98,7 +101,7 @@ export default function CommunityQuestionDetailRoot() {
         {newCommentList.map((comment) => (
           <CommunityComment
             key={comment.questionBoardCommentId}
-            commentUserId = {comment.user.userId}
+            commentUserId={comment.user.userId}
             comment={comment}
             freeBoardId={questionDetail.questionBoardId}
           />
