@@ -32,7 +32,9 @@ export default function MemoCourse({ courseData }) {
           )}
         </div>
       </div>
-      {memoLectureToggle ? <MemoLecture key={courseData.course_id} props={courseData.course_id} /> : null}
+      {memoLectureToggle ? (
+        <MemoLecture key={courseData.course_id} courseId={courseData.course_id} />
+      ) : null}
     </div>
   );
 }
