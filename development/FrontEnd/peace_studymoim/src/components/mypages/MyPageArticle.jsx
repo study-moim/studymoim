@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export default function MyPageArticle({ getPageName }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -11,7 +10,7 @@ export default function MyPageArticle({ getPageName }) {
   const [toggled, setToggled] = useState(false);
   const [word, setWord] = useState("");
   const navigate = useNavigate();
-  
+
   useMemo(() => {
     const getArticle = async () => {
       await fetch(`http://${API_SERVER}/api/v1/user/${getPageName}/articles/`)
@@ -72,9 +71,7 @@ export default function MyPageArticle({ getPageName }) {
             onClick={(e) => setToggled(!toggled)}
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#989aff]"></div>
-          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-            질문글 보기
-          </span>
+          <span className="ml-3 text-sm">질문글 보기</span>
         </label>
         <div className="flex justify-end text-[15px]">
           <form className="w-[50%] flex relative h-[40px] mb-3">
@@ -95,43 +92,39 @@ export default function MyPageArticle({ getPageName }) {
         <table className="table-auto w-full text-[14px] text-center">
           <thead>
             <tr className="h-10 border-b">
-              <th>제목</th>
-              <th>작성일</th>
-              <th>조회수</th>
+              <th className="w-[50%]">제목</th>
+              <th className="w-[40%]">작성일</th>
+              <th className="w-[10%]">조회수</th>
             </tr>
           </thead>
           <tbody>
             {toggled
               ? filterInfo.map((item) => {
                   return (
-                      <tr
-                        onClick={() => navigate(`/community/question/${item.questionBoardId}`)}
-                        key={item.questionBoardId}
-                        className="hover:bg-gray-200 cursor-pointer h-10"
-                      >
-                        <td className="w-[50%]">{item.title}</td>
-                        <td className="w-[30%]">
-                          {item.publishTime.substring(0, 10)}
-                        </td>
-                        <td className="w-[10%]">{item.hit}</td>
-                      </tr>
+                    <tr
+                      key={item.questionBoardId}
+                      onClick={() => navigate(`/community/question/${item.questionBoardId}`)}
+                      className="h-10 hover:bg-gray-200 cursor-pointer"
+                    >
+                      <td className="w-[50%]">{item.title}</td>
+                      <td className="w-[40%]">{item.publishTime.substring(0, 10)}</td>
+                      <td className="w-[10%]">{item.hit}</td>
+                    </tr>
                   );
                 })
-              : filterInfo.map((item) => (
-                  <tr
-                    onClick={() => navigate(`/community/free/${item.freeBoardId}`)}
-                    className="h-10 hover:bg-gray-200 cursor-pointer"
-                    key={item.freeBoardId}
-                  >
-                    <td className="w-[50%] hover:bg-gray-200 cursor-pointer">
-                      {item.title}
-                    </td>
-                    <td className="w-[30%]">
-                      {item.publishTime.substring(0, 10)}
-                    </td>
-                    <td className="w-[10%]">{item.hit}</td>
-                  </tr>
-                ))}
+              : filterInfo.map((item) => {
+                  return (
+                    <tr
+                      key={item.freeBoardId}
+                      onClick={() => navigate(`/community/free/${item.freeBoardId}`)}
+                      className="h-10 hover:bg-gray-200 cursor-pointer"
+                    >
+                      <td className="w-[50%]">{item.title}</td>
+                      <td className="w-[40%]">{item.publishTime.substring(0, 10)}</td>
+                      <td className="w-[10%]">{item.hit}</td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
       </div>

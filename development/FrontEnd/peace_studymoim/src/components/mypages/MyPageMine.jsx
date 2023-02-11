@@ -4,44 +4,23 @@ import useFetch from "../../hooks/useFetch";
 export default function MyPageMine({ getClick, myId, clickModal }) {
   const { info } = userInfo();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const followingLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${myId}/follow/following`
-  );
-  const followerLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${myId}/follow/follower`
-  );
+  const followingLength = useFetch(`http://${API_SERVER}/api/v1/user/${myId}/follow/following`);
+  const followerLength = useFetch(`http://${API_SERVER}/api/v1/user/${myId}/follow/follower`);
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const image = IMAGE_ROOT + info.saveName;
   return (
     <div className="w-[336px]">
       <div className="w-full flex flex-col justify-center items-center gap-2">
         <div className="w-[150px] h-[150px] relative">
-          <img
-            className="rounded-full border"
-            src={
-              info.saveName
-                ? image
-                : "/logo.png"
-            }
-          />
+          <img className="rounded-full border" src={info.saveName ? image : "/logo.png"} />
         </div>
-        <p className="text-[18px] font-bold text-center text-black mt-2">
-          {info.nickname}
-        </p>
+        <p className="text-[18px] font-bold text-center text-black mt-2">{info.nickname}</p>
         <p className="text-[15px] text-center text-black">
-          <span
-            className="cursor-pointer hover:text-[#989aff]"
-            id="follower"
-            onClick={clickModal}
-          >
+          <span className="cursor-pointer hover:text-[#989aff]" id="follower" onClick={clickModal}>
             팔로워 {followerLength} &nbsp;
           </span>
           | &nbsp;
-          <span
-            id="following"
-            className="cursor-pointer hover:text-[#989aff]"
-            onClick={clickModal}
-          >
+          <span id="following" className="cursor-pointer hover:text-[#989aff]" onClick={clickModal}>
             팔로잉 {followingLength}
           </span>
         </p>
