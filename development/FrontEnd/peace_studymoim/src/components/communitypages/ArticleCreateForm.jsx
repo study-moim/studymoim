@@ -3,8 +3,14 @@ import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
+import DeleteArticleModal from "../overall/DeleteModal";
 
 export default function ArticleCreateForm() {
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
@@ -77,14 +83,21 @@ export default function ArticleCreateForm() {
           />
         </div>
         <div className="flex gap-5 justify-end">
-          <div className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer">
+          <div className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer" onClick={() => setShowModal(true)}>
             취소
           </div>
           <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
             등록
           </button>
+          {showModal ? (
+                <DeleteArticleModal
+                  onCancel={closeModalHandler}
+                  onConfirm={closeModalHandler}
+                />
+              ) : null}
         </div>
       </form>
+      
     </div>
   );
 }
