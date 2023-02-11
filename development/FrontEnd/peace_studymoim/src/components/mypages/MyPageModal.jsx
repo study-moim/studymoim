@@ -8,12 +8,7 @@ import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 
-export default function MyPageModal({
-  showModal,
-  clickModal,
-  setShowModal,
-  getPageName,
-}) {
+export default function MyPageModal({ showModal, clickModal, setShowModal, getPageName }) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       setShowModal(null);
@@ -21,19 +16,15 @@ export default function MyPageModal({
   };
   const [userId, setUserId] = useState(getPageName);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const followings = useFetch(
-    `http://${API_SERVER}/api/v1/user/${userId}/follow/following/list/`
-  );
-  const followers = useFetch(
-    `http://${API_SERVER}/api/v1/user/${userId}/follow/follower/list/`
-  );
+  const followings = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/follow/following/list/`);
+  const followers = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/follow/follower/list/`);
 
   return (
     <>
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative my-6 mx-auto min-w-[400px] max-w-[40%]">
+            <div className="relative my-6 mx-auto min-w-[400px] max-w-[60%]">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -47,28 +38,17 @@ export default function MyPageModal({
                   {showModal === "modify" ? (
                     <h3 className="text-[16px] font-semibold">프로필 수정</h3>
                   ) : null}
-                  <button
-                    className="pr-6 py-2 transition-all"
-                    onClick={clickModal}
-                  >
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                      size="lg"
-                      className="hover:text-red-500"
-                    />
+                  <button className="pr-6 py-2 transition-all" onClick={clickModal}>
+                    <FontAwesomeIcon icon={faXmark} size="lg" className="hover:text-red-500" />
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <div className="my-4 text-slate-500 text-lg leading-relaxed overflow-auto">
+                <div className="relative px-6 flex-auto">
+                  <div className="my-4 leading-relaxed overflow-auto">
                     {showModal === "follower" ? (
                       <div>
                         {followers.map((follower) => (
-                          <FollowerList
-                            key={follower.userId}
-                            follower={follower}
-                            userId={userId}
-                          />
+                          <FollowerList key={follower.userId} follower={follower} userId={userId} />
                         ))}
                       </div>
                     ) : null}
@@ -84,7 +64,9 @@ export default function MyPageModal({
                         ))}
                       </div>
                     ) : null}
-                    {showModal === "modify" ? <MyPageUpdateForm /> : null}
+                    {showModal === "modify" ? (
+                      <MyPageUpdateForm key={userId} userId={userId} />
+                    ) : null}
                   </div>
                 </div>
                 {/* footer */}
