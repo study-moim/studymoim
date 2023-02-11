@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import userInfo from "../zustand/store";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function CommunityDetailRoot() {
   // 로그인 컷 콤보
@@ -39,7 +40,7 @@ export default function CommunityDetailRoot() {
 
   const commentLength = newCommentList.length;
   const dateBase = new Date(articleDetail.publishTime);
-  const date = dateBase.toString().substring(0,24);
+  const date = dateBase.toString().substring(0, 24);
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
@@ -70,24 +71,21 @@ export default function CommunityDetailRoot() {
               </div>
             </div>
             <div className="absolute right-0">
-            <button
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  수정 &nbsp;
-                </button>
-                <button
-                  className="text-[14px] text-center hover:font-bold"
-                >
-                  삭제
-                </button>
+              <button className="text-[14px] text-center hover:font-bold">
+                수정 &nbsp;
+              </button>
+              <button className="text-[14px] text-center hover:font-bold">
+                삭제
+              </button>
             </div>
           </div>
         </div>
 
-        {/* 수정 삭
-        {/* TODO: 마크다운 형식으로 적용되게 하기 */}
         <div className="w-9/12 py-7 bg-white text-[20px] font-bold">
-          {articleDetail.content}
+          <MDEditor.Markdown
+            source={articleDetail.content}
+            style={{ whiteSpace: "pre-wrap" }}
+          />
         </div>
       </div>
 
@@ -99,7 +97,7 @@ export default function CommunityDetailRoot() {
         {newCommentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
-            commentUserId = {comment.user.userId}
+            commentUserId={comment.user.userId}
             comment={comment}
             freeBoardId={articleDetail.freeBoardId}
           />
