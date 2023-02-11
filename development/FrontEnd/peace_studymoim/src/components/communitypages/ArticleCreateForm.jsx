@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
-import getArticles from "../../hooks/getArticles";
-
 
 export default function ArticleCreateForm() {
   const navigate = useNavigate();
