@@ -14,6 +14,7 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
@@ -156,39 +157,39 @@ export default function StudyRecruitDetailPage(props) {
               )}
             </div>
           </div>
-          <div className="flex justify-center items-center mt-10">
-            {/* TODO: 일단 md 바꾸고 이건 생각해보장 ㅋ  */}
-            {studyDetail.content}
+          <div className="container mt-10">
+            <MDEditor.Markdown
+              source={studyDetail.content}
+              style={{ whiteSpace: "pre-wrap" }}
+            />
           </div>
-          
-            <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
-              커리큘럼
-            </p>
 
-            {/* <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5"> */}
-              {/* {curriculum.map((item) => {
+          <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
+            커리큘럼
+          </p>
+          {curriculum.length > 2 ? (
+            <Slider {...settings}>
+              {curriculum.map((item) => {
                 return (
                   <MainCourse
                     key={item.course.course_id}
                     propData={item.course}
                   />
                 );
-              })} */}
-              {curriculum ? (
-                <Slider {...settings}>
-                  {curriculum.map((item) => {
-                    return (
-                      <MainCourse
-                        key={item.course.course_id}
-                        propData={item.course}
-                      />
-                    );
-                  })}
-                </Slider>
-              ) : (
-                <p>아직 등록된 강좌가 없어요</p>
-              )}
-            {/* </div> */}
+              })}
+            </Slider>
+          ) : (
+            <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 pl-2.5 pb-2.5">
+              {curriculum.map((item) => {
+                return (
+                  <MainCourse
+                    key={item.course.course_id}
+                    propData={item.course}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {showOpenModal ? (
