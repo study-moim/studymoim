@@ -26,13 +26,13 @@ export default function StudyDetailMainPage() {
   }, []);
 
   const getData = async () => {
-      await fetch(`http:///${API_SERVER}/api/v1/study/${studyId.study_id}`)
-          .then((res) => res.json())
-          .then((data) => {
-              setDetailData(data);
-              setUserList(data.leadUser);
-              setCurriculum(data.curricula);
-          });
+    await fetch(`http:///${API_SERVER}/api/v1/study/${studyId.study_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDetailData(data);
+        setUserList(data.leadUser);
+        setCurriculum(data.curricula);
+      });
   };
 
   const recentPlayed = useFetch(
@@ -64,6 +64,7 @@ export default function StudyDetailMainPage() {
         propData={detailData}
         props={userList}
         userInfo={userInformation}
+        curriculum={curriculum}  
       />
       <StudyNotice
         propData={detailData}
@@ -102,13 +103,6 @@ export default function StudyDetailMainPage() {
               className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
             >
               멤버관리
-            </button>
-            <button
-              id="course"
-              onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
-            >
-              강좌 관리
             </button>
           </div>
         ) : (
@@ -160,9 +154,6 @@ export default function StudyDetailMainPage() {
             ) : null}
             {currentClick === "membermanagement" ? (
               <MemberManage propData={detailData} />
-            ) : null}
-            {currentClick === "course" ? (
-              <LectureManage propData={detailData} />
             ) : null}
           </div>
         ) : (
