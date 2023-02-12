@@ -34,6 +34,7 @@ export default function StudyPlayerMainRoot() {
   }, []);
 
   const props = useLocation().state;
+  console.log(props , "asdfasdf")
   let study = props.study;
   let user = props.user;
   const [currentClick, setCurrentClick] = useState("memo");
