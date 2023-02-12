@@ -15,21 +15,21 @@ export default function MyPageUpdateForm({ userId }) {
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
   const selectFieldsRef = useRef();
-  const [tags, setTags] = useState([]);
   const [modifyTag, setModifyTag] = useState(false);
+  const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedField, setSelectedField] = useState([]);
 
   useEffect(() => {
     const getTag = async () => {
-      if (!modifyTag) {
-        await fetch(`http://${API_SERVER}/api/v1/user/${userId}/tags`)
+      if (modifyTag) {
+        await fetch(`http://${API_SERVER}/api/v1/category/`)
           .then((res) => res.json())
           .then((json) => {
             setTags(json);
           });
       } else {
-        await fetch(`http://${API_SERVER}/api/v1/category/`)
+        await fetch(`http://${API_SERVER}/api/v1/user/${userId}/tags`)
           .then((res) => res.json())
           .then((json) => {
             setTags(json);
@@ -97,7 +97,6 @@ export default function MyPageUpdateForm({ userId }) {
     const imageData = new FormData();
     imageData.append("file", image);
 
-    console.log(image);
     fetch(`http://${API_SERVER}/api/v1/user/${userId}/image`, {
       method: "POST",
       body: imageData,
@@ -212,21 +211,21 @@ export default function MyPageUpdateForm({ userId }) {
           <p className="text-[15px] font-bold text-black mt-5 mb-3">나의 관심 분야</p>
           {!modifyTag ? (
             <>
-              <div className="flex flex-row flex-wrap w-full justify-start gap-2">
+              <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
                   <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
                 ))}
               </div>
               <button
                 onClick={() => setModifyTag(true)}
-                className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
+                className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
               >
                 수정
               </button>
             </>
           ) : (
             <>
-              <div className="flex flex-row flex-wrap w-full justify-start gap-2">
+              <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
                   <div
                     ref={selectFieldsRef}
@@ -247,17 +246,27 @@ export default function MyPageUpdateForm({ userId }) {
                   </div>
                 ))}
               </div>
-              <button
-                onClick={() => {
-                  submitCategoryHandler();
-                  setCategory([]);
-                  setSelectedField([]);
-                  setModifyTag(false);
-                }}
-                className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
-              >
-                등록
-              </button>
+              <div>
+                <button
+                  onClick={() => {
+                    setModifyTag(false);
+                  }}
+                  className="w-[20%] text-[13px] py-1 rounded-[5px] border border-[#b1b2ff] hover:bg-[#b1b2ff] hover:text-white my-3 mr-3"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={() => {
+                    submitCategoryHandler();
+                    setCategory([]);
+                    setSelectedField([]);
+                    setModifyTag(false);
+                  }}
+                  className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
+                >
+                  등록
+                </button>
+              </div>
             </>
           )}
         </div>
