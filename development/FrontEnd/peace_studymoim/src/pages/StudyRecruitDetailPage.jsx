@@ -14,7 +14,7 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MDEditor from "@uiw/react-md-editor";
+
 
 export default function StudyRecruitDetailPage(props) {
   const [showOpenModal, setShowOpenModal] = useState(false);
@@ -158,10 +158,9 @@ export default function StudyRecruitDetailPage(props) {
             </div>
           </div>
           <div className="container mt-10">
-            <MDEditor.Markdown
-              source={studyDetail.content}
-              style={{ whiteSpace: "pre-wrap" }}
-            />
+            <div>
+            {studyDetail.content}
+            </div>
           </div>
 
           <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
