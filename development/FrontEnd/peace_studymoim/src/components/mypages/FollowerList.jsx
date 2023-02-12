@@ -1,7 +1,7 @@
 import userInfo from "../../zustand/store";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function FollowerList({ follower, userId }) {
+export default function FollowerList({ follower }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
   const [isFollow, setIsFollow] = useState(false);
@@ -46,7 +46,7 @@ export default function FollowerList({ follower, userId }) {
             src={follower.saveName ? image : "/logo.png"}
           />
         <div className="flex flex-col justify-start items-start w-[80%]">
-          <p className="text-[15px] font-bold text-black">{follower.nickname}</p>
+          <a href={`/mypage/${follower.userId}`} className="text-[15px] font-bold text-black">{follower.nickname}</a>
           <p className="text-[12px] text-gray-400">{follower.email}</p>
         </div>
         </div>

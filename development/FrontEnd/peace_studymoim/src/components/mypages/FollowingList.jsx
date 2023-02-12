@@ -46,9 +46,9 @@ export default function FollowingList({ following, userId }) {
             src={following.saveName ? image : "/logo.png"}
           />
           <div className="flex flex-col justify-start items-start w-[80%]">
-            <p className="text-[15px] font-bold text-black">
+            <a href={`/mypage/${following.userId}`} className="text-[15px] font-bold text-black">
               {following.nickname}
-            </p>
+            </a>
             <p className="text-[12px] text-gray-400">{following.email}</p>
           </div>
         </div>
