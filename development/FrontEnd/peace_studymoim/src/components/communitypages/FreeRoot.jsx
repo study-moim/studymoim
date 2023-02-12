@@ -4,51 +4,65 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import FreeQuestion from "./FreeQuestion";
 import { useState, useEffect } from "react";
+import {data} from "autoprefixer";
+import NavPagination from "../NavBar/NavPagination.jsx";
 
 export default function FreeRoot() {
-  getArticles();
-  const { articles } = getArticleList();
-  const freeArticles = articles;
+  //getArticles();
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  //const { articles } = getArticleList();
+  //const freeArticles = articles;
   const [word, setWord] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
   const [selected, setSelected] = useState("new");
-  const [filterInfo, setFilterInfo] = useState(freeArticles);
+  const [sort, setSort] = useState('publishTime,desc');
+  const [page, setPage] = useState(null);
+  const [params, setParams] = useState({
+    "key": "title",
+    "word": "",
+    "page": 0,
+    "size": 10,
+    "sort": 'publishTime,desc'
+  });
 
   useEffect(() => {
-    const getWord = async () => {
-      setFilterInfo(
-        freeArticles.filter((free) => {
-          return free.title
-            .replace(" ", "")
-            .toLocaleLowerCase()
-            .includes(word.toLocaleLowerCase().replace(" ", ""));
-        })
-      );
+    const getPage = async () => {
+      let query = Object.keys(params)
+          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+          .join('&');
+      console.log(query)
+      let resp = await fetch(`http://${API_SERVER}/api/v1/articles/free?`+query)
+      let data = await resp.json()
+      setPage(data);
     };
-    getWord();
-  }, [word]);
+    getPage();
+  }, [params]);
 
   useEffect(() => {
-    const getSelected = async () => {
+    const getParams = () => {
+      setParams({
+        "key": "title",
+        "word": word,
+        "page": currentPage,
+        "size": 10,
+        "sort": sort
+      })
+    }
+    getParams();
+  }, [word, currentPage, sort]);
+
+  useEffect(() => {
+    const getSelected = () => {
       if (selected == "new") {
-        setFilterInfo(freeArticles);
+        setSort('publishTime,desc');
       } else if (selected == "old") {
-        setFilterInfo(freeArticles.reverse());
+        setSort('publishTime,asc');
       } else if (selected == "big") {
-        setFilterInfo(
-          freeArticles.sort((prev, cur) => {
-            if (prev.hit > cur.hit) return 1;
-            if (prev.hit < cur.hit) return -1;
-          })
-        );
-      } else if(selected == "small"){
-        setFilterInfo(
-          freeArticles.sort((prev, cur) => {
-            if (prev.hit < cur.hit) return 1;
-            if (prev.hit > cur.hit) return -1;
-          })
-        );
+        setSort('hit,desc');
+      } else if (selected == "small") {
+        setSort('hit,asc');
       }
-    };
+    }
     getSelected();
   }, [selected]);
 
@@ -82,13 +96,21 @@ export default function FreeRoot() {
         </select>
       </div>
       <div className="flex flex-col justify-start items-start w-full">
-        {filterInfo.map((freeArticle) => (
+        {page ? page.content.map((freeArticle) => (
           <FreeQuestion
             key={freeArticle.freeBoardId}
             freeArticle={freeArticle}
           />
-        ))}
+        )) : null}
       </div>
+      <NavPagination
+          nextLabel="다음"
+          previousLabel="이전"
+          breakLabel="..."
+          onPageChange={setCurrentPage}
+          pageCount={page ? page.totalPages : 0}
+          pageRangeDisplayed={5}
+      />
     </div>
   );
 }
