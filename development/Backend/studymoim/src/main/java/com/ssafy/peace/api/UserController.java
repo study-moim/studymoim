@@ -68,6 +68,39 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "change user nickname", description = "유저 닉네임 바꾸기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{userId}/nickname")
+    public ResponseEntity<?> userChangeNickname(@Parameter(description="userId") @PathVariable Integer userId,
+                                                @RequestBody UserDto.Nickname nickname) {
+        try{
+            userService.updateNickname(userId, nickname);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "change user image", description = "유저 이미지 바꾸기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{userId}/image")
+    public ResponseEntity<?> userChangeImage(@Parameter(description="userId") @PathVariable Integer userId,
+                                             @RequestBody MultipartFile file) throws IOException {
+        try{
+            userService.updateImage(userId, file);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @Operation(summary = "get study list", description = "사용자가 참여중인 스터디 목록 불러오기")
     @ApiResponses({
