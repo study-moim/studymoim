@@ -3,7 +3,7 @@ import YouTube from "react-youtube";
 export default function PlayingVideoFrameSolo({
   videoId,
   setNowVideo,
-  startVideo
+  startVideo,
 }) {
   
   const playWhere = (event) => {

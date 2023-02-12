@@ -244,7 +244,7 @@ export default function StudyPlayerMainRoot() {
   };
 
   return (
-    <div className="flex m-5">
+    <div className="flex m-5 h-[90vh]">
       {/* 왼쪽 컴포들 */}
       <div className="flex flex-col justify-start items-start w-11/12 mx-3">
         <div className="w-full flex flex-row justify-between items-center mb-[10px]">
@@ -267,7 +267,7 @@ export default function StudyPlayerMainRoot() {
         />
       </div>
       {/* 오른쪽 컴포들 */}
-      <div className="flex flex-col w-[400px] h-[700px]">
+      <div className="flex flex-col w-[400px] h-full">
         {/* 메모 커뮤 실시간 */}
         <div className="flex justify-start items-start w-full">
           <button

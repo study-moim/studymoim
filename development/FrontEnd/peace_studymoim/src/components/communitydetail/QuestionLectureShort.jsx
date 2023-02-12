@@ -13,11 +13,10 @@ export default function QuestionLectureShort({ lecture }) {
           courseId: 1,
         }}
         className="cursor-pointer w-9/12"
-        data-tooltip-target="tooltip-lecture"
       >
-        <div className="w-full h-[100px] flex flex-row items-center gap-2 py-2 hover:bg-indigo-100">
+        <div className="max-w-6xl mx-auto p-4 h-[100px] flex flex-row justify-center items-center gap-2 py-2 hover:bg-indigo-100">
           <img
-            className="w-[18%] h-full rounded-[15px]"
+            className="mr-10 w-[150px] h-full rounded-[15px]"
             src={lecture.thumbnail}
             alt="x"
           />
