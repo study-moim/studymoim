@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import userInfo from "../../zustand/store";
 
 export default function PlayerQuestionMakeForm({ clickNew, lectureId, getCreateComment }) {
@@ -35,6 +35,7 @@ export default function PlayerQuestionMakeForm({ clickNew, lectureId, getCreateC
           setIsLoading(false);
           clickNew();
           getCreateComment()
+          alert("질문이 작성되었습니다.")
         }
       });
     }
