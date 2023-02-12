@@ -90,15 +90,16 @@ public class UserService {
     }
 
     public List<CourseDto.Info> getCourseHistory(Integer userId) {
-        return userHistoryRepository.findAllByUser_userId(userId).stream()
+        return userHistoryRepository.findAllByUser_userIdOrderByEndTimeDesc(userId).stream()
                 .map(uh -> CourseDto.Info.fromEntity(uh.getLecture().getCourse()))
                 .distinct()
                 .collect(Collectors.toList());
     }
 
     public List<LectureDto.Info> getLectureHistory(Integer userId) throws RuntimeException {
-        return userHistoryRepository.findAllByUser_userId(userId).stream()
+        return userHistoryRepository.findAllByUser_userIdOrderByEndTimeDesc(userId).stream()
                 .map(uh -> LectureDto.Info.fromEntity(uh.getLecture()))
+                .distinct()
                 .collect(Collectors.toList());
     }
 

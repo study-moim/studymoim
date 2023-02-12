@@ -14,7 +14,7 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory, Intege
     /*
     특정 사용자의 히스토리 가져오기(0개 일수도 있으니 Optional)
      */
-    List<UserHistory> findAllByUser_userId(int userId);
+    List<UserHistory> findAllByUser_userIdOrderByEndTimeDesc(int userId);
 
     Optional<UserHistory> findFirstByUser_UserIdAndLecture_LectureIdOrderByEndTimeDesc(int userId, int lectureId);
 
