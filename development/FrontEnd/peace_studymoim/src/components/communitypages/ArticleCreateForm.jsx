@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
 import MDEditor from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
 import DeleteArticleModal from "../overall/DeleteModal";
 
 export default function ArticleCreateForm() {
@@ -77,9 +76,6 @@ export default function ArticleCreateForm() {
               placeholder: "마크다운 양식으로 입력이 가능합니다.",
             }}
             onChange={setContentInput}
-            previewOptions={{
-              rehypePlugins: [[rehypeSanitize]],
-            }}
           />
         </div>
         <div className="flex gap-5 justify-end">
