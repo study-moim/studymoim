@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.RollbackException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -73,6 +74,23 @@ public class UserService {
         user.updateNickname(startInfo.getNickname());
         return UserDto.Info.fromEntity(user);
     }
+
+    @Transactional
+    public UserDto.Info updateNickname(Integer userId, UserDto.Nickname nickname) {
+        return UserDto.Info.fromEntity(userRepository.findById(userId).get().updateNickname(nickname.getNickname()));
+    }
+
+    @Transactional
+    public UserDto.Info updateImage(Integer userId, MultipartFile file) throws IOException {
+        User user = userRepository.findById(userId).get();
+        if(file == null){
+            user.updateSaveName("logo.png");
+        } else{
+            gcsService.uploadProfileImage(file, user);
+        }
+        return UserDto.Info.fromEntity(user);
+    }
+
     public UserDto.Info getUserByEmail(String email) {
         // 디비에 유저 정보 조회 (userEmail을 통한 조회).
         User user = userRepository.findByEmail(email);

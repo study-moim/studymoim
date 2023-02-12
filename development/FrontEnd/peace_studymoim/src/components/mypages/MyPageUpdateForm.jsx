@@ -1,4 +1,3 @@
-import useFetch from "../../hooks/useFetch";
 import { useRef } from "react";
 import MyPageTagItem from "./MyPageTagItem";
 import { useState, useEffect } from "react";
@@ -7,17 +6,38 @@ import userInfo from "../../zustand/store";
 export default function MyPageUpdateForm({ userId }) {
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const tags = useFetch(`http://${API_SERVER}/api/v1/user/211/tags`);
   const { info } = userInfo();
-  const selectFieldsRef = useRef();
   const saveNameRef = useRef();
-  const nicknameRef = useRef(info.nickname);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [nickname, setNickname] = useState("");
-  const [selectedField, setSelectedField] = useState([]);
-  const [nicknameMessage, setNicknameMessage] = useState("");
+  const nicknameRef = useRef(info.nickname);
   const [modifyNickname, setModifyNickname] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [nicknameMessage, setNicknameMessage] = useState("");
+  const selectFieldsRef = useRef();
+  const [tags, setTags] = useState([]);
+  const [modifyTag, setModifyTag] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [selectedField, setSelectedField] = useState([]);
+
+  useEffect(() => {
+    const getTag = async () => {
+      if (!modifyTag) {
+        await fetch(`http://${API_SERVER}/api/v1/user/${userId}/tags`)
+          .then((res) => res.json())
+          .then((json) => {
+            setTags(json);
+          });
+      } else {
+        await fetch(`http://${API_SERVER}/api/v1/category/`)
+          .then((res) => res.json())
+          .then((json) => {
+            setTags(json);
+          });
+      }
+    };
+    getTag();
+  }, [modifyTag]);
 
   useEffect(() => {
     if (image) {
@@ -36,6 +56,57 @@ export default function MyPageUpdateForm({ userId }) {
       setCategory([...category, selectedField[i]]);
     }
   }, [selectedField]);
+
+  function submitCategoryHandler() {
+    const categoryInfo = {
+      userId: userId,
+      categories: category,
+    };
+
+    fetch(`http://${API_SERVER}/api/v1/category/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(categoryInfo),
+    }).then((res) => {
+      if (res.ok) {
+        alert("카테고리 수정완!");
+      }
+    });
+  }
+
+  function submitNicknameHandler() {
+    const nicknameInfo = {
+      nickname: nickname,
+    };
+    fetch(`http://${API_SERVER}/api/v1/user/${userId}/nickname`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(nicknameInfo),
+    }).then((res) => {
+      if (res.ok) {
+        alert("닉네임 수정완!");
+      }
+    });
+  }
+
+  function submitImageHandler(image) {
+    const imageData = new FormData();
+    imageData.append("file", image);
+
+    console.log(image);
+    fetch(`http://${API_SERVER}/api/v1/user/${userId}/image`, {
+      method: "POST",
+      body: imageData,
+    }).then((res) => {
+      if (res.ok) {
+        alert("이미지 수정완!");
+      }
+    });
+  }
 
   const onChangeNickname = (nicknameCurrent) => {
     const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
@@ -76,12 +147,16 @@ export default function MyPageUpdateForm({ userId }) {
                 const file = event.target.files[0];
                 if (file && file.type.substring(0, 5) === "image") {
                   setImage(file);
+                  submitImageHandler(file);
                 } else {
                   setImage("/logo.png");
                 }
               }}
             />
-            <button className="w-[150px] text-[13px] py-1 text-[#b1b2ff] hover:bg-gray-100">
+            <button
+              onClick={() => submitImageHandler(null)}
+              className="w-[150px] text-[13px] py-1 text-[#b1b2ff] hover:bg-gray-100"
+            >
               이미지 제거
             </button>
           </div>
@@ -120,7 +195,10 @@ export default function MyPageUpdateForm({ userId }) {
                     <p className="text-[13px] text-[#8587eb]">{nicknameMessage}</p>
                   )}
                   <button
-                    onClick={() => setModifyNickname(false)}
+                    onClick={() => {
+                      submitNicknameHandler();
+                      setModifyNickname(false);
+                    }}
                     className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
                   >
                     등록
@@ -131,17 +209,57 @@ export default function MyPageUpdateForm({ userId }) {
           </div>
         </div>
         <div className="flex flex-col justify-start my-5 w-ful pl-1">
-          <p className="text-[15px] font-bold text-black mt-5 mb-3">관심 분야</p>
-          <div className="flex flex-row flex-wrap w-full justify-start gap-2">
-            {tags.map((tag) => (
-              <MyPageTagItem tag={tag} />
-            ))}
-          </div>
-          <div>
-            <button className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3">
-              수정
-            </button>
-          </div>
+          <p className="text-[15px] font-bold text-black mt-5 mb-3">나의 관심 분야</p>
+          {!modifyTag ? (
+            <>
+              <div className="flex flex-row flex-wrap w-full justify-start gap-2">
+                {tags.map((tag) => (
+                  <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                ))}
+              </div>
+              <button
+                onClick={() => setModifyTag(true)}
+                className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
+              >
+                수정
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-row flex-wrap w-full justify-start gap-2">
+                {tags.map((tag) => (
+                  <div
+                    ref={selectFieldsRef}
+                    key={tag.courseCategoryId}
+                    onClick={() => {
+                      if (selectedField.includes(tag.courseCategoryId)) {
+                        for (let i = 0; i < selectedField.length; i++) {
+                          if (selectedField[i] === tag.courseCategoryId) {
+                            selectedField.splice(i, 1);
+                          }
+                        }
+                      } else {
+                        setSelectedField([...selectedField, tag.courseCategoryId]);
+                      }
+                    }}
+                  >
+                    <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => {
+                  submitCategoryHandler();
+                  setCategory([]);
+                  setSelectedField([]);
+                  setModifyTag(false);
+                }}
+                className="w-[20%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
+              >
+                등록
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

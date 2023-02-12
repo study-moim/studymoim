@@ -37,8 +37,17 @@ public class UserDto {
                     .refreshToken(userEntity.getRefreshToken())
                     .build();
         }
-    }
 
+    }
+    @Data
+    @Builder
+    public static class Nickname {
+        private int userId;
+        @Size(min=2, max=6, message = "바르지 않은 nickname 크기 입니다")
+        @NotEmpty(message="nickname은 빈값 일 수 없습니다")
+        @NotNull(message="nickname은 null 일 수 없습니다")
+        private String nickname;
+    }
     @Data
     @NoArgsConstructor
     public static class Start {
