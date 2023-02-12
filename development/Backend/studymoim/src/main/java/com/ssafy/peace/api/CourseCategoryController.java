@@ -70,7 +70,7 @@ public class CourseCategoryController {
     @PostMapping("/like")
     public ResponseEntity<?> followCategory(@RequestBody Map<String, Object> map) {
         try{
-            courseCategoryService.updateCategoryLikes((Integer) map.get("userId"), (List<Map<String, Object>>) map.get("categories"));
+            courseCategoryService.updateCategoryLikes((Integer) map.get("userId"), (List<Integer>) map.get("categories"));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();

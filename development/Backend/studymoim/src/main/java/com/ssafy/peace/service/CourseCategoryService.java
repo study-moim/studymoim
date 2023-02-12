@@ -2,6 +2,7 @@ package com.ssafy.peace.service;
 
 import com.ssafy.peace.dto.CourseCategoryDto;
 import com.ssafy.peace.entity.CourseCategory;
+import com.ssafy.peace.entity.User;
 import com.ssafy.peace.entity.UserLikeCategory;
 import com.ssafy.peace.repository.CourseCategoryRepository;
 import com.ssafy.peace.repository.UserLikeCategoryRepository;
@@ -38,11 +39,12 @@ public class CourseCategoryService {
     }
 
     @Transactional
-    public void updateCategoryLikes(Integer userId, List<Map<String, Object>> categories) {
+    public void updateCategoryLikes(Integer userId, List<Integer> categories) {
+        User user = userRepository.findById(userId).get();
         userLikeCategoryRepository.deleteAllByUser_userId(userId);
         categories.forEach(category -> userLikeCategoryRepository.save(UserLikeCategory.builder()
-                .courseCategory(courseCategoryRepository.findById((Integer) category.get("categoryId")).get())
-                .user(userRepository.findById(userId).get())
+                .courseCategory(courseCategoryRepository.findById(category).get())
+                .user(user)
                 .build())
         );
     }
