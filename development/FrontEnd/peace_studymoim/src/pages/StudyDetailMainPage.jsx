@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import NowPlayStudy from "../components/studydetail/NowPlayStudy";
 import StudyMemberCoummunity from "../components/studydetail/StudyMemberCommunity";
 import LectureProgressList from "../components/studydetail/LectureProgressList";
-import LectureManage from "../components/studydetail/LectureManage";
 import MemberManage from "../components/studydetail/MemberManage";
 import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
