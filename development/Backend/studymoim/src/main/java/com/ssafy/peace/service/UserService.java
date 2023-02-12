@@ -40,6 +40,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public UserDto.Info createUser(UserRegisterPostReq userRegisterInfo) {
         userRepository.save(User.builder().email(userRegisterInfo.getEmail()).build());
         User user = userRepository.findByEmail(userRegisterInfo.getEmail());
@@ -56,21 +57,21 @@ public class UserService {
     @Transactional
     public UserDto.Info updateUserInfo(MultipartFile file, UserDto.Start startInfo) throws RuntimeException, IOException {
         User user = userRepository.findById(startInfo.getUserId()).get();
-        // 카테고리 초기화 후 새로 등록
+        // 카테고리 초기화
         userLikeCategoryRepository.deleteAllByUser_userId(startInfo.getUserId());
+        // 카테고리 새로 등록
         startInfo.getCategories().forEach(category -> userLikeCategoryRepository.save(UserLikeCategory.builder()
-                        .courseCategory(courseCategoryRepository.findById(category).get())
-                        .user(user)
-                        .build()));
+                .courseCategory(courseCategoryRepository.findById(category).get())
+                .user(user)
+                .build()));
         // 프로필 사진 등록
-        if(file.isEmpty()){
+        if(file==null || file.isEmpty()){
             user.updateSaveName("logo.png");
         } else{
             gcsService.uploadProfileImage(file, user);
         }
         // 닉네임 등록
         user.updateNickname(startInfo.getNickname());
-        System.out.println(user.getNickname());
         return UserDto.Info.fromEntity(user);
     }
 
@@ -108,15 +109,16 @@ public class UserService {
     }
 
     public List<CourseDto.Info> getCourseHistory(Integer userId) {
-        return userHistoryRepository.findAllByUser_userId(userId).stream()
+        return userHistoryRepository.findAllByUser_userIdOrderByEndTimeDesc(userId).stream()
                 .map(uh -> CourseDto.Info.fromEntity(uh.getLecture().getCourse()))
                 .distinct()
                 .collect(Collectors.toList());
     }
 
     public List<LectureDto.Info> getLectureHistory(Integer userId) throws RuntimeException {
-        return userHistoryRepository.findAllByUser_userId(userId).stream()
+        return userHistoryRepository.findAllByUser_userIdOrderByEndTimeDesc(userId).stream()
                 .map(uh -> LectureDto.Info.fromEntity(uh.getLecture()))
+                .distinct()
                 .collect(Collectors.toList());
     }
 

@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
-import MDEditor from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
 import DeleteArticleModal from "../overall/DeleteModal";
 
 export default function ArticleCreateForm() {
@@ -70,34 +68,31 @@ export default function ArticleCreateForm() {
           required
         />
         <div className="container">
-          <MDEditor
+          <textarea
             required
             value={contentInput}
-            textareaProps={{
-              placeholder: "마크다운 양식으로 입력이 가능합니다.",
-            }}
+            placeholder="마크다운 양식으로 입력이 가능합니다."
             onChange={setContentInput}
-            previewOptions={{
-              rehypePlugins: [[rehypeSanitize]],
-            }}
-          />
+          ></textarea>
         </div>
         <div className="flex gap-5 justify-end">
-          <div className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer" onClick={() => setShowModal(true)}>
+          <div
+            className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer"
+            onClick={() => setShowModal(true)}
+          >
             취소
           </div>
           <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
             등록
           </button>
           {showModal ? (
-                <DeleteArticleModal
-                  onCancel={closeModalHandler}
-                  onConfirm={closeModalHandler}
-                />
-              ) : null}
+            <DeleteArticleModal
+              onCancel={closeModalHandler}
+              onConfirm={closeModalHandler}
+            />
+          ) : null}
         </div>
       </form>
-      
     </div>
   );
 }

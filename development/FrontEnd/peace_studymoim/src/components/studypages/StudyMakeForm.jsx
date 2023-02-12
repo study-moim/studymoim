@@ -1,11 +1,8 @@
-import { useEffect } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import DeleteModal from "../overall/DeleteModal";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 import Select from "react-select";
-import MDEditor from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
@@ -193,16 +190,11 @@ export default function StudyMakeForm(props) {
             />
 
             <div className="container">
-              <MDEditor
+              <textarea
                 required
                 value={contentInput}
-                textareaProps={{
-                  placeholder: "스터디 설명을 써주세요.",
-                }}
+                placeholder="스터디 설명을 써주세요."
                 onChange={setContentInput}
-                previewOptions={{
-                  rehypePlugins: [[rehypeSanitize]],
-                }}
               />
             </div>
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">

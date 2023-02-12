@@ -51,7 +51,7 @@ public class UserDto {
     @Data
     @NoArgsConstructor
     public static class Start {
-        private int userId;
+        private Integer userId;
         @NotNull(message="카테고리 선택은 null 일 수 없습니다")
         private List<Integer> categories;
         @Size(min=2, max=6, message = "바르지 않은 nickname 크기 입니다")

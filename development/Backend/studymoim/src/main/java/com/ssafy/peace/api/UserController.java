@@ -64,6 +64,7 @@ public class UserController {
         try{
             return new ResponseEntity<>(userService.updateUserInfo(file, userDto), HttpStatus.OK);
         } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
