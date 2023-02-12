@@ -6,7 +6,6 @@ export default function PlayingVideoFrame(props) {
 
   useEffect(() => {
     if (player.id != null && props.playerSync != null) {
-      console.log(player.playerInfo.playerState, props.playerSync.playerState);
       if (player.playerInfo.playerState != props.playerSync.playerState) {
         if (player.playerInfo.playerState == 2) {
           player.seekTo(props.playerSync.currentTime);
@@ -18,7 +17,6 @@ export default function PlayingVideoFrame(props) {
   }, [props]);
   const _onStatePlay = (event) => {
     props.setNowVideo(event.target.playerInfo.currentTime);
-    console.log(event.target, "event.target");
     setPlayer(event.target);
     let data = {
       type: "PLAY",
@@ -29,6 +27,7 @@ export default function PlayingVideoFrame(props) {
     props.eventHandler.onStateChange(data);
   };
   const _onStatePause = (event) => {
+    props.setNowVideo(event.target.playerInfo.currentTime);
     setPlayer(event.target);
     let data = {
       type: "PAUSE",
