@@ -4,9 +4,8 @@ import FollowingList from "./FollowingList";
 import MyPageUpdateForm from "./MyPageUpdateForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import userInfo from "../../zustand/store";
+import { useLocation } from "react-router";
 
 export default function MyPageModal({ showModal, clickModal, setShowModal, getPageName }) {
   window.onkeydown = function (event) {
@@ -14,7 +13,7 @@ export default function MyPageModal({ showModal, clickModal, setShowModal, getPa
       setShowModal(null);
     }
   };
-  const [userId, setUserId] = useState(getPageName);
+  const userId = useLocation().pathname.substring(8, 255) * 1
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const followings = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/follow/following/list/`);
   const followers = useFetch(`http://${API_SERVER}/api/v1/user/${userId}/follow/follower/list/`);

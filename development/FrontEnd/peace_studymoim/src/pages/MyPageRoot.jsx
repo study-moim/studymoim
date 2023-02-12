@@ -8,12 +8,12 @@ import MyPageLecture from "../components/mypages/MyPageLecture";
 import MyPageCourse from "../components/mypages/MyPageCourse";
 import MyPageStatic from "../components/mypages/MyPageStatic";
 import MyPageModal from "../components/mypages/MyPageModal";
+import { useLocation } from "react-router";
 
 export default function MyPageRoot() {
   // 윈도우창 패쓰네임을 가져오기
-  const [getPageName, setGetPageName] = useState(
-    window.location.pathname.substring(8, 255) * 1
-  );
+  const getPageName = useLocation().pathname.substring(8, 255) * 1
+
 
   // 클릭 로직
   const [currentClick, setCurrentClick] = useState("study");

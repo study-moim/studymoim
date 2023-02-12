@@ -24,8 +24,7 @@ export default function ArticleCreateForm() {
 
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
   const titleRef = useRef(null);
-  const [contentInput, setContentInput] = useState("");
-  // const contentRef = useRef(null);
+  const contentRef = useRef(null);
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   function onSubmit(e) {
@@ -43,8 +42,7 @@ export default function ArticleCreateForm() {
         // + JSON 문자열로도 변환시켜줌
         body: JSON.stringify({
           title: titleRef.current.value,
-          // content: contentRef.current.value,
-          content: contentInput,
+          content: contentRef.current.value,
           userId: info.userId,
         }),
       }).then((res) => {
@@ -67,14 +65,12 @@ export default function ArticleCreateForm() {
           ref={titleRef}
           required
         />
-        <div className="container">
-          <textarea
-            required
-            value={contentInput}
-            placeholder="마크다운 양식으로 입력이 가능합니다."
-            onChange={setContentInput}
-          ></textarea>
-        </div>
+        <textarea
+          className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
+          placeholder="내용을 입력하세요."
+          ref={contentRef}
+          required
+        />
         <div className="flex gap-5 justify-end">
           <div
             className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer"

@@ -1,6 +1,6 @@
 // TODO: 이거보고 하기..
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import PlayerMemo from "../components/studyplayer/PlayerMemo";
 import PlayerQuestionList from "../components/studyplayer/PlayerQuestionList";
 import PlayingVideoFrame from "../components/studyplayer/PlayingVideoFrame";
@@ -88,16 +88,14 @@ export default function StudyPlayerMainRoot() {
         `http://${API_SERVER}/api/v1/video/study/${study.studyId}/${props.lectureId}`
       )
         .then((res) => res.json())
-        .then((data) => {setStartVideo(data)
-        
-          console.log(startVideo, "STartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTartSTart")
+        .then((data) => {
+          setStartVideo(data);
         });
     };
     getHistory();
   }, [enterPlayer]);
   // 퇴장 put
   const putHistory = () => {
-    console.log(nowVideo, "nowVideonowVideonowVideonowVideonowVideonowVideo")
     fetch(
       `http://${API_SERVER}/api/v1/video/study/${study.studyId}/${
         props.lectureId
@@ -129,7 +127,6 @@ export default function StudyPlayerMainRoot() {
     connect(study.studyId);
     return () => {
       disconnect();
-      console.log("컴포넌트가 화면에서 사라짐");
     };
   }, []);
 
@@ -205,24 +202,6 @@ export default function StudyPlayerMainRoot() {
     };
     //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
     stomp.send("/pub/sync", {}, JSON.stringify(data));
-    /*
-    let msg = null;
-    if(data.payload.type == "PLAY") {
-      msg =`재생시간이 ${("00"+parseInt(data.payload.currentTime/60)).slice(-2)}:${("00"+parseInt(data.payload.currentTime%60)).slice(-2)} 로 변경되었습니다.`;
-    } else if(data.payload.type == "PAUSE") {
-      msg =`재생을 중지하였습니다.`;
-    }
-    if(msg != null) {
-      const alarm = {
-        type: "CHAT",
-        studyId: study.studyId,
-        sender: user.nickname,
-        payload: msg
-      };
-      //예시 - 데이터 보낼때 json형식을 맞추어 보낸다.
-      stomp.send("/pub/chat", {}, JSON.stringify(alarm));
-    }
-    */
   }
   function receive(data) {
     data = JSON.parse(data.body);
@@ -230,9 +209,7 @@ export default function StudyPlayerMainRoot() {
       const newMessage = data;
       changeChattings(newMessage);
     } else if (data.type == "SYNC") {
-      //if(data.userId == user.userId) return;
       const newSync = data.payload;
-
       setPlayerInfo(newSync);
     }
   }
@@ -242,9 +219,19 @@ export default function StudyPlayerMainRoot() {
       sendMessage();
     }
   };
+  const scrollRef = useRef();
+  useEffect(() => {
+    if (scrollRef && scrollRef.current) {
+      // scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      // const chatDiv = document.getElementById("qqq");
+      // chatDiv.scrollTop = chat.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+    // scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [chattings]);
 
   return (
-    <div className="flex m-5">
+    <div className="flex m-5 h-[90vh]">
       {/* 왼쪽 컴포들 */}
       <div className="flex flex-col justify-start items-start w-11/12 mx-3">
         <div className="w-full flex flex-row justify-between items-center mb-[10px]">
@@ -267,7 +254,7 @@ export default function StudyPlayerMainRoot() {
         />
       </div>
       {/* 오른쪽 컴포들 */}
-      <div className="flex flex-col w-[400px] h-[700px]">
+      <div className="flex flex-col w-[400px] h-full">
         {/* 메모 커뮤 실시간 */}
         <div className="flex justify-start items-start w-full">
           <button
@@ -305,8 +292,8 @@ export default function StudyPlayerMainRoot() {
               <div className="mb-2 w-full">
                 <input
                   id="ipt"
-                  className="border w-[80%] h-10 mr-1 rounded-lg pl-2"
-                  placeholder=""
+                  className="border w-[200px] h-10 mr-1 rounded-lg pl-2"
+                  placeholder="채팅입력"
                   type="text"
                   ref={messageRef}
                   required
@@ -316,12 +303,16 @@ export default function StudyPlayerMainRoot() {
                   onClick={() => {
                     sendMessage();
                   }}
-                  className="border py-1 px-2 rounded-lg hover:bg-slate-100 hover:scale-95 drop-shadow-sm shadow"
+                  className="w-[50px] border py-1 px-2 rounded-lg hover:bg-slate-100 hover:scale-95 drop-shadow-sm shadow"
                 >
                   전송
                 </button>
               </div>
-              <div className="text-black text-[20px] border overflow-auto h-5/6">
+              <div
+                id="qqq"
+                ref={scrollRef}
+                className="text-black text-[20px] border overflow-auto px-2 h-5/6 scrollbar-thin scrollbar-thumb-violet-200"
+              >
                 {chattings.map((chat) => (
                   <div className="text-xs flex flex-row w-full">
                     {chat.sender === user.nickname ? (
