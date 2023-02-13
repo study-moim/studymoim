@@ -5,7 +5,7 @@ import userInfo from "../zustand/store";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import CourseTage from "../components/coursepages/CourseTag";
+import CourseTag from "../components/coursepages/CourseTag";
 
 export default function CourseMainRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -79,7 +79,7 @@ export default function CourseMainRoot() {
               setTagId(tag.courseCategoryId);
             }}
           >
-            <CourseTage tag={tag} />
+            <CourseTag tag={tag} />
           </div>
         ))}
       </div>
