@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,7 +32,7 @@ public class FreeBoard {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime publishTime;
 
     @ColumnDefault("false")

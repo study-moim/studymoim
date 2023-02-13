@@ -62,7 +62,6 @@ export default function FieldPage() {
     event.preventDefault();
 
     const enteredNickname = nicknameRef.current.value;
-    console.log("??????", category)
 
     const startInfo = {
       userId: userInformation.userId,

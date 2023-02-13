@@ -8,6 +8,8 @@ import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,8 @@ public class QuestionBoardService {
     private final AlarmRepository alarmRepository;
 
     @Transactional
-    public List<QuestionBoardDto.Detail> getQuestionBoardList() throws RollbackException {
-        return questionBoardRepository.findAllByIsDeletedIsFalse().stream()
+    public Page<QuestionBoardDto.Detail> getQuestionBoardList(Pageable pageable) throws RollbackException {
+        return questionBoardRepository.findAllByIsDeletedIsFalse(pageable)
                 .map(questionBoard -> {
                     QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
                     res.setQuestionBoardComments(
@@ -35,9 +37,33 @@ public class QuestionBoardService {
                                     .filter(comment -> !comment.isDeleted())
                                     .collect(Collectors.toList()));
                     return res;
-                })
-                .sorted(Comparator.comparing(QuestionBoardDto.Detail::getPublishTime).reversed())
-                .collect(Collectors.toList());
+                });
+    }
+
+    @Transactional
+    public Page<QuestionBoardDto.Detail> searchQuestionBoardByTitle(String word, Pageable pageable) throws RollbackException {
+        return questionBoardRepository.findAllByIsDeletedIsFalseAndTitleContaining(word, pageable)
+                .map(questionBoard -> {
+                    QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
+                    res.setQuestionBoardComments(
+                            QuestionBoardDto.Detail.fromEntity(questionBoard).getQuestionBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                });
+    }
+
+    @Transactional
+    public Page<QuestionBoardDto.Detail> searchQuestionBoardByContent(String word, Pageable pageable) throws RollbackException {
+        return questionBoardRepository.findAllByIsDeletedIsFalseAndContentContaining(word, pageable)
+                .map(questionBoard -> {
+                    QuestionBoardDto.Detail res = QuestionBoardDto.Detail.fromEntity(questionBoard);
+                    res.setQuestionBoardComments(
+                            QuestionBoardDto.Detail.fromEntity(questionBoard).getQuestionBoardComments().stream()
+                                    .filter(comment -> !comment.isDeleted())
+                                    .collect(Collectors.toList()));
+                    return res;
+                });
     }
 
     @Transactional
