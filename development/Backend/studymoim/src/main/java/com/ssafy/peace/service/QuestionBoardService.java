@@ -147,15 +147,8 @@ public class QuestionBoardService {
                 .collect(Collectors.toList());
     }
 
-    public List<QuestionBoardDto.Info> getQuestionBoardListByCourse(Integer courseId) {
-        List<Lecture> lectureList = lectureRepository.findAllByCourse_CourseId(courseId);
-        List<QuestionBoardDto.Info> result = new ArrayList<>();
-        for (Lecture lecture : lectureList) {
-            result.addAll(questionBoardRepository.findAllByIsDeletedIsFalseAndLecture_LectureId(lecture.getLectureId()).stream()
-                    .map(QuestionBoardDto.Info::fromEntity)
-                    .collect(Collectors.toList()));
-        }
-        result.sort(Comparator.comparing(QuestionBoardDto.Info::getPublishTime).reversed());
-        return result;
+    public Page<QuestionBoardDto.Info> getQuestionBoardListByCourse(Integer courseId, Pageable pageable) {
+        return questionBoardRepository.findAllByIsDeletedIsFalseAndCourseId(courseId, pageable)
+                .map(QuestionBoardDto.Info::fromEntity);
     }
 }
