@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.RollbackException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -103,7 +102,7 @@ public class UserService {
     }
 
     public List<StudyDto.Info> getStudyList(Integer userId) throws RuntimeException {
-        return studyMemberRepository.findAllByUser_UserId(userId).stream()
+        return studyMemberRepository.findAllByUser_UserIdAndIsBannedIsFalse(userId).stream()
                 .map(sm -> StudyDto.Info.fromEntity(sm.getStudy()))
                 .collect(Collectors.toList());
     }
