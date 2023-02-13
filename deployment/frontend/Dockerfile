@@ -14,8 +14,9 @@ RUN \
     touch /etc/nginx/sites-available/myapp.conf && \
     ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf && \
     apt install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh && \
-    bash nodesource_setup.sh && \
-    apt install -y nodejs && \
-    apt install -y build-essential
+    apt install -y build-essential && \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash && \
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"\n \
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    nvm install node
 COPY nginx/sites-available/myapp.conf /etc/nginx/sites-available/myapp.conf
