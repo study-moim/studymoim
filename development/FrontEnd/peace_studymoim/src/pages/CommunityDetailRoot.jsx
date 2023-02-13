@@ -6,6 +6,8 @@ import { useState } from "react";
 import userInfo from "../zustand/store";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
 import ArticleEditForm from "../components/communitypages/ArticleEditForm";
+import Moment from "moment";
+import "moment/locale/ko";
 
 export default function CommunityDetailRoot() {
   // 로그인 컷 콤보
@@ -75,12 +77,8 @@ export default function CommunityDetailRoot() {
             </div>
             <div className="flex justify-start items-center relative pb-7 border-b">
               <img
-                className="w-[50px] h-[50px] object-cover rounded-full"
-                src={
-                  image
-                    ? image
-                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjplK5Iw7kiaLK5XX1g5VJwc3W8m92UjVRgw&usqp=CAU"
-                }
+                className="w-[50px] h-[50px] object-cover rounded-full border"
+                src={userList.saveName ? image : "/logo.png"}
               />
               <div className="pl-3">
                 <NavLink
@@ -92,7 +90,10 @@ export default function CommunityDetailRoot() {
                   </div>
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
-                  {date} &nbsp; 조회수 {articleDetail.hit}
+                  {Moment(articleDetail.publishTime).format(
+                    "YYYY년 MM월 DD일 HH:DD"
+                  )}
+                  &nbsp; 조회수 {articleDetail.hit}
                 </div>
               </div>
               <div className={thisIsMine ? "absolute right-0" : "invisible"}>

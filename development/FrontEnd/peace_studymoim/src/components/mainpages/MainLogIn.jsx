@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import StudyRecruitItem from "../studypages/StudyRecruitItem";
+import StudyListItem from "../mypages/StudyLiseItem";
 
 export default function MainLogIn({ searchKey, searchData }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -57,7 +58,7 @@ export default function MainLogIn({ searchKey, searchData }) {
 
   return (
     <>
-      <div className="flex flex-row justify-evenly items-start">
+      <div className="flex flex-row items-start">
         <div className="flex flex-col justify-start w-5/12 mb-10">
           {myCourses.length ? 
             <div> 
@@ -106,7 +107,7 @@ export default function MainLogIn({ searchKey, searchData }) {
           </div>
           <Slider {...settings}>
             {myStudies.map((study) => (
-              <MainStudy key={study.studyId} propData={study} />
+              <StudyListItem key={study.studyId} propData={study} />
             ))}
           </Slider>
             </div>

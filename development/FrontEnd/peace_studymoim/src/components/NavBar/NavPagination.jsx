@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 
-
 export default function NavPagination({breakLabel,
                                        firstLabel,
                                        onPageChange,
@@ -41,30 +40,35 @@ export default function NavPagination({breakLabel,
     }
 
     return(
-        <nav aria-label="Page navigation example">
-            <ul className="inline-flex -space-x-px">
+        <nav aria-label="Page navigation example" className="flex justify-center mt-3">
+            <ul className="inline-flex space-x-2">
                 <li>
                     <div onClick={() => onPageClick(1)}
-                        className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        className="px-3 py-2 ml-0 leading-tight rounded-full hover:bg-gray-100 dark:hover:text-white cursor-pointer">
                         {firstLabel}
                     </div>
                 </li>
                 {pageDisplay.filter((idx) => idx<=pageCount).map((idx) => (
                     idx==currentPage ? (<li>
                         <div onClick={() => onPageClick(idx)}
-                            className="px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                            className="px-3 py-2 leading-tight rounded-full bg-violet-100 cursor-pointer">
                             {idx}
                         </div>
                     </li>) : (<li>
                         <div onClick={() => onPageClick(idx)}
-                            className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            className="px-3 py-2 leading-tight rounded-full bg-white  hover:bg-gray-100 cursor-pointer">
                             {idx}
                         </div>
                     </li>)
                 ))}
                 <li>
+<<<<<<< development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
+                    <div onClick={() => onPageClick(pageCount-1)}
+                        className="px-3 py-2 leading-tight rounded-full hover:bg-gray-100 cursor-pointer">
+=======
                     <div onClick={() => onPageClick(pageCount)}
                         className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+>>>>>>> development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
                         {lastLabel}
                     </div>
                 </li>
