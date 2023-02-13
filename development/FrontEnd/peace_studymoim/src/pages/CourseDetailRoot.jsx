@@ -120,7 +120,7 @@ export default function CourseDetailRoot() {
       setParams({
         "key": "title",
         "word": word,
-        "page": currentPage-1,
+        "page": currentPage,
         "size": 5
       })
     }
