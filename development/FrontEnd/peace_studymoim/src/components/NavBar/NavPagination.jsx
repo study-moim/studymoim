@@ -21,12 +21,12 @@ export default function NavPagination({breakLabel,
   
     function computePageDisplay() {
         let newDisplay = []
-        if(pageRangeDisplayed/2 > (currentPage-1)) {
+        if(pageRangeDisplayed/2 > (currentPage)) {
             for (let i = 0; i < pageRangeDisplayed; i++) {
                 newDisplay.push(i+1);
             }
-        } else if(pageCount-1-pageRangeDisplayed/2 < (currentPage-1)) {
-            for (let i = pageCount-pageRangeDisplayed-1; i < pageCount-1; i++) {
+        } else if(pageCount-pageRangeDisplayed/2 < (currentPage)) {
+            for (let i = pageCount-pageRangeDisplayed; i < pageCount; i++) {
                 newDisplay.push(i+1);
             }
         } else {
@@ -60,7 +60,7 @@ export default function NavPagination({breakLabel,
                     </li>)
                 ))}
                 <li>
-                    <div onClick={() => onPageClick(pageCount-1)}
+                    <div onClick={() => onPageClick(pageCount)}
                         className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         {lastLabel}
                     </div>
