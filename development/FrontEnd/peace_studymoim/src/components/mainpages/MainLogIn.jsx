@@ -23,6 +23,7 @@ export default function MainLogIn({ searchKey, searchData }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   const recommendCourses = useFetch(

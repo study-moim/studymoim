@@ -30,7 +30,6 @@ export default function FreeRoot() {
       let query = Object.keys(params)
           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
           .join('&');
-      console.log(query)
       let resp = await fetch(`http://${API_SERVER}/api/v1/articles/free?`+query)
       let data = await resp.json()
       setPage(data);
