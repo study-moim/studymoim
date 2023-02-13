@@ -13,6 +13,7 @@ RUN \
     rm /etc/nginx/sites-enabled/default && \
     touch /etc/nginx/sites-available/myapp.conf && \
     ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf && \
+    apt install curl && \
     curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh && \
     bash nodesource_setup.sh && \
     apt install nodejs -y && \
