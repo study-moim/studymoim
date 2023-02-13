@@ -103,8 +103,8 @@ export default function QuestionRoot() {
         )) : null}
       </div>
       <NavPagination
-          nextLabel="다음"
-          previousLabel="이전"
+          firstLabel="처음"
+          lastLabel="마지막"
           breakLabel="..."
           onPageChange={setCurrentPage}
           pageCount={page ? page.totalPages+1 : 0}

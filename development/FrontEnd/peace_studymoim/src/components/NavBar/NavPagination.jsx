@@ -2,11 +2,11 @@ import {useEffect, useState} from "react";
 
 
 export default function NavPagination({breakLabel,
-                                       nextLabel,
+                                       firstLabel,
                                        onPageChange,
                                        pageRangeDisplayed,
                                        pageCount,
-                                       previousLabel}) {
+                                       lastLabel}) {
     const [pageDisplay, setPageDisplay] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -43,7 +43,7 @@ export default function NavPagination({breakLabel,
                 <li>
                     <div onClick={() => onPageClick(1)}
                         className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        처음
+                        {firstLabel}
                     </div>
                 </li>
                 {pageDisplay.filter((idx) => idx<=pageCount).map((idx) => (
@@ -62,7 +62,7 @@ export default function NavPagination({breakLabel,
                 <li>
                     <div onClick={() => onPageClick(pageCount-1)}
                         className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        마지막
+                        {lastLabel}
                     </div>
                 </li>
             </ul>
