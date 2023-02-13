@@ -44,7 +44,7 @@ spring:
     show-sql: true
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   cloud:
     gcp:
       storage:
