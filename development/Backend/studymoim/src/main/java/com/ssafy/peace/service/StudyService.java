@@ -1,5 +1,7 @@
 package com.ssafy.peace.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.peace.dto.*;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
@@ -294,5 +296,24 @@ public class StudyService {
             curricula.add(curriculum);
         }
         curriculumRepository.saveAll(curricula);
+    }
+
+    public List<Map<Integer, String>> getCourseListHistoryByStudyId(Integer studyId) throws JsonProcessingException {
+        List<Map<Integer, String>> result = new ArrayList<>();
+        List<Course> courseList =  studyRepository.findById(studyId).get().getCurricula().stream()
+                .map(curriculum -> curriculum.getCourse()).collect(Collectors.toList());
+        for (int i = 0; i < courseList.size(); i++) {
+            Map<Integer, String> temp = new HashMap<>();
+            List<Map<String, Integer>> entity = studyRepository.findAllByProgress(studyId, courseList.get(i).getCourseId());
+            System.out.println(entity.size());
+            ObjectMapper mapper = new ObjectMapper();
+            if(studyRepository.findAllByProgress(studyId, courseList.get(i).getCourseId()).size() != 0) {
+                for (int j = 0; j < entity.size(); j++) {
+                    temp.put(courseList.get(i).getCourseId(), mapper.writeValueAsString(entity.get(j)));
+                    result.add(temp);
+                }
+            }
+        }
+        return result;
     }
 }
