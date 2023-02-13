@@ -15,19 +15,19 @@ export default function StudyMemberCoummunity({ propData }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [studyCommunity, setStudyCommunity] = useState([]);
 
-
   useEffect(() => {
     const getStudyCommunity = async () => {
       await fetch(
         `http://${API_SERVER}/api/v1/study/community/${studyId.study_id}`
       )
-      .then((res) => res.json())
-      .then((json) => {
-        setStudyCommunity(json);
-      }); 
+        .then((res) => res.json())
+        .then((json) => {
+          setStudyCommunity(json);
+          console.log(studyCommunity);
+        });
     };
-    getStudyCommunity(); 
-}, [studyId.study_id]); 
+    getStudyCommunity();
+  }, [studyId.study_id]);
 
   useEffect(() => {
     if (!info) {
@@ -77,10 +77,14 @@ export default function StudyMemberCoummunity({ propData }) {
         />
       </form>
       {studyCommunity.map((items) => {
-        return <div className="w-full" key={items.studyCommunityId}>
-          <StudyMemberCoummunityComment key={items.studyCommunityId} items={items} />
-        </div>
-        
+        return (
+          <div className="w-full" key={items.studyCommunityId}>
+            <StudyMemberCoummunityComment
+              key={items.studyCommunityId}
+              items={items}
+            />
+          </div>
+        );
       })}
     </div>
   );
