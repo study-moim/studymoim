@@ -21,14 +21,17 @@ export default function NavPagination({breakLabel,
     function computePageDisplay() {
         let newDisplay = []
         if(pageRangeDisplayed/2 > (currentPage)) {
+            console.log("처음")
             for (let i = 0; i < pageRangeDisplayed; i++) {
                 newDisplay.push(i+1);
             }
         } else if(pageCount-pageRangeDisplayed/2 < (currentPage)) {
+            console.log("끝")
             for (let i = pageCount-pageRangeDisplayed; i < pageCount; i++) {
                 newDisplay.push(i+1);
             }
         } else {
+            console.log("중간")
             for (let i = Math.floor(currentPage-pageRangeDisplayed/2); i < Math.floor(currentPage+pageRangeDisplayed/2); i++) {
                 newDisplay.push(i+1);
             }
