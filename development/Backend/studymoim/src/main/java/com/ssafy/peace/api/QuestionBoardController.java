@@ -56,9 +56,10 @@ public class QuestionBoardController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<?> boardListByCourse(@Parameter(description="courseId") @PathVariable Integer courseId) {
+    public ResponseEntity<?> boardListByCourse(@Parameter(description="courseId") @PathVariable Integer courseId,
+                                               Pageable pageable) {
         try{
-            return new ResponseEntity<>(questionBoardService.getQuestionBoardListByCourse(courseId), HttpStatus.OK);
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardListByCourse(courseId, pageable), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -104,7 +105,7 @@ public class QuestionBoardController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @DeleteMapping("/{articleId}")
-    public ResponseEntity<?> boardDelete(@Parameter(description="articleId") @RequestBody Integer articleId) {
+    public ResponseEntity<?> boardDelete(@Parameter(description="articleId") @PathVariable Integer articleId) {
         try{
             questionBoardService.deleteQuestion(articleId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
