@@ -44,8 +44,8 @@ export default function CourseDetailRoot() {
           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
           .join('&');
       if(currentClick == 'curriculum') {}
-      else if(currentClick == 'study') query = query + '&creationTime,desc'
-      else if(currentClick == 'community') query = query + '&publishTime,desc'
+      else if(currentClick == 'study') query = query + '&sort=creationTime,desc'
+      else if(currentClick == 'community') query = query + '&sort=publishTime,desc'
       console.log(`${url}?${query}`);
       let resp = await fetch(`${url}?${query}`)
       let data = await resp.json()
@@ -120,7 +120,7 @@ export default function CourseDetailRoot() {
       setParams({
         "key": "title",
         "word": word,
-        "page": currentPage,
+        "page": currentPage-1,
         "size": 5
       })
     }

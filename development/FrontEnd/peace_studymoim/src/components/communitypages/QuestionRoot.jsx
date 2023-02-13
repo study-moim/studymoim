@@ -43,7 +43,7 @@ export default function QuestionRoot() {
       setParams({
         "key": "title",
         "word": word,
-        "page": currentPage,
+        "page": currentPage-1,
         "size": 10,
         "sort": sort
       })
