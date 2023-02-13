@@ -15,6 +15,6 @@ RUN \
     ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf && \
     curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh && \
     bash nodesource_setup.sh && \
-    apt-get install nodejs && \
-    apt-get install build-essential
+    apt install nodejs -y && \
+    apt install build-essential -y
 COPY nginx/sites-available/myapp.conf /etc/nginx/sites-available/myapp.conf
