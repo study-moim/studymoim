@@ -42,7 +42,7 @@ export default function QuestionRoot() {
       setParams({
         "key": "title",
         "word": word,
-        "page": currentPage-1,
+        "page": currentPage,
         "size": 10,
         "sort": sort
       })
@@ -107,7 +107,7 @@ export default function QuestionRoot() {
           lastLabel="마지막"
           breakLabel="..."
           onPageChange={setCurrentPage}
-          pageCount={page ? page.totalPages+1 : 0}
+          pageCount={page ? page.totalPages : 0}
           pageRangeDisplayed={5}
       />
     </div>

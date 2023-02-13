@@ -107,7 +107,7 @@ export default function FreeRoot() {
           lastLabel="마지막"
           breakLabel="..."
           onPageChange={setCurrentPage}
-          pageCount={page ? page.totalPages+1 : 0}
+          pageCount={page ? page.totalPages : 0}
           pageRangeDisplayed={5}
       />
     </div>
