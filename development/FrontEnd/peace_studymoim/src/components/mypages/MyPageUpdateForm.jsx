@@ -7,18 +7,18 @@ export default function MyPageUpdateForm({ userId }) {
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
-  const saveNameRef = useRef();
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const nicknameRef = useRef(info.nickname);
   const [modifyNickname, setModifyNickname] = useState(false);
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
-  const selectFieldsRef = useRef();
   const [modifyTag, setModifyTag] = useState(false);
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedField, setSelectedField] = useState([]);
+  const saveNameRef = useRef();
+  const nicknameRef = useRef(info.nickname);
+  const selectFieldsRef = useRef();
 
   useEffect(() => {
     const getTag = async () => {
@@ -153,7 +153,7 @@ export default function MyPageUpdateForm({ userId }) {
               }}
             />
             <button
-              onClick={() => submitImageHandler(null)}
+              onClick={() => {setPreview("/logo.png"); submitImageHandler(null); }}
               className="w-[150px] text-[13px] py-1 text-[#b1b2ff] hover:bg-gray-100"
             >
               이미지 제거
