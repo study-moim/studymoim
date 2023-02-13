@@ -109,7 +109,7 @@ export default function CourseDetailRoot() {
         "key": "title",
         "word": "",
         "page": 0,
-        "size": 10
+        "size": 5
       });
     },
     [currentClick]
@@ -121,7 +121,7 @@ export default function CourseDetailRoot() {
         "key": "title",
         "word": word,
         "page": currentPage-1,
-        "size": 10
+        "size": 5
       })
     }
     getParams();
