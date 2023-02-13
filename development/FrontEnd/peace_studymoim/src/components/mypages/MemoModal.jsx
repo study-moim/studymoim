@@ -21,8 +21,8 @@ export default function MemoModal(props) {
           {/*header*/}
           <div className="flex items-center justify-between py-5 px-6 border-b">
             <p className="font-bold">{props.lectureData.title}</p>
-            <button className="transition-all" onClick={() => cancelHandler()}>
-              <FontAwesomeIcon icon={faXmark} size="lg" className="hover:text-red-500" />
+            <button className="transition-all" onClick={cancelHandler}>
+              <FontAwesomeIcon icon={faXmark} size="lg" className="hover:text-red-500" onClick={cancelHandler}/>
             </button>
           </div>
           {/*body*/}
