@@ -8,7 +8,7 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/studymoim?serverTimezone=KST&characterEncoding=UTF-8
     username: root
     password: root
   jpa:
@@ -37,7 +37,7 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=KST&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
@@ -66,7 +66,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql_container:3306/example?serverTimezone=KST&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
