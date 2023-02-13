@@ -43,7 +43,7 @@ export default function FreeRoot() {
       setParams({
         "key": "title",
         "word": word,
-        "page": currentPage,
+        "page": currentPage-1,
         "size": 10,
         "sort": sort
       })
@@ -108,7 +108,7 @@ export default function FreeRoot() {
           previousLabel="이전"
           breakLabel="..."
           onPageChange={setCurrentPage}
-          pageCount={page ? page.totalPages : 0}
+          pageCount={page ? page.totalPages+1 : 0}
           pageRangeDisplayed={5}
       />
     </div>

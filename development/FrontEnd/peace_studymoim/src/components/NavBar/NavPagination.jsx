@@ -46,7 +46,7 @@ export default function NavPagination({breakLabel,
                         처음
                     </div>
                 </li>
-                {pageDisplay.map((idx) => (
+                {pageDisplay.filter((idx) => idx<=pageCount).map((idx) => (
                     idx==currentPage ? (<li>
                         <div onClick={() => onPageClick(idx)}
                             className="px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">

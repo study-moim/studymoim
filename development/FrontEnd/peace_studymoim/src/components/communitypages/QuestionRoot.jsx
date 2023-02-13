@@ -4,51 +4,64 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import LectureQuestion from "./LectureQuestion";
 import { useState, useEffect } from "react";
+import NavPagination from "../NavBar/NavPagination.jsx";
 
 export default function QuestionRoot() {
-  getQuestions();
-  const { questions } = getQuestionList();
-  const lectureQuestions = questions;
+  //getQuestions();
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  //const { questions } = getQuestionList();
+  //const lectureQuestions = questions;
   const [word, setWord] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
   const [selected, setSelected] = useState("new");
-  const [filterInfo, setFilterInfo] = useState(lectureQuestions);
+  const [sort, setSort] = useState('publishTime,desc');
+  const [page, setPage] = useState(null);
+  const [params, setParams] = useState({
+    "key": "title",
+    "word": "",
+    "page": 0,
+    "size": 10,
+    "sort": 'publishTime,desc'
+  });
 
   useEffect(() => {
-    const getWord = async () => {
-      setFilterInfo(
-        lectureQuestions.filter((question) => {
-          return question.title
-            .replace(" ", "")
-            .toLocaleLowerCase()
-            .includes(word.toLocaleLowerCase().replace(" ", ""));
-        })
-      );
+    const getPage = async () => {
+      let query = Object.keys(params)
+          .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+          .join('&');
+      console.log(query)
+      let resp = await fetch(`http://${API_SERVER}/api/v1/articles/question?`+query)
+      let data = await resp.json()
+      setPage(data);
     };
-    getWord();
-  }, [word]);
+    getPage();
+  }, [params]);
 
   useEffect(() => {
-    const getSelected = async () => {
+    const getParams = () => {
+      setParams({
+        "key": "title",
+        "word": word,
+        "page": currentPage-1,
+        "size": 10,
+        "sort": sort
+      })
+    }
+    getParams();
+  }, [word, currentPage, sort]);
+
+  useEffect(() => {
+    const getSelected = () => {
       if (selected == "new") {
-        setFilterInfo(lectureQuestions);
+        setSort('publishTime,desc');
       } else if (selected == "old") {
-        setFilterInfo(lectureQuestions.reverse());
+        setSort('publishTime,asc');
       } else if (selected == "big") {
-        setFilterInfo(
-          lectureQuestions.sort((prev, cur) => {
-            if (prev.hit < cur.hit) return 1;
-            if (prev.hit > cur.hit) return -1;
-          })
-        );
-      } else if(selected == "small"){
-        setFilterInfo(
-          lectureQuestions.sort((prev, cur) => {
-            if (prev.hit > cur.hit) return 1;
-            if (prev.hit < cur.hit) return -1;
-          })
-        );
+        setSort('hit,desc');
+      } else if (selected == "small") {
+        setSort('hit,asc');
       }
-    };
+    }
     getSelected();
   }, [selected]);
 
@@ -82,13 +95,21 @@ export default function QuestionRoot() {
         </select>
       </div>
       <div className="flex flex-col justify-start items-start w-full">
-        {filterInfo.map((lectureQuestion) => (
+        {page ? page.content.map((lectureQuestion) => (
           <LectureQuestion
             key={lectureQuestion.questionBoardId}
             lectureQuestion={lectureQuestion}
           />
-        ))}
+        )) : null}
       </div>
+      <NavPagination
+          nextLabel="다음"
+          previousLabel="이전"
+          breakLabel="..."
+          onPageChange={setCurrentPage}
+          pageCount={page ? page.totalPages+1 : 0}
+          pageRangeDisplayed={5}
+      />
     </div>
   );
 }

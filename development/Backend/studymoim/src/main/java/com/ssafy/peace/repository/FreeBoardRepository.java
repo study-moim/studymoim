@@ -18,9 +18,9 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Integer> {
     /*
     제목/내용/제목+내용에 특정 키워드가 들어가있는 글 찾기
      */
-    Page<FreeBoard> findAllByTitleContaining(String keyword, Pageable pageable);
+    Page<FreeBoard> findAllByIsDeletedIsFalseAndTitleContaining(String keyword, Pageable pageable);
 
-    Page<FreeBoard> findAllByContentContaining(String keyword, Pageable pageable);
+    Page<FreeBoard> findAllByIsDeletedIsFalseAndContentContaining(String keyword, Pageable pageable);
 
     List<FreeBoard> findAllByTitleContainingAndContentContaining(String keyword, String keyword_);
 

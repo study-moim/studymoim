@@ -107,7 +107,7 @@ public class FreeBoardService {
     }
 
     public Page<FreeBoardDto.Detail> searchFreeBoardByTitle(String key, Pageable pageable) {
-        return freeBoardRepository.findAllByTitleContaining(key, pageable)
+        return freeBoardRepository.findAllByIsDeletedIsFalseAndTitleContaining(key, pageable)
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
@@ -119,7 +119,7 @@ public class FreeBoardService {
     }
 
     public Page<FreeBoardDto.Detail> searchFreeBoardByContent(String key, Pageable pageable) {
-        return freeBoardRepository.findAllByContentContaining(key, pageable)
+        return freeBoardRepository.findAllByIsDeletedIsFalseAndContentContaining(key, pageable)
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
