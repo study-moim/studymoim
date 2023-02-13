@@ -23,6 +23,7 @@ export default function LectureProgress(props) {
     <>
       <div className="flex flex-col justify-center items-start w-full relative overflow-hidden gap-5 p-[3px] bg-[#ebefff]">
         <div className="flex justify-start items-start w-full gap-5 px-5">
+
           <div className="flex flex-col w-1/2 justify-start items-center flex-grow relative gap-[10px]">
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-5 mt-8 h-[600px] overflow-auto">
               {props.curricula.map((curriculum) => (

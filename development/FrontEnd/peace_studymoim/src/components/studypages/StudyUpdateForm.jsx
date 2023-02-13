@@ -1,11 +1,12 @@
 import { useRef, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import { useNavigate, useParams } from "react-router";
-import { Navigate } from "react-router";
+import uuid from 'react-uuid' 
 
 export default function StudyMakeForm({propData}) { 
+  console.log(propData)  
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const studyId = useParams(); 
   const navigate = useNavigate(); 
@@ -96,8 +97,9 @@ export default function StudyMakeForm({propData}) {
                 <select
                   id="recruitMembers"
                   ref={memberRef} 
-                  required
-                  defaultValue={propData.member}>
+                  required 
+                  key={uuid()}
+                  defaultValue={propData.member}> 
                     <option value={2}>2명</option>
                     <option value={3}>3명</option>
                     <option value={4}>4명</option>
@@ -130,6 +132,7 @@ export default function StudyMakeForm({propData}) {
                 id="recruitMethod"
                 ref={recruitRef} 
                 required
+                key={uuid()}
                 defaultValue={propData.publics}
               >
                 <option value={true}>공개</option>
@@ -146,6 +149,7 @@ export default function StudyMakeForm({propData}) {
                 id="finishMethod"
                 ref={finishRef}
                 required
+                key={uuid()}
                 defaultValue={propData.finish}
               >
                <option value={false}>모집중</option>
@@ -162,6 +166,7 @@ export default function StudyMakeForm({propData}) {
                 id="closeMethod"
                 ref={closeRef}
                 required
+                key={uuid()}
                 defaultValue={propData.close}
               >
                 <option value={false}>진행중</option>
@@ -208,16 +213,12 @@ export default function StudyMakeForm({propData}) {
               max={30}
               defaultValue={propData.title}
             />
-            {/* 설명 */}
-            {/* TODO : CK editor로 바꿔야함!  */}
-            <ReactQuill
-              id="description"
-              ref={contentRef}
-              required
-              placeholder="스터디에 대해 소개해주세요(선택)&#13;첫 회의 날짜: 1/17 8시&#13;주 3회 월수금 예정입니다."
-              className="w-full h-[400px] justify-center mb-5"
-              defaultValue={propData.content}
-            />
+            <textarea
+                required
+                ref={contentRef}
+                className="w-full mt-3 h-[300px] justify-center border"
+                defaultValue={propData.content} 
+              />
 
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
