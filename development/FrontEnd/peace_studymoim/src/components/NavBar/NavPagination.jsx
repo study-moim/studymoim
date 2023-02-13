@@ -92,5 +92,5 @@ export default function NavPagination({
         </li>
       </ul>
     </nav>
-  );
+  ); 
 }
