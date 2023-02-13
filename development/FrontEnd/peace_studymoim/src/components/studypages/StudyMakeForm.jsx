@@ -3,6 +3,7 @@ import DeleteModal from "../overall/DeleteModal";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 import Select from "react-select";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +36,8 @@ export default function StudyMakeForm(props) {
   // 제목
   const titleInput = useRef();  
   // 내용
-  const contentInput = useRef(); 
+  // const contentInput = useRef(); 
+  const [contentInput, setContentInput] = useState("");
 
   function submitHandler(event) {
     event.preventDefault();
@@ -45,7 +47,8 @@ export default function StudyMakeForm(props) {
 
     const studyRecruitData = {
       title: titleInput.current.value,
-      content: contentInput.current.value, 
+      content: contentInput,
+      // content: contentInput.current.value, 
       startTime: startSelect.current.value, 
       userLimit: memberSelect.current.value, 
       courseIdList: enteredSelectOptions,
@@ -178,14 +181,21 @@ export default function StudyMakeForm(props) {
               min={5}
               max={30}
             />
-
+              <MDEditor
+                value={contentInput}
+                placeholder="스터디 설명을 써주세요."
+                onChange={setContentInput}
+                // previewOptions={{
+                //   rehypePlugins: [[rehypeSanitize]],
+                // }}
+              />
        
-              <textarea
+              {/* <textarea
                 required
                 ref={contentInput}
                 placeholder="스터디 설명을 써주세요."
                 className="w-full mt-3 h-[300px] justify-center border"
-              />
+              /> */}
           
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
