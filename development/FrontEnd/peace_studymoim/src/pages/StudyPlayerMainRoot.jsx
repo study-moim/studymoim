@@ -92,6 +92,12 @@ export default function StudyPlayerMainRoot() {
           setStartVideo(data);
         });
     };
+    const getHistory2 = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/video/user/${info.userId}/${props.lectureId}`
+      ).then(res => res.json()).then(data=>setStartVideo(data));
+    };
+    getHistory2();
     getHistory();
   }, [enterPlayer]);
   // 퇴장 put
