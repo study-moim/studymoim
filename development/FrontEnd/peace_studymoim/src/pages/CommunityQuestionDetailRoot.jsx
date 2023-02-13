@@ -22,37 +22,37 @@ export default function CommunityQuestionDetailRoot() {
   const [questionDetail, setQuestionDetail] = useState({});
   const [newCommentList, setNewCommentList] = useState([]);
   const [userList, setUserList] = useState([]);
-
   const wlh = window.location.pathname.substring(20, 300);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [thisIsMine, setThisIsMine] = useState(false);
-
+  const [image, setImage] = useState("/logo.png")
   const getQuestion = async () => {
     await fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setQuestionDetail(data);
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      setQuestionDetail(data);
         setNewCommentList(data.questionBoardComments);
         setUserList(data.user);
         if (info.userId === data.user.userId) {
           setThisIsMine(true);
         }
+        const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
+        setImage(IMAGE_ROOT + data.user.saveName)
       });
-  };
-  useEffect(() => {
-    getQuestion();
-  }, [wlh]);
-
-  const commentLength = newCommentList.length;
-  const dateBase = new Date(questionDetail.publishTime);
-  const date = dateBase.toString().substring(0, 24);
-  console.log(wlh)
-  // 삭제기능
-  const handleRemove = () => {
-    if (window.confirm(`정말로 질문을 삭제하시겠습니까?`)) {
-      fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}/`, {
+    };
+    useEffect(() => {
+      getQuestion();
+    }, [wlh]);
+    
+    const commentLength = newCommentList.length;
+    const dateBase = new Date(questionDetail.publishTime);
+    const date = dateBase.toString().substring(0, 24);
+    // 삭제기능
+    const handleRemove = () => {
+      if (window.confirm(`정말로 질문을 삭제하시겠습니까?`)) {
+        fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}/`, {
         method: "DELETE",
       }).then((res) => {
         if (res.ok) {
@@ -79,8 +79,8 @@ export default function CommunityQuestionDetailRoot() {
               <img
                 className="w-[50px] h-[50px] object-cover rounded-full"
                 src={
-                  questionDetail.saveName
-                    ? questionDetail.saveName
+                  image
+                    ? image
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjplK5Iw7kiaLK5XX1g5VJwc3W8m92UjVRgw&usqp=CAU"
                 }
               />
