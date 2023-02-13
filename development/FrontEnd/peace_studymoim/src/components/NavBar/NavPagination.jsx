@@ -62,13 +62,8 @@ export default function NavPagination({breakLabel,
                     </li>)
                 ))}
                 <li>
-<<<<<<< development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
                     <div onClick={() => onPageClick(pageCount-1)}
                         className="px-3 py-2 leading-tight rounded-full hover:bg-gray-100 cursor-pointer">
-=======
-                    <div onClick={() => onPageClick(pageCount)}
-                        className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
->>>>>>> development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
                         {lastLabel}
                     </div>
                 </li>
