@@ -7,6 +7,8 @@ import QuestionCommentForm from "../components/communitydetail/QuestionCommentFo
 import QustionLectureShort from "../components/communitydetail/QuestionLectureShort";
 import QuestionEditForm from "../components/communitypages/QuestionEditForm";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
+import Moment from "moment";
+import "moment/locale/ko";
 
 export default function CommunityQuestionDetailRoot() {
   // 로그인 컷 콤보
@@ -25,34 +27,34 @@ export default function CommunityQuestionDetailRoot() {
   const wlh = window.location.pathname.substring(20, 300);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [thisIsMine, setThisIsMine] = useState(false);
-  const [image, setImage] = useState("/logo.png")
+  const [image, setImage] = useState("/logo.png");
   const getQuestion = async () => {
     await fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}`)
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      setQuestionDetail(data);
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setQuestionDetail(data);
         setNewCommentList(data.questionBoardComments);
         setUserList(data.user);
         if (info.userId === data.user.userId) {
           setThisIsMine(true);
         }
         const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
-        setImage(IMAGE_ROOT + data.user.saveName)
+        data.user.saveName
+          ? setImage(IMAGE_ROOT + data.user.saveName)
+          : setImage("/logo.png");
       });
-    };
-    useEffect(() => {
-      getQuestion();
-    }, [wlh]);
-    
-    const commentLength = newCommentList.length;
-    const dateBase = new Date(questionDetail.publishTime);
-    const date = dateBase.toString().substring(0, 24);
-    // 삭제기능
-    const handleRemove = () => {
-      if (window.confirm(`정말로 질문을 삭제하시겠습니까?`)) {
-        fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}/`, {
+  };
+  useEffect(() => {
+    getQuestion();
+  }, [wlh]);
+
+  const commentLength = newCommentList.length;
+  // 삭제기능
+  const handleRemove = () => {
+    if (window.confirm(`정말로 질문을 삭제하시겠습니까?`)) {
+      fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}/`, {
         method: "DELETE",
       }).then((res) => {
         if (res.ok) {
@@ -77,7 +79,7 @@ export default function CommunityQuestionDetailRoot() {
             </div>
             <div className="flex justify-start items-center relative pb-7 border-b">
               <img
-                className="w-[50px] h-[50px] object-cover rounded-full"
+                className="w-[50px] h-[50px] object-cover rounded-full border"
                 src={
                   image
                     ? image
@@ -94,7 +96,10 @@ export default function CommunityQuestionDetailRoot() {
                   </div>
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
-                  {date} &nbsp; 조회수 {questionDetail.hit}
+                  {Moment(questionDetail.publishTime).format(
+                    "YYYY년 MM월 DD일 HH:DD"
+                  )}
+                  &nbsp; 조회수 {questionDetail.hit}
                 </div>
               </div>
               <div className={thisIsMine ? "absolute right-0" : "invisible"}>
@@ -121,7 +126,7 @@ export default function CommunityQuestionDetailRoot() {
           userId={info.userId}
         />
       )}
-      <div className="w-full bg-gray-100 mt-[50px] border-b-2">
+      <div className="w-full bg-gray-100 mt-[50px] border-b">
         <div className="flex justify-center">
           <QustionLectureShort lecture={questionDetail.lecture} />
         </div>

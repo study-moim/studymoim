@@ -21,7 +21,7 @@ export default function LectureQuestion({ lectureQuestion }) {
               ? slicedContent
               : lectureQuestion.content}
           </div>
-          <div className="flex flex-row items-center gap-[30px] pb-5">
+          <div className="flex flex-row items-center gap-[30px] pb-2">
             <p className="text-[12px] font-bold">
               {lectureQuestion.user.nickname}
             </p>
