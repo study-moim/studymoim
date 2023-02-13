@@ -1,12 +1,9 @@
 import { useRef, useState } from "react";
-// import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
 import DeleteModal from "../overall/DeleteModal";
 import { useNavigate, useParams } from "react-router";
 
 
-export default function StudyMakeForm({propData}) { 
-  console.log(propData)  
+export default function StudyMakeForm({propData}) {  
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const studyId = useParams(); 
   const navigate = useNavigate(); 
@@ -98,6 +95,7 @@ export default function StudyMakeForm({propData}) {
                   id="recruitMembers"
                   ref={memberRef} 
                   required 
+                  key={propData.member} 
                   defaultValue={propData.member}> 
                     <option value={2}>2명</option>
                     <option value={3}>3명</option>
@@ -131,6 +129,7 @@ export default function StudyMakeForm({propData}) {
                 id="recruitMethod"
                 ref={recruitRef} 
                 required
+                key={propData.publics} 
                 defaultValue={propData.publics}
               >
                 <option value={true}>공개</option>
@@ -147,6 +146,7 @@ export default function StudyMakeForm({propData}) {
                 id="finishMethod"
                 ref={finishRef}
                 required
+                key={propData.finish}  
                 defaultValue={propData.finish}
               >
                <option value={false}>모집중</option>
@@ -163,6 +163,7 @@ export default function StudyMakeForm({propData}) {
                 id="closeMethod"
                 ref={closeRef}
                 required
+                key={propData.close} 
                 defaultValue={propData.close}
               >
                 <option value={false}>진행중</option>
