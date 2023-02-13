@@ -18,7 +18,7 @@ export default function NavPagination({breakLabel,
         onPageChange(idx)
         computePageDisplay()
     }
-    console.log(pageCount)
+  
     function computePageDisplay() {
         let newDisplay = []
         if(pageRangeDisplayed/2 > (currentPage-1)) {

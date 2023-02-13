@@ -75,12 +75,12 @@ export default function CourseBanner({ dataForBanner }) {
         )}
         <p className="text-[20px]">{likeCount}</p>
       </div>
-      <button
+      {/* <button
         className="px-[65px] py-[18px] rounded-[15px] bg-[#ff7262] border-2 border-[#2e2f35] hover:animate-pulse text-base font-bold text-center uppercase text-white"
         style={{ boxShadow: "3px 3px 0px 0 #2e2f35" }}
       >
         강의듣기
-      </button>
+      </button> */}
     </div>
   );
 }
