@@ -5,6 +5,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import LectureQuestion from "./LectureQuestion";
 import { useState, useEffect } from "react";
 import NavPagination from "../NavBar/NavPagination.jsx";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function QuestionRoot() {
   //getQuestions();
@@ -103,8 +104,8 @@ export default function QuestionRoot() {
         )) : null}
       </div>
       <NavPagination
-          firstLabel="처음"
-          lastLabel="마지막"
+          firstLabel={<FontAwesomeIcon icon={faChevronLeft}/>}
+          lastLabel={<FontAwesomeIcon icon={faChevronRight}/>}
           breakLabel="..."
           onPageChange={setCurrentPage}
           pageCount={page ? page.totalPages+1 : 0}

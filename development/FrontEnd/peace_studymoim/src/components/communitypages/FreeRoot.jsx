@@ -6,6 +6,7 @@ import FreeQuestion from "./FreeQuestion";
 import { useState, useEffect } from "react";
 import {data} from "autoprefixer";
 import NavPagination from "../NavBar/NavPagination.jsx";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function FreeRoot() {
   //getArticles();
@@ -104,8 +105,8 @@ export default function FreeRoot() {
         )) : null}
       </div>
       <NavPagination
-          firstLabel="처음"
-          lastLabel="마지막"
+          firstLabel={<FontAwesomeIcon icon={faChevronLeft}/>}
+          lastLabel={<FontAwesomeIcon icon={faChevronRight}/>}
           breakLabel="..."
           onPageChange={setCurrentPage}
           pageCount={page ? page.totalPages+1 : 0}
