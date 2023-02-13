@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import userInfo from "../../zustand/store";
 import { Link, NavLink } from "react-router-dom";
+import Moment from "moment";
+import "moment/locale/ko";
 
 export default function QuestionComment({ comment, commentUserId }) {
   const [pt, setPt] = useState(comment.publishTime);
@@ -18,8 +20,6 @@ export default function QuestionComment({ comment, commentUserId }) {
   }, []);
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const dateBase = new Date(comment.publishTime);
-  const date = dateBase.toString().substring(0, 24);
 
   const handleRemove = () => {
     if (window.confirm(`댓글을 삭제하시겠습니까?`)) {
@@ -58,7 +58,9 @@ export default function QuestionComment({ comment, commentUserId }) {
                   </div>
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
-                  {date}
+                {Moment(comment.publishTime).format(
+                    "YYYY년 MM월 DD일 HH:DD"
+                  )}
                 </div>
               </div>
             </div>
