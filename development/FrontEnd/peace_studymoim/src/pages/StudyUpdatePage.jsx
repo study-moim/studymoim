@@ -29,7 +29,7 @@ export default function StudyUpdatePage() {
           setStart(json.startTime);
           setFinish(json.finished);
           setClose(json.close); 
-          setPublics(json.publics);   
+          setPublics(json.public);   
         });
     };
     getStudyDetail();
