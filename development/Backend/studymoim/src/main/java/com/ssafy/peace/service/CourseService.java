@@ -10,6 +10,8 @@ import com.ssafy.peace.entity.Curriculum;
 import com.ssafy.peace.entity.UserLikeCourse;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,15 +66,9 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<StudyDto.Info> getStudyAttendingCourse(Integer courseId) {
-        List<StudyDto.Info> result = new ArrayList<>();
-        List<Curriculum> curricula = curriculumRepository.findAllByCourse_CourseId(courseId);
-        for (Curriculum curriculum :
-                curricula) {
-            result.add(studyRepository.findById(curriculum.getStudy().getStudyId())
-                    .map(StudyDto.Info::fromEntity).get());
-        }
-        return result;
+    public Page<StudyDto.Info> getStudyAttendingCourse(Integer courseId, Pageable pageable) {
+        return studyRepository.findAllByCurriculumContains(courseId, pageable)
+                .map(StudyDto.Info::fromEntity);
     }
 
     public boolean getUserLikeCourse(int userId, int courseId) {
