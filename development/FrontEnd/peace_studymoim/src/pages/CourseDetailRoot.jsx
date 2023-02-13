@@ -31,7 +31,7 @@ export default function CourseDetailRoot() {
     "key": "title",
     "word": "",
     "page": 0,
-    "size": 10
+    "size": 5
   });
 
   useEffect(() => {
@@ -82,13 +82,6 @@ export default function CourseDetailRoot() {
       likeUserCount: props.likeUserCount,
     });
   };
-  // const studyInThisCourse = useFetch(
-  //   `http://${API_SERVER}/api/v1/course/${props.course_id}/study_list`
-  // );
-  //
-  // const questionInThisCourse = useFetch(
-  //   `http://${API_SERVER}/api/v1/articles/question/course/${props.course_id}`
-  // );
 
   // 누르면 전체/강의/자유 색이 바뀜
   const GetClick = (event) => {
