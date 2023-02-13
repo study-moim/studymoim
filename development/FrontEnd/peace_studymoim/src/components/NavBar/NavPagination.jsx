@@ -45,6 +45,7 @@ export default function NavPagination({
     setPageDisplay(newDisplay);
   }
 
+<<<<<<< development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
   return (
     <nav
       aria-label="Page navigation example"
@@ -94,3 +95,37 @@ export default function NavPagination({
     </nav>
   );
 }
+=======
+    return(
+        <nav aria-label="Page navigation example" className="flex justify-center mt-3">
+            <ul className="inline-flex space-x-2">
+                <li>
+                    <div onClick={() => onPageClick(1)}
+                        className="px-3 py-2 ml-0 leading-tight rounded-full hover:bg-gray-100 dark:hover:text-white cursor-pointer">
+                        {firstLabel}
+                    </div>
+                </li>
+                {pageDisplay.filter((idx) => idx<=pageCount).map((idx) => (
+                    idx==currentPage ? (<li>
+                        <div onClick={() => onPageClick(idx)}
+                            className="px-3 py-2 leading-tight rounded-full bg-violet-100 cursor-pointer">
+                            {idx}
+                        </div>
+                    </li>) : (<li>
+                        <div onClick={() => onPageClick(idx)}
+                            className="px-3 py-2 leading-tight rounded-full bg-white  hover:bg-gray-100 cursor-pointer">
+                            {idx}
+                        </div>
+                    </li>)
+                ))}
+                <li>
+                    <div onClick={() => onPageClick(pageCount-1)}
+                        className="px-3 py-2 leading-tight rounded-full hover:bg-gray-100 cursor-pointer">
+                        {lastLabel}
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    )
+}
+>>>>>>> development/FrontEnd/peace_studymoim/src/components/NavBar/NavPagination.jsx
