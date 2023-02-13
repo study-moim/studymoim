@@ -174,7 +174,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addCourse(){
 
-        ClassPathResource classPathResource = new ClassPathResource("course.json");
+        ClassPathResource classPathResource = new ClassPathResource("course_full.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
@@ -203,7 +203,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addLecture(){
 
-        ClassPathResource classPathResource = new ClassPathResource("lecture.json");
+        ClassPathResource classPathResource = new ClassPathResource("lecture_full.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
