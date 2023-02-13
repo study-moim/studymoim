@@ -25,7 +25,8 @@ import TempPage from "./components/overall/TempPage";
 import TempPageForArticle from "./components/communitypages/TempPageForArticle";
 import MyPageRealRoot from "./pages/MyPageRealRoot";
 import ArticleCreateForm from "./components/communitypages/ArticleCreateForm";
-import LecturePlayerMainRoot from "./pages/LecturePlayerMainRoot.jsx";
+import LecturePlayerMainRoot from "./pages/LecturePlayerMainRoot";
+import MyPageTempPage from "./components/mypages/MyPageTempPage"
 
 export default function App() {
   return (
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="/login/kakao" element={<KakaoLoginRedirect />}></Route>
         <Route path="/search/:word" element={<Search />} />
         <Route path="/temp" element={<TempPage />} />
+        <Route path="/mypagetemp" element={<MyPageTempPage />} />
         <Route path="/temparticle" element={<TempPageForArticle />} />
         <Route
           path="/player/:lecture_id"

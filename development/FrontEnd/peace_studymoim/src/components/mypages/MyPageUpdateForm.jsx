@@ -2,6 +2,7 @@ import { useRef } from "react";
 import MyPageTagItem from "./MyPageTagItem";
 import { useState, useEffect } from "react";
 import userInfo from "../../zustand/store";
+import { useNavigate } from "react-router";
 
 export default function MyPageUpdateForm({ userId }) {
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
@@ -19,7 +20,7 @@ export default function MyPageUpdateForm({ userId }) {
   const saveNameRef = useRef();
   const nicknameRef = useRef(info.nickname);
   const selectFieldsRef = useRef();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getTag = async () => {
       if (modifyTag) {
@@ -72,10 +73,11 @@ export default function MyPageUpdateForm({ userId }) {
     }).then((res) => {
       if (res.ok) {
         alert("카테고리 수정완!");
+        window.location.reload()
       }
     });
   }
-
+  
   function submitNicknameHandler() {
     const nicknameInfo = {
       nickname: nickname,
@@ -89,28 +91,30 @@ export default function MyPageUpdateForm({ userId }) {
     }).then((res) => {
       if (res.ok) {
         alert("닉네임 수정완!");
+        navigate("/mypagetemp", { state: { fromWhere: userId } });
       }
     });
   }
-
+  
   function submitImageHandler(image) {
     const imageData = new FormData();
     imageData.append("file", image);
-
+    
     fetch(`http://${API_SERVER}/api/v1/user/${userId}/image`, {
       method: "POST",
       body: imageData,
     }).then((res) => {
       if (res.ok) {
         alert("이미지 수정완!");
+        navigate("/mypagetemp", { state: { fromWhere: userId } });
       }
     });
   }
-
+  
   const onChangeNickname = (nicknameCurrent) => {
     const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
     setNickname(nicknameCurrent);
-
+    
     if (!nicknameRegex.test(nicknameCurrent)) {
       setNicknameMessage("한글 2-6자로 입력해주세요");
     } else {
@@ -124,7 +128,10 @@ export default function MyPageUpdateForm({ userId }) {
         <div className="flex flex-row justify-start gap-5">
           <div className="flex flex-col gap-2 items-center pr-5 border-r">
             {preview ? (
-              <img src={preview} className="border rounded-full w-[100px] h-[100px] my-4" />
+              <img
+                src={preview}
+                className="border rounded-full w-[100px] h-[100px] my-4"
+              />
             ) : (
               <img
                 src={IMAGE_ROOT + info.saveName}
@@ -153,7 +160,10 @@ export default function MyPageUpdateForm({ userId }) {
               }}
             />
             <button
-              onClick={() => {setPreview("/logo.png"); submitImageHandler(null); }}
+              onClick={() => {
+                setPreview("/logo.png");
+                submitImageHandler(null);
+              }}
               className="w-[150px] text-[13px] py-1 text-[#b1b2ff] hover:bg-gray-100"
             >
               이미지 제거
@@ -170,7 +180,9 @@ export default function MyPageUpdateForm({ userId }) {
               <p className="text-[14px] font-bold mb-2">닉네임</p>
               {!modifyNickname ? (
                 <>
-                  <p className="text-[13px] max-w-[300px] p-2 border-b">{info.nickname}</p>
+                  <p className="text-[13px] max-w-[300px] p-2 border-b">
+                    {info.nickname}
+                  </p>
                   <button
                     onClick={() => setModifyNickname(true)}
                     className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
@@ -191,7 +203,9 @@ export default function MyPageUpdateForm({ userId }) {
                     onChange={(e) => onChangeNickname(e.target.value)}
                   />
                   {nickname.length > 0 && (
-                    <p className="text-[13px] text-[#8587eb]">{nicknameMessage}</p>
+                    <p className="text-[13px] text-[#8587eb]">
+                      {nicknameMessage}
+                    </p>
                   )}
                   <button
                     onClick={() => {
@@ -208,12 +222,18 @@ export default function MyPageUpdateForm({ userId }) {
           </div>
         </div>
         <div className="flex flex-col justify-start my-5 w-ful pl-1">
-          <p className="text-[15px] font-bold text-black mt-5 mb-3">나의 관심 분야</p>
+          <p className="text-[15px] font-bold text-black mt-5 mb-3">
+            나의 관심 분야
+          </p>
           {!modifyTag ? (
             <>
               <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
-                  <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                  <MyPageTagItem
+                    key={tag.courseCategoryId}
+                    tag={tag}
+                    isModify={modifyTag}
+                  />
                 ))}
               </div>
               <button
@@ -238,11 +258,18 @@ export default function MyPageUpdateForm({ userId }) {
                           }
                         }
                       } else {
-                        setSelectedField([...selectedField, tag.courseCategoryId]);
+                        setSelectedField([
+                          ...selectedField,
+                          tag.courseCategoryId,
+                        ]);
                       }
                     }}
                   >
-                    <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                    <MyPageTagItem
+                      key={tag.courseCategoryId}
+                      tag={tag}
+                      isModify={modifyTag}
+                    />
                   </div>
                 ))}
               </div>
