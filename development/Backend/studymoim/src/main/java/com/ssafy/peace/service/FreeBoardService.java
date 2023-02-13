@@ -10,6 +10,8 @@ import com.ssafy.peace.repository.FreeBoardRepository;
 import com.ssafy.peace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +32,8 @@ public class FreeBoardService {
     private final AlarmRepository alarmRepository;
 
     @Transactional
-    public List<FreeBoardDto.Detail> getFreeBoardList() throws RollbackException {
-        return freeBoardRepository.findAllByIsDeletedIsFalse().stream()
+    public Page<FreeBoardDto.Detail> getFreeBoardList(Pageable pageable) throws RollbackException {
+        return freeBoardRepository.findAllByIsDeletedIsFalse(pageable)
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
@@ -39,9 +41,7 @@ public class FreeBoardService {
                                 .filter(comment -> !comment.isDeleted())
                                 .collect(Collectors.toList()));
                     return res;
-                })
-                .sorted(Comparator.comparing(FreeBoardDto.Detail::getPublishTime).reversed())
-                .collect(Collectors.toList());
+                });
     }
 
     @Transactional
@@ -106,8 +106,8 @@ public class FreeBoardService {
                 .build().updateId(commentId)));
     }
 
-    public List<FreeBoardDto.Detail> searchFreeBoardByTitle(String key) {
-        return freeBoardRepository.findAllByTitleContaining(key).stream()
+    public Page<FreeBoardDto.Detail> searchFreeBoardByTitle(String key, Pageable pageable) {
+        return freeBoardRepository.findAllByIsDeletedIsFalseAndTitleContaining(key, pageable)
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
@@ -115,12 +115,11 @@ public class FreeBoardService {
                                     .filter(comment -> !comment.isDeleted())
                                     .collect(Collectors.toList()));
                     return res;
-                })
-                .collect(Collectors.toList());
+                });
     }
 
-    public List<FreeBoardDto.Detail> searchFreeBoardByContent(String key) {
-        return freeBoardRepository.findAllByContentContaining(key).stream()
+    public Page<FreeBoardDto.Detail> searchFreeBoardByContent(String key, Pageable pageable) {
+        return freeBoardRepository.findAllByIsDeletedIsFalseAndContentContaining(key, pageable)
                 .map(freeBoard -> {
                     FreeBoardDto.Detail res = FreeBoardDto.Detail.fromEntity(freeBoard);
                     res.setFreeBoardComments(
@@ -128,8 +127,7 @@ public class FreeBoardService {
                                     .filter(comment -> !comment.isDeleted())
                                     .collect(Collectors.toList()));
                     return res;
-                })
-                .collect(Collectors.toList());
+                });
     }
 
 }

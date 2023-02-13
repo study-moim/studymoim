@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,19 @@ public class QuestionBoardController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/")
-    public ResponseEntity<?> boardList() {
+    @GetMapping("")
+    public ResponseEntity<?> boardList(@RequestParam(required = false, value = "key") String key,
+                                       @RequestParam(required = false, value = "word") String word,
+                                       Pageable pageable) {
         try{
-            return new ResponseEntity<>(questionBoardService.getQuestionBoardList(), HttpStatus.OK);
+            if (key == null || key.isEmpty()) {
+                return new ResponseEntity<>(questionBoardService.getQuestionBoardList(pageable), HttpStatus.OK);
+            }
+            else if (key.equals("title"))
+                return new ResponseEntity<>(questionBoardService.searchQuestionBoardByTitle(word, pageable), HttpStatus.OK);
+            else if (key.equals("content"))
+                return new ResponseEntity<>(questionBoardService.searchQuestionBoardByContent(word, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(questionBoardService.getQuestionBoardList(pageable), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
