@@ -1,6 +1,8 @@
 package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.Lecture;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +14,7 @@ public interface LectureRepository extends JpaRepository<Lecture, Integer> {
     /*
     특정 강좌에 포함된 강의 찾기, 개수 세기
      */
-    List<Lecture> findAllByCourse_CourseId(Integer courseId);
+    Page<Lecture> findAllByCourse_CourseId(Integer courseId, Pageable pageable);
 //
 //    Long countByCourseIdAndDeletedIsFalse(Integer courseId);
 
