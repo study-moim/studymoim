@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import DeleteModal from "../overall/DeleteModal";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
@@ -16,27 +16,13 @@ export default function StudyMakeForm(props) {
   const { info } = userInfo();
 
   // 모집인원
-  const [memberSelect, setMemberSelect] = useState();
-  const memberOptionList = [
-    { value: 2, label: "2명" },
-    { value: 3, label: "3명" },
-    { value: 4, label: "4명" },
-    { value: 5, label: "5명" },
-    { value: 6, label: "6명" },
-  ];
-
+  const memberSelect = useRef();
   // 시작예정일
-  const [startSelect, setStartSelect] = useState("");
-
+  const startSelect = useRef(); 
   // 인원모집방법
-  const [recruitSelect, setRecruitSelect] = useState(true);
-  const recruitOptionList = [
-    { value: true, label: "공개" },
-    { value: false, label: "수락" },
-  ];
-
+  const recruitSelect = useRef(); 
+ 
   // 강좌 선택
-
   const [selectedOptions, setSelectedOptions] = useState([]);
   const courseOptionList = search.map((course) =>
     Object.assign({ value: course.course_id, label: course.title })
@@ -47,9 +33,9 @@ export default function StudyMakeForm(props) {
   }
 
   // 제목
-  const [titleInput, setTitleInput] = useState("");
+  const titleInput = useRef();  
   // 내용
-  const [contentInput, setContentInput] = useState("");
+  const contentInput = useRef(); 
 
   function submitHandler(event) {
     event.preventDefault();
@@ -58,13 +44,13 @@ export default function StudyMakeForm(props) {
     });
 
     const studyRecruitData = {
-      title: titleInput,
-      content: contentInput,
-      startTime: startSelect,
-      userLimit: memberSelect,
+      title: titleInput.current.value,
+      content: contentInput.current.value, 
+      startTime: startSelect.current.value, 
+      userLimit: memberSelect.current.value, 
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
-      public: recruitSelect,
+      public: recruitSelect.current.value, 
     };
     console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
@@ -99,13 +85,17 @@ export default function StudyMakeForm(props) {
             <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">모집인원</p>
               <div className="w-full">
-                <Select
+              <select
                   id="recruitMembers"
-                  placeholder="모집인원을 선택하세요."
-                  onChange={(e) => setMemberSelect(e.value)}
-                  defaultValue={{ value: 2, label: "2명" }}
-                  options={memberOptionList}
-                />
+                  ref={memberSelect} 
+                  required
+                >
+                  <option value={2}>2명</option>
+                  <option value={3}>3명</option>
+                  <option value={4}>4명</option>
+                  <option value={5}>5명</option>
+                  <option value={6}>6명</option>
+                </select>
               </div>
             </div>
 
@@ -118,8 +108,7 @@ export default function StudyMakeForm(props) {
                 type="date"
                 min="2023-01-01"
                 max="2024-12-31"
-                onChange={(e) => setStartSelect(e.target.value)}
-                className="rounded border-2"
+                ref={startSelect} 
               />
             </div>
 
@@ -127,13 +116,14 @@ export default function StudyMakeForm(props) {
             <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
               <p className="text-[20px] text-left">인원 모집 방법</p>
               <div className="w-full">
-                <Select
+                <select
                   id="recruitMethod"
-                  onChange={(e) => setRecruitSelect(e.value)}
-                  value={{ value: true, label: "공개" }}
+                  ref={recruitSelect} 
                   required
-                  options={recruitOptionList}
-                />
+                >
+                  <option value={true}>공개</option>
+                  <option value={false}>수락</option>
+                </select> 
               </div>
             </div>
 
@@ -180,7 +170,7 @@ export default function StudyMakeForm(props) {
           <div className="flex flex-col w-full justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
             <input
               type="text"
-              onChange={(e) => setTitleInput(e.target.value)}
+              ref={titleInput}
               id="title"
               required
               className="w-full mt-3 h-[50px] justify-center border"
@@ -189,14 +179,14 @@ export default function StudyMakeForm(props) {
               max={30}
             />
 
-            <div className="container">
+       
               <textarea
                 required
-                value={contentInput}
+                ref={contentInput}
                 placeholder="스터디 설명을 써주세요."
-                onChange={setContentInput}
+                className="w-full mt-3 h-[300px] justify-center border"
               />
-            </div>
+          
             <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
               <div
                 className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
