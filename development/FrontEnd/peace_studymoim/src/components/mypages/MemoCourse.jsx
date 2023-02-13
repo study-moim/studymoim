@@ -1,14 +1,33 @@
 import { useState } from "react";
-import MemoLecture from "./MemoLecture";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
-
+import MemoItem from "./MemoItem";
+import { useEffect } from "react";
+import { useParams } from "react-router";
 export default function MemoCourse({ courseData }) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const [memoLectureToggle, setMemoLectureToggle] = useState(false);
+  const info = useParams();
+ 
+  // const info = userInfo();
   const clickTriangle = () => {
     setMemoLectureToggle(!memoLectureToggle);
   };
+  const [lectureInfo, setLectureInfo] = useState([]);
   const slicedTitle = courseData.title.substring(0, 50) + "...";
+  useEffect(() => {
+    const getLectureMemo = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/note/lecture/${info.user_id}/${courseData.course_id}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setLectureInfo(json);
+        });
+    };
+    getLectureMemo();
+  }, [memoLectureToggle]);
+
   return (
     <div>
       <div
@@ -33,7 +52,9 @@ export default function MemoCourse({ courseData }) {
         </div>
       </div>
       {memoLectureToggle ? (
-        <MemoLecture key={courseData.course_id} courseId={courseData.course_id} />
+        lectureInfo.map((lecture) => (
+          <MemoItem key={lecture.lectureId} lectureData={lecture} userId={info.user_id}/>
+        ))
       ) : null}
     </div>
   );
