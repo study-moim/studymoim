@@ -1,39 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import Moment from "moment";
+import "moment/locale/ko";
+
 export default function RingModal(props) {
-    const navigate = useNavigate();
-    console.log(props.alarm)
-    return (
+  return (
     <>
-        <Link to={props.alarm.url} onClick={props.onLinkClick}>
-        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 hover:brightness-90">
-            <div
-                className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[440px] gap-2 pt-2 pb-4 bg-white"
-                style={{ boxShadow: "0px 1px 0px 0 #e4e8ee" }}
-            >
-                <div className="flex flex-col justify-end items-end self-stretch flex-grow-0 flex-shrink-0 pl-10">
-                    <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4 px-4">
-                            <div className="flex justify-start items-center flex-grow relative gap-2.5">
-
-                                <p className="flex-grow w-[360px] text-sm text-left">
-                                    <span className="flex-grow w-[360px] text-sm text-left text-black">
-                        {" "}
-                                        {props.alarm.content} {" "}
-                      </span>
-                                </p>
-                            </div>
-                    </div>
-                </div>
-                <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 pl-16">
-                    <p className="flex-grow-0 flex-shrink-0 text-sm text-left text-[#a5acb8]">
-                        {props.alarm.publishTime.replace('T', ' ')}
-                    </p>
-                </div>
-            </div>
+      <Link to={props.alarm.url} onClick={props.onLinkClick}>
+        <div className=" px-5 py-3 flex flex-col justify-start items-start hover:bg-gray-100 gap-2 border-t">
+          <p className="w-[360px] text-[15px]">{props.alarm.content}</p>
+          <p className="text-[14px] text-gray-500">
+            {Moment(props.alarm.publishTime).format("YYYY년 MM월 DD일 HH:DD")}{" "}
+          </p>
         </div>
-        </Link>
+      </Link>
     </>
-
-    )
+  );
 }

@@ -9,13 +9,13 @@ export default function ButtonModifyDelete({
         <div>
           <button
             onClick={clickModify}
-            className="text-[14px] text-center hover:font-bold text-[#aaab5a]"
+            className="text-[14px] text-center hover:font-bold"
           >
             수정 &nbsp;
           </button>
           <button
             onClick={handleRemove}
-            className="text-[14px] text-center hover:font-bold text-red-400"
+            className="text-[14px] text-center hover:font-bold "
           >
             삭제
           </button>
