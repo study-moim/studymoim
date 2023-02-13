@@ -16,7 +16,7 @@ export default function CourseQuestion({ propData, questionIndex }) {
           <p className="text-base">{propData.content}</p>
           <div className="flex flex-row gap-4">
             <p className="text-base">
-              작성일: {propData.publishTime.substring(0, 10)}
+              작성일: {propData.publishTime ? propData.publishTime.substring(0, 10) : null}
             </p>
             <p>조회수: {propData.hit}</p>
           </div>
