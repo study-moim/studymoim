@@ -44,7 +44,7 @@ public class UserService {
         userRepository.save(User.builder().email(userRegisterInfo.getEmail()).build());
         User user = userRepository.findByEmail(userRegisterInfo.getEmail());
         alarmRepository.save(Alarm.builder()
-                .content("가입을 축하합니다! 열공 열공 열공!")
+                .content("쓰임에 오신것을 환영합니다 :)")
                 .user(user)
                 .url("#")
                 .build());

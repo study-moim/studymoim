@@ -66,6 +66,7 @@ export default function QuestionEditForm({
           placeholder="제목을 입력하세요."
           ref={localTitleInput}
           value={localTitle}
+          maxLength="20"
           onChange={(e) => setLocalTitle(e.target.value)}
           required
         />
@@ -74,6 +75,7 @@ export default function QuestionEditForm({
           placeholder="마크다운 양식으로 입력이 가능합니다."
           ref={localContentInput}
           value={localContent}
+          maxLength="500"
           onChange={(e) => setLocalContent(e.target.value)}
           required
         />

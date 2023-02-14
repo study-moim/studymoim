@@ -45,7 +45,8 @@ export default function QuestionCommentForm({ questionBoardId }) {
     >
       <textarea
         className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
-        placeholder="댓글을 입력해주세요."
+        placeholder="댓글을 입력해주세요.(200자)"
+        maxLength="200"
         required
         ref={contentRef}
       />

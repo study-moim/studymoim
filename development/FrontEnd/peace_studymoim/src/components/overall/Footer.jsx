@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function Footer() {
   // 네비바 푸터 안보이기
   const locationNow = useLocation();
-  if (locationNow.pathname.startsWith("/player") || locationNow.pathname.startsWith("/choice")) return null;
+  if (locationNow.pathname.startsWith("/player") || locationNow.pathname.startsWith("/choice") || locationNow.pathname.startsWith("/login")) return null;
   return (
     <div className="w-full h-[350px] pt-[70px] p-[50px] bg-gray-100 text-[14px] text-gray-500">
       <div className="max-w-6xl mx-auto px-4 mb-5 flex flex-col">
