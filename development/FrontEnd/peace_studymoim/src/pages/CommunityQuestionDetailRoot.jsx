@@ -112,9 +112,9 @@ export default function CommunityQuestionDetailRoot() {
             </div>
           </div>
 
-          <div className="w-9/12 py-7 bg-white text-[20px] font-bold break-all">
+          <pre className="w-9/12 py-7 bg-white text-[20px] break-all whitespace-pre-wrap font-sans">
             {questionDetail.content}
-          </div>
+          </pre>
         </div>
       ) : (
         <QuestionEditForm
