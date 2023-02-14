@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-
-export default function DeleteModal(props) {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+export default function DeleteArticleModal(props) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       props.onCancel();
@@ -18,6 +19,7 @@ export default function DeleteModal(props) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+      <div id="배경" onClick={() => props.onCancel()} className="absolute opacity-25 w-full h-full inset-0 bg-black"></div>
         <div className="relative w-auto mx-auto max-w-3xl">
           {/*content*/}
           <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
@@ -63,7 +65,7 @@ export default function DeleteModal(props) {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      {/* <div className="opacity-25 fixed inset-0 z-40 bg-black"></div> */}
     </>
   );
 }
