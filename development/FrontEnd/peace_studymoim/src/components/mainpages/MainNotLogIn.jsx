@@ -138,23 +138,14 @@ export default function MainNotLogIn({ searchKey, searchData }) {
           </div>
         ))}
       </Slider> */}
-      {courseInfo.length > 3 ? (
+      {courseInfo && (
         <Slider {...settings}>
         {courseInfo.map((course) => (
           <div key={course.course_id}>
             <MainCourse key={course.course_id} propData={course} />
           </div>
         ))}
-      </Slider>
-      ): (
-        <div>
-           {courseInfo.map((course) => (
-          <div key={course.course_id}>
-            <MainCourse key={course.course_id} propData={course} />
-          </div>
-        ))}
-        </div>
-      ) }
+      </Slider> )}
       
 
       <div className="mb-5">
@@ -199,7 +190,7 @@ export default function MainNotLogIn({ searchKey, searchData }) {
         />
       </div>
 
-      {freeArticleInfo.length > 2 ? (
+      {freeArticleInfo && (
         <Slider {...twoSettings}>
           {freeArticleInfo.map((free) => (
             <div key={free.freeBoardId}>
@@ -207,14 +198,6 @@ export default function MainNotLogIn({ searchKey, searchData }) {
             </div>
           ))}
         </Slider>
-      ) : (
-        <div>
-          {freeArticleInfo.map((free) => (
-            <div key={free.freeBoardId}>
-              <MainFreeArticle key={free.freeBoardId} propData={free} />
-            </div>
-          ))}
-        </div>
       )}
 
       <div className="flex justify-start items-center">
@@ -227,7 +210,7 @@ export default function MainNotLogIn({ searchKey, searchData }) {
         />
       </div>
 
-      {courseArticleInfo.length > 2 ? (
+      {courseArticleInfo && (
         <Slider {...twoSettings}>
           {courseArticleInfo.map((course) => (
             <div key={course.questionBoardId}>
@@ -238,17 +221,6 @@ export default function MainNotLogIn({ searchKey, searchData }) {
             </div>
           ))}
         </Slider>
-      ) : (
-        <div>
-          {courseArticleInfo.map((course) => (
-            <div key={course.questionBoardId}>
-              <MainLectureQuestion
-                key={course.questionBoardId}
-                propData={course}
-              />
-            </div>
-          ))}
-        </div>
       )}
 
       <div className="my-5"></div>
