@@ -1,12 +1,12 @@
 import CourseBanner from "../components/coursedetail/CourseBanner";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useFetch from "../hooks/useFetch";
 import LectureShort from "../components/coursedetail/LectureShort";
 import StudyShort from "../components/coursedetail/StudyShort";
 import CourseQuestion from "../components/coursedetail/CourseQuestion";
 import NavPagination from "../components/NavBar/NavPagination.jsx";
-import questions from "../zustand/questions.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function CourseDetailRoot() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -131,21 +131,21 @@ export default function CourseDetailRoot() {
           <div
             id="curriculum"
             onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] font-bold text-center text-white cursor-pointer"
+            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
           >
             커리큘럼
           </div>
           <div
             id="study"
             onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] font-bold text-center text-white cursor-pointer"
+            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
           >
             스터디
           </div>
           <div
             id="community"
             onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[40px] rounded-tl-[15px] rounded-tr-[15px] bg-[#ad9dfe] border-0 text-[18px] font-bold text-center text-white cursor-pointer"
+            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
           >
             커뮤니티
           </div>
@@ -188,8 +188,8 @@ export default function CourseDetailRoot() {
           ) : null}
         </div>
         <NavPagination
-            firstLabel="처음"
-            lastLabel="마지막"
+            firstLabel={<FontAwesomeIcon icon={faChevronLeft}/>}
+            lastLabel={<FontAwesomeIcon icon={faChevronRight}/>}
             breakLabel="..."
             onPageChange={setCurrentPage}
             pageCount={page ? page.totalPages : 0}
