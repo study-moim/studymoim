@@ -45,49 +45,59 @@ export default function StudyRecruitModalNotOpen(props) {
   return (
     <>
       <div className="justify-center items-center flex fixed inset-0 z-50">
-        {/*content*/}
-        <div className="w-[350px] h-[450px] rounded-lg shadow-lg flex flex-col bg-white outline-none focus:outline-none">
-          {/*header*/}
-          <div className="flex items-center justify-between py-5 px-6 border-b">
-            <p className="font-bold">방장에게 보낼 메세지를 작성해주세요.</p>
-            <button className="transition-all" onClick={() => cancelHandler()}>
-              <FontAwesomeIcon
-                icon={faXmark}
-                size="lg"
-                className="hover:text-red-500"
-              />
-            </button>
-          </div>
-
-          {/*body*/}
-          <div className="flex flex-col items-center justify-center py-5 px-6 gap-5">
-            <form
-              onSubmit={submitHandler}
-              className="flex flex-col justify-center items-center"
-            >
-              <textarea
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-                maxLength={100}
-                ref={requestRef}
-                className="border border-2"
-              ></textarea>
-              <button className="flex justify-start items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 mt-2 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]">
-                제출하기
+        <div
+          id="배경"
+          onClick={() => props.onCancel()}
+          className="absolute opacity-25 w-full h-full inset-0 bg-black"
+        ></div>
+        <div className="relative w-auto mx-auto max-w-3xl">
+          {/*content*/}
+          <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
+            {/*header*/}
+            <div className="flex items-center justify-between py-5 px-6">
+              <p className="font-bold">스터디 신청</p>
+              <button
+                className="transition-all"
+                onClick={() => cancelHandler()}
+              >
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  size="lg"
+                  className="hover:text-red-500"
+                />
               </button>
-            </form>
-            <button
+            </div>
+
+            {/*body*/}
+            <div className="flex flex-col items-center justify-center px-6 gap-5">
+              <form
+                onSubmit={submitHandler}
+                className="flex flex-col justify-center items-center"
+              >
+                <textarea
+                  name=""
+                  id=""
+                  cols="60"
+                  rows="5"
+                  maxLength={100}
+                  ref={requestRef}
+                  className="border rounded-[15px] p-5"
+                  placeholder="방장에게 보낼 메세지를 입력해주세요."
+                ></textarea>
+                <button className="m-5 p-2.5 w-[80%] rounded-[10px] text-center text-[14px] border border-[#b1b2ff] hover:bg-[#b1b2ff]">
+                  제출하기
+                </button>
+              </form>
+              {/* <button
               className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
               onClick={cancelHandler}
             >
               신청 안할래요..
-            </button>
+            </button> */}
+            </div>
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </>
   );
 }

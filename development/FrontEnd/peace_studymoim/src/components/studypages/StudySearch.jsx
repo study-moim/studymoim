@@ -38,13 +38,16 @@ export default function StudySearch() {
           </form>
         </div>
       </div>
-        <div className="flex flex-row flex-wrap justify-start gap-3 mt-5 w-full">
-          {filterInfo.map((recruit) => (
-            <div key={recruit.studyId} className="cursor-pointer min-w-[32%]">
-              <StudyRecruitItem props={recruit} />
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-row flex-wrap justify-start gap-3 mt-5 w-full">
+        {filterInfo.map((recruit) => (
+          <div
+            key={recruit.studyId}
+            className="cursor-pointer min-w-[32%] max-w-[32%] min-h-[180px] max-h-[180px]"
+          >
+            <StudyRecruitItem props={recruit} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
