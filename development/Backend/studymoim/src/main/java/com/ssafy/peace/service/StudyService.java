@@ -304,13 +304,17 @@ public class StudyService {
                 .map(curriculum -> curriculum.getCourse()).collect(Collectors.toList());
         for (int i = 0; i < courseList.size(); i++) {
             Map<Integer, String> mapItem = new HashMap<>();
-            List<Map<String, Integer>> temp = studyRepository.findAllByProgress(studyId, courseList.get(i).getCourseId());
+            int val = lectureRepository.findAllByCourse_CourseId(courseList.get(i).getCourseId()).size();
+            List<Map<String, Integer>> temp = studyRepository.findAllUserProgress(studyId, courseList.get(i).getCourseId());
             ObjectMapper mapper = new ObjectMapper();
-            if(studyRepository.findAllByProgress(studyId, courseList.get(i).getCourseId()).size() != 0) {
+            if(val != 0) {
                 mapItem.put(courseList.get(i).getCourseId(), mapper.writeValueAsString(temp));
                 result.add(mapItem);
             }
         }
         return result;
     }
+
+//    public List getStudyCourseListHistoryByStudyId(Integer studyId) {
+//    }
 }
