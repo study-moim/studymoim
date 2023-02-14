@@ -331,13 +331,13 @@ public class StudyController {
         }
     }
 
-    @Operation(summary = "get study & user history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
+    @Operation(summary = "get user history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/coursehistory/{studyId}")
-    public ResponseEntity<?> getCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+    public ResponseEntity<?> getUserCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
         try{
             ObjectMapper mapper = new ObjectMapper();
             return new ResponseEntity<>(mapper.writeValueAsString(studyService.getCourseListHistoryByStudyId(studyId)), HttpStatus.ACCEPTED);
@@ -346,6 +346,22 @@ public class StudyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @Operation(summary = "get study history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+//    })
+//    @GetMapping("/coursehistorystudy/{studyId}")
+//    public ResponseEntity<?> getStudyCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+//        try{
+//            ObjectMapper mapper = new ObjectMapper();
+//            return new ResponseEntity<>(mapper.writeValueAsString(studyService.getStudyCourseListHistoryByStudyId(studyId)), HttpStatus.ACCEPTED);
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
 
