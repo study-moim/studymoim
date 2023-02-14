@@ -8,7 +8,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
-import StudyRecruitItem from "../studypages/StudyRecruitItem";
 import StudyListItem from "../mypages/StudyLiseItem";
 
 export default function MainLogIn({ searchKey, searchData }) {
@@ -18,20 +17,52 @@ export default function MainLogIn({ searchKey, searchData }) {
   const userNickname = info.nickname;
   const navigate = useNavigate();
 
+  const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
+    <span {...props}>{children}</span>
+  );
+
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 1,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1080,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 830,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   const recommendCourses = useFetch(
     `http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`
-  );
-  const myCourses = useFetch(
-    `http://${API_SERVER}/api/v1/user/${userId}/courses`
   );
   const myStudies = useFetch(
     `http://${API_SERVER}/api/v1/user/${userId}/studies`
@@ -58,85 +89,58 @@ export default function MainLogIn({ searchKey, searchData }) {
 
   return (
     <>
-      <div className="flex flex-row items-start">
-        <div className="flex flex-col justify-start w-5/12 mb-10">
-          {myCourses.length ? 
-            <div> 
-              {/* 듣던 강좌 있으면 내 강좌 띄워주고 없으면 추천 강좌 띄워줌  */}
-              <div className="flex justify-start items-center">
-                <p className="text-lg text-left font-bold my-5 mr-3">
-                  #내 강좌 바로가기
-                </p>
-              </div>
-              <Slider {...settings}>
-                {myCourses.map((course) => (
-                  <MainCourse key={course.course_id} propData={course} />
-                ))}
-              </Slider>
+      <div className="flex justify-start items-center">
+        <p className="text-lg text-left font-bold my-5">
+          # {userNickname}님 추천강좌
+        </p>
+      </div>
+      {filterInfo.length > 3 ? (
+        <Slider {...settings}>
+          {filterInfo.map((course) => (
+            <div key={course.course_id}>
+              <MainCourse key={course.course_id} propData={course} />
             </div>
-          : 
-            <div>
-              <div className="flex justify-start items-center">
-                <p className="text-lg text-left font-bold my-5 mr-3">
-                  #이런 강좌는 어떨까요?
-                </p>
-              </div>
+          ))}
+        </Slider>
+      ) : (
+        <div>
+          {filterInfo.map((course) => (
+            <MainCourse key={course.course_id} propData={course} />
+          ))}
+        </div>
+      )}
 
-                  <Slider {...settings}>
-                {recommendCourses.map((course) => (
-                  <MainCourse key={course.course_id} propData={course} />
-                ))}
-              </Slider>
-              
-            </div>
-          }
-        </div>
-        <div className="flex flex-col justify-start w-5/12 mb-10">
-          {myStudies.length ? 
-            <div>
-              <div className="flex justify-start items-center"> 
-            <p className="text-lg text-left font-bold my-5 mr-3">
-              #내 스터디 바로가기
-            </p>
-            <FontAwesomeIcon
-              icon={faCircleArrowRight}
-              onClick={() => {
-                navigate(`/mypage/${userId}`);
-              }}
-            />
-          </div>
-          <Slider {...settings}>
-            {myStudies.map((study) => (
-              <StudyListItem key={study.studyId} propData={study} />
-            ))}
-          </Slider>
-            </div>
-          : 
-          <div>
-              <div className="flex justify-start items-center"> 
-            <p className="text-lg text-left font-bold my-5 mr-3">
-              #이런 스터디는 어떨까요? 
-            </p>
-          </div>
-          <Slider {...settings}>
-            {studyInfo.map((study) => (
-              <MainStudy key={study.studyId} propData={study} />
-            ))}
-          </Slider>
-            </div>
-          }
-          
-        </div>
+      <div className="flex justify-start items-center">
+        <p className="text-lg text-left font-bold my-5"># 내 스터디 바로가기</p>
+        <FontAwesomeIcon
+          icon={faCircleArrowRight}
+          onClick={() => {
+            navigate(`/mypage/${userId}`);
+          }}
+        />
       </div>
 
-      <p className="text-lg text-left font-bold my-5">
-        #{userNickname}님 추천강좌
-      </p>
-      <div className="gap-5 mb-8 flex flex-row flex-wrap">
-        {filterInfo.map((course) => (
-          <MainCourse key={course.course_id} propData={course} />
-        ))}
-      </div>
+      {!myStudies && (
+        <Slider {...settings}>
+          {studyInfo.map((study) => (
+            <MainStudy key={study.studyId} propData={study} />
+          ))}
+        </Slider>
+      )}
+
+      {myStudies.length > 2 ? (
+        <Slider {...settings}>
+          {myStudies.map((study) => (
+            <StudyListItem key={study.studyId} propData={study} />
+          ))}
+        </Slider>
+      ) : (
+        <div className="flex justify-start">
+          {myStudies.map((study) => (
+            <StudyListItem key={study.studyId} propData={study} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

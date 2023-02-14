@@ -7,8 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import MainStudy from "./MainStudy";
-import MainFreeArticle from "./MainFreeArticle";
-import MainLectureQuestion from "./MainLectureQuestion";
 
 export default function MainNotLogIn({ searchKey, searchData }) {
   const navigate = useNavigate();
@@ -16,12 +14,6 @@ export default function MainNotLogIn({ searchKey, searchData }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course/`);
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
-  const freeArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/free`
-  ).content;
-  const courseArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/question`
-  ).content;
 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
@@ -180,50 +172,6 @@ export default function MainNotLogIn({ searchKey, searchData }) {
         )}
       </div>
 
-      <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3"># 자유 질문</p>
-        <FontAwesomeIcon
-          icon={faCircleArrowRight}
-          onClick={() => {
-            navigate("/community");
-          }}
-        />
-      </div>
-
-      {freeArticleInfo && (
-        <Slider {...twoSettings}>
-          {freeArticleInfo.map((free) => (
-            <div key={free.freeBoardId}>
-              <MainFreeArticle key={free.freeBoardId} propData={free} />
-            </div>
-          ))}
-        </Slider>
-      )}
-
-      <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3"># 강의 질문</p>
-        <FontAwesomeIcon
-          icon={faCircleArrowRight}
-          onClick={() => {
-            navigate("/community");
-          }}
-        />
-      </div>
-
-      {courseArticleInfo && (
-        <Slider {...twoSettings}>
-          {courseArticleInfo.map((course) => (
-            <div key={course.questionBoardId}>
-              <MainLectureQuestion
-                key={course.questionBoardId}
-                propData={course}
-              />
-            </div>
-          ))}
-        </Slider>
-      )}
-
-      <div className="my-5"></div>
     </>
   );
 }

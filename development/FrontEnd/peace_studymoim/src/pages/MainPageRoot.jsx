@@ -10,18 +10,28 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
+  faCircleArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 // import CourseTag from "../components/coursepages/CourseTag";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MainFreeArticle from "../components/mainpages/MainFreeArticle";
+import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 
 export default function MainPageRoot() {
   const navigate = useNavigate();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  
-  // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`) 
+
+  // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`)
+  const freeArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/free`
+  ).content;
+  const courseArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/question`
+  ).content;
+  console.log('아티클인포임ㅋ', courseArticleInfo)
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
@@ -39,7 +49,39 @@ export default function MainPageRoot() {
     autoplaySpeed: 3000,
   };
 
-  
+  const twoSettings = {
+    dots: false,
+    infinite: true,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   getArticles();
   getQuestions();
@@ -105,7 +147,50 @@ export default function MainPageRoot() {
         ) : (
           <MainNotLogIn searchKey={searchType} searchData={word} />
         )}
-  
+        <div className="flex justify-start items-center">
+          <p className="text-lg text-left font-bold my-5 mr-3"># 자유 질문</p>
+          <FontAwesomeIcon
+            icon={faCircleArrowRight}
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
+        </div>
+
+        {freeArticleInfo && (
+          <Slider {...twoSettings}>
+            {freeArticleInfo.map((free) => (
+              <div key={free.freeBoardId}>
+                <MainFreeArticle key={free.freeBoardId} propData={free} />
+              </div>
+            ))}
+          </Slider>
+        )}
+
+        <div className="flex justify-start items-center">
+          <p className="text-lg text-left font-bold my-5 mr-3"># 강의 질문</p>
+          <FontAwesomeIcon
+            icon={faCircleArrowRight}
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
+        </div>
+
+        {courseArticleInfo && (
+          <Slider {...twoSettings}>
+            {courseArticleInfo.map((course) => (
+              <div key={course.questionBoardId}>
+                <MainLectureQuestion
+                  key={course.questionBoardId}
+                  propData={course}
+                />
+              </div>
+            ))}
+          </Slider>
+        )}
+
+        <div className="my-5"></div>
       </div>
     </div>
   );
