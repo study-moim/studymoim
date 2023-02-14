@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 
 export default function StudyRecruitItem({ props }) {
-  const slicedContent = props.content.substring(0, 100) + "...";
+  const slicedTitle = props.content.substring(0, 18) + "...";
   const firstcourse = props.curricula.map((e) => {
     return e.course.title;
   });
@@ -11,12 +11,12 @@ export default function StudyRecruitItem({ props }) {
   return (
     <div className="rounded-[15px] border px-5 pt-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md">
       <Link to={`/study/${props.studyId}`}>
-        <div className="font-bold text-[18px] my-3">{props.title}</div>
+        <div className="font-bold text-[18px] my-3">{props.title.length > 18 ? slicedTitle : props.title}</div>
         <div className="text-[12px] my-3 text-gray-800">
           {/* {props.content > 100 ? slicedContent : props.content} */}
           {/* <div dangerouslySetInnerHTML={{ __html: props.content }}></div> */}
         </div>
-        <div className="flex flex-col justify-start items-start pb-2 border-b">
+        <div className="min-h-[36px] flex flex-col justify-start items-start pb-2 border-b">
           <p className="text-[12px]">
             참가인원: {props.userGathered} / {props.userLimit} 명
           </p>

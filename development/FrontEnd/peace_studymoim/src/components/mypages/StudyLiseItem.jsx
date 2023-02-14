@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 
 export default function StudyListItem({ propData }) {
-  const slicedContent = propData.content.substring(0, 100) + "...";
+  const slicedTitle = propData.title.substring(0, 10) + "...";
   const firstcourse = propData.curricula.map((e) => {
     return e.course.title;
   });
@@ -27,20 +27,22 @@ export default function StudyListItem({ propData }) {
                         <p className="text-sm text-left text-black">{ propData.content}</p>
                     </div>
                 </div> */}
-        <div className="rounded-[15px] border px-5 py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md ">
-          <div className="font-bold text-[18px] my-3">{propData.title}</div>
-          <div className="text-[12px] my-3 text-gray-800">
-            {propData.content > 100 ? slicedContent : propData.content}
-            {/* <div dangerouslySetInnerHTML={{ __html: props.content }}></div> */}
+        <div className=" rounded-[15px] border px-5 py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md ">
+          <div className="font-bold text-[18px] my-3">
+            {propData.title.length > 10 ? slicedTitle : propData.title}
           </div>
           <div className="flex flex-col justify-start items-start pb-2 border-b">
             <p className="text-[12px]">
               참가인원: {propData.userGathered} / {propData.userLimit} 명
             </p>
             <p className="text-[12px]">{propData.startTime} 시작</p>
-            <p className=" text-[12px]">
-              {firstcourse[0]} 외 {propData.curricula.length - 1}개 강의
-            </p>
+            {propData.curricula.length ? (
+              <p className="min-h-[36px] text-[12px]">
+                {firstcourse[0]} 외 {propData.curricula.length - 1}개 강좌{" "}
+              </p>
+            ) : (
+              <p className="min-h-[36px] text-[12px]"> 등록된 강좌가 없음 </p>
+            )}
           </div>
           <NavLink
             to={`/mypage/${propData.leadUser.userId}`}
