@@ -1,5 +1,6 @@
 package com.ssafy.peace.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -323,6 +325,22 @@ public class StudyController {
         try{
             studyService.addStudyCommunity(studyCommunityDto);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get study & user history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/coursehistory/{studyId}")
+    public ResponseEntity<?> getCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<>(mapper.writeValueAsString(studyService.getCourseListHistoryByStudyId(studyId)), HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
