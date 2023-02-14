@@ -45,7 +45,8 @@ export default function CommunityCommentForm({ freeBoardId }) {
     >
       <textarea
         className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
-        placeholder="댓글을 입력해주세요."
+        placeholder="댓글을 입력해주세요.(200자)"
+        maxLength="200"
         ref={contentRef}
       />
       <button className="p-2.5 w-[100px] rounded-[10px] text-center font-bold text-[14px] text-white bg-[#b1b2ff] hover:bg-[#9697ff] mb-3">
