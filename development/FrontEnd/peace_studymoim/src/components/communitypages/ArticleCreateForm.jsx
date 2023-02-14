@@ -103,7 +103,7 @@ export default function ArticleCreateForm() {
             placeholder="제목을 입력하세요.(최대 20자)"
             ref={titleRef}
             required
-            maxlength='20'
+            // maxlength='20'
             onClick={clickTitle}
             onMouseLeave={() => setTitleIsActive(true)}
           />
@@ -111,13 +111,13 @@ export default function ArticleCreateForm() {
             className={
               titleIsActive
                 ? "hidden"
-                : "transition-opacity bg-gray-800 px-1 text-base text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 translate-y-full opacity-100 m-4 mx-auto"
+                : "transition-opacity bg-gray-800 px-1 text-base text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 translate-y-full opacity-100 z-1 m-4 mx-auto"
             }
           >
             제목을 20자 이하로 작성해주세요
           </span>
         </div>
-        <div class="group flex relative w-full">
+        <div class="group flex relative w-full z-0">
           <textarea
             className={
               contentIsActive
@@ -128,7 +128,7 @@ export default function ArticleCreateForm() {
             }
             placeholder="내용을 입력하세요.(500자)"
             ref={contentRef}
-            maxlength='500'
+            // maxlength='500'
             onChange={changeContentValue}
             onClick={() => {
               clickTitle(), clickContent();
