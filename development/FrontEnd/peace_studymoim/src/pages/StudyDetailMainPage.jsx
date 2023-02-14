@@ -71,27 +71,27 @@ export default function StudyDetailMainPage() {
         userInfo={userInformation}
       />
 
-      <div className="flex flex-col w-full mt-10">
+      <div className="flex flex-col w-full mt-5">
         {info.userId === userList.userId ? (
           <div className="flex justify-start items-start w-full">
             <button
               id="realtime"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               실시간 강의
             </button>
             <button
               id="community"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               커뮤니티
             </button>
             <button
               id="progress"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               커리큘럼
             </button>
@@ -99,7 +99,7 @@ export default function StudyDetailMainPage() {
             <button
               id="membermanagement"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               멤버관리
             </button>
@@ -109,21 +109,21 @@ export default function StudyDetailMainPage() {
             <button
               id="realtime"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               실시간 강의
             </button>
             <button
               id="community"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               커뮤니티
             </button>
             <button
               id="progress"
               onClick={GetClick}
-              className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
+              className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
               커리큘럼
             </button>
@@ -131,7 +131,7 @@ export default function StudyDetailMainPage() {
         )}
 
         {info.userId === userList.userId ? (
-          <div className="p-3 bg-white border border-[#898989]">
+          <div className="mb-[50px] p-3 bg-white border border-[#898989]">
             {currentClick === "realtime" ? (
               <NowPlayStudy
                 propData={detailData}
@@ -156,7 +156,7 @@ export default function StudyDetailMainPage() {
             ) : null}
           </div>
         ) : (
-          <div className="p-3 bg-white border border-[#898989]">
+          <div className="mb-[50px] p-3 bg-white border border-[#898989]">
             {currentClick === "realtime" ? (
               <NowPlayStudy
                 propData={detailData}
