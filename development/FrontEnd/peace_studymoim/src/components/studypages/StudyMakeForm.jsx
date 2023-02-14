@@ -3,6 +3,12 @@ import DeleteModal from "../overall/DeleteModal";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 import Select from "react-select";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendar,
+  faUser,
+  faCircleCheck,
+} from "@fortawesome/free-regular-svg-icons";
 
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
@@ -18,10 +24,10 @@ export default function StudyMakeForm(props) {
   // 모집인원
   const memberSelect = useRef();
   // 시작예정일
-  const startSelect = useRef(); 
+  const startSelect = useRef();
   // 인원모집방법
-  const recruitSelect = useRef(); 
- 
+  const recruitSelect = useRef();
+
   // 강좌 선택
   const [selectedOptions, setSelectedOptions] = useState([]);
   const courseOptionList = search.map((course) =>
@@ -33,9 +39,9 @@ export default function StudyMakeForm(props) {
   }
 
   // 제목
-  const titleInput = useRef();  
+  const titleInput = useRef();
   // 내용
-  const contentInput = useRef()
+  const contentInput = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -45,164 +51,146 @@ export default function StudyMakeForm(props) {
 
     const studyRecruitData = {
       title: titleInput.current.value,
-      content: contentInput.current.value, 
-      startTime: startSelect.current.value, 
-      userLimit: memberSelect.current.value, 
+      content: contentInput.current.value,
+      startTime: startSelect.current.value,
+      userLimit: memberSelect.current.value,
       courseIdList: enteredSelectOptions,
       leadUserId: info.userId,
-      public: recruitSelect.current.value, 
+      public: recruitSelect.current.value,
     };
     props.onAddMeetup(studyRecruitData);
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 bg-white my-[100px]">
-      <form className="w-full gap-4 py-5" onSubmit={submitHandler}>
-        <div className="flex flex-col justify-start items-center w-full gap-2.5 py-[5px]">
-          <p className="text-4xl text-left font-bold">
-            스터디 기본정보를 입력해주세요
-          </p>
-          <svg
-            height={9}
-            viewBox="0 0 1352 9"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full mt-3 flex-grow-0 flex-shrink-0"
-            preserveAspectRatio="none"
-          >
-            <line
-              x1="0.993338"
-              y1="7.50001"
-              x2="1351.99"
-              y2="7.50001"
-              stroke="#7B61FF"
-              strokeWidth={3}
+    <div className="max-w-6xl mx-auto px-4 mt-[50px] mb-[100px]">
+      <form className="flex flex-col gap-[50px] " onSubmit={submitHandler}>
+        <p className="text-3xl text-center font-bold">스터디원 모집하기</p>
+        <input
+          type="text"
+          ref={titleInput}
+          id="title"
+          required
+          className="text-center px-7 text-2xl font-bold focus:outline-none"
+          placeholder="제목에 스터디 핵심을 요약해 적어보세요."
+          min={5}
+          max={30}
+        />
+        <div className="flex justify-center items-center gap-[100px]">
+          {/* 시작 예정일 (required) */}
+          <div className="flex flex-col justify-center items-center w-[140px] gap-3">
+            <FontAwesomeIcon icon={faCalendar} className="text-[20px]" />
+            <p className="text-[16px] font-bold">시작 예정일</p>
+            <input
+              required
+              id="startDate"
+              type="date"
+              min="2023-01-01"
+              max="2024-12-31"
+              className="w-[140px] p-2 border-black border-2 rounded-[5px]"
+              ref={startSelect}
             />
-          </svg>
-          <div className="flex justify-between items-center p-2.5">
-            {/* 모집인원 (required) */}
-            <div className="flex flex-col justify-start items-start self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[20px] text-left">모집인원</p>
-              <div className="w-full">
+          </div>
+
+          {/* 모집인원 (required) */}
+          <div className="flex flex-col justify-center items-center w-[140px] gap-3">
+            <FontAwesomeIcon icon={faUser} className="text-[20px]" />
+            <p className="text-[16px] font-bold">모집 인원</p>
+            <select
+              id="recruitMembers"
+              ref={memberSelect}
+              required
+              className="w-[140px] p-2 border-black border-2 rounded-[5px]"
+            >
+              <option value={2} className="text-center">
+                2명
+              </option>
+              <option value={3} className="text-center">
+                3명
+              </option>
+              <option value={4} className="text-center">
+                4명
+              </option>
+              <option value={5} className="text-center">
+                5명
+              </option>
+              <option value={6} className="text-center">
+                6명
+              </option>
+            </select>
+          </div>
+
+          {/* 인원 모집 방법 (required) */}
+          <div className="flex flex-col justify-center items-center w-[140px] gap-3">
+            <FontAwesomeIcon icon={faCircleCheck} className="text-[20px]" />
+            <p className="text-[16px] font-bold">모집 방법</p>
+            <div className="w-full">
               <select
-                  id="recruitMembers"
-                  ref={memberSelect} 
-                  required
-                >
-                  <option value={2}>2명</option>
-                  <option value={3}>3명</option>
-                  <option value={4}>4명</option>
-                  <option value={5}>5명</option>
-                  <option value={6}>6명</option>
-                </select>
-              </div>
-            </div>
-
-            {/* 시작 예정일 (required) */}
-            <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[20px] text-left">시작 예정일</p>
-              <input
+                id="recruitMethod"
+                ref={recruitSelect}
                 required
-                id="startDate"
-                type="date"
-                min="2023-01-01"
-                max="2024-12-31"
-                ref={startSelect} 
-              />
-            </div>
-
-            {/* 인원 모집 방법 (required) */}
-            <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[20px] text-left">인원 모집 방법</p>
-              <div className="w-full">
-                <select
-                  id="recruitMethod"
-                  ref={recruitSelect} 
-                  required
-                >
-                  <option value={true}>공개</option>
-                  <option value={false}>수락</option>
-                </select> 
-              </div>
-            </div>
-
-            {/* 강좌 선택(required) */}
-            <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-2.5 p-2.5">
-              <p className="text-[20px] text-left">강좌 선택</p>
-              <div className="w-full">
-                <Select
-                  options={courseOptionList}
-                  placeholder="강좌를 검색하세요."
-                  value={selectedOptions}
-                  onChange={handleSelect}
-                  isSearchable={true}
-                  isMulti
-                  required
-                />
-              </div>
+                className="w-[140px] p-2 border-black border-2 rounded-[5px]"
+              >
+                <option value={true} className="text-center">
+                  공개
+                </option>
+                <option value={false} className="text-center">
+                  신청
+                </option>
+              </select>
             </div>
           </div>
         </div>
-
-        <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0 w-full gap-2.5 py-[5px]">
-          <p className="text-4xl text-left font-bold">
-            스터디에 대해 설명해주세요
+        {/* 강좌 선택(required) */}
+        <div className="flex flex-col justify-center items-center gap-3">
+          <p className="text-[18px] font-bold">
+            스터디원과 함께 들을 커리큘럼을 만들어요!
           </p>
-          <svg
-            height={9}
-            viewBox="0 0 1352 9"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full mt-3 flex-grow-0 flex-shrink-0"
-            preserveAspectRatio="none"
-          >
-            <line
-              x1="0.993338"
-              y1="7.50001"
-              x2="1351.99"
-              y2="7.50001"
-              stroke="#7B61FF"
-              strokeWidth={3}
-            />
-          </svg>
-          {/* 제목 */}
-          <div className="flex flex-col w-full justify-start items-end flex-grow-0 flex-shrink-0 gap-[34px]">
-            <input
-              type="text"
-              ref={titleInput}
-              id="title"
-              required
-              className="w-full mt-3 h-[50px] justify-center border"
-              placeholder="제목을 입력해주세요"
-              min={5}
-              max={30}
-            />
-       
-              <textarea
-                required
-                ref={contentInput}
-                placeholder="스터디 설명을 써주세요."
-                className="w-full mt-3 h-[300px] justify-center border"
-              />
-          
-            <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-[15px]">
-              <div
-                className="btn flex-grow-0 flex-shrink-0 w-[107px] h-[60px] relative rounded-[10px] bg-[#fc7a6f] text-center items-center text-4xl text-white p-2"
-                onClick={() => setShowModal(true)}
-              >
-                취소
-              </div>
-              <button className="flex-grow-0 flex-shrink-0 w-[131px] h-[60px] relative rounded-[10px] bg-[#a259ff]  text-white text-4xl">
-                글쓰기
-              </button>
+          <Select
+            options={courseOptionList}
+            placeholder="강좌를 검색하세요."
+            value={selectedOptions}
+            onChange={handleSelect}
+            isSearchable={true}
+            isMulti
+            required
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                borderWidth: 2,
+                borderRadius: 5,
+                padding: 8,
+                width: 1100,
+                borderColor: state.isFocused ? 'blue' : 'black',
+              }),
+            }}
+          />
+        </div>
 
-              {showModal ? (
-                <DeleteModal
-                  onCancel={closeModalHandler}
-                  onConfirm={closeModalHandler}
-                />
-              ) : null}
+        {/* 설명 */}
+        <div className="flex flex-col w-full justify-start gap-[34px]">
+          <textarea
+            required
+            ref={contentInput}
+            placeholder="스터디 설명을 써주세요."
+            className="w-full flex justify-start items-start h-[300px] gap-2.5 px-[26px] py-7 bg-white border-black border-2 rounded-[5px]"
+          />
+          <div className="flex gap-5 justify-end">
+            <div
+              className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer"
+              onClick={() => setShowModal(true)}
+            >
+              취소
             </div>
+            <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
+              글쓰기
+            </button>
+
+            {showModal ? (
+              <DeleteModal
+                onCancel={closeModalHandler}
+                onConfirm={closeModalHandler}
+              />
+            ) : null}
           </div>
         </div>
       </form>
