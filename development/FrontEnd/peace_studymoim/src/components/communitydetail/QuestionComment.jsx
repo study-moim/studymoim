@@ -76,9 +76,9 @@ export default function QuestionComment({ comment, commentUserId }) {
             </div>
           </div>
           {/* 댓글 내용 */}
-          <div className="flex w-full justify-start mt-5 text-[15px] text-center break-all">
+          <pre className="w-full mt-5 text-[15px] text-start break-all whitespace-pre-wrap font-sans">
             {comment.content}
-          </div>
+          </pre>
         </div>
       </div>
     </>

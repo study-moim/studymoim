@@ -51,6 +51,7 @@ export default function PlayerQuestionCommentCreate({
         type="text"
         className="text-xs border w-9/12 scrollbar-none"
         required
+        maxLength="200"
         ref={contentRef}
       />
       <button className="border text-xs p-1 rounded-lg w-3/12">작성</button>

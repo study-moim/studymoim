@@ -64,14 +64,16 @@ export default function ArticleEditForm({
           placeholder="제목을 입력하세요."
           ref={localTitleInput}
           value={localTitle}
+          maxLength="20"
           onChange={(e) => setLocalTitle(e.target.value)}
           required
         />
         <textarea
           className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
-          placeholder="마크다운 양식으로 입력이 가능합니다."
+          placeholder="내용을 입력하세요."
           ref={localContentInput}
           value={localContent}
+          maxLength="500"
           onChange={(e) => setLocalContent(e.target.value)}
           required
         />

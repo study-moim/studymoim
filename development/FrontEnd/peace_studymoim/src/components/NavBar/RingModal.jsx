@@ -17,7 +17,7 @@ export default function RingModal(props) {
   return (
     <>
       {/* 모달 백드롭 여기보고하셈  id배경이랑 모달내용에 absolute 를 주고 / id배경에는 z인덱스를 빼줌(제일 밑으로) */}
-      <div className="justify-center items-start flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-16">
+      <div className="justify-center items-center flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-16">
         <div id="배경" onClick={() => cancelHandler()} className="absolute opacity-25 w-full h-full inset-0 bg-black"></div>
         <div id="모달내용" className="absolute min-w-[400px] max-w-[60%] bg-white shadow-2xl rounded-lg z-45">
           <div className="flex w-full items-center justify-between px-5 py-3 border-b">
