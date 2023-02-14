@@ -78,10 +78,10 @@ export default function PlayerMemo({ lectureId }) {
           ref={contentRef}
         
         ></textarea> */}
-        <div className="w-full">
-          <MDEditor value={updateMemo.memo} onChange={onAddMemo} height={850} />
+        <div className="w-full h-full"> 
+          <MDEditor value={updateMemo.memo} onChange={onAddMemo} preview="edit" height="80vh" />
         </div> 
-        <div className="flex flex-row gap-6 justify-center items-center">
+        <div className="flex flex-row gap-6 justify-end items-center">
           <div className="text-xs">*저장하기를 눌러 수정 반영</div>
           <button className="shadow-innerDown w-[65px] h-[30px] mt-[10px] bg-[#b1b2ff] font-bold text-white text-[9pt] rounded-md hover:bg-[#8b8dff] hover:shadow-innerUp">
             저장하기

@@ -26,7 +26,7 @@ export default function LectureQuestion({ lectureQuestion }) {
               {lectureQuestion.user.nickname}
             </p>
             <p className="text-[12px] font-bold text-center text-gray-500">
-            {Moment(lectureQuestion.publishTime).format("YYYY년 MM월 DD일 HH:DD")}
+            {Moment(lectureQuestion.publishTime).format("YYYY년 MM월 DD일 HH:mm")}
             </p>
             <p className="text-[12px] font-bold text-center text-gray-500">
               조회수 {lectureQuestion.hit}

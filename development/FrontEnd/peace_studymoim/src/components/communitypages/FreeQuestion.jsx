@@ -30,7 +30,7 @@ export default function FreeQuestion({ freeArticle }) {
           <div className="flex flex-row items-center gap-[30px] pb-2">
             <p className="text-[12px] font-bold">{freeArticle.user.nickname}</p>
             <p className="text-[12px] font-bold text-center text-gray-500">
-              {Moment(freeArticle.publishTime).format("YYYY년 MM월 DD일 HH:DD")}
+              {Moment(freeArticle.publishTime).format("YYYY년 MM월 DD일 HH:mm")}
             </p>
             <p className="text-[12px] font-bold text-center text-gray-500">
               조회수 {freeArticle.hit}
