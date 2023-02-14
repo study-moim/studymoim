@@ -28,24 +28,25 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
     List<Study> findByCourseCategoryId(@Param("courseCategoryId") Integer courseCategoryId);
 
     @Query(value = "select user_id as userId, (count(distinct lecture_id) / (select count(*) from lecture where course_id = :courseId)) as num " +
-            "from study_member s " +
-            "left join user u using(user_id) " +
+            "from study_member " +
+            "left join user using(user_id) " +
             "right join user_history using(user_id) " +
             "left join lecture using(lecture_id) " +
-            "left join course c using(course_id) " +
+            "left join course using(course_id) " +
             "where study_id = :studyId and course_id = :courseId " +
             "group by user_id",
             nativeQuery = true)
     List<Map<String, Integer>> findAllUserProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
 
-//    @Query("select m.user.userId as userId, count(distinct c.lectureId) as val from StudyMember m " +
-//            "left join User a on m.user.userId = a.userId " +
-//            "left join UserHistory b on a.userId = b.user.userId " +
-//            "left join Lecture c on b.lecture.lectureId = c.lectureId " +
-//            "left join Course d on c.course.courseId = d.courseId " +
-//            "where m.study.studyId =:studyId and d.courseId =:courseId " +
-//            "group by a.userId, d.courseId")
-//    List<Map<String, Integer>> findAllStudyProgress(@Param("studyId") Integer studyId);
+    @Query(value = "select (count(distinct lecture_id) / (select count(*) from lecture where course_id = :courseId)) as num " +
+            "from study_member " +
+            "left join study using(study_id) " +
+            "right join study_history using(study_id) " +
+            "left join lecture using(lecture_id) " +
+            "left join course using(course_id) " +
+            "where study_id = :studyId and course_id = :courseId ",
+            nativeQuery = true)
+    List<Map<String, Integer>> findAllStudyProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
 
     @Query("SELECT s FROM Study s JOIN Curriculum cu ON s.studyId=cu.study.studyId WHERE cu.course.courseId=:courseId AND s.isClose=false AND s.isFinished=false")
     Page<Study> findAllByCurriculumContains(Integer courseId, Pageable pageable);
