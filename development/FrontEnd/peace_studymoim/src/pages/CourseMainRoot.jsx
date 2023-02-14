@@ -22,12 +22,25 @@ export default function CourseMainRoot() {
       .includes(word.toLocaleLowerCase().replace(" ", ""));
   });
 
+  // let filterTag = courseInfo.filter((course) => {
+  //   if (
+  //     course.categoryList.length != 0 &&
+  //     course.categoryList[0].courseCategoryId == tagId
+  //   ) {
+  //     return course;
+  //   }
+  // });
   let filterTag = courseInfo.filter((course) => {
-    if (
-      course.categoryList.length != 0 &&
-      course.categoryList[0].courseCategoryId == tagId
-    ) {
-      return course;
+    if (course.categoryList.length > 0) {
+      let real = false
+      course.categoryList.forEach(element => {
+        if (element.courseCategoryId === tagId) {
+          real = true;
+        }
+      })
+      if (real) {
+        return course
+      }
     }
   });
 
