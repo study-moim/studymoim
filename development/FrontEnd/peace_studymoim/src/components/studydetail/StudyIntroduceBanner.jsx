@@ -16,38 +16,34 @@ export default function StudyIntroduceBanner({
     setShowModal(false);
   }
 
-  const selectedOptions = curriculum.map((a) => 
+  const selectedOptions = curriculum.map((a) =>
     Object.assign({ value: a.course.course_id, label: a.course.title })
-  )
-
+  );
 
   return (
-    <div className="flex flex-row justify-between bg-[#ebefff]">
-      <div className="flex flex-col w-10/12 pt-[15px] pb-[30px] px-[25px] gap-[15px]">
-        <p className="w-full text-[40px] font-bold">
-          <span className="font-bold text-[#a259ff]">
-            {propData && propData.title}
-          </span>
+    <div className="flex flex-row justify-between bg-[#ebefff] mb-5 rounded-[5px] h-[170px]">
+      <div className="flex flex-col w-10/12 p-[35px] gap-[15px]">
+        <p className="w-full text-[35px] font-bold">
+          {propData && propData.title}
         </p>
 
-        <div className="flex w-full justify-start items-center relative gap-[10px]">
+        <div className="flex w-full justify-start items-center relative gap-[15px]">
           {props && (
             <NavLink
               to={`/mypage/${props.userId}`}
-              className="hover:text-[#989aff]"
+              className="hover:text-[#8871f9] flex items-center"
             >
-              <div className="px-1 ext-[15px] font-bold">{props.nickname}</div>
+              <div className="pr-2 text-[15px] font-bold">{props.nickname}</div>
+              <FontAwesomeIcon icon={faCrown} />
             </NavLink>
           )}
-
-          <FontAwesomeIcon icon={faCrown} />
 
           {propData.members &&
             propData.members.map((member) => {
               return (
                 <NavLink
                   to={`/mypage/${member.userId}`}
-                  className="hover:text-[#989aff]"
+                  className="hover:text-[#8871f9]"
                 >
                   <div className="px-2.5 ext-[15px] font-bold">
                     {member.nickname}
@@ -78,7 +74,7 @@ export default function StudyIntroduceBanner({
         )}
         {showModal ? (
           <CurriculumUpdateModal
-            curriculum={selectedOptions}  
+            curriculum={selectedOptions}
             onCancel={closeModalHandler}
             onConfirm={closeModalHandler}
           />
