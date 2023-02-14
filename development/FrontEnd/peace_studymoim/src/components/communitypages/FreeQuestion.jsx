@@ -20,13 +20,13 @@ export default function FreeQuestion({ freeArticle }) {
           }
           className="w-[60px] h-[60px] object-cover ml-4"
         /> } */}
-        <div className="mx-10 my-5 border-b">
+        <div className="mx-10 my-5 border-b flex justify-between">
           <div className="font-bold text-[16px] my-3">{freeArticle.title}</div>
-          <div className="text-[12px] my-3 text-gray-800">
+          {/* <div className="text-[12px] my-3 text-gray-800">
             {freeArticle.content.length > 100
               ? slicedContent
               : freeArticle.content}
-          </div>
+          </div> */}
           <div className="flex flex-row items-center gap-[30px] pb-2">
             <p className="text-[12px] font-bold">{freeArticle.user.nickname}</p>
             <p className="text-[12px] font-bold text-center text-gray-500">
