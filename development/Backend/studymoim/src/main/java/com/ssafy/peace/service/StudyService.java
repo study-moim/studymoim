@@ -315,6 +315,20 @@ public class StudyService {
         return result;
     }
 
-//    public List getStudyCourseListHistoryByStudyId(Integer studyId) {
-//    }
+    public List getStudyCourseListHistoryByStudyId(Integer studyId) throws JsonProcessingException {
+        List<Map<Integer, String>> result = new ArrayList<>();
+        List<Course> courseList =  studyRepository.findById(studyId).get().getCurricula().stream()
+                .map(curriculum -> curriculum.getCourse()).collect(Collectors.toList());
+        for (int i = 0; i < courseList.size(); i++) {
+            Map<Integer, String> mapItem = new HashMap<>();
+            int val = lectureRepository.findAllByCourse_CourseId(courseList.get(i).getCourseId()).size();
+            List<Map<String, Integer>> temp = studyRepository.findAllStudyProgress(studyId, courseList.get(i).getCourseId());
+            ObjectMapper mapper = new ObjectMapper();
+            if(val != 0) {
+                mapItem.put(courseList.get(i).getCourseId(), mapper.writeValueAsString(temp));
+                result.add(mapItem);
+            }
+        }
+        return result;
+    }
 }
