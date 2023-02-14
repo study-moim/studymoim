@@ -38,9 +38,9 @@ export default function StudySearch() {
           </form>
         </div>
       </div>
-        <div className="flex flex-row flex-wrap justify-start gap-1 mt-10 w-full">
+        <div className="flex flex-row flex-wrap justify-start gap-3 mt-5 w-full">
           {filterInfo.map((recruit) => (
-            <div key={recruit.studyId} className="cursor-pointer min-w-[33%]">
+            <div key={recruit.studyId} className="cursor-pointer min-w-[32%]">
               <StudyRecruitItem props={recruit} />
             </div>
           ))}
