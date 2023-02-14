@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import userInfo from "../../zustand/store";
-import useFetch from "../../hooks/useFetch";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function PlayerMemo({ lectureId }) {
   const { info } = userInfo();
@@ -9,8 +9,16 @@ export default function PlayerMemo({ lectureId }) {
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
-  const [prevMemo, setPrevMemo] = useState("");
-  const contentRef = useRef(prevMemo.content);
+  const [prevMemo, setPrevMemo] = useState(""); 
+  const [memoContent, setMemoContent] = useState(""); 
+  const onAddMemo = (e) => {
+    setMemoContent(e);
+  };
+
+  const updateMemo = {
+    memo: memoContent, 
+  };
+
   useEffect(() => {
     const getPrevMemo = async () => {
       await fetch(
@@ -21,6 +29,7 @@ export default function PlayerMemo({ lectureId }) {
         })
         .then((data) => {
           setPrevMemo(data);
+          setMemoContent(data.content); 
           let memoContent = document.getElementById("memoText");
           memoContent.value = data.content;
         });
@@ -28,6 +37,7 @@ export default function PlayerMemo({ lectureId }) {
     getPrevMemo();
   }, []);
 
+  
   function onSubmit(e) {
     e.preventDefault();
 
@@ -45,12 +55,12 @@ export default function PlayerMemo({ lectureId }) {
         body: JSON.stringify({
           userId: info.userId,
           lectureId: lectureId,
-          content: contentRef.current.value,
+          content: memoContent,
         }),
       }).then((res) => {
         if (res.ok) {
           setIsLoading(false);
-          alert("메모가 저장되었습니다.")
+          alert("메모가 저장되었습니다.");
         }
       });
     }
@@ -59,15 +69,19 @@ export default function PlayerMemo({ lectureId }) {
     <>
       <form
         onSubmit={onSubmit}
-        className="flex flex-col justify-end items-end w-full h-full"
+        className="flex flex-col justify-start items-end w-full h-full"
       >
-        <textarea
+        {/* <textarea
           id="memoText"
           className="w-full h-full border p-2 scrollbar-none"
           placeholder="마크다운 양식으로 작성하기"
           ref={contentRef}
-        ></textarea>
-        <div className="flex flex-row gap-6 justify-center items-center">
+        
+        ></textarea> */}
+        <div className="w-full h-full"> 
+          <MDEditor value={updateMemo.memo} onChange={onAddMemo} preview="edit" height="80vh" />
+        </div> 
+        <div className="flex flex-row gap-6 justify-end items-center">
           <div className="text-xs">*저장하기를 눌러 수정 반영</div>
           <button className="shadow-innerDown w-[65px] h-[30px] mt-[10px] bg-[#b1b2ff] font-bold text-white text-[9pt] rounded-md hover:bg-[#8b8dff] hover:shadow-innerUp">
             저장하기

@@ -3,6 +3,8 @@ package com.ssafy.peace.repository;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
 import com.ssafy.peace.entity.Study;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,16 +27,14 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
     @Query("select s from Study s join Curriculum a on s.studyId = a.study.studyId join Course b on a.course.courseId = b.courseId join CourseType c on b.courseId = c.course.courseId join CourseCategory d on c.courseCategory.courseCategoryId = d.courseCategoryId Where d.courseCategoryId = :courseCategoryId and s.isClose= false and s.isFinished = false ")
     List<Study> findByCourseCategoryId(@Param("courseCategoryId") Integer courseCategoryId);
 
-    @Query(value = "select user_id as userId, (count(distinct lecture_id) / (select count(*) from lecture where course_id = :courseId)) as num " +
-            "from study_member s " +
-            "left join user u using(user_id) " +
-            "right join user_history using(user_id) " +
-            "left join lecture using(lecture_id) " +
-            "left join course c using(course_id) " +
-            "where study_id = :studyId and course_id = :courseId " +
-            "group by user_id",
-            nativeQuery = true)
-    List<Map<String, Integer>> findAllUserProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
+    @Query("select m.user.userId as userId, count(distinct c.lectureId) as val from StudyMember m " +
+            "left join User a on m.user.userId = a.userId " +
+            "left join UserHistory b on a.userId = b.user.userId " +
+            "left join Lecture c on b.lecture.lectureId = c.lectureId " +
+            "left join Course d on c.course.courseId = d.courseId " +
+            "where m.study.studyId =:studyId and d.courseId =:courseId " +
+            "group by a.userId, d.courseId")
+    List<Map<String, Integer>> findAllByProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
 
 //    @Query("select m.user.userId as userId, count(distinct c.lectureId) as val from StudyMember m " +
 //            "left join User a on m.user.userId = a.userId " +
@@ -44,4 +44,9 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
 //            "where m.study.studyId =:studyId and d.courseId =:courseId " +
 //            "group by a.userId, d.courseId")
 //    List<Map<String, Integer>> findAllStudyProgress(@Param("studyId") Integer studyId);
+
+    @Query("SELECT s FROM Study s JOIN Curriculum cu ON s.studyId=cu.study.studyId WHERE cu.course.courseId=:courseId AND s.isClose=false AND s.isFinished=false")
+    Page<Study> findAllByCurriculumContains(Integer courseId, Pageable pageable);
+
+
 }

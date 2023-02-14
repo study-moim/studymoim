@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +29,10 @@ public class LectureController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/{courseId}")
-    public ResponseEntity<?> LectureInfoListByCourseId(@Parameter(description = "courseId") @PathVariable int courseId) {
+    public ResponseEntity<?> LectureInfoListByCourseId(@Parameter(description = "courseId") @PathVariable int courseId,
+                                                       Pageable pageable) {
         try{
-            return new ResponseEntity<>(lectureService.getLectureInfoListFindCourseId(courseId), HttpStatus.OK);
+            return new ResponseEntity<>(lectureService.getLectureInfoListFindCourseId(courseId, pageable), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
