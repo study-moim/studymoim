@@ -1,5 +1,5 @@
 import MainSearch from "../components/mainpages/MainSearch";
-import TagList from "../components/overall/TagList";
+// import TagList from "../components/overall/TagList";
 import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
@@ -11,21 +11,19 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
-  faCircleArrowRight,
-  faCircleArrowLeft,
+  faCircleArrowRight
 } from "@fortawesome/free-solid-svg-icons";
-import CourseTag from "../components/coursepages/CourseTag";
+import { useNavigate } from "react-router";
+// import CourseTag from "../components/coursepages/CourseTag";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function MainPageRoot() {
+  const navigate = useNavigate();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`).slice(
-    0,
-    9
-  );
+  // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`) 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
@@ -109,7 +107,7 @@ export default function MainPageRoot() {
             />
           </div>
         </div>
-        <div className="w-full flex flex-col">
+        {/* <div className="w-full flex flex-col">
           <p className="text-lg text-left font-bold mb-5"># 인기태그</p>
           <div className="flex flex-row flex-wrap gap-2">
             <button
@@ -134,7 +132,7 @@ export default function MainPageRoot() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
         {logIn ? (
           <MainLogIn searchKey={searchType} searchData={word} />
@@ -142,7 +140,16 @@ export default function MainPageRoot() {
           <MainNotLogIn searchKey={searchType} searchData={word} />
         )}
         <div className="mb-5">
-          <p className="text-lg text-left font-bold mb-5"># 진행 중인 스터디</p>
+        <div className="flex justify-start items-center">
+        <p className="text-lg text-left font-bold my-5 mr-3 mt-5"># 모집 중인 스터디</p>
+        <FontAwesomeIcon
+          icon={faCircleArrowRight}
+          onClick={() => {
+            navigate('/study');
+          }}
+        />
+      </div>
+         
           {studyInfo.length > 2 ? (
             <Slider {...twoSettings}>
               {studyInfo.map((study) => (
