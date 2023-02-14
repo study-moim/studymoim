@@ -78,7 +78,7 @@ export default function CommunityComment({ comment, commentUserId }) {
             </div>
           </div>
           {/* 댓글 내용 */}
-          <div className="flex w-full justify-start mt-5 text-[15px] text-center">
+          <div className="flex w-full justify-start mt-5 text-[15px] text-center break-all">
             {comment.content}
           </div>
         </div>

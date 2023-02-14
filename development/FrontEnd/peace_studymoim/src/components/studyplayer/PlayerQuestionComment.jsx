@@ -6,7 +6,7 @@ export default function PlayerQuestionComment({comment}) {
         <p className="text-xs font-bold text-left text-black">
         {comment.user.nickname} | {comment.publishTime.substring(0,10)} {" "} {comment.publishTime.substring(11,16)}
         </p>
-        <p className="text-[11px] text-left text-black overflow-auto max-h-40 scrollbar-none">
+        <p className="text-[11px] text-left text-black overflow-auto w-full max-h-20 break-all scrollbar-none">
           {comment.content}
         </p>
       </div>
