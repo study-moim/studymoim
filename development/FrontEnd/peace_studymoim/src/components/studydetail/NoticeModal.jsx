@@ -23,7 +23,7 @@ export default function NoticeModal(props) {
       notice: enteredRequest,
       studyId: studyId.study_id,
     };
-    
+
     fetch(`http://${API_SERVER}/api/v1/study/${studyId.study_id}/notice`, {
       method: "PUT",
       headers: {
@@ -33,27 +33,32 @@ export default function NoticeModal(props) {
     }).then((res) => {
       if (res.ok) {
         props.onCancel();
-        location.reload(); 
+        location.reload();
       }
     });
   }
 
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+      <div className="justify-center items-center flex fixed inset-0 z-50">
+        <div
+          id="배경"
+          onClick={() => props.onCancel()}
+          className="absolute opacity-25 w-full h-full inset-0 bg-black"
+        ></div>
+        <div className="relative w-auto mx-auto max-w-3xl">
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
             {/*header*/}
-            <div className="flex items-start justify-between p-5 border-slate-200 rounded-t">
-              <p>공지 수정하기</p>
-              <FontAwesomeIcon icon={faXmark} onClick={() => props.onCancel()} /> 
+            <div className="flex items-center justify-between pb-5 px-2">
+              <p className="font-bold">공지 수정하기</p>
+              <button className="transition-all" onClick={() => props.onCancel()}>
+                <FontAwesomeIcon icon={faXmark} size="lg" className="hover:text-red-500" />
+              </button>
             </div>
             {/*body*/}
-            <form
-                onSubmit={submitHandler}
-                className="flex flex-col justify-center items-end mx-1 my-1"
-              >
+            <div className="flex flex-col items-center justify-center gap-5">
+              <form onSubmit={submitHandler} className="flex flex-col justify-center items-center">
                 <textarea
                   name=""
                   id=""
@@ -61,17 +66,18 @@ export default function NoticeModal(props) {
                   rows="5"
                   maxLength={100}
                   ref={requestRef}
+                  className="border rounded-[5px] p-5"
+                  placeholder="새로운 공지를 입력해주세요."
                 ></textarea>
-              <button
-                className="flex justify-center items-center flex-grow h-11 mt-3 relative gap-2.5 p-2.5 rounded-lg text-sm text-white  bg-[#b1b2ff]"
-              >
-                제출하기 
-              </button>
+                <button className="mt-5 p-2.5 w-[80%] rounded-[10px] text-center text-[14px] border border-[#b1b2ff] hover:bg-[#b1b2ff]">
+                  제출하기
+                </button>
               </form>
+            </div>
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      {/* <div className="opacity-25 fixed inset-0 z-40 bg-black"></div> */}
     </>
   );
 }
