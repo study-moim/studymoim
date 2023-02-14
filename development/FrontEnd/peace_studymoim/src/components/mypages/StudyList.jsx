@@ -5,7 +5,7 @@ import userInfo from "../../zustand/store";
 export default function StudyList({ getPageName }) {
   const { info } = userInfo();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const studyInfo = useFetch(`http://${API_SERVER}/api/v1/user/${info.userId}/studies`);
+  const studyInfo = useFetch(`http://${API_SERVER}/api/v1/user/${getPageName}/studies`);
 
   return (
     <>
