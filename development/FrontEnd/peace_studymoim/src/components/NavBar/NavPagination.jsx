@@ -29,7 +29,9 @@ export default function NavPagination({
       }
     } else if (pageCount - pageRangeDisplayed / 2 < currentPage) {
       console.log("끝");
+      console.log(pageCount, pageRangeDisplayed)
       for (let i = pageCount - pageRangeDisplayed; i < pageCount; i++) {
+        if(i < 0) continue;
         newDisplay.push(i + 1);
       }
     } else {
@@ -39,6 +41,7 @@ export default function NavPagination({
         i < Math.floor(currentPage + pageRangeDisplayed / 2);
         i++
       ) {
+        if(i < 0) continue;
         newDisplay.push(i + 1);
       }
     }
@@ -68,7 +71,7 @@ export default function NavPagination({
                     </li>)
                 ))}
                 <li>
-                    <div onClick={() => onPageClick(pageCount-1)}
+                    <div onClick={() => onPageClick(pageCount)}
                         className="px-3 py-2 leading-tight rounded-full hover:bg-gray-100 cursor-pointer">
                         {lastLabel}
                     </div>
