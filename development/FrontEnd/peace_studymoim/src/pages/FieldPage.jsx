@@ -85,7 +85,7 @@ export default function FieldPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-[50px] mb-[100px] px-4">
+    <div className="max-w-6xl mx-auto mt-[120px] mb-[100px] px-4">
       {/* 분야 선택 창 */}
       {!visible && (
         <div className="w-full">
@@ -161,17 +161,6 @@ export default function FieldPage() {
             STEP 2. 나만의 프로필
           </p>
           <div className="flex justify-center">
-            <button
-              className="prevBtn"
-              onClick={() => setVisible(false)}
-              onKeyUpCapture={() => setVisible(true)}
-            >
-              <FontAwesomeIcon
-                icon={faChevronLeft}
-                size="2x"
-                className="animate-bounce"
-              />
-            </button>
             <div className="flex flex-col justify-center items-center w-[80%]">
               <form
                 onSubmit={submitHandler}
