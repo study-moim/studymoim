@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import MDEditor from '@uiw/react-md-editor';
 
 export default function MemoModal(props) {
   window.onkeydown = function (event) {
@@ -27,7 +28,7 @@ export default function MemoModal(props) {
           </div>
           {/*body*/}
           <div className="flex flex-col items-start py-5 px-6 gap-5">
-            <p className="text-[14px]">{props.memoData.content}</p>
+            <MDEditor.Markdown source={props.memoData.content} style={{ whiteSpace: 'pre-wrap' }} />
           </div>
           {/*footer*/}
           <div className="flex flex-col items-end py-5 px-6 ">
