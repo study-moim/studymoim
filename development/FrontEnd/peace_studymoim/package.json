@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "help": "vite build --help"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -16,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@popperjs/core": "^2.11.6",
     "@stomp/stompjs": "^6.1.2",
+    "@uiw/react-md-editor": "^3.20.2",
     "axios": "^1.2.6",
     "classnames": "^2.3.2",
     "jwt-decode": "^3.1.2",
@@ -31,7 +33,6 @@
     "react-router-dom": "^6.7.0",
     "react-select": "^5.7.0",
     "react-slick": "^0.29.0",
-    "react-uuid": "^2.0.0",
     "react-youtube": "^10.1.0",
     "slick-carousel": "^1.8.1",
     "sockjs": "^0.3.24",

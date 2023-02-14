@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
+import Moment from "moment/moment";
+import "moment/locale/ko";
 
 export default function LectureQuestion({ lectureQuestion }) {
-  const dateBase = new Date(lectureQuestion.publishTime);
-  const date = dateBase.toString().substring(0, 24);
   const commentAmount = lectureQuestion.questionBoardComments.length;
   const slicedContent = lectureQuestion.content.substring(0, 100) + "...";
 
@@ -13,7 +13,7 @@ export default function LectureQuestion({ lectureQuestion }) {
         className="w-full hover:bg-gray-100"
       >
         <div className="mx-10 my-5 border-b">
-          <div className="font-bold text-[18px] my-3">
+          <div className="font-bold text-[16px] my-3">
             {lectureQuestion.title}
           </div>
           <div className="text-[12px] my-3 text-gray-800">
@@ -21,12 +21,12 @@ export default function LectureQuestion({ lectureQuestion }) {
               ? slicedContent
               : lectureQuestion.content}
           </div>
-          <div className="flex flex-row items-center gap-[30px] pb-5">
+          <div className="flex flex-row items-center gap-[30px] pb-2">
             <p className="text-[12px] font-bold">
               {lectureQuestion.user.nickname}
             </p>
             <p className="text-[12px] font-bold text-center text-gray-500">
-              {date}
+            {Moment(lectureQuestion.publishTime).format("YYYY년 MM월 DD일 HH:DD")}
             </p>
             <p className="text-[12px] font-bold text-center text-gray-500">
               조회수 {lectureQuestion.hit}

@@ -35,7 +35,7 @@ export default function StudyMakeForm(props) {
   // 제목
   const titleInput = useRef();  
   // 내용
-  const contentInput = useRef(); 
+  const contentInput = useRef()
 
   function submitHandler(event) {
     event.preventDefault();
@@ -52,7 +52,6 @@ export default function StudyMakeForm(props) {
       leadUserId: info.userId,
       public: recruitSelect.current.value, 
     };
-    console.log(studyRecruitData);
     props.onAddMeetup(studyRecruitData);
   }
 
@@ -178,7 +177,6 @@ export default function StudyMakeForm(props) {
               min={5}
               max={30}
             />
-
        
               <textarea
                 required

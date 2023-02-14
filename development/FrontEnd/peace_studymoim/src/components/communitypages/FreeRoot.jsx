@@ -6,6 +6,7 @@ import FreeQuestion from "./FreeQuestion";
 import { useState, useEffect } from "react";
 import {data} from "autoprefixer";
 import NavPagination from "../NavBar/NavPagination.jsx";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function FreeRoot() {
   //getArticles();
@@ -30,7 +31,6 @@ export default function FreeRoot() {
       let query = Object.keys(params)
           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
           .join('&');
-      console.log(query)
       let resp = await fetch(`http://${API_SERVER}/api/v1/articles/free?`+query)
       let data = await resp.json()
       setPage(data);
@@ -104,11 +104,11 @@ export default function FreeRoot() {
         )) : null}
       </div>
       <NavPagination
-          firstLabel="처음"
-          lastLabel="마지막"
+          firstLabel={<FontAwesomeIcon icon={faChevronLeft}/>}
+          lastLabel={<FontAwesomeIcon icon={faChevronRight}/>}
           breakLabel="..."
           onPageChange={setCurrentPage}
-          pageCount={page ? page.totalPages+1 : 0}
+          pageCount={page ? page.totalPages : 0}
           pageRangeDisplayed={5}
       />
     </div>

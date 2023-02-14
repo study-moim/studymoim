@@ -37,11 +37,10 @@ export default function MainPageRoot() {
     dots: true,
     infinite: true,
     arrows: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeend: 100,
+    autoplaySpeed: 3000,
   };
 
   const twoSettings = {
@@ -61,7 +60,7 @@ export default function MainPageRoot() {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeend: 100,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 960,

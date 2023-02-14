@@ -3,6 +3,8 @@ package com.ssafy.peace.repository;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
 import com.ssafy.peace.entity.Study;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,4 +35,7 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
             "where m.study.studyId =:studyId and d.courseId =:courseId " +
             "group by a.userId, d.courseId")
     List<Map<String, Integer>> findAllByProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
+
+    @Query("SELECT s FROM Study s JOIN Curriculum cu ON s.studyId=cu.study.studyId WHERE cu.course.courseId=:courseId AND s.isClose=false AND s.isFinished=false")
+    Page<Study> findAllByCurriculumContains(Integer courseId, Pageable pageable);
 }
