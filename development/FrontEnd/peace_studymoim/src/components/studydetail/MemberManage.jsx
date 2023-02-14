@@ -7,9 +7,10 @@ export default function MemberManage({ propData }) {
   const requestMembers = useFetch(
     `http://${API_SERVER}/api/v1/study/${propData.studyId}/request`
   );
+  
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const leaderImage = IMAGE_ROOT + propData.leadUser.saveName;
-
+  console.log(requestMembers)
   return (
     <>
       <div className="flex w-full flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[53px] px-[73px] py-[50px]">
@@ -23,6 +24,7 @@ export default function MemberManage({ propData }) {
         </div>
 
         <div className="flex justify-start"> 
+
         <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-3">
           <img src={leaderImage} alt="" className="w-10 rounded-full" />
           <p className="flex-grow-0 flex-shrink-0 text-[25px] text-left text-black">
@@ -80,13 +82,10 @@ export default function MemberManage({ propData }) {
                 총 {requestMembers.length}명
               </p>
              </div>
-         
- 
-            <div className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full h-1/12 relative gap-[5px] p-5 bg-[#ebefff]">
-        
+                
             {requestMembers.map((member) => {
                 return (
-                  <div key={member.requestId}>
+                  <div key={member.requestId} className="flex justify-around items-center flex-grow-0 flex-shrink-0 w-full h-1/12 relative gap-[5px] p-5 bg-[#ebefff]">
                     {member.user.saveName ? 
                     <img className="flex-grow-0 flex-shrink-0 rounded-full w-1/12" src={member.user.saveName} /> 
                   : 
@@ -96,7 +95,7 @@ export default function MemberManage({ propData }) {
                     <p className="flex-grow-0 flex-shrink-0 text-sm font-bold text-center w-2/12">
                       {member.user.nickname}
                     </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-ml w-7/12 text-center bg-[#eef1ff]/[0.98]">
+                    <p className="flex-grow-0 flex-shrink-0 text-ml w-7/12 text-center bg-[#eef1ff]/[0.98] break-all">
                       {member.content}
                     </p>
 
@@ -152,7 +151,7 @@ export default function MemberManage({ propData }) {
                   </div>
                 );
               })}
-            </div>
+            {/* </div> */}
           </div>
         ) : null}
       </div>
