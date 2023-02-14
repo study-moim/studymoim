@@ -32,7 +32,7 @@ public class FreeBoard {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @UpdateTimestamp
+    @CreationTimestamp
     private LocalDateTime publishTime;
 
     @ColumnDefault("false")
