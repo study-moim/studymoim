@@ -36,12 +36,6 @@ export default function NavBarLogInMd() {
         알림
       </div>
       {showModal ? <RingModal onCancel={closeModalHandler} /> : null}
-      <Link
-        to="/mail"
-        className="flex items-center cursor-pointer hover:text-[#B1B2FF] text-[16px]"
-      >
-        쪽지
-      </Link>
       <a href={`/mypage/${info.userId}`}>
         <button className="text-[16px] hover:text-[#B1B2FF]">MyPage</button>
       </a>
