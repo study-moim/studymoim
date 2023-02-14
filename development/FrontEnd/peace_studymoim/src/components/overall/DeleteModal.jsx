@@ -19,7 +19,9 @@ export default function DeleteModal(props) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
-        <div className="relative w-auto mx-auto max-w-3xl">
+        
+        <div id="배경" onClick={() => props.onCancel()} className="absolute opacity-25 w-full h-full inset-0 bg-black"></div>
+        <div className="relative w-auto mx-auto max-w-3xl"> 
           {/*content*/}
           <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
             {/*header*/}
@@ -64,7 +66,7 @@ export default function DeleteModal(props) {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      {/* <div className="opacity-25 fixed inset-0 z-40 bg-black"></div> */}
     </>
   );
 }
