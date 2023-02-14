@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
-import DeleteArticleModal from "../overall/DeleteModal";
+import DeleteArticleModal from '../overall/DeleteArticleModal'; 
 
 export default function ArticleCreateForm() {
   const [showModal, setShowModal] = useState(false);
@@ -81,6 +81,7 @@ export default function ArticleCreateForm() {
           <button className="w-[100px] px-4 py-2 rounded bg-[#ad9dfe] text-base font-bold text-center text-white hover:bg-[#989aff]">
             등록
           </button>
+          
           {showModal ? (
             <DeleteArticleModal
               onCancel={closeModalHandler}

@@ -18,7 +18,7 @@ export default function LectureProgress(props) {
   }
   async function onLiveStart(lectureId) {
     let response = await fetch(`http://${API_SERVER}/api/v1/study/${props.state.study.studyId}/live/start?lectureId=${lectureId}`, {method: 'PUT'})
-  }
+  } 
   return (
     <>
       <div className="flex flex-col justify-center items-start w-full relative overflow-hidden gap-5 p-[3px] bg-[#ebefff]">
@@ -39,7 +39,7 @@ export default function LectureProgress(props) {
               </p>
             </div>
           </div>
-          {!selectedCourse ? <LectureProgressBars /> : <StudyPageLectureList course={selectedCourse} state={props.state} onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}/>}
+          {!selectedCourse ? <LectureProgressBars state={props.curricula} /> : <StudyPageLectureList course={selectedCourse} state={props.state} onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}/>}
         </div>
       </div>
     </>

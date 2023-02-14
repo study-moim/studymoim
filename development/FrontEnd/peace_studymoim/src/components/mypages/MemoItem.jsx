@@ -24,7 +24,7 @@ export default function MemoLecture({ lectureData, userId }) {
         {lectureData.title.length > 40 ? slicedTitle : lectureData.title}
       </p>
       <p className="text-[12px] text-gray-500 min-w-[30%] max-w-[30%]">
-        {Moment(memoInfo.lastModifiedDate).format("YY-MM-DD / HH:DD 작성")}
+        {Moment(memoInfo.lastModifiedDate).format("YY-MM-DD / HH:mm 작성")}
       </p>
       <button className="text-[13px] text-right font-bold text-[#7b61ff] min-w-[10%] max-w-[10%]">
         자세히
