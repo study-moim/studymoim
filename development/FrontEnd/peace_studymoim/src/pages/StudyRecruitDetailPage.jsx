@@ -6,11 +6,7 @@ import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpe
 import MainCourse from "../components/mainpages/MainCourse";
 import userInfo from "../zustand/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCalendarDays,
-  faUsers,
-  faCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faUser, faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -138,17 +134,17 @@ export default function StudyRecruitDetailPage(props) {
         <div className="w-9/12">
           <div className="flex justify-around items-center border-b py-5">
             <div className="flex flex-col justify-center items-center">
-              <FontAwesomeIcon icon={faCalendarDays} className="mb-3" />
+              <FontAwesomeIcon icon={faCalendar} className="mb-3 text-[20px]" />
               <p className="text-sm">시작 예정일</p>
               <p className="text-sm font-bold">{studyDetail.startTime}</p>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <FontAwesomeIcon icon={faUsers} className="mb-3" />
+              <FontAwesomeIcon icon={faUser} className="mb-3 text-[20px]" />
               <p className="text-sm">모집 인원</p>
               <p className="text-sm font-bold">{studyDetail.userLimit} 명</p>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <FontAwesomeIcon icon={faCircleCheck} className="mb-3" />
+              <FontAwesomeIcon icon={faCircleCheck} className="mb-3 text-[20px]" />
               <p className="text-sm">모집 방법</p>
               {studyDetail.public ? (
                 <p className="text-sm font-bold"> 공개 </p>
