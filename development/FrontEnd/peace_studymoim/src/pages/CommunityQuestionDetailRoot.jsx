@@ -112,7 +112,7 @@ export default function CommunityQuestionDetailRoot() {
             </div>
           </div>
 
-          <div className="w-9/12 py-7 bg-white text-[20px] font-bold">
+          <div className="w-9/12 py-7 bg-white text-[20px] font-bold break-all">
             {questionDetail.content}
           </div>
         </div>

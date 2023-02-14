@@ -81,10 +81,7 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
             팔로우 취소
           </button>
         )}
-        {/* TODO: 누르면 어디로 이동? 아니면 다른 기능? */}
-        <button className="w-[90%] rounded-[20px] bg-[#b1b2ff] text-[15px] text-center text-white py-1 hover:bg-[#989aff]">
-          쪽지 보내기
-        </button>
+
       </div>
       <div className="flex flex-col justify-center items-center gap-3 mt-5">
         <p

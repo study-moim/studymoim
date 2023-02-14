@@ -106,7 +106,7 @@ export default function CommunityDetailRoot() {
             </div>
           </div>
           <div className="w-9/12 py-7">
-            <div>{articleDetail.content}</div>
+            <div className="w-full break-all">{articleDetail.content}</div>
           </div>
         </div>
       ) : (
