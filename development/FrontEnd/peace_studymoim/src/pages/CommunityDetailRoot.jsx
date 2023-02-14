@@ -105,8 +105,9 @@ export default function CommunityDetailRoot() {
               </div>
             </div>
           </div>
-          <div className="w-9/12 py-7">
-            <div className="w-full break-all">{articleDetail.content}</div>
+          <div className="w-9/12 h-full py-7">
+            {/* <pre><div className="w-full break-all">{articleDetail.content}</div></pre> */}
+            <textarea className="w-full h-[500px] break-all focus:outline-none scrollbar-thin resize-none scrollbar-thumb-gray-100" readOnly value={articleDetail.content}></textarea>
           </div>
         </div>
       ) : (
