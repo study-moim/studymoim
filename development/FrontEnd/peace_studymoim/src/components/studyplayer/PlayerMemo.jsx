@@ -69,7 +69,7 @@ export default function PlayerMemo({ lectureId }) {
     <>
       <form
         onSubmit={onSubmit}
-        className="flex flex-col justify-end items-end w-full h-full"
+        className="flex flex-col justify-start items-end w-full h-full"
       >
         {/* <textarea
           id="memoText"
@@ -78,8 +78,8 @@ export default function PlayerMemo({ lectureId }) {
           ref={contentRef}
         
         ></textarea> */}
-        <div>
-          <MDEditor value={updateMemo.memo} onChange={onAddMemo} height={800} />
+        <div className="w-full">
+          <MDEditor value={updateMemo.memo} onChange={onAddMemo} height={850} />
         </div> 
         <div className="flex flex-row gap-6 justify-center items-center">
           <div className="text-xs">*저장하기를 눌러 수정 반영</div>
