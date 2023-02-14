@@ -34,7 +34,7 @@ public interface StudyRepository  extends JpaRepository<Study, Integer> {
             "left join Course d on c.course.courseId = d.courseId " +
             "where m.study.studyId =:studyId and d.courseId =:courseId " +
             "group by a.userId, d.courseId")
-    List<Map<String, Integer>> findAllByProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
+    List<Map<String, Integer>> findAllUserProgress(@Param("studyId") Integer studyId, @Param("courseId") Integer courseId);
 
 //    @Query("select m.user.userId as userId, count(distinct c.lectureId) as val from StudyMember m " +
 //            "left join User a on m.user.userId = a.userId " +
