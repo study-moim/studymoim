@@ -4,34 +4,47 @@ import { useState, useEffect } from "react";
 
 export default function LectureProgressBars(props) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const [chartDataPoints, setChartDataPoints] = useState();
+  const [chartData, setChartData] = useState([]);
   const studyId = useParams();
+  // 내가 듣는 강좌들의 id 목록을 담은 courseIdList 
+  // let courseIdList = [];
 
-  console.log(props.state) 
+  // props.state.map((course) => {
+  //   courseIdList.push(course.course);
+  // });
+  // console.log('콜ㄹㄹ스', courseIdList)
   useEffect(() => {
-    const getChartDataPoints = async() => {
+    const getChartData = async () => {
       await fetch(
-        // `http://${API_SERVER}/api/v1/study/coursehistory/${studyId.study_id}`
-        `http://${API_SERVER}/api/v1/study/coursehistory/1469` 
+        `http://${API_SERVER}/api/v1/study/coursehistory/${studyId.study_id}`
       )
-      .then((res) => res.json())
-      .then((json) => {
-        setChartDataPoints(json); 
-      })
+        .then((res) => res.json())
+        .then((json) => {
+          setChartData(json);
+        });
     };
-    getChartDataPoints(); 
-  }, [studyId.study_id]); 
+    getChartData();
+  }, [studyId.study_id]);
 
-  console.log(chartDataPoints)    
-  return (  
+
+  console.log('tmqkf', chartData)
+
+  return (
     <>
-    
       <div className="flex-grow-0 flex-shrink-0 w-1/2 relative">
+        {chartData.map((course) => {
+          console.log(course)    
+        })} 
+        {/* {props.state.map((course) => {
+          
+          console.log(course.course.course_id) 
+        })}  */}
+
         {/* {chartDataPoints.map((course) => {
           console.log(course)
           console.log(course.val)       
         })} */}
-        {/* <Chart dataPoints={chartDataPoints} /> */}
+        {/* <Chart className="h-full" dataPoints={chartDataPoints} /> */}
       </div>
     </>
   );

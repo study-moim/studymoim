@@ -93,7 +93,7 @@ export default function StudyDetailMainPage() {
               onClick={GetClick}
               className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
             >
-              강의별 진도율
+              커리큘럼
             </button>
 
             <button
@@ -125,7 +125,7 @@ export default function StudyDetailMainPage() {
               onClick={GetClick}
               className="w-2/12 rounded-tl-[13px] rounded-tr-[13px] bg-[#b1b2ff] border-2 border-[#b1b2ff] text-[15px] font-bold text-center text-white"
             >
-              강의별 진도율
+              커리큘럼
             </button>
           </div>
         )}

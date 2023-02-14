@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useFetch from "../../hooks/useFetch.jsx";
+
 export default function NowPlayStudy(props) {
   const isLive = props.propData.live;
 
@@ -7,7 +7,6 @@ export default function NowPlayStudy(props) {
   const year = now.getFullYear();
   const month = now.getMonth();
   const date = now.getDate();
-  console.log(props,"AAAAAAAAAAAAAAAAAAAAA")
   return (
     <>
       {isLive ? (
