@@ -59,7 +59,7 @@ export default function QuestionComment({ comment, commentUserId }) {
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
                 {Moment(comment.publishTime).format(
-                    "YYYY년 MM월 DD일 HH:DD"
+                    "YYYY년 MM월 DD일 HH:mm"
                   )}
                 </div>
               </div>
