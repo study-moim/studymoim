@@ -1,19 +1,14 @@
 import StudyPageCourseItemSmall from "./StudyPageCourseItemSmall.jsx";
 import StudyPageLectureList from "./StudyPageLectureList.jsx";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 export default function LectureProgress(props) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState(props.curricula[0].course);
 
   async function onCourseClick(course) {
-    if (
-      selectedCourse != null &&
-      selectedCourse.course_id == course.course_id
-    ) {
-      setSelectedCourse(null);
-      return;
-    }
     let response = await fetch(
       `http://${API_SERVER}/api/v1/course/${course.course_id}`
     );
@@ -30,24 +25,33 @@ export default function LectureProgress(props) {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4 justify-center items-center">
-
-          {props.curricula.map((curriculum) => (
-              <StudyPageCourseItemSmall
-                key={curriculum.order}
-                course={curriculum.course}
-                onClick={onCourseClick}
-              />
+      <div className="w-full flex flex-row mx-auto justify-start items-start gap-2">
+        <div className="w-5/12">
+          <p className="text-[18px] font-bold pb-5">
+            <FontAwesomeIcon icon={faBars}/>&nbsp;&nbsp;강좌</p>
+            <div className="h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-violet-200">
+          {props.curricula.map((curriculum, idx) => (
+            <StudyPageCourseItemSmall
+             idx={idx}
+              key={curriculum.order}
+              course={curriculum.course}
+              onClick={onCourseClick}
+            />
           ))}
 
-
+            </div>
+        </div>
+        <div className="w-7/12">
+            <p className="text-[18px] font-bold pb-5 pl-4">
+            <FontAwesomeIcon icon={faVideo}/>&nbsp;&nbsp;강의를 눌러 실시간 스터디를 시작하세요</p>
         {selectedCourse && (
-          <StudyPageLectureList
-            course={selectedCourse}
-            state={props.state}
-            onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}
-          />
+            <StudyPageLectureList
+              course={selectedCourse}
+              state={props.state}
+              onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}
+            />
         )}
+        </div>
       </div>
     </>
   );

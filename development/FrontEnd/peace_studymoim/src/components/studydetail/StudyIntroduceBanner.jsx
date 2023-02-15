@@ -47,7 +47,7 @@ export default function StudyIntroduceBanner({ propData, props, userInfo, curric
           >
             커리큘럼 수정
           </button>
-          <Link to={`/study/${propData.studyId}/update`} className="">
+          <Link to={`/study/${propData.studyId}/update`}>
             <button className="w-[150px] h-fit px-4 py-2 rounded-[15px] text-[15px] text-center border-2 border-[#2e2f35] cursor-pointer bg-[#ff7262] hover:animate-pulse text-white">
               스터디 정보 수정
             </button>
