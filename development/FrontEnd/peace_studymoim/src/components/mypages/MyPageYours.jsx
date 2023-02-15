@@ -5,15 +5,9 @@ import userInfo from "../../zustand/store";
 export default function MyPageYours({ getClick, yourId, clickModal }) {
   const { info } = userInfo();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const yourInformation = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId}/`
-  );
-  const followingLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId}/follow/following`
-  );
-  const followerLength = useFetch(
-    `http://${API_SERVER}/api/v1/user/${yourId}/follow/follower`
-  );
+  const yourInformation = useFetch(`http://${API_SERVER}/api/v1/user/${yourId}/`);
+  const followingLength = useFetch(`http://${API_SERVER}/api/v1/user/${yourId}/follow/following`);
+  const followerLength = useFetch(`http://${API_SERVER}/api/v1/user/${yourId}/follow/follower`);
   const followCheck = useFetch(
     `http://${API_SERVER}/api/v1/user/${yourId}/follow?userId=${info.userId}`
   );
@@ -30,42 +24,27 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
       }),
     }).then((res) => {
       if (res.ok) {
-        window.location.reload()
+        window.location.reload();
       }
     });
   }
 
-
   return (
     <div className="w-[336px]">
       <div className="w-full flex flex-col justify-center items-center gap-2">
-        <div className="w-[150px] h-[150px] relative">
         <img
-            className="rounded-full border"
-            src={
-              yourInformation.saveName
-                ? image
-                : "/logo.png"
-            }
-            />
-        </div>
+          className="rounded-full border w-[130px] h-[130px] "
+          src={yourInformation.saveName ? image : "/logo.png"}
+        />
         <p className="text-[18px] font-bold text-center text-black mt-2">
           {yourInformation.nickname}
         </p>
         <p className="text-[15px] text-center text-black">
-          <span
-            className="cursor-pointer hover:text-[#989aff]"
-            id="follower"
-            onClick={clickModal}
-          >
+          <span className="cursor-pointer hover:text-[#989aff]" id="follower" onClick={clickModal}>
             팔로워 {followerLength} &nbsp;
           </span>
           | &nbsp;
-          <span
-            className="cursor-pointer hover:text-[#989aff]"
-            id="following"
-            onClick={clickModal}
-          >
+          <span className="cursor-pointer hover:text-[#989aff]" id="following" onClick={clickModal}>
             팔로잉 {followingLength}
           </span>
         </p>
@@ -77,11 +56,13 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
             팔로우
           </button>
         ) : (
-          <button onClick={() => followFunction("DELETE")} className="w-[90%] rounded-[20px] bg-[#b1b2ff] text-[15px] text-center text-white py-1 hover:bg-[#989aff]">
+          <button
+            onClick={() => followFunction("DELETE")}
+            className="w-[90%] rounded-[20px] bg-[#b1b2ff] text-[15px] text-center text-white py-1 hover:bg-[#989aff]"
+          >
             팔로우 취소
           </button>
         )}
-
       </div>
       <div className="flex flex-col justify-center items-center gap-3 mt-5">
         <p
