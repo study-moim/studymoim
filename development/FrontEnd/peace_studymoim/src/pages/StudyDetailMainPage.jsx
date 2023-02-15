@@ -148,7 +148,7 @@ export default function StudyDetailMainPage() {
             {currentClick === "progress" ? (
               <LectureProgressList
                 propData={detailData}
-                state={{ user: info, study: { studyId: studyId.study_id } }}
+                state={{ user: info, study: { studyId: studyId.study_id, live: detailData.live } }}
               />
             ) : null}
             {currentClick === "membermanagement" ? (
