@@ -12,7 +12,7 @@ export default function MainNotLogIn({ searchKey, searchData }) {
   const navigate = useNavigate();
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course/`);
+  const courseInfo = useFetch(`http://${API_SERVER}/api/v1/course?size=1000000`).content;
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
