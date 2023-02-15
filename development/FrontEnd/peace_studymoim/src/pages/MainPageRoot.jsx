@@ -7,12 +7,8 @@ import MainNotLogIn from "../components/mainpages/MainNotLogIn";
 import getArticles from "../hooks/getArticles";
 import getQuestions from "../hooks/getQuestions";
 import useFetch from "../hooks/useFetch";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faCircleArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import MainFreeArticle from "../components/mainpages/MainFreeArticle";
 import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
@@ -156,9 +152,18 @@ export default function MainPageRoot() {
         )} */}
         {logIn ? <MainLogIn /> : <MainNotLogIn />}
         <div className="flex justify-start items-center">
-          <p className="text-lg text-left font-bold my-5 mr-3"># 자유 질문</p>
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 자유 질문
+          </p>
           <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
             icon={faCircleArrowRight}
+            size="1x"
             onClick={() => {
               navigate("/community");
             }}
@@ -176,8 +181,16 @@ export default function MainPageRoot() {
         )}
 
         <div className="flex justify-start items-center">
-          <p className="text-lg text-left font-bold my-5 mr-3"># 강의 질문</p>
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 강의 질문
+          </p>
           <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
             icon={faCircleArrowRight}
             onClick={() => {
               navigate("/community");
