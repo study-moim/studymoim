@@ -54,12 +54,14 @@ export default function PlayerQuestionMakeForm({ clickNew, lectureId, getCreateC
         <input
           className="rounded-[5px] border border-[#7b7474] w-full h-10 px-2 text-sm"
           placeholder="제목을 입력하세요"
+          maxLength="20"
           ref={titleRef}
         />
         <p className=" text-sm font-bold text-left text-black">내용</p>
         <textarea
           className="text-sm h-[350px] relative overflow-auto rounded-[5px] border border-[#7b7474] w-full p-2"
           placeholder="내용을 입력하세요"
+          maxLength="500"
           ref={contentRef}
         />
 

@@ -1,37 +1,37 @@
-import MainSearch from "../components/mainpages/MainSearch";
-import TagList from "../components/overall/TagList";
+// import TagList from "../components/overall/TagList";
+// import CourseTag from "../components/coursepages/CourseTag";
+// import MainSearch from "../components/mainpages/MainSearch";
 import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
-import MainStudy from "../components/mainpages/MainStudy";
 import getArticles from "../hooks/getArticles";
 import getQuestions from "../hooks/getQuestions";
 import useFetch from "../hooks/useFetch";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faCircleArrowRight,
-  faCircleArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
-import CourseTag from "../components/coursepages/CourseTag";
+import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
+import MainFreeArticle from "../components/mainpages/MainFreeArticle";
+import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MainSearch from "../components/mainpages/MainSearch";
 
 export default function MainPageRoot() {
+  const navigate = useNavigate();
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
-  const tags = useFetch(`http://${API_SERVER}/api/v1/category/best`).slice(
-    0,
-    9
-  );
+
+  // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`)
+  const freeArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/free?size=100000`
+  ).content;
+  const courseArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/question?size=100000`
+  ).content;
+
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
-
-  const [word, setWord] = useState("");
-  const [searchType, setSearchType] = useState("");
 
   const settings = {
     dots: true,
@@ -92,10 +92,19 @@ export default function MainPageRoot() {
             <img src="/banner2.png" alt="" />
           </div>
         </Slider>
-        <div className="w-full my-3 flex flex-col justify-center items-center">
+        <div className="w-full my-5 flex flex-col justify-center items-center">
+          {/* <div className="w-[50%] relative h-[50px] flex my-5"></div> */}
+          <MainSearch />
+        </div>
+        {/* <div className="w-full my-3 flex flex-col justify-center items-center">
           <div className="w-[50%] relative h-[50px] flex my-5">
             <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[10px] mr-[10px] text-white">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <FontAwesomeIcon
+                onClick={() => {
+                  onSubmit();
+                }}
+                icon={faMagnifyingGlass}
+              />
             </button>
             <input
               type="text"
@@ -103,13 +112,12 @@ export default function MainPageRoot() {
               className="w-full border border-[#B1B2FF] rounded-[30px] pl-4 bg-[#B1B2FF]/20 focus:outline-none focus:bg-white focus:border-gray-100"
               style={{ boxShadow: "0px 3px 5px 0px #B1B2FF" }}
               onChange={(e) => {
-                setSearchType("word");
                 setWord(e.target.value);
               }}
             />
           </div>
-        </div>
-        <div className="w-full flex flex-col">
+        </div> */}
+        {/* <div className="w-full flex flex-col">
           <p className="text-lg text-left font-bold mb-5"># 인기태그</p>
           <div className="flex flex-row flex-wrap gap-2">
             <button
@@ -131,36 +139,79 @@ export default function MainPageRoot() {
                 }}
               >
                 <CourseTag tag={tag} />
+
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
-        {logIn ? (
+        {/* {logIn ? (
           <MainLogIn searchKey={searchType} searchData={word} />
         ) : (
           <MainNotLogIn searchKey={searchType} searchData={word} />
-        )}
-        <div className="mb-5">
-          <p className="text-lg text-left font-bold mb-5"># 진행 중인 스터디</p>
-          {studyInfo.length > 2 ? (
-            <Slider {...twoSettings}>
-              {studyInfo.map((study) => (
-                <div key={study.studyId}>
-                  <MainStudy key={study.studyId} propData={study} />
-                </div>
-              ))}
-            </Slider>
-          ) : (
-            <div>
-              {studyInfo.map((study) => (
-                <div key={study.studyId}>
-                  <MainStudy key={study.studyId} propData={study} />
-                </div>
-              ))}
-            </div>
-          )}
+        )} */}
+        {logIn ? <MainLogIn /> : <MainNotLogIn />}
+        <div className="flex justify-start items-center">
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 자유 질문
+          </p>
+          <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
+            icon={faCircleArrowRight}
+            size="1x"
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
         </div>
+
+        {freeArticleInfo && (
+          <Slider {...twoSettings}>
+            {freeArticleInfo.map((free) => (
+              <div key={free.freeBoardId}>
+                <MainFreeArticle key={free.freeBoardId} propData={free} />
+              </div>
+            ))}
+          </Slider>
+        )}
+
+        <div className="flex justify-start items-center">
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 강의 질문
+          </p>
+          <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
+            icon={faCircleArrowRight}
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
+        </div>
+
+        {courseArticleInfo && (
+          <Slider {...twoSettings}>
+            {courseArticleInfo.map((course) => (
+              <div key={course.questionBoardId}>
+                <MainLectureQuestion
+                  key={course.questionBoardId}
+                  propData={course}
+                />
+              </div>
+            ))}
+          </Slider>
+        )}
+
+        <div className="my-5"></div>
       </div>
     </div>
   );

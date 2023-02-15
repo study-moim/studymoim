@@ -2,25 +2,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import StudySearch from "../components/studypages/StudySearch";
-import { useState, useEffect } from "react";
-import userInfo from "../zustand/store";
-import LoginModal from "../components/NavBar/LoginModal";
+
 
 export default function StudyRecruitMainPage() {
-  const [showModal, setShowModal] = useState(false);
-
-  function closeModalHandler() {
-    setShowModal(false);
-  }
-
-  const { info } = userInfo();
-  useEffect(() => {
-    if (!info) {
-      alert("로그인이 필요합니다.");
-      setShowModal(true);
-      return;
-    }
-  });
 
   return (
     <>
@@ -39,12 +23,6 @@ export default function StudyRecruitMainPage() {
           <StudySearch />
         </div>
       </div>
-      {showModal ? (
-        <LoginModal
-          onCancel={closeModalHandler}
-          onConfirm={closeModalHandler}
-        />
-      ) : null}
     </>
   );
 }

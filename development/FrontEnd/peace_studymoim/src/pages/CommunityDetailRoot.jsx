@@ -1,22 +1,25 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userInfo from "../zustand/store";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
 import ArticleEditForm from "../components/communitypages/ArticleEditForm";
 import Moment from "moment";
 import "moment/locale/ko";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function CommunityDetailRoot() {
-  // 로그인 컷 콤보
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true);
     }
   });
 
@@ -48,7 +51,6 @@ export default function CommunityDetailRoot() {
   const commentLength = newCommentList.length;
   const dateBase = new Date(articleDetail.publishTime);
   const date = dateBase.toString().substring(0, 24);
-  console.log(thisIsMine);
   // 삭제기능
   const handleRemove = () => {
     if (window.confirm(`정말로 글을 삭제하시겠습니까?`)) {
@@ -91,7 +93,7 @@ export default function CommunityDetailRoot() {
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
                   {Moment(articleDetail.publishTime).format(
-                    "YYYY년 MM월 DD일 HH:DD"
+                    "YYYY년 MM월 DD일 HH:mm"
                   )}
                   &nbsp; 조회수 {articleDetail.hit}
                 </div>
@@ -105,9 +107,9 @@ export default function CommunityDetailRoot() {
               </div>
             </div>
           </div>
-          <div className="w-9/12 py-7">
-            <div>{articleDetail.content}</div>
-          </div>
+          <pre className="w-9/12 py-7 bg-white text-[20px] break-all whitespace-pre-wrap font-sans">
+            {articleDetail.content}
+          </pre>
         </div>
       ) : (
         <ArticleEditForm
@@ -133,6 +135,12 @@ export default function CommunityDetailRoot() {
           />
         ))}
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </>
   );
 }

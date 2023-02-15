@@ -138,7 +138,7 @@ export default function LecturePlayerMainRoot() {
           </button>
         </div>
         {/* 태그들 안에 큰 네모 */}
-        <div className="h-full p-3 bg-white border border-[#898989]">
+        <div className="h-full w-[400px] p-3 bg-white border border-[#898989]">
           {currentClick === "memo" ? (
             <PlayerMemo lectureId={props.lectureId} />
           ) : null}

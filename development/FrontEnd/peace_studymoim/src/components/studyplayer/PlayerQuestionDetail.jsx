@@ -32,9 +32,9 @@ export default function PlayerQuestionDetail({
         {propData.user.nickname} | {date}
       </p>
       {/* 내용 부분 */}
-      <div className="w-full max-h-[200px] overflow-auto text-[11px] text-left text-black border-t-2 pt-2 scrollbar-none">
+      <pre className="w-full max-h-[200px] overflow-auto break-all whitespace-pre-wrap font-sans text-[11px] text-left text-black border-t-2 pt-2 scrollbar-none">
         {propData.content}
-      </div>
+      </pre>
 
       <div className="flex justify-center items-center h-0.5 mt-2">
         {!commentToggle ? (
@@ -42,7 +42,7 @@ export default function PlayerQuestionDetail({
             className="text-indigo-500 cursor-pointer text-xs"
             onClick={clickMoreComment}
           >
-            답변 보기 (답변 수) ▼
+            답변 보기 ▼
           </div>
         ) : (
           <div
@@ -58,7 +58,7 @@ export default function PlayerQuestionDetail({
       {commentToggle ? (
         <div className="w-full">
           <PlayerQuestionCommentCreate questionBoardId={propData.questionBoardId}  getCreateComment={getCreateComment}/>
-          <PlayerQuestionCommentList commentToggle={commentToggle} questionBoardComments={propData.questionBoardComments} />
+          <PlayerQuestionCommentList questionBoardComments={propData.questionBoardComments} />
         </div>
       ) : null}
     </div>

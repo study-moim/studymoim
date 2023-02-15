@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function StudyRecruitModalOpen(props) {
   const studyId = useParams();
@@ -41,63 +43,52 @@ export default function StudyRecruitModalOpen(props) {
   }
   return (
     <>
-      <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="relative w-auto my-6 mx-auto max-w-3xl">
-            {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-              {/*header*/}
-              <div className="flex items-start justify-between p-5 border-slate-200 rounded-t">
-                <img
-                  src="/logo.png"
-                  className="flex-grow-0 flex-shrink-0 w-[385px] h-[237.5px] rounded-xl object-cover"
-                />
-                <button
-                  className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                  onClick={() => props.onCancel()}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {/*body*/}
-              <div className="flex flex-col justify-end items-center flex-grow-0 flex-shrink-0 relative gap-2">
-                <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-[#54595e]">
-                  바로 신청하실건가요?
-                </p>
-              </div>
-              {/*footer*/}
-              <div className="flex items-center justify-between p-6 gap-5">
-                <button
-                  className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]"
-                  onClick={confirmHandler}
-                >
-                  네, 신청하겠습니다.
-                </button>
-                <button
-                  className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+        <div
+          id="배경"
+          onClick={() => props.onCancel()}
+          className="absolute opacity-25 w-full h-full inset-0 bg-black"
+        ></div>
+        <div className="relative w-auto mx-auto max-w-3xl">
+          {/*content*/}
+          <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
+            {/*header*/}
+            <div className="flex justify-end ">
+              <button onClick={() => props.onCancel()}>
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  size="lg"
+                  className="hover:text-red-500"
                   onClick={cancelHandler}
-                >
-                  아니요, 다시 생각해볼래요.
-                </button>
-              </div>
+                />
+              </button>
+            </div>
+            {/*body*/}
+            <div className="flex flex-col justify-end items-center">
+              <img
+                src="/logo.png"
+                className="w-[100px] rounded-full border object-cover my-5"
+              />
+              <p className="text-[20px] font-semibold">바로 신청하실건가요?</p>
+            </div>
+            {/*footer*/}
+            <div className="flex items-center justify-between p-6 gap-5">
+              <button
+                className="p-3 relative gap-2 rounded-lg bg-white border text-[14px] hover:bg-gray-100"
+                onClick={confirmHandler}
+              >
+                네, 신청하겠습니다.
+              </button>
+              <button
+                className="p-3 relative gap-2 rounded-lg bg-[#b1b2ff] text-[14px] text-white hover:bg-[#989aff]"
+                onClick={cancelHandler}
+              >
+                아니요, 다시 생각해볼래요.
+              </button>
             </div>
           </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-      </>
+      </div>
     </>
   );
 }

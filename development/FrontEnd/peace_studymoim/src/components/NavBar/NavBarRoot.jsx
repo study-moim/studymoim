@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 export default function Navbar() {
   // 네비바 푸터 안보이기
   const locationNow = useLocation();
-  if (locationNow.pathname.startsWith("/player")) return null;
+  if (locationNow.pathname.startsWith("/player") || locationNow.pathname.startsWith("/choice") || locationNow.pathname.startsWith("/login")) return null;
 
 
 

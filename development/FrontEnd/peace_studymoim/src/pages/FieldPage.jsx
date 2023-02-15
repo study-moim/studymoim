@@ -16,7 +16,7 @@ export default function FieldPage() {
   const userInformation = useToken(`http://${API_SERVER}/api/v1/oauth/info`);
   const tags = useFetch(`http://${API_SERVER}/api/v1/category/`);
   const [visible, setVisible] = useState(false);
-  const { setInfo } = userInfo();
+  const { info, setInfo } = userInfo();
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [selectedField, setSelectedField] = useState([]);
@@ -31,6 +31,8 @@ export default function FieldPage() {
     setInfo(userInformation);
   }, [userInformation]);
 
+  if (info && info.nickname) return navigate("/");
+
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -44,13 +46,13 @@ export default function FieldPage() {
   }, [image]);
 
   useEffect(() => {
-    setCategory(selectedField)
+    setCategory(selectedField);
   }, [selectedField]);
 
+  // TODO: 서연이가 고칠 예정
   const onChangeNickname = (nicknameCurrent) => {
     const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
     setNickname(nicknameCurrent);
-
     if (!nicknameRegex.test(nicknameCurrent)) {
       setNicknameMessage("한글 2-6자로 입력해주세요");
     } else {
@@ -74,9 +76,6 @@ export default function FieldPage() {
     imageData.append("dto", JSON.stringify(startInfo));
     fetch(`http://${API_SERVER}/api/v1/user/`, {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
       body: imageData,
     }).then((res) => {
       if (res.ok) {
@@ -86,7 +85,7 @@ export default function FieldPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-[50px] mb-[100px] px-4">
+    <div className="max-w-6xl mx-auto mt-[120px] mb-[100px] px-4">
       {/* 분야 선택 창 */}
       {!visible && (
         <div className="w-full">
@@ -128,8 +127,14 @@ export default function FieldPage() {
                 ))}
               </div>
             </div>
-            <button className="nextBtn" 
-            onClick={() => selectedField.length !== 0 ? setVisible(true) : alert("태그 눌러라 ㅡ,,ㅡ")}>
+            <button
+              className="nextBtn"
+              onClick={() =>
+                selectedField.length !== 0
+                  ? setVisible(true)
+                  : alert("태그를 1개 이상 선택해주세요.")
+              }
+            >
               <FontAwesomeIcon
                 icon={faChevronRight}
                 size="2x"
@@ -156,17 +161,6 @@ export default function FieldPage() {
             STEP 2. 나만의 프로필
           </p>
           <div className="flex justify-center">
-            <button
-              className="prevBtn"
-              onClick={() => setVisible(false)}
-              onKeyUpCapture={() => setVisible(true)}
-            >
-              <FontAwesomeIcon
-                icon={faChevronLeft}
-                size="2x"
-                className="animate-bounce"
-              />
-            </button>
             <div className="flex flex-col justify-center items-center w-[80%]">
               <form
                 onSubmit={submitHandler}

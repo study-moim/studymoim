@@ -30,14 +30,23 @@ export default function ArticleEditForm({
     }
   };
 
-  const putArticle = () => {
+  const putArticle = (e) => {
+    e.preventDefault();
+    if (localTitle.trim().length < 1) {
+      alert("제목을 공백으로만 구성할 수 없습니다.");
+      return;
+    }
+    if (localContent.trim().length < 1) {
+      alert("내용을 공백으로만 구성할 수 없습니다.");
+      return;
+    }
+
+
     const putData = {
       title: localTitle,
       content: localContent,
       userId: userId,
     };
-    console.log(wlh, "wlh")
-    console.log(putData, "pppppppppppppppppppppppppppppppppp")
     fetch(`http://${API_SERVER}/api/v1/articles/free/${wlh}`, {
       method: "PUT",
       headers: {
@@ -64,14 +73,16 @@ export default function ArticleEditForm({
           placeholder="제목을 입력하세요."
           ref={localTitleInput}
           value={localTitle}
+          maxLength="20"
           onChange={(e) => setLocalTitle(e.target.value)}
           required
         />
         <textarea
           className="flex justify-start items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
-          placeholder="마크다운 양식으로 입력이 가능합니다."
+          placeholder="내용을 입력하세요."
           ref={localContentInput}
           value={localContent}
+          maxLength="500"
           onChange={(e) => setLocalContent(e.target.value)}
           required
         />

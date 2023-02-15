@@ -61,7 +61,7 @@ export default function CommunityComment({ comment, commentUserId }) {
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
                 {Moment(comment.publishTime).format(
-                    "YYYY년 MM월 DD일 HH:DD"
+                    "YYYY년 MM월 DD일 HH:mm"
                   )}
                 </div>
               </div>
@@ -78,9 +78,9 @@ export default function CommunityComment({ comment, commentUserId }) {
             </div>
           </div>
           {/* 댓글 내용 */}
-          <div className="flex w-full justify-start mt-5 text-[15px] text-center">
+          <pre className="font-sans w-full whitespace-pre-wrap mt-5 text-[15px] text-start break-all">
             {comment.content}
-          </div>
+          </pre>
         </div>
       </div>
     </>

@@ -130,8 +130,17 @@ export default function StudyPlayerMainRoot() {
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
 
   useEffect(() => {
+    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`, {method : "PUT"})
     connect(study.studyId);
-    return () => {
+    return async () => {
+      // await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
+      // {
+      //   method: "PUT",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // }
+      // )
       disconnect();
     };
   }, []);
@@ -154,11 +163,11 @@ export default function StudyPlayerMainRoot() {
   async function closeLive() {
     if (confirm("라이브를 종료하시겠습니까?") == true) {
       putHistory();
+      // test
       let response = await fetch(
         `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
         { method: "PUT" }
       );
-      console.log(response.status);
       navigate(`/studyDetail/${study.studyId}`);
     }
   }

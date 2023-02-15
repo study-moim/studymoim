@@ -1,5 +1,6 @@
 package com.ssafy.peace.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.dto.StudyDto;
 import com.ssafy.peace.dto.StudyMemberDto;
@@ -11,9 +12,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Tag(name = "StudyController", description = "스터디 API")
 @RestController
@@ -22,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 public class StudyController {
 
     private final StudyService studyService;
+
+    private static Map<Integer, Integer> nowPlayerStudyMemberCount = new HashMap<>();
 
     @Operation(summary = "get study list", description = "스터디 목록 불러오기")
     @ApiResponses({
@@ -269,12 +276,47 @@ public class StudyController {
                                              @Parameter(description="status(Enum - start/end)") @PathVariable String status,
                                              @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
-            System.out.println("+++++++++++++live++++++++++");
-            if(status.equals("start")){
-                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
+            System.out.println(status+ "@@@@@@@@@@@@@" + lectureId);
+
+            // lectureId가 없다 -> 이어듣기
+            // 있다 -> 처음 새로 듣기
+            if(status.equals("start")) {
+                // 입장시, 일단 올린다.
+
+                // 이어 듣기, 인원 +1, 후 종료
+                if(lectureId == null) {
+                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
+                    System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
+                    throw new Exception("No lectureId present. is lectureId exists in request query?");
+                }
+
+                // 처음 듣기
+                if (nowPlayerStudyMemberCount.containsKey(studyId)) {
+                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
+                } else {
+                    nowPlayerStudyMemberCount.put(studyId, 1);
+                }
+                // 보정
+                nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
+
+                System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
                 studyService.updateLive(studyId, true, lectureId);
             }
-            if(status.equals("end")) studyService.updateLive(studyId, false);
+            // 퇴장시
+            else if(status.equals("end")) {
+                nowPlayerStudyMemberCount.put(studyId, Math.max(nowPlayerStudyMemberCount.get(studyId) - 1, 0));
+                if(nowPlayerStudyMemberCount.get(studyId) == 0) {
+                    studyService.updateLive(studyId, false);
+                }
+                System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
+            }
+
+//            if(status.equals("start")){
+//                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
+//                studyService.updateLive(studyId, true, lectureId);
+//            }
+//            if(status.equals("end")) studyService.updateLive(studyId, false);
+
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
@@ -323,6 +365,38 @@ public class StudyController {
         try{
             studyService.addStudyCommunity(studyCommunityDto);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get user history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/coursehistory/{studyId}")
+    public ResponseEntity<?> getUserCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<>(mapper.writeValueAsString(studyService.getCourseListHistoryByStudyId(studyId)), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "get study history by course", description = "해당 스터디 강좌, 멤버별 진행 상황")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/coursehistorystudy/{studyId}")
+    public ResponseEntity<?> getStudyCourseHistoryList(@Parameter(description = "studyId") @PathVariable Integer studyId) {
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<>(mapper.writeValueAsString(studyService.getStudyCourseListHistoryByStudyId(studyId)), HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

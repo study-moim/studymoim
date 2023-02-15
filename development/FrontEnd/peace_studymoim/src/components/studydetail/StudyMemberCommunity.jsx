@@ -23,7 +23,6 @@ export default function StudyMemberCoummunity({ propData }) {
         .then((res) => res.json())
         .then((json) => {
           setStudyCommunity(json);
-          console.log(studyCommunity);
         });
     };
     getStudyCommunity();
@@ -31,7 +30,6 @@ export default function StudyMemberCoummunity({ propData }) {
 
   useEffect(() => {
     if (!info) {
-      alert("로그인이 필요합니다.");
       navigate("/login");
       return;
     }
@@ -61,18 +59,18 @@ export default function StudyMemberCoummunity({ propData }) {
   }
 
   return (
-    <div className="flex flex-col justify-start items-center w-full h-[1275px] relative overflow-hidden gap-5 p-[50px]">
+    <div className="flex flex-col justify-start items-center w-full h-fit relative overflow-hidden gap-7 px-[50px] pt-[40px] pb-[30px]">
       <form
         onSubmit={onSubmit}
-        className="flex relative h-[42px] border border-slate-500 bg-white rounded-[30px] w-[500px]"
+        className="flex relative h-[42px] border border-slate-500 bg-white rounded-[30px] w-full"
       >
-        <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
+        <button className="absolute right-0 bg-[#B1B2FF] text-[15px] rounded-full w-[30px] h-[30px] my-[5px] mr-[5px] text-white">
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>
         <input
           type="text"
           placeholder="스터디원들과 대화해보세요!"
-          className="w-full rounded-[30px] pl-4"
+          className="w-full h-[40px] border text-[14px] rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300 focus:border-none"
           ref={contentRef}
         />
       </form>

@@ -1,7 +1,6 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import userInfo from "../zustand/store";
 import QuestionCommentForm from "../components/communitydetail/QuestionCommentForm";
 import QustionLectureShort from "../components/communitydetail/QuestionLectureShort";
@@ -9,15 +8,19 @@ import QuestionEditForm from "../components/communitypages/QuestionEditForm";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
 import Moment from "moment";
 import "moment/locale/ko";
+import LoginModal from "../components/NavBar/LoginModal";
+import QuestionComment from "../components/communitydetail/QuestionComment";
 
 export default function CommunityQuestionDetailRoot() {
-  // 로그인 컷 콤보
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true);
     }
   });
 
@@ -97,7 +100,7 @@ export default function CommunityQuestionDetailRoot() {
                 </NavLink>
                 <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
                   {Moment(questionDetail.publishTime).format(
-                    "YYYY년 MM월 DD일 HH:DD"
+                    "YYYY년 MM월 DD일 HH:mm"
                   )}
                   &nbsp; 조회수 {questionDetail.hit}
                 </div>
@@ -112,9 +115,9 @@ export default function CommunityQuestionDetailRoot() {
             </div>
           </div>
 
-          <div className="w-9/12 py-7 bg-white text-[20px] font-bold">
+          <pre className="w-9/12 py-7 bg-white text-[20px] break-all whitespace-pre-wrap font-sans">
             {questionDetail.content}
-          </div>
+          </pre>
         </div>
       ) : (
         <QuestionEditForm
@@ -137,7 +140,7 @@ export default function CommunityQuestionDetailRoot() {
         </div>
         <QuestionCommentForm questionBoardId={questionDetail.questionBoardId} />
         {newCommentList.map((comment) => (
-          <CommunityComment
+          <QuestionComment
             key={comment.questionBoardCommentId}
             commentUserId={comment.user.userId}
             comment={comment}
@@ -145,6 +148,12 @@ export default function CommunityQuestionDetailRoot() {
           />
         ))}
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </>
   );
 }

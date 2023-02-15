@@ -55,11 +55,9 @@ public class FreeBoardService {
 
     @Transactional
     public FreeBoardDto.Info updateFreeBoard(Integer freeBoardId, FreeBoardDto.Write freeBoard) throws RollbackException {
-        return FreeBoardDto.Info.fromEntity(freeBoardRepository.save(FreeBoard.builder()
-                .title(freeBoard.getTitle())
-                .content(freeBoard.getContent())
-                .user(userRepository.findById(freeBoard.getUserId()).get())
-                .build().updateId(freeBoardId)));
+        return FreeBoardDto.Info.fromEntity(freeBoardRepository.save(
+                freeBoardRepository.findById(freeBoardId).get()
+                        .updateTitleAndContent(freeBoard.getTitle(), freeBoard.getContent())));
     }
 
     @Transactional

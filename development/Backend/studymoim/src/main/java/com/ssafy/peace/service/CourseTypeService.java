@@ -25,27 +25,6 @@ public class CourseTypeService {
         List<CourseCategory> courseCategoryList = courseCategoryRepository.findAll();
         List<Course> courseList = courseRepository.findAll();
 
-//        for (int i = 0; i < courseCategoryList.size(); i++) {
-//            CourseCategory courseCategory = courseCategoryList.get(i);
-//            boolean flag = false;
-//            for (int j = 0; j < courseList.size(); j++) {
-//                Course course = courseList.get(j);
-//                if(course.getTitle().contains(courseCategory.getName_kor())) {
-//                    courseTypeRepository.save(CourseType.builder()
-//                            .course(course)
-//                            .courseCategory(courseCategory)
-//                            .build());
-//                    flag = true;
-//                } else if (course.getTitle().toLowerCase().contains(courseCategory.getName_eng().toLowerCase())) {
-//                    courseTypeRepository.save(CourseType.builder()
-//                            .course(course)
-//                            .courseCategory(courseCategory)
-//                            .build());
-//                    flag = true;
-//                }
-//            }
-//        }
-
         for (int i = 0; i < courseList.size(); i++) {
             boolean flag = false;
             Course course = courseList.get(i);
@@ -56,7 +35,7 @@ public class CourseTypeService {
                             .courseCategory(courseCategoryList.get(j))
                             .build());
                     flag = true;
-                } else if (course.getTitle().contains(courseCategoryList.get(j).getName_eng())) {
+                } else if (course.getTitle().toLowerCase().contains(courseCategoryList.get(j).getName_eng().toLowerCase())) {
                     courseTypeRepository.save(CourseType.builder()
                             .course(course)
                             .courseCategory(courseCategoryList.get(j))

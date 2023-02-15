@@ -1,6 +1,8 @@
 package com.ssafy.peace.repository;
 
 import com.ssafy.peace.entity.CourseType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +20,7 @@ public interface CourseTypeRepository extends JpaRepository<CourseType, Integer>
 //    /*
 //    특정 카테고리의 강좌 가져오기
 //     */
-    List<CourseType> findAllByCourseCategory_CourseCategoryId(int courseCategoryId);
+    Page<CourseType> findAllByCourseCategory_CourseCategoryId(int courseCategoryId, Pageable pageable);
 
     @Query("SELECT c FROM CourseType c WHERE c.courseCategory.courseCategoryId IN (:categoryIdList)")
     List<CourseType> findByCourseTypeIdIn(@Param("categoryIdList") List<Integer> categoryIdList);

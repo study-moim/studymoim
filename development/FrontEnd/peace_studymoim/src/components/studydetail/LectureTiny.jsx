@@ -5,10 +5,12 @@ export default function LectureTiny({
   lectureIndex,
   onClick,
   state,
+  live
 }) {
   return (
     <Link
-      to={`/player/study/${propData.lectureId}`}
+    // live ... 
+      to={live ? "#" : `/player/study/${propData.lectureId}`}
       state={{
         user: state.user,
         study: state.study,
@@ -24,13 +26,13 @@ export default function LectureTiny({
           onClick(propData.lectureId);
         }}
       >
-        <p className="w-[2%] px-5 text-base text-center">{lectureIndex}</p>
-        <img
+        <p className="w-[2%] px-5 text-[15px] text-center">{lectureIndex}</p>
+        {/* <img
           className="w-[10%] h-full rounded-[10px]"
           src={propData.thumbnail}
           alt="x"
-        />
-        <p className="w-[65%] text-base">{propData.title}</p>
+        /> */}
+        <p className="w-full text-[15px]">{propData.title}</p>
       </div>
     </Link>
   );

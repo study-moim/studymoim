@@ -8,21 +8,23 @@ export default function StudyNotice({ propData, props, userInfo }) {
     setShowModal(false);
   }
 
-  useEffect(() => {}, [props, userInfo]); 
+  useEffect(() => {}, [props, userInfo]);
 
   return (
-    <div className="w-full flex justify-around items-center flex-grow-0 flex-shrink-0 relative gap-[43px] bg-[#b1b2ff]">
-   
-      <FontAwesomeIcon icon={faBullhorn} className="flex-grow-0 flex-shrink-0 text-xl font-bold justify-center p-2.5 pl-5 text-white"/>
-      <p className="flex-grow w-8/12 text-xl text-center">
-        {propData.notice && propData.notice}
-      </p>
-      
-      {userInfo === props.userId ? 
-      <FontAwesomeIcon icon={faPenToSquare} className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-white p-2.5 pr-5" onClick={() => setShowModal(true)} /> 
-      : null 
-      }
-    
+    <div className="py-2 px-5 w-full flex items-center relative border border-[#b1b2ff] rounded-[5px]">
+      <FontAwesomeIcon icon={faBullhorn} className="text-xl justify-center pr-8" />
+      <p className="flex-grow w-8/12 text-[17px]">{propData.notice && propData.notice}</p>
+
+      {userInfo === props.userId ? (
+        <div
+          className="flex items-center gap-3  cursor-pointer hover:text-[#8871f9]"
+          onClick={() => setShowModal(true)}
+        >
+          <FontAwesomeIcon icon={faPenToSquare} className="text-[17px] text-center" />
+          공지 작성
+        </div>
+      ) : null}
+
       {showModal ? <NoticeModal onCancel={closeModalHandler} /> : null}
     </div>
   );
