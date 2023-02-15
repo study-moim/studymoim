@@ -49,6 +49,7 @@ export default function LectureProgress(props) {
               course={selectedCourse}
               state={props.state}
               onStudyPlayerStart={(lectureId) => onLiveStart(lectureId)}
+              live={props.live}
             />
         )}
         </div>
