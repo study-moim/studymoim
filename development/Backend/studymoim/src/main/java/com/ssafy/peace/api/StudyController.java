@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Tag(name = "StudyController", description = "스터디 API")
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 public class StudyController {
 
     private final StudyService studyService;
+
+    private final static Map<Integer, Integer> nowPlayerStudyMemberCount = new HashMap<>();
 
     @Operation(summary = "get study list", description = "스터디 목록 불러오기")
     @ApiResponses({
@@ -271,12 +276,29 @@ public class StudyController {
                                              @Parameter(description="status(Enum - start/end)") @PathVariable String status,
                                              @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
-            System.out.println("+++++++++++++live++++++++++");
-            if(status.equals("start")){
-                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
-                studyService.updateLive(studyId, true, lectureId);
+            if(status.equals("start")) {
+                // 입장시
+                if (nowPlayerStudyMemberCount.containsKey(studyId)) {
+                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
+                } else {
+                    nowPlayerStudyMemberCount.put(studyId, 1);
+                }
+                System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
             }
-            if(status.equals("end")) studyService.updateLive(studyId, false);
+            // 퇴장시
+            else if(status.equals("end")) {
+                nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
+                System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
+                if(nowPlayerStudyMemberCount.get(studyId) == 0) {
+                    studyService.updateLive(studyId, false);
+                }
+            }
+
+//            if(status.equals("start")){
+//                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
+//                studyService.updateLive(studyId, true, lectureId);
+//            }
+//            if(status.equals("end")) studyService.updateLive(studyId, false);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
