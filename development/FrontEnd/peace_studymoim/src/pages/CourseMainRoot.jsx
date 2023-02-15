@@ -41,25 +41,21 @@ export default function CourseMainRoot() {
     }, [key, word, currentPage]);
 
     const getPage = async () => {
-        // console.log(params.key, params.word)
         let resp = null
         let data = null;
         if(params.key == 'word'){
             resp = await fetch(`http://${API_SERVER}/api/v1/course?key=title&word=${params.word}&page=${params.page}&size=${params.size}`);
-            // console.log(`http://${API_SERVER}/api/v1/course?key=title&word=${params.word}`)
+    
             data = await resp.json();
         }
         else if(params.key == 'tag'){
             resp = await fetch(`http://${API_SERVER}/api/v1/course/category/${params.word}?page=${params.page}&size=${params.size}`);
-            // console.log(`http://${API_SERVER}/api/v1/course/category/${params.word}?page=${params.page}&size=${params.size}`)
             data = await resp.json();
         } else {
             resp = await fetch(`http://${API_SERVER}/api/v1/course?key=title&word=&page=${params.page}&size=${params.size}`);
-            // console.log(`http://${API_SERVER}/api/v1/course/category/${params.word}?page=${params.page}&size=${params.size}`)
             data = await resp.json();
         }
         setPage(data);
-        // console.log('lecture', data);
     }
   const getPageByTitle = async (word) => {
       let query = Object.keys(params)
@@ -68,7 +64,6 @@ export default function CourseMainRoot() {
       let resp = await fetch(`http://${API_SERVER}/api/v1/course`);
       let data = await resp.json();
       setPage(data);
-      // console.log('tag', data);
   }
 
   // let filterTitle = courseInfo.filter((course) => {
@@ -149,7 +144,6 @@ export default function CourseMainRoot() {
                 setKey("tag");
                 setWord(tag.courseCategoryId);
                 setCurrentPage(1)
-              // console.log('tag button clicked')
             }}
           >
             <CourseTag key={tag.courseCategoryId} tag={tag} />

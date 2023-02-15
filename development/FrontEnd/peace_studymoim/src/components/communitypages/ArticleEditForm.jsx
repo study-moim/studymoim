@@ -36,8 +36,6 @@ export default function ArticleEditForm({
       content: localContent,
       userId: userId,
     };
-    console.log(wlh, "wlh")
-    console.log(putData, "pppppppppppppppppppppppppppppppppp")
     fetch(`http://${API_SERVER}/api/v1/articles/free/${wlh}`, {
       method: "PUT",
       headers: {

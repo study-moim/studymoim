@@ -23,7 +23,6 @@ export default function NavBarLogIn() {
   }
   async function checkAlarms() {
       if(!info.userId){
-          console.log("no userId present")
           return
       }
       let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${info.userId}/check/alarm`)
@@ -33,7 +32,6 @@ export default function NavBarLogIn() {
   async function getAlarmList(userId) {
       let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${userId}/alarms`)
       let alarmList = await resp.json();
-      console.log(alarmList)
       setAlarmList(alarmList);
   }
 

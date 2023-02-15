@@ -57,11 +57,9 @@ export default function CourseDetailRoot() {
       if(currentClick == 'curriculum') {}
       else if(currentClick == 'study') query = query + '&sort=creationTime,desc'
       else if(currentClick == 'community') query = query + '&sort=publishTime,desc'
-      console.log(`${url}?${query}`);
       let resp = await fetch(`${url}?${query}`)
       let data = await resp.json()
       setPage(data);
-      console.log(data);
     };
     if(currentClick=='curriculum'){
       getPage(`http://${API_SERVER}/api/v1/lecture/${props.course_id}`);
@@ -81,8 +79,6 @@ export default function CourseDetailRoot() {
     data.content.forEach((lecture) => {
       tot += lecture.length;
     });
-    console.log(data.content.length)
-    console.log(tot)
     setDataForBanner({
       courseId: props.course_id,
       title: props.title,

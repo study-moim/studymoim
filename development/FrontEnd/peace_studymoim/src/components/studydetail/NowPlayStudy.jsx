@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 export default function NowPlayStudy(props) {
   const isLive = props.propData.live;
-  console.log("isLive................"+isLive)
 
   const now = new Date();
   const year = now.getFullYear();

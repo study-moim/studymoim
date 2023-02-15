@@ -30,7 +30,6 @@ export default function QuestionRoot() {
       let query = Object.keys(params)
           .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
           .join('&');
-      console.log(query)
       let resp = await fetch(`http://${API_SERVER}/api/v1/articles/question?`+query)
       let data = await resp.json()
       setPage(data);
