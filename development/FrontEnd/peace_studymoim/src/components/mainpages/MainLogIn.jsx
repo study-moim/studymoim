@@ -10,7 +10,7 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import StudyListItem from "../mypages/StudyListItem";
 
-export default function MainLogIn({ searchKey, searchData }) {
+export default function MainLogIn() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const { info } = userInfo();
   const userId = info.userId;
@@ -69,23 +69,23 @@ export default function MainLogIn({ searchKey, searchData }) {
   );
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
 
-  let filterInfo = recommendCourses.filter((course) => {
-    if (searchKey == "word") {
-      return course.title
-        .replace(" ", "")
-        .toLocaleLowerCase()
-        .includes(searchData.toLocaleLowerCase().replace(" ", ""));
-    } else if (searchKey == "tag") {
-      if (
-        course.categoryList.length != 0 &&
-        course.categoryList[0].courseCategoryId == searchData
-      ) {
-        return course;
-      }
-    } else {
-      return recommendCourses;
-    }
-  });
+  // let filterInfo = recommendCourses.filter((course) => {
+  //   if (searchKey == "word") {
+  //     return course.title
+  //       .replace(" ", "")
+  //       .toLocaleLowerCase()
+  //       .includes(searchData.toLocaleLowerCase().replace(" ", ""));
+  //   } else if (searchKey == "tag") {
+  //     if (
+  //       course.categoryList.length != 0 &&
+  //       course.categoryList[0].courseCategoryId == searchData
+  //     ) {
+  //       return course;
+  //     }
+  //   } else {
+  //     return recommendCourses;
+  //   }
+  // });
 
   return (
     <>
@@ -94,9 +94,9 @@ export default function MainLogIn({ searchKey, searchData }) {
           # {userNickname}님 추천강좌
         </p>
       </div>
-      {filterInfo.length > 3 ? (
+      {recommendCourses.length > 3 ? (
         <Slider {...settings}>
-          {filterInfo.map((course) => (
+          {recommendCourses.map((course) => (
             <div key={course.course_id}>
               <MainCourse key={course.course_id} propData={course} />
             </div>
@@ -104,15 +104,16 @@ export default function MainLogIn({ searchKey, searchData }) {
         </Slider>
       ) : (
         <div className="flex justify-start gap-[15px]">
-          {filterInfo.map((course) => (
+          {recommendCourses.map((course) => (
             <MainCourse key={course.course_id} propData={course} />
           ))}
         </div>
       )}
 
       <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3"># 내 스터디 바로가기</p>
+        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"># 내 스터디 바로가기</p>
         <FontAwesomeIcon
+          className="cursor-pointer hover:text-[#989aff]"
           icon={faCircleArrowRight}
           onClick={() => {
             navigate(`/mypage/${userId}`);

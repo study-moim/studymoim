@@ -41,7 +41,6 @@ export default function App() {
         <Route path="/study" element={<StudyRecruitMainPage />}></Route>
         <Route path="/community" element={<CommunityMainRoot />}></Route>
         <Route path="/login" element={<LogInMainRoot />}></Route>
-        {/* TODO: 동적라우터패쓰로 재설정 ex) /mypage/아이디 */}
         <Route path="/mypage" element={<MyPageRealRoot />}>
           <Route path=":user_id" element={<MyPageRoot />}></Route>
         </Route>
