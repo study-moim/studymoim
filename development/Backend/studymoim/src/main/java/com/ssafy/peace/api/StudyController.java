@@ -276,18 +276,29 @@ public class StudyController {
                                              @Parameter(description="status(Enum - start/end)") @PathVariable String status,
                                              @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
-            System.out.println(status);
+            System.out.println(status+ "@@@@@@@@@@@@@" + lectureId);
+
+            // lectureId가 없다 -> 이어듣기
+            // 있다 -> 처음 새로 듣기
             if(status.equals("start")) {
-                // 입장시
+                // 입장시, 일단 올린다.
+
+                // 이어 듣기, 인원 +1, 후 종료
+                if(lectureId == null) {
+                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
+                    System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
+                    throw new Exception("No lectureId present. is lectureId exists in request query?");
+                }
+
+                // 처음 듣기
                 if (nowPlayerStudyMemberCount.containsKey(studyId)) {
                     nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
                 } else {
                     nowPlayerStudyMemberCount.put(studyId, 1);
                 }
-                if(lectureId == null) {
-                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
-                    throw new Exception("No lectureId present. is lectureId exists in request query?");
-                }
+                // 보정
+                nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
+
                 System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
                 studyService.updateLive(studyId, true, lectureId);
             }

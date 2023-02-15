@@ -22,7 +22,6 @@ export default function LectureProgress(props) {
   }
 
   async function onLiveStart(lectureId) {
-    console.log("tttttttttttttttttttttttttttttttttttttttttttttttt")
     let response = await fetch(
       `http://${API_SERVER}/api/v1/study/${props.state.study.studyId}/live/start?lectureId=${lectureId}`,
       { method: "PUT" }
