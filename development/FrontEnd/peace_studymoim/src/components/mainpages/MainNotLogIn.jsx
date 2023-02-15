@@ -8,7 +8,7 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import MainStudy from "./MainStudy";
 
-export default function MainNotLogIn({ searchKey, searchData }) {
+export default function MainNotLogIn() {
   const navigate = useNavigate();
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -114,8 +114,9 @@ export default function MainNotLogIn({ searchKey, searchData }) {
   return (
     <>
       <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3"># 전체 강좌</p>
+        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"># 전체 강좌</p>
         <FontAwesomeIcon
+         className="cursor-pointer hover:text-[#989aff]"
           icon={faCircleArrowRight}
           onClick={() => {
             navigate("/Course");
@@ -142,10 +143,11 @@ export default function MainNotLogIn({ searchKey, searchData }) {
 
       <div className="mb-5">
         <div className="flex justify-start items-center">
-          <p className="text-lg text-left font-bold my-5 mr-3 mt-5">
+          <p className="text-lg text-left font-bold my-5 mr-3 mt-5 cursor-pointer hover:text-[#989aff]">
             # 모집 중인 스터디
           </p>
           <FontAwesomeIcon
+           className="cursor-pointer hover:text-[#989aff]"
             icon={faCircleArrowRight}
             onClick={() => {
               navigate("/study");

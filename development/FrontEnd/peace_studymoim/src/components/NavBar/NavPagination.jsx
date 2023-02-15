@@ -27,7 +27,6 @@ export default function NavPagination({
         newDisplay.push(i + 1);
       }
     } else if (pageCount - pageRangeDisplayed / 2 < currentPage) {
-      console.log(pageCount, pageRangeDisplayed);
       for (let i = pageCount - pageRangeDisplayed; i < pageCount; i++) {
         if (i < 0) continue;
         newDisplay.push(i + 1);

@@ -23,7 +23,7 @@ export default function MainSearch() {
     
     >
       <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[10px] mr-[10px] text-white">
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <FontAwesomeIcon icon={faMagnifyingGlass}/>
       </button>
       <input 
         type="text"

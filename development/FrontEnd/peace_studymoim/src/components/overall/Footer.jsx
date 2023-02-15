@@ -7,13 +7,13 @@ export default function Footer() {
   const locationNow = useLocation();
   if (locationNow.pathname.startsWith("/player") || locationNow.pathname.startsWith("/choice") || locationNow.pathname.startsWith("/login")) return null;
   return (
-    <div className="w-full h-[350px] pt-[70px] p-[50px] bg-gray-100 text-[14px] text-gray-500">
+    <div className="w-full h-[250px] pt-[20px] p-[50px] bg-gray-100 text-[14px] text-gray-500">
       <div className="max-w-6xl mx-auto px-4 mb-5 flex flex-col">
         {/* <div>
       혹시 몰라 ^^*
       </div> */}
         <div className="flex flex-col">
-          <div className="flex flex-row gap-5">
+          {/* <div className="flex flex-row gap-5">
             <p className="font-bold">이용안내</p>
             <p>|</p>
             <Link to={`/course`}>
@@ -25,8 +25,8 @@ export default function Footer() {
             <Link to={`/community`}>
               <p>커뮤니티</p>
             </Link>
-          </div>
-          <div className="w-full border-b mt-[40px] border-gray-300"></div>
+          </div> */}
+          {/* <div className="w-full border-b border-gray-300"></div> */}
           <img src="/logo.png" className="rounded-full w-[100px]" />
           <div className="gap-2">
             <p>쓰임 주식회사</p>
