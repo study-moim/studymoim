@@ -4,7 +4,6 @@ export default function StudyPageLectureList({
   course,
   onStudyPlayerStart,
   state,
-  live,
 }) {
   return (
     <>
@@ -18,7 +17,6 @@ export default function StudyPageLectureList({
             onClick={(lectureId) => {
               onStudyPlayerStart(lectureId);
             }}
-            live={live}
           />
         ))}
       </div>
