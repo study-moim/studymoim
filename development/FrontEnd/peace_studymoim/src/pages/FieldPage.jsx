@@ -132,7 +132,7 @@ export default function FieldPage() {
               onClick={() =>
                 selectedField.length !== 0
                   ? setVisible(true)
-                  : alert("태그 눌러라 ㅡ,,ㅡ")
+                  : alert("태그를 눌러주세요")
               }
             >
               <FontAwesomeIcon
