@@ -282,6 +282,7 @@ public class StudyController {
                     nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
                 } else {
                     nowPlayerStudyMemberCount.put(studyId, 1);
+                    studyService.updateLive(studyId, true, lectureId);
                 }
                 System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
             }
