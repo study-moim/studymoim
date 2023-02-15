@@ -174,6 +174,7 @@ export default function StudyDetailMainPage() {
               <LectureProgressList
                 propData={detailData}
                 state={{ user: info, study: { studyId: studyId.study_id } }}
+                live={detailData.live}
               />
             ) : null}
           </div>
