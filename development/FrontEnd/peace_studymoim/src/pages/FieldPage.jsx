@@ -5,10 +5,7 @@ import useToken from "../hooks/useToken";
 import useFetch from "../hooks/useFetch";
 import Tag from "../components/overall/Tag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function FieldPage() {
   const navigate = useNavigate();
@@ -49,16 +46,26 @@ export default function FieldPage() {
     setCategory(selectedField);
   }, [selectedField]);
 
-  // TODO: 서연이가 고칠 예정
   const onChangeNickname = (nicknameCurrent) => {
-    const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
+    // const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
     setNickname(nicknameCurrent);
-    if (!nicknameRegex.test(nicknameCurrent)) {
+    if (nicknameCurrent.length < 2) {
       setNicknameMessage("한글 2-6자로 입력해주세요");
     } else {
       setNicknameMessage("올바른 닉네임 형식입니다 : )");
     }
   };
+
+  function checkKeyCode(t) {
+    // const keyCode = event.keyCode;
+    // if (event.keyCode == 32) event.returnValue = false;
+    // else if (keyCode >= 33 && keyCode <= 126) event.returnValue = false;
+    var regexp = /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+    t.onkeyup = function (e) {
+      var v = this.value;
+      this.value = v.replace(regexp, "");
+    };
+  }
 
   function submitHandler(event) {
     event.preventDefault();
@@ -91,15 +98,10 @@ export default function FieldPage() {
         <div className="w-full">
           <div className="flex justify-center">
             <div className="max-w-[300px] w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-              <div
-                className="bg-[#b1b2ff] h-2.5 rounded-full"
-                style={{ width: "50%" }}
-              ></div>
+              <div className="bg-[#b1b2ff] h-2.5 rounded-full" style={{ width: "50%" }}></div>
             </div>
           </div>
-          <p className="text-[25px] font-bold my-[40px] text-center">
-            STEP 1. 관심 분야 설정
-          </p>
+          <p className="text-[25px] font-bold my-[40px] text-center">STEP 1. 관심 분야 설정</p>
           <div className="flex flex-row">
             <div className="flex flex-col justify-center items-center">
               <div className="flex flex-row flex-wrap w-[80%] justify-center gap-2">
@@ -115,10 +117,7 @@ export default function FieldPage() {
                           }
                         }
                       } else {
-                        setSelectedField([
-                          ...selectedField,
-                          tag.courseCategoryId,
-                        ]);
+                        setSelectedField([...selectedField, tag.courseCategoryId]);
                       }
                     }}
                   >
@@ -135,11 +134,7 @@ export default function FieldPage() {
                   : alert("태그를 1개 이상 선택해주세요.")
               }
             >
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                size="2x"
-                className="animate-bounce "
-              />
+              <FontAwesomeIcon icon={faChevronRight} size="2x" className="animate-bounce " />
             </button>
           </div>
         </div>
@@ -151,10 +146,7 @@ export default function FieldPage() {
         <div className="w-full">
           <div className="flex justify-center">
             <div className="max-w-[300px] w-[50%] bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-              <div
-                className="bg-[#b1b2ff] h-2.5 rounded-full"
-                style={{ width: "100%" }}
-              ></div>
+              <div className="bg-[#b1b2ff] h-2.5 rounded-full" style={{ width: "100%" }}></div>
             </div>
           </div>
           <p className="text-[25px] font-bold mt-[40px] mb-[30px] text-center">
@@ -167,22 +159,18 @@ export default function FieldPage() {
                 className="flex flex-col justify-center items-center w-[80%] gap-4"
               >
                 {preview ? (
-                  <img
-                    src={preview}
-                    className="border rounded-full w-[160px] h-[160px]"
-                  />
+                  <img src={preview} className="border rounded-full w-[160px] h-[160px]" />
                 ) : (
-                  <img
-                    src={"/logo.png"}
-                    className="border rounded-full w-[160px] h-[160px]"
-                  />
+                  <img src={"/logo.png"} className="border rounded-full w-[160px] h-[160px]" />
                 )}
                 <input
                   className="file:mr-4 file:py-2 file:px-4
               file:rounded-full file:border-0
               file:text-sm
               file:bg-[#b1b2ff] file:text-white
-              hover:file:bg-[#8587eb]"
+              file:w-full
+              hover:file:bg-[#8587eb]
+              w-[60%] py-5"
                   id="picture"
                   type="file"
                   ref={saveNameRef}
@@ -197,22 +185,23 @@ export default function FieldPage() {
                   }}
                 />
 
-                <input
-                  type="text"
-                  className="text-center w-[80%] border-b-2 pb-2 focus:outline-none focus:border-b-[#B1B2FF] mb-1"
-                  ref={nicknameRef}
-                  minLength="2"
-                  maxLength="6"
-                  placeholder="닉네임을 입력해주세요(2-6자)"
-                  required
-                  onChange={(e) => onChangeNickname(e.target.value)}
-                />
-                {nickname.length > 0 && (
-                  <p className="text-[13px] text-[#8587eb]">
-                    {nicknameMessage}
-                  </p>
-                )}
-                <button className="btn mt-5 w-[80%] h-10 rounded-[20px] bg-[#b1b2ff] text-lg text-center text-white hover:bg-[#8587eb]">
+                <div className="w-full text-center h-[50px]">
+                  <input
+                    type="text"
+                    className="text-center text-sm w-[60%] border border-[#b1b2ff] rounded-full py-2 focus:outline-none focus:border-[#8587eb] mb-1"
+                    ref={nicknameRef}
+                    minLength="2"
+                    maxLength="6"
+                    placeholder="닉네임을 입력해주세요(한글 2-6자)"
+                    required
+                    onChange={(e) => onChangeNickname(e.target.value)}
+                    onKeyDown={(e) => checkKeyCode(e.target)}
+                  />
+                  {nickname.length > 0 && (
+                    <p className="text-[13px] text-[#8587eb]">{nicknameMessage}</p>
+                  )}
+                </div>
+                <button className="btn mt-5 w-[60%] h-10 rounded-[20px] bg-[#b1b2ff] text-sm text-center text-white hover:bg-[#8587eb]">
                   공부 하러 가기!
                 </button>
               </form>

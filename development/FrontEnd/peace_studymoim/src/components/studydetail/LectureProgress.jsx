@@ -17,6 +17,10 @@ export default function LectureProgress(props) {
   }
 
   async function onLiveStart(lectureId) {
+    if(props.state.study.live) {
+      alert("실시간 스터디가 진행 중입니다.")
+      return;
+    }
     let response = await fetch(
       `http://${API_SERVER}/api/v1/study/${props.state.study.studyId}/live/start?lectureId=${lectureId}`,
       { method: "PUT" }

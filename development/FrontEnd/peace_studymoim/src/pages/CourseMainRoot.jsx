@@ -19,11 +19,11 @@ export default function CourseMainRoot() {
   const { info } = userInfo();
   const [page, setPage] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [key, setKey] = useState("word");
+  const [key, setKey] = useState("");
   const [word, setWord] = useState("");
   const [tagId, setTagId] = useState(null);
   const [params, setParams] = useState({
-    key: "word",
+    key: "",
     word: "",
     page: 0,
     size: 8,
@@ -48,11 +48,10 @@ export default function CourseMainRoot() {
   const getPage = async () => {
     let resp = null;
     let data = null;
-    if (params.key == "word") {
+    if (params.key == "word" && params.word) {
       resp = await fetch(
-        `http://${API_SERVER}/api/v1/course?key=title&word=${params.word}&page=${params.page}&size=${params.size}`
+        `http://${API_SERVER}/api/v1/course/search/${params.word}?page=${params.page}&size=${params.size}`
       );
-
       data = await resp.json();
     } else if (params.key == "tag") {
       resp = await fetch(
@@ -77,7 +76,7 @@ export default function CourseMainRoot() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto px-4 mb-[50px]">
       <div className="mt-3">
         {/* 큰 추천 배너 */}
         {info ? <CourseBanner /> : null}
