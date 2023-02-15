@@ -91,7 +91,7 @@ export default function ArticleCreateForm() {
     <div className="max-w-6xl mx-auto px-4 flex flex-col m-[100px]">
       <form onSubmit={onSubmit} className="flex flex-col gap-[30px] w-full">
         <p className="text-3xl text-center font-bold">자유 글 작성하기</p>
-        <div class="group flex relative w-full">
+        <div className="group flex relative w-full">
           <input
             className={
               titleIsActive
@@ -115,7 +115,7 @@ export default function ArticleCreateForm() {
             제목을 20자 이하로 작성해주세요
           </span>
         </div>
-        <div class="group flex relative w-full z-0">
+        <div className="group flex relative w-full z-0">
           <textarea
             className={
               contentIsActive

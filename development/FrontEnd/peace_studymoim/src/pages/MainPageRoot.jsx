@@ -19,6 +19,7 @@ import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MainSearch from "../components/mainpages/MainSearch";
 
 export default function MainPageRoot() {
   const navigate = useNavigate();
@@ -26,18 +27,15 @@ export default function MainPageRoot() {
 
   // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`)
   const freeArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/free`
+    `http://${API_SERVER}/api/v1/articles/free?size=100000`
   ).content;
   const courseArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/question`
+    `http://${API_SERVER}/api/v1/articles/question?size=100000`
   ).content;
-  
+
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
-
-  const [word, setWord] = useState("");
-  const [searchType, setSearchType] = useState("");
 
   const settings = {
     dots: true,
@@ -98,10 +96,19 @@ export default function MainPageRoot() {
             <img src="/banner2.png" alt="" />
           </div>
         </Slider>
-        <div className="w-full my-3 flex flex-col justify-center items-center">
+        <div className="w-full my-5 flex flex-col justify-center items-center">
+          {/* <div className="w-[50%] relative h-[50px] flex my-5"></div> */}
+          <MainSearch />
+        </div>
+        {/* <div className="w-full my-3 flex flex-col justify-center items-center">
           <div className="w-[50%] relative h-[50px] flex my-5">
             <button className="absolute right-0 bg-[#B1B2FF] rounded-full w-[30px] h-[30px] my-[10px] mr-[10px] text-white">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <FontAwesomeIcon
+                onClick={() => {
+                  onSubmit();
+                }}
+                icon={faMagnifyingGlass}
+              />
             </button>
             <input
               type="text"
@@ -109,12 +116,11 @@ export default function MainPageRoot() {
               className="w-full border border-[#B1B2FF] rounded-[30px] pl-4 bg-[#B1B2FF]/20 focus:outline-none focus:bg-white focus:border-gray-100"
               style={{ boxShadow: "0px 3px 5px 0px #B1B2FF" }}
               onChange={(e) => {
-                setSearchType("word");
                 setWord(e.target.value);
               }}
             />
           </div>
-        </div>
+        </div> */}
         {/* <div className="w-full flex flex-col">
           <p className="text-lg text-left font-bold mb-5"># 인기태그</p>
           <div className="flex flex-row flex-wrap gap-2">
@@ -137,16 +143,18 @@ export default function MainPageRoot() {
                 }}
               >
                 <CourseTag tag={tag} />
+
               </div>
             ))}
           </div>
         </div> */}
         {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
-        {logIn ? (
+        {/* {logIn ? (
           <MainLogIn searchKey={searchType} searchData={word} />
         ) : (
           <MainNotLogIn searchKey={searchType} searchData={word} />
-        )}
+        )} */}
+        {logIn ? <MainLogIn /> : <MainNotLogIn />}
         <div className="flex justify-start items-center">
           <p className="text-lg text-left font-bold my-5 mr-3"># 자유 질문</p>
           <FontAwesomeIcon

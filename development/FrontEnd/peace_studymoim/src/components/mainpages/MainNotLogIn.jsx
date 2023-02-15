@@ -8,7 +8,7 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import MainStudy from "./MainStudy";
 
-export default function MainNotLogIn({ searchKey, searchData }) {
+export default function MainNotLogIn() {
   const navigate = useNavigate();
 
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;

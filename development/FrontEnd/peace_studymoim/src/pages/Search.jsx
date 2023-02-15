@@ -16,9 +16,6 @@ export default function Search() {
       <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px]">
         <MainSearch />
         <div className="w-full flex flex-col justify-between items-center">
-          <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-
-          <TagList /> 
           <p className="text-xl text-left text-gray-400 my-3"># 검색결과</p>
             <div className="grid sm:grid-cols-3 md:grid-cols-4 gap-10 grid-cols-2">
               {searchData.map((course) => (
