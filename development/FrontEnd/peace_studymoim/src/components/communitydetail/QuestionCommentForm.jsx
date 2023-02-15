@@ -12,9 +12,15 @@ export default function QuestionCommentForm({ questionBoardId }) {
 
   function onSubmit(e) {
     e.preventDefault();
-
-    if (!isLoading) {
+    // 공백 컷
+    const ccv = contentRef.current.value
+    if (ccv.trim().length < 1) {
+      alert("공백으로만 구성할 수 없습니다.")
+      return
+    }
+    if (!isLoading && ccv.trim().length > 0) {
       setIsLoading(true);
+      
       // Create 호출
       // 두번째 인자로 메서드를 넣어줌
       fetch(`http://${API_SERVER}/api/v1/articles/question/comment/`, {
@@ -45,8 +51,8 @@ export default function QuestionCommentForm({ questionBoardId }) {
     >
       <textarea
         className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
-        placeholder="댓글을 입력해주세요.(200자)"
-        maxLength="200"
+        placeholder="댓글을 입력해주세요.(400자)"
+        maxLength="400"
         required
         ref={contentRef}
       />

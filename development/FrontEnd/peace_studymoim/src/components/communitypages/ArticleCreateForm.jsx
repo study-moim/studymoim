@@ -7,19 +7,19 @@ import DeleteArticleModal from "../overall/DeleteArticleModal";
 export default function ArticleCreateForm() {
   const [loginModal, setLoginModal] = useState(false);
   function loginCloseHandler() {
-    setLoginModal(false); 
-  }; 
+    setLoginModal(false);
+  }
 
   const [showModal, setShowModal] = useState(false);
   function closeModalHandler() {
     setShowModal(false);
   }
-  
+
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      setLoginModal(true); 
+      setLoginModal(true);
     }
   });
 
@@ -40,21 +40,16 @@ export default function ArticleCreateForm() {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   function onSubmit(e) {
     e.preventDefault();
+    // 공백 컷
 
-    // 제목이 20보다 크면 포커싱하는 함수
-    if (titleRef.current.value.length > 20) {
-      titleRef.current.focus();
-      setTitleIsActive(false);
+    if (titleRef.current.value.trim().length < 1) {
+      alert("제목을 공백으로만 구성할 수 없습니다.");
       return;
     }
-
-    // 내용이 500보다 크면 포커싱하는 함수
-    if (contentRef.current.value.length > 500) {
-      contentRef.current.focus();
-      setContentIsActive(false);
+    if (contentRef.current.value.trim().length < 1) {
+      alert("내용을 공백으로만 구성할 수 없습니다.");
       return;
     }
-
     if (!isLoading) {
       setIsLoading(true);
       // Create 호출
@@ -103,60 +98,40 @@ export default function ArticleCreateForm() {
                 ? "px-7 text-xl font-bold focus:outline-none w-full"
                 : "px-7 text-xl font-bold focus:outline-red-500 w-full"
             }
-            placeholder="제목을 입력하세요.(최대 20자)"
+            placeholder="제목을 입력하세요.(최대 30자)"
             ref={titleRef}
             required
-            // maxlength='20'
+            maxlength="30"
             onClick={clickTitle}
             onMouseLeave={() => setTitleIsActive(true)}
           />
-          <span
-            className={
-              titleIsActive
-                ? "hidden"
-                : "transition-opacity bg-gray-800 px-1 text-base text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 translate-y-full opacity-100 z-1 m-4 mx-auto"
-            }
-          >
-            제목을 20자 이하로 작성해주세요
-          </span>
         </div>
         <div className="group flex relative w-full z-0">
           <textarea
             className={
               contentIsActive
-              ?
-              "flex justify-start w-full items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
-              :
-              "flex justify-start w-full items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px] focus:outline-red-400"
+                ? "flex justify-start w-full items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px]"
+                : "flex justify-start w-full items-start h-[500px] gap-2.5 px-[26px] py-7 bg-white border border-gray-300 rounded-[10px] focus:outline-red-400"
             }
-            placeholder="내용을 입력하세요.(500자)"
+            placeholder="내용을 입력하세요.(1000자)"
             ref={contentRef}
-            // maxlength='500'
+            maxlength="1000"
             onChange={changeContentValue}
             onClick={() => {
               clickTitle(), clickContent();
             }}
             required
           />
-          <span
-            className={
-              contentIsActive
-                ? "hidden"
-                : "transition-opacity bg-gray-800 px-1 text-xl p-3 text-gray-100 rounded-md absolute left-1/2 -translate-x-1/2 translate-y-full opacity-100 m-4 mx-auto"
-            }
-          >
-            내용을 500자 이하로 작성해주세요
-          </span>
         </div>
         <div className="flex gap-5 justify-end">
           <div
             className={
-              contentLength > 500
+              contentLength > 1000
                 ? "w-[120px] px-4 py-2 rounded text-sm font-bold text-center text-red-600"
                 : "w-[120px] px-4 py-2 rounded text-sm text-center"
             }
           >
-            {contentLength}/500자
+            {contentLength}/1000자
           </div>
           <div
             className="w-[100px] px-4 py-2 rounded text-base font-bold text-center border border-gray-300 hover:bg-gray-300 cursor-pointer"
@@ -179,12 +154,12 @@ export default function ArticleCreateForm() {
           ) : null}
         </div>
       </form>
-      {LoginModal ? (
+      {loginModal ? (
         <LoginModal
-        onCancel={loginCloseHandler}
-        onConfirm={loginCloseHandler}
-        /> 
-      ): null} 
+          onCancel={loginCloseHandler}
+          onConfirm={loginCloseHandler}
+        />
+      ) : null}
     </div>
   );
 }
