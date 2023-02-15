@@ -24,13 +24,13 @@ export default function LectureTiny({
           onClick(propData.lectureId);
         }}
       >
-        <p className="w-[2%] px-5 text-base text-center">{lectureIndex}</p>
+        <p className="w-[2%] px-5 text-[15px] text-center">{lectureIndex}</p>
         {/* <img
           className="w-[10%] h-full rounded-[10px]"
           src={propData.thumbnail}
           alt="x"
         /> */}
-        <p className="w-[65%] text-base">{propData.title}</p>
+        <p className="w-full text-[15px]">{propData.title}</p>
       </div>
     </Link>
   );

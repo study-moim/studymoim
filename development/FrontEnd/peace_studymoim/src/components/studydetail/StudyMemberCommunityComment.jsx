@@ -1,24 +1,23 @@
+import Moment from "moment";
+import "moment/locale/ko";
+
 export default function StudyMemberCoummunityComment({ items }) {
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const image = IMAGE_ROOT + items.saveName;
 
   return (
-    <div>
-      <div
-        className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-full h-[74px] relative gap-5 px-[30px] bg-white border-t-0 border-r-0 border-b-0 border-l-[11px] border-[#eef1ff]/[0.98]"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-      >
-        <img
-          className="flex-grow-0 flex-shrink-0 rounded-full w-10"
-          src={image} 
-        />
-       
-          <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center">
-              {items.nickname}  
-          </p>
-          <p className="flex-grow-0 flex-shrink-0 text-xl text-center text-black">
-            {items.content} 
-          </p>
+    <div className="flex gap-4 items-start">
+      <img className="rounded-full w-11 h-11 border" src={image} />
+      <div>
+        <div className="flex gap-3 items-center">
+          <div className="text-[15px] font-bold text-center">
+            {items.nickname}
+          </div>
+          <div className="text-[14px] text-center text-gray-500">
+            {Moment(items.publishTime).format("YYYY년 MM월 DD일 HH:mm")}
+          </div>
+        </div>
+        <p className="text-[16px] text-black">{items.content}</p>
       </div>
     </div>
   );

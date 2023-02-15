@@ -101,7 +101,7 @@ export default function StudyDetailMainPage() {
               onClick={GetClick}
               className="flex justify-center items-center w-[110px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
             >
-              멤버관리
+              멤버 관리
             </button>
           </div>
         ) : (
