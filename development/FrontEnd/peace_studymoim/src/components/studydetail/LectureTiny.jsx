@@ -5,12 +5,11 @@ export default function LectureTiny({
   lectureIndex,
   onClick,
   state,
-  live
 }) {
   return (
     <Link
     // live ... 
-      to={live ? "#" : `/player/study/${propData.lectureId}`}
+      to={state.study.live ? "#" : `/player/study/${propData.lectureId}`}
       state={{
         user: state.user,
         study: state.study,
