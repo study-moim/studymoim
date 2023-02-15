@@ -276,6 +276,7 @@ public class StudyController {
                                              @Parameter(description="status(Enum - start/end)") @PathVariable String status,
                                              @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
+            System.out.println(status);
             if(status.equals("start")) {
                 // 입장시
                 if (nowPlayerStudyMemberCount.containsKey(studyId)) {

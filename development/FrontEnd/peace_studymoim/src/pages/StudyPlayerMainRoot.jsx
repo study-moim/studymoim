@@ -133,7 +133,14 @@ export default function StudyPlayerMainRoot() {
     fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`)
     connect(study.studyId);
     return () => {
-      fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`)
+      fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+      )
       disconnect();
     };
   }, []);
@@ -148,6 +155,7 @@ export default function StudyPlayerMainRoot() {
     );
   }
   async function disconnect() {
+    console.log("dddddddddddddddddddddddisconnect")
     await stomp.disconnect(() => {}, {
       "user-id": user.userId,
       "study-id": study.studyId,
