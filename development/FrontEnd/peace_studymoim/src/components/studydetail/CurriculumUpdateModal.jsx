@@ -1,12 +1,25 @@
 import Select from "react-select";
-import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 export default function CurriculumUpdateModal(props) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
+  const [search, setSearch] = useState([]);  
+
+  useEffect(() => {
+    const getSearch = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/course?size=1000000`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setSearch(json.content);
+        });
+    };
+    getSearch();
+  }, [search]);
   const studyId = useParams();
 
   const [selectedOptions, setSelectedOptions] = useState(props.curriculum);
