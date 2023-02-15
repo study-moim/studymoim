@@ -8,15 +8,18 @@ import NavPagination from "../components/NavBar/NavPagination.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"; 
 import userInfo from "../zustand/store";
-import { useNavigate } from "react-router-dom";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function CourseDetailRoot() {
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+  
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true);
     }
   });
   
@@ -203,6 +206,12 @@ export default function CourseDetailRoot() {
             pageRangeDisplayed={5}
         />
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </div>
   );
 }

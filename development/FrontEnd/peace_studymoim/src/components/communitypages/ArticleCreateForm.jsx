@@ -1,20 +1,25 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import userInfo from "../../zustand/store";
+import LoginModal from "../NavBar/LoginModal";
 import DeleteArticleModal from "../overall/DeleteArticleModal";
 
 export default function ArticleCreateForm() {
+  const [loginModal, setLoginModal] = useState(false);
+  function loginCloseHandler() {
+    setLoginModal(false); 
+  }; 
+
   const [showModal, setShowModal] = useState(false);
   function closeModalHandler() {
     setShowModal(false);
   }
-
+  
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setLoginModal(true); 
     }
   });
 
@@ -174,6 +179,12 @@ export default function ArticleCreateForm() {
           ) : null}
         </div>
       </form>
+      {LoginModal ? (
+        <LoginModal
+        onCancel={loginCloseHandler}
+        onConfirm={loginCloseHandler}
+        /> 
+      ): null} 
     </div>
   );
 }

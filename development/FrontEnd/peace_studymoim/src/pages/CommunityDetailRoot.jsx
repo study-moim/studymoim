@@ -1,22 +1,25 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userInfo from "../zustand/store";
 import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
 import ArticleEditForm from "../components/communitypages/ArticleEditForm";
 import Moment from "moment";
 import "moment/locale/ko";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function CommunityDetailRoot() {
-  // 로그인 컷 콤보
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
   const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true);
     }
   });
 
@@ -132,6 +135,12 @@ export default function CommunityDetailRoot() {
           />
         ))}
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </>
   );
 }
