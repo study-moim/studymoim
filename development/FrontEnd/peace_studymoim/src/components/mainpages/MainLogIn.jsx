@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
-import StudyListItem from "../mypages/StudyLiseItem";
+import StudyListItem from "../mypages/StudyListItem";
 
 export default function MainLogIn({ searchKey, searchData }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
