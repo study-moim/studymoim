@@ -49,10 +49,10 @@ export default function FieldPage() {
     setCategory(selectedField);
   }, [selectedField]);
 
+  // TODO: 서연이가 고칠 예정
   const onChangeNickname = (nicknameCurrent) => {
     const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
     setNickname(nicknameCurrent);
-
     if (!nicknameRegex.test(nicknameCurrent)) {
       setNicknameMessage("한글 2-6자로 입력해주세요");
     } else {
@@ -132,7 +132,7 @@ export default function FieldPage() {
               onClick={() =>
                 selectedField.length !== 0
                   ? setVisible(true)
-                  : alert("태그를 눌러주세요")
+                  : alert("태그를 1개 이상 선택해주세요.")
               }
             >
               <FontAwesomeIcon
