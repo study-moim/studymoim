@@ -4,12 +4,10 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,7 @@ public class FreeBoard {
     @OneToMany(mappedBy = "freeBoard")
     private List<FreeBoardComment> freeBoardComments = new ArrayList<>();
 
-    @Builder
+    @Builder(toBuilder = true)
     public FreeBoard(String title, String content, User user, boolean isDeleted, int hit) {
         this.title = title;
         this.content = content;
@@ -70,6 +68,12 @@ public class FreeBoard {
 
     public FreeBoard hit() {
         this.hit++;
+        return this;
+    }
+
+    public FreeBoard updateTitleAndContent(String title, String content){
+        this.title = title;
+        this.content = content;
         return this;
     }
 

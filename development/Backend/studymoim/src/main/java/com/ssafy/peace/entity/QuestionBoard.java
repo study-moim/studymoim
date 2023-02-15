@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +87,12 @@ public class QuestionBoard {
 
     public QuestionBoard hit() {
         this.hit++;
+        return this;
+    }
+
+    public QuestionBoard updateTitleAndContent(String title, String content){
+        this.title = title;
+        this.content = content;
         return this;
     }
 }
