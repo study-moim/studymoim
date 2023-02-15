@@ -1,4 +1,4 @@
-import MyPageCourseItem from "./MyPageCourseItem";
+import MypageCourseItem from "./MypageCourseItem";
 import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export default function MyPageLikeCourse({ getPageName }) {
       {likeInfo.length > 0 ? (
         <div className="gap-2 mb-8 flex flex-row flex-wrap overflow-auto">
           {likeInfo.map((course) => (
-            <MypagecourseItem key={course.course_id} propData={course} />
+            <MypageCourseItem key={course.course_id} propData={course} />
           ))}
         </div>
       ) : (
