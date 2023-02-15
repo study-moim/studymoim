@@ -130,11 +130,10 @@ export default function StudyPlayerMainRoot() {
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
 
   useEffect(() => {
-    console.log("시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/status/start`,{ method: "PUT" })
+    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`, {method : "PUT"})
     connect(study.studyId);
     return async () => {
-      // await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/status/end`,
+      // await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
       // {
       //   method: "PUT",
       //   headers: {
@@ -142,7 +141,6 @@ export default function StudyPlayerMainRoot() {
       //   },
       // }
       // )
-      console.log("종료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
       disconnect();
     };
   }, []);
@@ -168,7 +166,7 @@ export default function StudyPlayerMainRoot() {
       putHistory();
       // test
       let response = await fetch(
-        `http://${API_SERVER}/api/v1/study/${study.studyId}/live/status/end`,
+        `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
         { method: "PUT" }
       );
       console.log(response.status);

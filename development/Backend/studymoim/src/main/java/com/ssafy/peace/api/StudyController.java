@@ -271,12 +271,12 @@ public class StudyController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @PutMapping("/{studyId}/live/status/{status}")
+    @PutMapping("/{studyId}/live/{status}")
     public ResponseEntity<?> studyLiveUpdate(@Parameter(description="studyId") @PathVariable Integer studyId,
                                              @Parameter(description="status(Enum - start/end)") @PathVariable String status,
                                              @Parameter(description="now playing lecture ID") @RequestParam(required=false) Integer lectureId) {
         try{
-            System.out.println(status+" @@@@@@@@@@@@@@@@@@@@@@ "+nowPlayerStudyMemberCount.get(studyId));
+            System.out.println(status);
             if(status.equals("start")) {
                 // 입장시
                 if (nowPlayerStudyMemberCount.containsKey(studyId)) {
@@ -284,18 +284,20 @@ public class StudyController {
                 } else {
                     nowPlayerStudyMemberCount.put(studyId, 1);
                 }
-//                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
+                if(lectureId == null) {
+                    nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
+                    throw new Exception("No lectureId present. is lectureId exists in request query?");
+                }
+                System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
                 studyService.updateLive(studyId, true, lectureId);
-                System.out.println(studyId +" study user count : "+nowPlayerStudyMemberCount.get(studyId));
             }
             // 퇴장시
             else if(status.equals("end")) {
-                System.out.println("before...................."+nowPlayerStudyMemberCount.get(studyId));
                 nowPlayerStudyMemberCount.put(studyId, Math.max(nowPlayerStudyMemberCount.get(studyId) - 1, 0));
-                System.out.println(studyId +" study user count : "+nowPlayerStudyMemberCount.get(studyId));
                 if(nowPlayerStudyMemberCount.get(studyId) == 0) {
                     studyService.updateLive(studyId, false);
                 }
+                System.out.println(studyId +"인원 수 : "+(nowPlayerStudyMemberCount.get(studyId)));
             }
 
 //            if(status.equals("start")){
@@ -303,6 +305,7 @@ public class StudyController {
 //                studyService.updateLive(studyId, true, lectureId);
 //            }
 //            if(status.equals("end")) studyService.updateLive(studyId, false);
+
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             e.printStackTrace();
