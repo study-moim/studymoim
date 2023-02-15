@@ -32,9 +32,9 @@ export default function PlayerQuestionDetail({
         {propData.user.nickname} | {date}
       </p>
       {/* 내용 부분 */}
-      <div className="w-full max-h-[200px] overflow-auto break-all text-[11px] text-left text-black border-t-2 pt-2 scrollbar-none">
+      <pre className="w-full max-h-[200px] overflow-auto break-all whitespace-pre-wrap font-sans text-[11px] text-left text-black border-t-2 pt-2 scrollbar-none">
         {propData.content}
-      </div>
+      </pre>
 
       <div className="flex justify-center items-center h-0.5 mt-2">
         {!commentToggle ? (

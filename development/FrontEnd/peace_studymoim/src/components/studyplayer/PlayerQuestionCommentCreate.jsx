@@ -49,7 +49,7 @@ export default function PlayerQuestionCommentCreate({
       <textarea
         id="cc"
         type="text"
-        className="text-xs border w-9/12 scrollbar-none"
+        className="p-1 text-xs border w-9/12 scrollbar-none"
         required
         maxLength="200"
         ref={contentRef}
