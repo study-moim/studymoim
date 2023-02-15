@@ -17,8 +17,6 @@ export default function LectureProgress(props) {
   }
 
   async function onLiveStart(lectureId) {
-    console.log(lectureId)
-    console.log(props.state.study.live)
     if(props.state.study.live) {
       alert("실시간 스터디가 진행 중입니다.")
       return;
