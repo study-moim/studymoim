@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import DeleteModal from "../overall/DeleteModal";
-import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
 import userInfo from "../../zustand/store";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +13,20 @@ import {
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const search = useFetch(`http://${API_SERVER}/api/v1/course/`);
+  const [search, setSearch] = useState([]);  
+
+  useEffect(() => {
+    const getSearch = async () => {
+      await fetch(
+        `http://${API_SERVER}/api/v1/course?size=1000000`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setSearch(json.content);
+        });
+    };
+    getSearch();
+  }, [search]);
 
   function closeModalHandler() {
     setShowModal(false);

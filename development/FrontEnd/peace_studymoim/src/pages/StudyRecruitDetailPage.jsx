@@ -20,6 +20,12 @@ export default function StudyRecruitDetailPage(props) {
   const navigate = useNavigate();
   const { info } = userInfo();
 
+  useEffect(() => {
+    if (!info) {
+      navigate("/login");
+      return;
+    }
+  });
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
   const studyId = useParams();
@@ -67,21 +73,16 @@ export default function StudyRecruitDetailPage(props) {
   const [curriculum, setCurriculum] = useState([]);
 
   useEffect(() => {
-    if (!info) {
-      navigate("/login");
-      return;
-    } else {
-      fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setStudyDetail(data);
-          setUserList(data.leadUser);
-          setCurriculum(data.curricula);
-        });
-    }
-  }, [info, navigate, detailId]);
+    fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setStudyDetail(data);
+        setUserList(data.leadUser);
+        setCurriculum(data.curricula);
+      });
+  }, [detailId]);
 
   function closeModalHandler() {
     if (!studyDetail.public) {
@@ -98,7 +99,7 @@ export default function StudyRecruitDetailPage(props) {
       setShowOpenModal(true);
     }
   }
-
+  if (userList.userId) 
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
