@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faComment } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 export default function LoginModal(props) {
   const REST_API_KEY = import.meta.env.VITE_APP_REST_API_KEY;
@@ -7,9 +8,11 @@ export default function LoginModal(props) {
   const REDIRECT_URI = `http://${API_SERVER}/api/v1/oauth/login`;
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
+  const navigate = useNavigate(); 
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       props.onCancel();
+      navigate(-1); 
     }
   };
 
@@ -19,13 +22,15 @@ export default function LoginModal(props) {
 
   function cancelHandler() {
     props.onCancel();
+    navigate(-1); 
   }
 
   return (
     <>
-      <div className="justify-center items-center flex fixed inset-0 z-50">
+    <div className="justify-center items-center flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-16">
         {/*content*/}
-        <div className="w-[350px] h-[350px] rounded-lg shadow-lg flex flex-col bg-white outline-none focus:outline-none">
+        <div id="배경" onClick={() => cancelHandler()} className="absolute opacity-25 w-full h-full inset-0 bg-black"></div>
+        <div id="모달내용" className="absolute min-w-[350px] max-w-[60%] bg-white shadow-2xl rounded-lg z-45">
           {/*header*/}
           <div className="flex items-center justify-between py-5 px-6 border-b">
             <p className="font-bold">로그인</p>
@@ -59,7 +64,7 @@ export default function LoginModal(props) {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      {/* <div className="opacity-25 fixed inset-0 z-40 bg-black"></div> */}
     </>
   );
 }

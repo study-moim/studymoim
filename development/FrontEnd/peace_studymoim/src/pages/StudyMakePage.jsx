@@ -1,17 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import userInfo from "../zustand/store";
-import { useEffect } from "react";
 import StudyMakeForm from "../components/studypages/StudyMakeForm";
+import LoginModal from '../components/NavBar/LoginModal'; 
 
 export default function StudyMakePage() {
-  let navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true);
     }
   });
+
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
   function addMeetupHandler(studyRecruitData) {
@@ -29,6 +34,12 @@ export default function StudyMakePage() {
   return (
     <div>
       <StudyMakeForm onAddMeetup={addMeetupHandler} />
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </div>
   );
 }
