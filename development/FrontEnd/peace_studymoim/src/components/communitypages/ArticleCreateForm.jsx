@@ -29,7 +29,6 @@ export default function ArticleCreateForm() {
   const changeContentValue = () => {
     if (contentRef.current && contentRef.current.value) {
       setContentLength(contentRef.current.value.length);
-      console.log(contentLength);
     }
   };
 

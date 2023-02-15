@@ -23,7 +23,6 @@ export default function StudyMemberCoummunity({ propData }) {
         .then((res) => res.json())
         .then((json) => {
           setStudyCommunity(json);
-          console.log(studyCommunity);
         });
     };
     getStudyCommunity();

@@ -12,7 +12,6 @@ export default function LectureProgressBars(props) {
   // props.state.map((course) => {
   //   courseIdList.push(course.course);
   // });
-  // console.log('콜ㄹㄹ스', courseIdList)
   useEffect(() => {
     const getChartData = async () => {
       await fetch(
@@ -25,24 +24,16 @@ export default function LectureProgressBars(props) {
     };
     getChartData();
   }, [studyId.study_id]);
-
-
-  console.log('tmqkf', chartData)
-
   return (
     <>
       <div className="flex-grow-0 flex-shrink-0 w-1/2 relative">
         {chartData.map((course) => {
-          console.log(course)    
         })} 
         {/* {props.state.map((course) => {
           
-          console.log(course.course.course_id) 
         })}  */}
 
-        {/* {chartDataPoints.map((course) => {
-          console.log(course)
-          console.log(course.val)       
+        {/* {chartDataPoints.map((course) => {     
         })} */}
         {/* <Chart className="h-full" dataPoints={chartDataPoints} /> */}
       </div>

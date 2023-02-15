@@ -38,8 +38,6 @@ export default function QuestionEditForm({
       lectureId: lectureId,
       userId: userId,
     };
-    console.log(wlh, "wlh")
-    console.log(putData, "pppppppppppppppppppppppppppppppppp")
     fetch(`http://${API_SERVER}/api/v1/articles/question/${wlh}`, {
       method: "PUT",
       headers: {

@@ -155,7 +155,6 @@ export default function StudyPlayerMainRoot() {
     );
   }
   async function disconnect() {
-    console.log("dddddddddddddddddddddddisconnect")
     await stomp.disconnect(() => {}, {
       "user-id": user.userId,
       "study-id": study.studyId,
@@ -169,7 +168,6 @@ export default function StudyPlayerMainRoot() {
       //   `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
       //   { method: "PUT" }
       // );
-      // console.log(response.status);
       navigate(`/studyDetail/${study.studyId}`);
     }
   }

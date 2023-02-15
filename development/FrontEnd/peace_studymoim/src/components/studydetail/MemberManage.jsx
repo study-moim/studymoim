@@ -10,7 +10,6 @@ export default function MemberManage({ propData }) {
   
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const leaderImage = IMAGE_ROOT + propData.leadUser.saveName;
-  console.log(requestMembers)
   return (
     <>
       <div className="flex w-full flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[53px] px-[73px] py-[50px]">
