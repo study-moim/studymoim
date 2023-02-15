@@ -1,4 +1,4 @@
-import StudyListItem from "./StudyLiseItem";
+import StudyListItem from "./StudyListItem";
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 
