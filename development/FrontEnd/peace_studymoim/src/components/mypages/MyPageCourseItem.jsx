@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function MainCourse({ propData }) {
+export default function MypageCourseItem({ propData }) {
   const [isHover, setIsHover] = useState(false);
   const slicedTitle = propData.title.substring(0, 30) + "...";
   const slicedContent = propData.content.substring(0, 100) + "...";

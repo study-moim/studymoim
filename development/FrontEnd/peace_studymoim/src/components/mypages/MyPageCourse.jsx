@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import MypagecourseItem from "./MyPageCourseItem";
+import MypageCourseItem from "./MyPageCourseItem";
 
 export default function MyPageCourse({ getPageName }) {
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -13,7 +13,7 @@ export default function MyPageCourse({ getPageName }) {
       {courseInfo.length > 0 ? (
         <div className="gap-2 mb-8 flex flex-row flex-wrap overflow-auto">
           {courseInfo.map((course) => (
-            <MypagecourseItem key={course.course_id} propData={course} />
+            <MypageCourseItem key={course.course_id} propData={course} />
           ))}
         </div>
       ) : (
