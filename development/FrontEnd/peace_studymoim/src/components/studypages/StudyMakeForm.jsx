@@ -72,8 +72,8 @@ export default function StudyMakeForm(props) {
           required
           className="text-center px-7 text-2xl font-bold focus:outline-none"
           placeholder="제목에 스터디 핵심을 요약해 적어보세요."
-          min={5}
-          max={30}
+          minLength="5"
+          maxLength="20"
         />
         <div className="flex justify-center items-center gap-[100px]">
           {/* 시작 예정일 (required) */}
