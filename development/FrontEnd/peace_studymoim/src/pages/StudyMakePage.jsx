@@ -9,7 +9,7 @@ export default function StudyMakePage() {
   function closeModalHandler() {
     setShowModal(false);
   }
-
+  const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
