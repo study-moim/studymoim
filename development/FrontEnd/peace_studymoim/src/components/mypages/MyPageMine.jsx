@@ -11,9 +11,11 @@ export default function MyPageMine({ getClick, myId, clickModal }) {
   return (
     <div className="w-[336px]">
       <div className="w-full flex flex-col justify-center items-center gap-2">
-        <div className="w-[150px] h-[150px] relative">
-          <img className="rounded-full border" src={info.saveName ? image : "/logo.png"} />
-        </div>
+        <img
+          className="rounded-full border w-[130px] h-[130px]"
+          src={info.saveName ? image : "/logo.png"}
+        />
+
         <p className="text-[18px] font-bold text-center text-black mt-2">{info.nickname}</p>
         <p className="text-[15px] text-center text-black">
           <span className="cursor-pointer hover:text-[#989aff]" id="follower" onClick={clickModal}>

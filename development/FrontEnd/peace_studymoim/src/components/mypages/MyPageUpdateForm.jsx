@@ -13,6 +13,7 @@ export default function MyPageUpdateForm({ userId }) {
   const [modifyNickname, setModifyNickname] = useState(false);
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
+  const [nicknameConfirm, setNicknameConfirm] = useState("");
   const [modifyTag, setModifyTag] = useState(false);
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
@@ -73,33 +74,15 @@ export default function MyPageUpdateForm({ userId }) {
     }).then((res) => {
       if (res.ok) {
         alert("카테고리 수정완!");
-        window.location.reload()
+        window.location.reload();
       }
     });
   }
-  
-  function submitNicknameHandler() {
-    const nicknameInfo = {
-      nickname: nickname,
-    };
-    fetch(`http://${API_SERVER}/api/v1/user/${userId}/nickname`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(nicknameInfo),
-    }).then((res) => {
-      if (res.ok) {
-        alert("닉네임 수정완!");
-        navigate("/mypagetemp", { state: { fromWhere: userId } });
-      }
-    });
-  }
-  
+
   function submitImageHandler(image) {
     const imageData = new FormData();
     imageData.append("file", image);
-    
+
     fetch(`http://${API_SERVER}/api/v1/user/${userId}/image`, {
       method: "POST",
       body: imageData,
@@ -110,28 +93,57 @@ export default function MyPageUpdateForm({ userId }) {
       }
     });
   }
-  
+
   const onChangeNickname = (nicknameCurrent) => {
-    const nicknameRegex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/;
     setNickname(nicknameCurrent);
-    
-    if (!nicknameRegex.test(nicknameCurrent)) {
+    if (nicknameCurrent.length < 2) {
       setNicknameMessage("한글 2-6자로 입력해주세요");
+      setNicknameConfirm(false);
     } else {
       setNicknameMessage("올바른 닉네임 형식입니다 : )");
+      setNicknameConfirm(true);
     }
   };
 
+  function checkKeyCode(t) {
+    // const keyCode = event.keyCode;
+    // if (event.keyCode == 32) event.returnValue = false;
+    // else if (keyCode >= 33 && keyCode <= 126) event.returnValue = false;
+    var regexp = /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+    t.onkeyup = function (e) {
+      var v = this.value;
+      this.value = v.replace(regexp, "");
+    };
+  }
+
+  function submitNicknameHandler() {
+    if (nicknameConfirm) {
+      setModifyNickname(false);
+
+      const nicknameInfo = {
+        nickname: nickname,
+      };
+      fetch(`http://${API_SERVER}/api/v1/user/${userId}/nickname`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(nicknameInfo),
+      }).then((res) => {
+        if (res.ok) {
+          alert("닉네임 수정완!");
+          navigate("/mypagetemp", { state: { fromWhere: userId } });
+        }
+      });
+    }
+  }
   return (
     <>
-      <div className="flex flex-col mt-5 gap-5 w-full">
+      <div className="flex flex-col mt-5 gap-5 w-full min-w-[500px]">
         <div className="flex flex-row justify-start gap-5">
           <div className="flex flex-col gap-2 items-center pr-5 border-r">
             {preview ? (
-              <img
-                src={preview}
-                className="border rounded-full w-[100px] h-[100px] my-4"
-              />
+              <img src={preview} className="border rounded-full w-[100px] h-[100px] my-4" />
             ) : (
               <img
                 src={IMAGE_ROOT + info.saveName}
@@ -180,9 +192,7 @@ export default function MyPageUpdateForm({ userId }) {
               <p className="text-[14px] font-bold mb-2">닉네임</p>
               {!modifyNickname ? (
                 <>
-                  <p className="text-[13px] max-w-[300px] p-2 border-b">
-                    {info.nickname}
-                  </p>
+                  <p className="text-[13px] max-w-[300px] p-2 border-b">{info.nickname}</p>
                   <button
                     onClick={() => setModifyNickname(true)}
                     className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
@@ -192,25 +202,33 @@ export default function MyPageUpdateForm({ userId }) {
                 </>
               ) : (
                 <>
-                  <input
-                    type="text"
-                    className="text-start text-[13px] w-[80%] border rounded-[5px] p-2 focus:outline-none focus:border-[#B1B2FF]"
-                    ref={nicknameRef}
-                    minLength="2"
-                    maxLength="6"
-                    placeholder={info.nickname}
-                    required
-                    onChange={(e) => onChangeNickname(e.target.value)}
-                  />
-                  {nickname.length > 0 && (
-                    <p className="text-[13px] text-[#8587eb]">
-                      {nicknameMessage}
-                    </p>
-                  )}
+                  <div className="h-[60px]">
+                    <input
+                      type="text"
+                      className="text-start text-[13px] w-[80%] border rounded-[5px] p-2 focus:outline-none focus:border-[#B1B2FF]"
+                      ref={nicknameRef}
+                      minLength="2"
+                      maxLength="6"
+                      placeholder={info.nickname}
+                      required
+                      onChange={(e) => onChangeNickname(e.target.value)}
+                      onKeyDown={(e) => checkKeyCode(e.target)}
+                    />
+                    {nickname.length > 0 && (
+                      <p className="text-[13px] text-[#8587eb] pl-1 pt-1">{nicknameMessage}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => {
+                      setModifyNickname(false);
+                    }}
+                    className="w-[30%] text-[13px] py-1 rounded-[5px] border border-[#b1b2ff] hover:bg-[#b1b2ff] hover:text-white my-3 mr-3"
+                  >
+                    취소
+                  </button>
                   <button
                     onClick={() => {
                       submitNicknameHandler();
-                      setModifyNickname(false);
                     }}
                     className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
                   >
@@ -222,18 +240,12 @@ export default function MyPageUpdateForm({ userId }) {
           </div>
         </div>
         <div className="flex flex-col justify-start my-5 w-ful pl-1">
-          <p className="text-[15px] font-bold text-black mt-5 mb-3">
-            나의 관심 분야
-          </p>
+          <p className="text-[15px] font-bold text-black mt-5 mb-3">나의 관심 분야</p>
           {!modifyTag ? (
             <>
               <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
-                  <MyPageTagItem
-                    key={tag.courseCategoryId}
-                    tag={tag}
-                    isModify={modifyTag}
-                  />
+                  <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
                 ))}
               </div>
               <button
@@ -258,18 +270,11 @@ export default function MyPageUpdateForm({ userId }) {
                           }
                         }
                       } else {
-                        setSelectedField([
-                          ...selectedField,
-                          tag.courseCategoryId,
-                        ]);
+                        setSelectedField([...selectedField, tag.courseCategoryId]);
                       }
                     }}
                   >
-                    <MyPageTagItem
-                      key={tag.courseCategoryId}
-                      tag={tag}
-                      isModify={modifyTag}
-                    />
+                    <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
                   </div>
                 ))}
               </div>
