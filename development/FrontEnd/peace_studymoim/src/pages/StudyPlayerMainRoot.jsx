@@ -130,7 +130,8 @@ export default function StudyPlayerMainRoot() {
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
 
   useEffect(() => {
-    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`)
+    console.log("시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`,{ method: "PUT" })
     connect(study.studyId);
     return async () => {
       // await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
@@ -141,6 +142,7 @@ export default function StudyPlayerMainRoot() {
       //   },
       // }
       // )
+      console.log("종료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
       disconnect();
     };
   }, []);
