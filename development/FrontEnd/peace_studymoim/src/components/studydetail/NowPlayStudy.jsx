@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NowPlayStudy(props) {
   const isLive = props.propData.live;
+  console.log("isLive................"+isLive)
 
   const now = new Date();
   const year = now.getFullYear();
@@ -9,7 +10,9 @@ export default function NowPlayStudy(props) {
   const date = now.getDate();
   return (
     <>
-      {isLive ? (
+    
+      {
+      isLive ? (
         <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-[700px] w-full relative overflow-hidden gap-5 p-[50px]">
           <p className="flex-grow-0 flex-shrink-0 text-3xl font-bold text-center">
             {year}년 {month + 1}월 {date}일 오늘의 스터디

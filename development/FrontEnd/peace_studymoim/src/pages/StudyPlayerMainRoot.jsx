@@ -132,8 +132,8 @@ export default function StudyPlayerMainRoot() {
   useEffect(() => {
     fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`)
     connect(study.studyId);
-    return () => {
-      fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
+    return async () => {
+      await fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`,
       {
         method: "PUT",
         headers: {
