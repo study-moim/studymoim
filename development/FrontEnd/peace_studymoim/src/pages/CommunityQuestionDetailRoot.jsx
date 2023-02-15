@@ -9,6 +9,7 @@ import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete
 import Moment from "moment";
 import "moment/locale/ko";
 import LoginModal from "../components/NavBar/LoginModal";
+import QuestionComment from "../components/communitydetail/QuestionComment";
 
 export default function CommunityQuestionDetailRoot() {
   const [showModal, setShowModal] = useState(false);
@@ -139,7 +140,7 @@ export default function CommunityQuestionDetailRoot() {
         </div>
         <QuestionCommentForm questionBoardId={questionDetail.questionBoardId} />
         {newCommentList.map((comment) => (
-          <CommunityComment
+          <QuestionComment
             key={comment.questionBoardCommentId}
             commentUserId={comment.user.userId}
             comment={comment}
