@@ -120,12 +120,9 @@ export default function CourseMainRoot() {
               placeholder="전체 강좌 검색"
               className="w-full h-[40px] border text-[14px] border-slate-500 rounded-[30px] pl-4 focus:outline-none focus:ring focus:ring-violet-300"
               onChange={(e) => {
-                  setParams({
-                      "key": "word",
-                      "word": e.target.value,
-                      "page": 0,
-                      "size": 8
-                  })
+                  setKey('word')
+                  setWord(e.target.value)
+                  setCurrentPage(1)
               }}
             />
           </div>
@@ -138,12 +135,9 @@ export default function CourseMainRoot() {
             "hover:bg-gray-200 min-w-[80px] w-fit flex flex-col justify-center items-center rounded-[10px] px-3 py-1 border "
           }
           onClick={async () => {
-              setParams({
-                  "key": '',
-                  "word": '',
-                  "page": 0,
-                  "size": 8
-              })
+              setKey('')
+              setWord('')
+              setCurrentPage(1)
           }}
         >
           <p className="text-[14px]">전체</p>
@@ -152,12 +146,9 @@ export default function CourseMainRoot() {
           <div
             key={tag.courseCategoryId}
             onClick={async () => {
-                setParams({
-                    "key": "tag",
-                    "word": tag.courseCategoryId,
-                    "page": 0,
-                    "size": 8
-                })
+                setKey("tag");
+                setWord(tag.courseCategoryId);
+                setCurrentPage(1)
               console.log('tag button clicked')
             }}
           >
