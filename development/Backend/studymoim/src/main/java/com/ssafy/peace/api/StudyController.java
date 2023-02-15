@@ -282,13 +282,13 @@ public class StudyController {
                     nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) + 1);
                 } else {
                     nowPlayerStudyMemberCount.put(studyId, 1);
-                    studyService.updateLive(studyId, true, lectureId);
                 }
+                studyService.updateLive(studyId, true, lectureId);
                 System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
             }
             // 퇴장시
             else if(status.equals("end")) {
-                nowPlayerStudyMemberCount.put(studyId, nowPlayerStudyMemberCount.get(studyId) - 1);
+                nowPlayerStudyMemberCount.put(studyId, Math.max(nowPlayerStudyMemberCount.get(studyId) - 1, 0));
                 System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
                 if(nowPlayerStudyMemberCount.get(studyId) == 0) {
                     studyService.updateLive(studyId, false);
