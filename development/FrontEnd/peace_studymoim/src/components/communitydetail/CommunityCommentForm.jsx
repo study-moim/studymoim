@@ -12,7 +12,12 @@ export default function CommunityCommentForm({ freeBoardId }) {
 
   function onSubmit(e) {
     e.preventDefault();
-
+    // 공백 컷
+    const ccv = contentRef.current.value;
+    if (ccv.trim().length < 1) {
+      alert("공백으로만 구성할 수 없습니다.");
+      return;
+    }
     if (!isLoading) {
       setIsLoading(true);
       // Create 호출
@@ -45,8 +50,8 @@ export default function CommunityCommentForm({ freeBoardId }) {
     >
       <textarea
         className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
-        placeholder="댓글을 입력해주세요.(200자)"
-        maxLength="200"
+        placeholder="댓글을 입력해주세요.(400자)"
+        maxLength="400"
         ref={contentRef}
       />
       <button className="p-2.5 w-[100px] rounded-[10px] text-center font-bold text-[14px] text-white bg-[#b1b2ff] hover:bg-[#9697ff] mb-3">

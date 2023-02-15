@@ -30,7 +30,18 @@ export default function ArticleEditForm({
     }
   };
 
-  const putArticle = () => {
+  const putArticle = (e) => {
+    e.preventDefault();
+    if (localTitle.trim().length < 1) {
+      alert("제목을 공백으로만 구성할 수 없습니다.");
+      return;
+    }
+    if (localContent.trim().length < 1) {
+      alert("내용을 공백으로만 구성할 수 없습니다.");
+      return;
+    }
+
+
     const putData = {
       title: localTitle,
       content: localContent,

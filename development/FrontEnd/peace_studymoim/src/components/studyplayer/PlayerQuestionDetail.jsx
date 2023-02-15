@@ -42,7 +42,7 @@ export default function PlayerQuestionDetail({
             className="text-indigo-500 cursor-pointer text-xs"
             onClick={clickMoreComment}
           >
-            답변 보기 (답변 수) ▼
+            답변 보기 ▼
           </div>
         ) : (
           <div
@@ -58,7 +58,7 @@ export default function PlayerQuestionDetail({
       {commentToggle ? (
         <div className="w-full">
           <PlayerQuestionCommentCreate questionBoardId={propData.questionBoardId}  getCreateComment={getCreateComment}/>
-          <PlayerQuestionCommentList commentToggle={commentToggle} questionBoardComments={propData.questionBoardComments} />
+          <PlayerQuestionCommentList questionBoardComments={propData.questionBoardComments} />
         </div>
       ) : null}
     </div>

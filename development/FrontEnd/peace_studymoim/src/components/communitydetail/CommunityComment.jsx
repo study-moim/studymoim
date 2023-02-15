@@ -78,9 +78,9 @@ export default function CommunityComment({ comment, commentUserId }) {
             </div>
           </div>
           {/* 댓글 내용 */}
-          <p className="w-full mt-5 text-[15px] text-start break-all">
+          <pre className="font-sans w-full whitespace-pre-wrap mt-5 text-[15px] text-start break-all">
             {comment.content}
-          </p>
+          </pre>
         </div>
       </div>
     </>
