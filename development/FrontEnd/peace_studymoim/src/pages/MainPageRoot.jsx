@@ -1,5 +1,6 @@
-import MainSearch from "../components/mainpages/MainSearch";
 // import TagList from "../components/overall/TagList";
+// import CourseTag from "../components/coursepages/CourseTag";
+// import MainSearch from "../components/mainpages/MainSearch";
 import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
@@ -13,12 +14,11 @@ import {
   faCircleArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
-// import CourseTag from "../components/coursepages/CourseTag";
+import MainFreeArticle from "../components/mainpages/MainFreeArticle";
+import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MainFreeArticle from "../components/mainpages/MainFreeArticle";
-import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 
 export default function MainPageRoot() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function MainPageRoot() {
   const courseArticleInfo = useFetch(
     `http://${API_SERVER}/api/v1/articles/question`
   ).content;
-  console.log('아티클인포임ㅋ', courseArticleInfo)
+  
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
