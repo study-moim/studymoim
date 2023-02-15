@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 export default function MainCourse({ propData }) {
   const [isHover, setIsHover] = useState(false);
-  const slicedTitle = propData.title.substring(0, 30) + "...";
   const slicedContent = propData.content.substring(0, 100) + "...";
 
   return (
@@ -22,8 +21,9 @@ export default function MainCourse({ propData }) {
           className="w-full h-[146px] object-cover rounded-[15px]"
         />
         <div className="w-full">
-          <p className="text-[16px] px-3 pt-3 h-[60px]">
-            {propData.title.length > 30 ? slicedTitle : propData.title}
+          <p className="text-[16px] px-3 pt-3 truncate"> 
+            {propData.title}
+    
           </p>
           <p className="text-[12px] px-3 py-1">
             {propData.courseProviderName}

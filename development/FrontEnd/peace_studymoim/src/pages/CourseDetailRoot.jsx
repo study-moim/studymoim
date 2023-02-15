@@ -6,9 +6,20 @@ import StudyShort from "../components/coursedetail/StudyShort";
 import CourseQuestion from "../components/coursedetail/CourseQuestion";
 import NavPagination from "../components/NavBar/NavPagination.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"; 
+import userInfo from "../zustand/store";
+import { useNavigate } from "react-router-dom";
 
 export default function CourseDetailRoot() {
+  const navigate = useNavigate();
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      navigate("/login");
+      return;
+    }
+  });
+  
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
   const props = useLocation().state.propData;
   const [currentClick, setCurrentClick] = useState("curriculum");
