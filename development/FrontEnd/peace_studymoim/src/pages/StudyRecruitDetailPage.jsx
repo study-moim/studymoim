@@ -19,12 +19,6 @@ import "slick-carousel/slick/slick-theme.css";
 export default function StudyRecruitDetailPage(props) {
   const navigate = useNavigate();
   const { info } = userInfo();
-  useEffect(() => {
-    if (!info) {
-      navigate("/login");
-      return;
-    }
-  });
 
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
@@ -73,16 +67,21 @@ export default function StudyRecruitDetailPage(props) {
   const [curriculum, setCurriculum] = useState([]);
 
   useEffect(() => {
-    fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setStudyDetail(data);
-        setUserList(data.leadUser);
-        setCurriculum(data.curricula);
-      });
-  }, [detailId]);
+    if (!info) {
+      navigate("/login");
+      return;
+    } else {
+      fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setStudyDetail(data);
+          setUserList(data.leadUser);
+          setCurriculum(data.curricula);
+        });
+    }
+  }, [info, navigate, detailId]);
 
   function closeModalHandler() {
     if (!studyDetail.public) {
