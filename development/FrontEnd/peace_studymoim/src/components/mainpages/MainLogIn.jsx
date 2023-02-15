@@ -103,7 +103,7 @@ export default function MainLogIn({ searchKey, searchData }) {
           ))}
         </Slider>
       ) : (
-        <div>
+        <div className="flex justify-start gap-[15px]">
           {filterInfo.map((course) => (
             <MainCourse key={course.course_id} propData={course} />
           ))}
@@ -111,7 +111,7 @@ export default function MainLogIn({ searchKey, searchData }) {
       )}
 
       <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5"># 내 스터디 바로가기</p>
+        <p className="text-lg text-left font-bold my-5 mr-3"># 내 스터디 바로가기</p>
         <FontAwesomeIcon
           icon={faCircleArrowRight}
           onClick={() => {

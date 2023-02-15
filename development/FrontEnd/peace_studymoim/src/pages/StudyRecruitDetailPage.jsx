@@ -1,17 +1,31 @@
+import userInfo from "../zustand/store";
+import { useNavigate } from "react-router-dom";
 import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 import MainCourse from "../components/mainpages/MainCourse";
-import userInfo from "../zustand/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faUser, faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendar,
+  faUser,
+  faCircleCheck,
+} from "@fortawesome/free-regular-svg-icons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function StudyRecruitDetailPage(props) {
+  const navigate = useNavigate();
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      navigate("/login");
+      return;
+    }
+  });
+
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
   const studyId = useParams();
@@ -57,7 +71,6 @@ export default function StudyRecruitDetailPage(props) {
   const [studyDetail, setStudyDetail] = useState([]);
   const [userList, setUserList] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
-  const { info } = userInfo();
 
   useEffect(() => {
     fetch(`http:///${API_SERVER}/api/v1/study/${detailId}`)
@@ -144,7 +157,10 @@ export default function StudyRecruitDetailPage(props) {
               <p className="text-sm font-bold">{studyDetail.userLimit} 명</p>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <FontAwesomeIcon icon={faCircleCheck} className="mb-3 text-[20px]" />
+              <FontAwesomeIcon
+                icon={faCircleCheck}
+                className="mb-3 text-[20px]"
+              />
               <p className="text-sm">모집 방법</p>
               {studyDetail.public ? (
                 <p className="text-sm font-bold"> 공개 </p>
@@ -155,9 +171,7 @@ export default function StudyRecruitDetailPage(props) {
           </div>
           <div className="container py-7 border-b">
             <p className="text-xl font-bold pb-3">상세 설명</p>
-            <div className="text-[15px] break-all">
-              {studyDetail.content}
-            </div>
+            <div className="text-[15px] break-all">{studyDetail.content}</div>
           </div>
           <div className="py-7">
             <p className="text-xl font-bold pb-3">커리큘럼</p>

@@ -1,6 +1,6 @@
-// TODO: 이 화면은 로그인된 애는 못오게 해야함
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 export default function LogInMainRoot() {
   const REST_API_KEY = import.meta.env.VITE_APP_REST_API_KEY;
@@ -8,9 +8,14 @@ export default function LogInMainRoot() {
   const REDIRECT_URI = `http://${API_SERVER}/api/v1/oauth/login`;
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
+  const navigate = useNavigate(); 
   const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URI;
-  };
+  }; 
+
+  const moveToMain = () => {
+    navigate('/'); 
+  }
   return (
     <div className="max-w-6xl mx-auto p-[140px] mb-5">
       <div className="w-full h-[500px] rounded-lg shadow-lg pt-[50px]">
@@ -32,6 +37,17 @@ export default function LogInMainRoot() {
               className="text-[#3A1D1D]"
             />
             <p className="font-bold">카카오로 시작하기</p>
+          </button>
+
+          <button
+           className="bg-white w-[250px] h-[50px] rounded-[7px] flex justify-center items-center gap-4 hover:scale-105 border-2 border-[#B1B2FF]"
+           onClick={moveToMain}>
+            <FontAwesomeIcon
+              icon={faHouse}
+              size="lg"
+              className="text-[#3A1D1D]"
+            />
+            <p className="font-bold">메인으로 돌아가기</p>
           </button>
         </div>
       </div>

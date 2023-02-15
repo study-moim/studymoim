@@ -1,5 +1,5 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import userInfo from "../zustand/store";
