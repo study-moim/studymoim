@@ -48,7 +48,6 @@ export default function CommunityDetailRoot() {
   const commentLength = newCommentList.length;
   const dateBase = new Date(articleDetail.publishTime);
   const date = dateBase.toString().substring(0, 24);
-  console.log(thisIsMine);
   // 삭제기능
   const handleRemove = () => {
     if (window.confirm(`정말로 글을 삭제하시겠습니까?`)) {
