@@ -103,24 +103,33 @@ export default function MyPageArticle({ getPageName }) {
                   return (
                     <tr
                       key={item.questionBoardId}
-                      onClick={() => navigate(`/community/question/${item.questionBoardId}`)}
+                      onClick={() =>
+                        navigate(`/community/question/${item.questionBoardId}`)
+                      }
                       className="h-10 hover:bg-gray-200 cursor-pointer"
                     >
                       <td className="w-[50%]">{item.title}</td>
-                      <td className="w-[40%]">{item.publishTime.substring(0, 10)}</td>
+                      <td className="w-[40%]">
+                        {item.publishTime.substring(0, 10)}
+                      </td>
                       <td className="w-[10%]">{item.hit}</td>
                     </tr>
                   );
                 })
               : filterInfo.map((item) => {
+                  console.log(item);
                   return (
                     <tr
                       key={item.freeBoardId}
-                      onClick={() => navigate(`/community/free/${item.freeBoardId}`)}
+                      onClick={() =>
+                        navigate(`/community/free/${item.freeBoardId}`)
+                      }
                       className="h-10 hover:bg-gray-200 cursor-pointer"
                     >
                       <td className="w-[50%]">{item.title}</td>
-                      <td className="w-[40%]">{item.publishTime.substring(0, 10)}</td>
+                      <td className="w-[40%]">
+                        {item.publishTime.substring(0, 10)}
+                      </td>
                       <td className="w-[10%]">{item.hit}</td>
                     </tr>
                   );
