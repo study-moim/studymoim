@@ -28,7 +28,7 @@ public class StudyController {
 
     private final StudyService studyService;
 
-    private final static Map<Integer, Integer> nowPlayerStudyMemberCount = new HashMap<>();
+    private static Map<Integer, Integer> nowPlayerStudyMemberCount = new HashMap<>();
 
     @Operation(summary = "get study list", description = "스터디 목록 불러오기")
     @ApiResponses({
@@ -283,6 +283,7 @@ public class StudyController {
                 } else {
                     nowPlayerStudyMemberCount.put(studyId, 1);
                 }
+                if(lectureId == null) throw new Exception("No lectureId present. is lectureId exists in request query?");
                 studyService.updateLive(studyId, true, lectureId);
                 System.out.println(studyId +"인원 수 : "+nowPlayerStudyMemberCount.get(studyId));
             }

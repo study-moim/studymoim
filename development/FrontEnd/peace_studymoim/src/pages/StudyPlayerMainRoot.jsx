@@ -156,11 +156,12 @@ export default function StudyPlayerMainRoot() {
   async function closeLive() {
     if (confirm("라이브를 종료하시겠습니까?") == true) {
       putHistory();
-      let response = await fetch(
-        `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
-        { method: "PUT" }
-      );
-      console.log(response.status);
+      // test
+      // let response = await fetch(
+      //   `http://${API_SERVER}/api/v1/study/${study.studyId}/live/end`,
+      //   { method: "PUT" }
+      // );
+      // console.log(response.status);
       navigate(`/studyDetail/${study.studyId}`);
     }
   }
