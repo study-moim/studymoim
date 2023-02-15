@@ -17,6 +17,7 @@ export default function NavBarNotLogIn() {
       >
         로그인
       </button>
+      
       {showModal ? (
         <LoginModal
           onCancel={closeModalHandler}
