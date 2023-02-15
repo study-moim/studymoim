@@ -7,20 +7,27 @@ import { useNavigate } from "react-router";
 export default function MyPageUpdateForm({ userId }) {
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
   const { info } = userInfo();
+
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const saveNameRef = useRef();
+
   const [modifyNickname, setModifyNickname] = useState(false);
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
+  const nicknameRef = useRef(info.nickname);
+
   const [modifyTag, setModifyTag] = useState(false);
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedField, setSelectedField] = useState([]);
-  const saveNameRef = useRef();
-  const nicknameRef = useRef(info.nickname);
+
   const selectFieldsRef = useRef();
+
   const navigate = useNavigate();
+
   useEffect(() => {
     const getTag = async () => {
       if (modifyTag) {
@@ -79,6 +86,13 @@ export default function MyPageUpdateForm({ userId }) {
   }
   
   function submitNicknameHandler() {
+    // 공백 컷
+    if (nickname.match(/\s/g)) {
+      nicknameRef.current.focus()
+      return 
+    }
+
+
     const nicknameInfo = {
       nickname: nickname,
     };
