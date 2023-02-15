@@ -34,11 +34,10 @@ public class CourseService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> getCourseInfoListFindAll() {
+    public Page<CourseDto.Info> getCourseInfoListFindAll(Pageable pageable) {
         // Course -> CourseDto.Info
-        return courseRepository.findAll().stream()
-                .map(CourseDto.Info::fromEntity)
-                .collect(Collectors.toList());
+        return courseRepository.findAll(pageable)
+                .map(CourseDto.Info::fromEntity);
 
     }
 
@@ -50,13 +49,12 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> courseInfoListCourseCategoryId(int courseCategoryId) {
+    public Page<CourseDto.Info> courseInfoListCourseCategoryId(int courseCategoryId, Pageable pageable) {
 
         // courseCategoryId에 맞는 강좌 가져오기
-        return courseTypeRepository.findAllByCourseCategory_CourseCategoryId(courseCategoryId).stream()
+        return courseTypeRepository.findAllByCourseCategory_CourseCategoryId(courseCategoryId, pageable)
                 .map(CourseType::getCourse)
-                .map(CourseDto.Info::fromEntity)
-                .collect(Collectors.toList());
+                .map(CourseDto.Info::fromEntity);
     }
 
     @Transactional(readOnly = true)

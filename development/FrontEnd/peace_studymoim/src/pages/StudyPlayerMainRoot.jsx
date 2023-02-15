@@ -130,8 +130,10 @@ export default function StudyPlayerMainRoot() {
   let stomp = Stomp.client(`ws://${API_SERVER}/ws`);
 
   useEffect(() => {
+    fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/start/`)
     connect(study.studyId);
     return () => {
+      fetch(`http://${API_SERVER}/api/v1/study/${study.studyId}/live/end/`)
       disconnect();
     };
   }, []);
