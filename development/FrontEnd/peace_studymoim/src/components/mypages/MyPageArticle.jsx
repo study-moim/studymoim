@@ -117,7 +117,6 @@ export default function MyPageArticle({ getPageName }) {
                   );
                 })
               : filterInfo.map((item) => {
-                  console.log(item);
                   return (
                     <tr
                       key={item.freeBoardId}

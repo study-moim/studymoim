@@ -9,7 +9,7 @@ export default function QuestionComment({ comment, commentUserId }) {
   if (pt === null) {
     return null;
   }
-  console.log(comment, "Asdf")
+
   const { info } = userInfo();
   const [isMine, setIsMine] = useState(false);
   const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;

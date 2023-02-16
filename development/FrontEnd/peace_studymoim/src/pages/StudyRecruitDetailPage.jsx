@@ -97,7 +97,6 @@ export default function StudyRecruitDetailPage(props) {
         .then((res) => res.json())
         .then((json) => {
           setRequestState(json.state);
-          console.log(requestState);
           getRequestMessage();
         });
     };
@@ -142,7 +141,6 @@ export default function StudyRecruitDetailPage(props) {
             {studyDetail.title}
           </div>
           <div className="flex justify-start items-center relative pb-7 border-b">
-            {console.log(studyDetail)}
             <img
               className="w-[50px] h-[50px] object-cover rounded-full border"
               src={userList.saveName ? IMAGE_ROOT + userList.saveName : "/logo.png"}
