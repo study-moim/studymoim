@@ -14,7 +14,7 @@ export default function DeleteModal(props) {
     props.onCancel();
   }
   function confirmHandler() {
-    navigate("/study");
+    navigate(-1);
   }
   return (
     <>
