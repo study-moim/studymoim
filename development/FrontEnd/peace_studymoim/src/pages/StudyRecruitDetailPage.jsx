@@ -28,6 +28,7 @@ export default function StudyRecruitDetailPage(props) {
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
   const navigate = useNavigate(); 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
@@ -140,9 +141,10 @@ export default function StudyRecruitDetailPage(props) {
             {studyDetail.title}
           </div>
           <div className="flex justify-start items-center relative pb-7 border-b">
+            {console.log(studyDetail)}
             <img
               className="w-[50px] h-[50px] object-cover rounded-full border"
-              src={studyDetail.saveName ? studyDetail.saveName : "/logo.png"}
+              src={userList.saveName ? IMAGE_ROOT + userList.saveName : "/logo.png"}
             />
             <div className="pl-3">
               <NavLink
@@ -206,8 +208,8 @@ export default function StudyRecruitDetailPage(props) {
               )}
             </div>
           </div>
-          <div className="container mt-10">
-            <div>{studyDetail.content}</div>
+          <div className="border-t container mt-10">
+            <div className="py-5 text-[16px] font-semibold break-all whitespace-pre-wrap font-sans border-b">{studyDetail.content}</div>
           </div>
 
           <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left mt-10">
