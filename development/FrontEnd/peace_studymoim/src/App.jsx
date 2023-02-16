@@ -27,6 +27,7 @@ import MyPageRealRoot from "./pages/MyPageRealRoot";
 import ArticleCreateForm from "./components/communitypages/ArticleCreateForm";
 import LecturePlayerMainRoot from "./pages/LecturePlayerMainRoot";
 import MyPageTempPage from "./components/mypages/MyPageTempPage"
+import EmptyPage from "./pages/EmptyPage";
 
 export default function App() {
   return (
@@ -84,6 +85,7 @@ export default function App() {
           path="/player/study/:lecture_id"
           element={<StudyPlayerMainRoot />}
         ></Route>
+        <Route path="*" element={<EmptyPage />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
