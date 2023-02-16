@@ -403,8 +403,21 @@ public class StudyController {
         }
     }
 
-
-
+    @Operation(summary = "get study request state by user", description = "해당 스터디 신청 대기 수락 거절 상태 확인")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/request/{studyId}/{userId}")
+    public ResponseEntity<?> getStudyRequestState(@Parameter(description = "studyId") @PathVariable Integer studyId,
+                                                  @Parameter(description = "userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(studyService.getStudyRequestState(studyId, userId), HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 }

@@ -17,4 +17,7 @@ public interface StudyRequestRepository extends JpaRepository<StudyRequest, Inte
     특정 사용자가 해당 스터디에 이미 신청서를 넣었는지 확인
      */
     boolean existsByUser_UserIdAndStudy_StudyId(Integer userId, Integer studyId);
+
+    StudyRequest findByUser_userIdAndStudy_studyId(Integer userId, Integer studyId);
+
 }
