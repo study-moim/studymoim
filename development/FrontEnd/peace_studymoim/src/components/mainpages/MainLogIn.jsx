@@ -60,6 +60,41 @@ export default function MainLogIn() {
       },
     ],
   };
+  
+  const twoSettings = {
+    dots: false,
+    infinite: true,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
 
   const recommendCourses = useFetch(
     `http://${API_SERVER}/api/v1/user/${userId}/recommend/courses`
@@ -122,7 +157,7 @@ export default function MainLogIn() {
       </div>
 
       {!myStudies && (
-        <Slider {...settings}>
+        <Slider {...twoSettings}>
           {studyInfo.map((study) => (
             <MainStudy key={study.studyId} propData={study} />
           ))}
@@ -130,7 +165,7 @@ export default function MainLogIn() {
       )}
 
       {myStudies.length > 2 ? (
-        <Slider {...settings}>
+        <Slider {...twoSettings}>
           {myStudies.map((study) => (
             <StudyListItem key={study.studyId} propData={study} />
           ))}
@@ -138,7 +173,9 @@ export default function MainLogIn() {
       ) : (
         <div className="flex justify-start">
           {myStudies.map((study) => (
+            <div key={study.studyId} className="w-[31%]">
             <StudyListItem key={study.studyId} propData={study} />
+            </div> 
           ))}
         </div>
       )}
