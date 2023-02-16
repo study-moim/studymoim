@@ -59,9 +59,9 @@ public class CourseController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/search/{searchText}")
-    public ResponseEntity<?> courseInfoList(@Parameter(description = "searchText") @PathVariable String searchText) {
+    public ResponseEntity<?> courseInfoList(@Parameter(description = "searchText") @PathVariable String searchText, Pageable pageable) {
         try{
-            return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchText), HttpStatus.OK);
+            return new ResponseEntity<>(courseService.getCourseInfoListFindByName(searchText, pageable), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

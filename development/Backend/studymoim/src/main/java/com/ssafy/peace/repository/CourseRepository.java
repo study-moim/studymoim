@@ -20,7 +20,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     Course findByCourseId(Integer courseId);
 
-    List<Course> findAllByTitleContains(String searchTitle);
+    Page<Course> findAllByTitleContains(String searchTitle, Pageable pageable);
 
     @Query("SELECT c FROM Course c WHERE c.courseId IN (:courseIdList)")
     List<Course> findByCourseIdIn(@Param("courseIdList") List<Integer> courseIdList);
