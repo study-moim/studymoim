@@ -12,5 +12,5 @@ RUN \
     rm /etc/nginx/sites-available/default && \
     rm /etc/nginx/sites-enabled/default && \
     touch /etc/nginx/sites-available/myapp.conf && \
-    ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf && \
+    ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf
 COPY nginx/sites-available/myapp.conf /etc/nginx/sites-available/myapp.conf
