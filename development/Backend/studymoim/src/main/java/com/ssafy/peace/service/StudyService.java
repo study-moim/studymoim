@@ -345,7 +345,7 @@ public class StudyService {
                     map.put("state", "proceeding");
                 }
             } else {
-                map.put("state", "possible");
+                map.put("state", "banned");
             }
         } else {
             map.put("state", "possible");
