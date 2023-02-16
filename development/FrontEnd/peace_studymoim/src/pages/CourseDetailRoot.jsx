@@ -113,13 +113,13 @@ export default function CourseDetailRoot() {
     (e) => {
       setPage(null);
       setCurrentPage(0);
-      if (currentClick !== null) {
-        let current = document.getElementById(currentClick);
-        current.style.backgroundColor = "#8871f9";
-      }
       if (prevClick !== null) {
         let prev = document.getElementById(prevClick);
         prev.style.backgroundColor = "#ad9dfe";
+      }
+      if (currentClick !== null) {
+        let current = document.getElementById(currentClick);
+        current.style.backgroundColor = "#8871f9";
       }
       setPrevClick(currentClick);
       setParams({
