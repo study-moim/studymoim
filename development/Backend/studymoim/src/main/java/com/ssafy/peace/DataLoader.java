@@ -1,6 +1,5 @@
 package com.ssafy.peace;
 
-import com.ssafy.peace.dto.StudyCommunityDto;
 import com.ssafy.peace.entity.*;
 import com.ssafy.peace.repository.*;
 import com.ssafy.peace.service.CourseTypeService;
@@ -18,7 +17,6 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,29 +97,29 @@ public class DataLoader implements CommandLineRunner {
         addLecture();
         System.out.println("DataLoader 60% clear");
 
-        // User 5명
-        addUsers();
-        // 자유글 작성
-        addFreeBoard();
-        // 과목 질문글 작성
-        addQuestionBoard();
-        // UserLikeCategory 더미 데이터
-        addUserLikeCategory();
-        // Course 좋아요 더미 데이터
-        addUserLikeCourse();
-        // Memo 더미 데이터
-        addNote();
-        // 스터디 관련 더미 데이터
-        addStudyAndMember();
-        addCurriculum();
-        addStudyCommunity();
-        // Message 더미 데이터
-        addMessage();
-        addRegister();
-        // Follow 더미 데이터
-        addFollow();
-        // History 더미 데이터
-        addUserHistory();
+//        // User 5명
+//        addUsers();
+//        // 자유글 작성
+//        addFreeBoard();
+//        // 과목 질문글 작성
+//        addQuestionBoard();
+//        // UserLikeCategory 더미 데이터
+//        addUserLikeCategory();
+//        // Course 좋아요 더미 데이터
+//        addUserLikeCourse();
+//        // Memo 더미 데이터
+//        addNote();
+//        // 스터디 관련 더미 데이터
+//        addStudyAndMember();
+//        addCurriculum();
+//        addStudyCommunity();
+//        // Message 더미 데이터
+//        addMessage();
+//        addRegister();
+//        // Follow 더미 데이터
+//        addFollow();
+//        // History 더미 데이터
+//        addUserHistory();
 //        addStudyHistory();
 
         System.out.println("DataLoader 100% clear");
@@ -174,7 +172,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addCourse(){
 
-        ClassPathResource classPathResource = new ClassPathResource("course_full.json");
+        ClassPathResource classPathResource = new ClassPathResource("course.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
@@ -203,7 +201,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addLecture(){
 
-        ClassPathResource classPathResource = new ClassPathResource("lecture_full.json");
+        ClassPathResource classPathResource = new ClassPathResource("lecture.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
