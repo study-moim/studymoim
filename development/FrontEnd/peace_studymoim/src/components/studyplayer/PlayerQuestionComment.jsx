@@ -6,7 +6,7 @@ export default function PlayerQuestionComment({ comment, commentToggle, getCreat
   const [isMine, setIsMine] = useState(false);
 
   useEffect(() => {
-    if (info.userId === comment.userId) {
+    if (info.userId === comment.user.userId) {
       setIsMine(true);
     }
   }, []);
@@ -36,7 +36,7 @@ export default function PlayerQuestionComment({ comment, commentToggle, getCreat
           </p>
           <p
             className={
-              !isMine
+              isMine
                 ? "text-xs font-bold text-left text-black cursor-pointer"
                 : "text-xs font-bold invisible"
             }
