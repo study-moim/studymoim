@@ -1,6 +1,5 @@
 // import TagList from "../components/overall/TagList";
 // import CourseTag from "../components/coursepages/CourseTag";
-// import MainSearch from "../components/mainpages/MainSearch";
 import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
@@ -15,7 +14,7 @@ import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MainSearch from "../components/mainpages/MainSearch";
+// import MainSearch from "../components/mainpages/MainSearch";
 import './MainPageRoot.css'; 
 
 export default function MainPageRoot() {
@@ -95,7 +94,7 @@ export default function MainPageRoot() {
         </Slider>
         <div className="w-full my-5 flex flex-col justify-center items-center">
           {/* <div className="w-[50%] relative h-[50px] flex my-5"></div> */}
-          <MainSearch />
+          {/* <MainSearch /> */}
         </div>
         {/* <div className="w-full my-3 flex flex-col justify-center items-center">
           <div className="w-[50%] relative h-[50px] flex my-5">
@@ -212,7 +211,7 @@ export default function MainPageRoot() {
           </Slider>
         )}
 
-        <div className="my-5"></div>
+        <div className="my-10"></div>
       </div>
     </div>
   );

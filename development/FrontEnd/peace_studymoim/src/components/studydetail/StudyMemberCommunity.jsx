@@ -2,14 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useEffect, useState } from "react";
 import userInfo from "../../zustand/store";
-import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import StudyMemberCoummunityComment from "./StudyMemberCommunityComment";
+import LoginModal from "../NavBar/LoginModal";
 
 export default function StudyMemberCoummunity({ propData }) {
   const { info } = userInfo();
   const studyId = useParams();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef(null);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -28,12 +27,6 @@ export default function StudyMemberCoummunity({ propData }) {
     getStudyCommunity();
   }, [studyId.study_id]);
 
-  useEffect(() => {
-    if (!info) {
-      navigate("/login");
-      return;
-    }
-  });
 
   function onSubmit(e) {
     e.preventDefault();
