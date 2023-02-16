@@ -331,4 +331,25 @@ public class StudyService {
         }
         return result;
     }
+
+    public Map<String, String> getStudyRequestState(Integer studyId, Integer userId) throws RollbackException {
+        Map<String, String> map = new HashMap<>();
+        if (studyRequestRepository.existsByUser_UserIdAndStudy_StudyId(userId, studyId)) {
+            int state = StudyRequestDto.Info.fromEntity(studyRequestRepository.findByUser_userIdAndStudy_studyId(userId, studyId)).getRequestStatus();
+            if (state == 0) {
+                map.put("state", "waiting");
+            } else if (state == 1) {
+                if (studyMemberRepository.existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(userId, studyId)) {
+                    map.put("state", "banned");
+                } else {
+                    map.put("state", "proceeding");
+                }
+            } else {
+                map.put("state", "possible");
+            }
+        } else {
+            map.put("state", "possible");
+        }
+        return  map;
+    }
 }
