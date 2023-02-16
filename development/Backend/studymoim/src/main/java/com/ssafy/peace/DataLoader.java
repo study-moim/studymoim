@@ -174,7 +174,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addCourse(){
 
-        ClassPathResource classPathResource = new ClassPathResource("course.json");
+        ClassPathResource classPathResource = new ClassPathResource("course_full.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
@@ -203,7 +203,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void addLecture(){
 
-        ClassPathResource classPathResource = new ClassPathResource("lecture.json");
+        ClassPathResource classPathResource = new ClassPathResource("lecture_full.json");
 
         try {
             Object ob = new JSONParser().parse(new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
@@ -360,7 +360,7 @@ public class DataLoader implements CommandLineRunner {
 
         for (int i = 0; i < users.size(); i++) {
             for (int j = 0; j < courses.size(); j++) {
-                if((j+i) % 3 == 0) {
+                if((j+i) % 12 == 0) {
                     UserLikeCourse userLikeCourse = UserLikeCourse.builder()
                             .user(users.get(i))
                             .course(courses.get(j))
@@ -505,11 +505,13 @@ public class DataLoader implements CommandLineRunner {
         List<Course> courseList = courseRepository.findAll();
         for (int i = 0; i < studyList.size(); i++) {
             for (int j = 0; j < courseList.size(); j++) {
-                curriculumList.add(Curriculum.builder()
-                        .study(studyList.get(i))
-                        .course(courseList.get(j))
-                        .curriculumOrder(curriculumList.size())
-                        .build());
+                if((i+j) % 40 == 0) {
+                    curriculumList.add(Curriculum.builder()
+                            .study(studyList.get(i))
+                            .course(courseList.get(j))
+                            .curriculumOrder(curriculumList.size())
+                            .build());
+                }
             }
         }
         curriculumRepository.saveAllAndFlush(curriculumList);

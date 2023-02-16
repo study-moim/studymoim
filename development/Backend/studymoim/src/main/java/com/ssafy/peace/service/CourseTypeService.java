@@ -26,24 +26,31 @@ public class CourseTypeService {
         List<Course> courseList = courseRepository.findAll();
 
         for (int i = 0; i < courseList.size(); i++) {
-            boolean flag = false;
+            boolean etcCheck = false;
+            boolean jsCheck = false;
             Course course = courseList.get(i);
+
             for (int j = 0; j < courseCategoryList.size()-1; j++) {
+                // 자바스크립트에 포함 됐는데, 자바에도 들어가려고 하는 강의 처리
+                if(jsCheck && j == 5)    continue;
+
                 if(course.getTitle().contains(courseCategoryList.get(j).getName_kor())) {
                     courseTypeRepository.save(CourseType.builder()
                             .course(course)
                             .courseCategory(courseCategoryList.get(j))
                             .build());
-                    flag = true;
+                    etcCheck = true;
+                    if(j == 3) jsCheck = true;
                 } else if (course.getTitle().toLowerCase().contains(courseCategoryList.get(j).getName_eng().toLowerCase())) {
                     courseTypeRepository.save(CourseType.builder()
                             .course(course)
                             .courseCategory(courseCategoryList.get(j))
                             .build());
-                    flag = true;
+                    etcCheck = true;
+                    if(j == 3) jsCheck = true;
                 }
             }
-            if(!flag) {
+            if(!etcCheck) {
                 courseTypeRepository.save(CourseType.builder()
                         .course(course)
                         .courseCategory(courseCategoryList.get(20))

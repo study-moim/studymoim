@@ -13,7 +13,7 @@ export default function StudyNotice({ propData, props, userInfo }) {
   return (
     <div className="py-2 px-5 w-full flex items-center relative border border-[#b1b2ff] rounded-[5px]">
       <FontAwesomeIcon icon={faBullhorn} className="text-xl justify-center pr-8" />
-      <p className="flex-grow w-8/12 text-[17px]">{propData.notice && propData.notice}</p>
+      <p className="flex-grow w-8/12 text-[17px]">{propData.notice}</p>
 
       {userInfo === props.userId ? (
         <div

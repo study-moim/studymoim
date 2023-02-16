@@ -64,10 +64,10 @@ export default function NoticeModal(props) {
                   id=""
                   cols="40"
                   rows="5"
-                  maxLength={100}
+                  maxLength={50}
                   ref={requestRef}
                   className="border rounded-[5px] p-5"
-                  placeholder="새로운 공지를 입력해주세요."
+                  placeholder="새로운 공지를 입력해주세요. (최대 50자)"
                 ></textarea>
                 <button className="mt-5 p-2.5 w-[80%] rounded-[10px] text-center text-[14px] border border-[#b1b2ff] hover:bg-[#b1b2ff]">
                   제출하기
