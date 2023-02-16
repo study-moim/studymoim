@@ -146,7 +146,9 @@ export default function MainLogIn() {
       )}
 
       <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"># 내 스터디 바로가기</p>
+        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"  onClick={() => {
+            navigate(`/mypage/${userId}`);
+          }}># 내 스터디 바로가기</p>
         <FontAwesomeIcon
           className="cursor-pointer hover:text-[#989aff]"
           icon={faCircleArrowRight}

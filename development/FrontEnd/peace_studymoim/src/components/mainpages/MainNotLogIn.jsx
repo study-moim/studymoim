@@ -115,7 +115,9 @@ export default function MainNotLogIn() {
   return (
     <>
       <div className="flex justify-start items-center">
-        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"># 전체 강좌</p>
+        <p className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]" onClick={() => {
+            navigate("/Course");
+          }}># 전체 강좌</p>
         <FontAwesomeIcon
          className="cursor-pointer hover:text-[#989aff]"
           icon={faCircleArrowRight}
@@ -144,7 +146,9 @@ export default function MainNotLogIn() {
 
       <div className="mb-5">
         <div className="flex justify-start items-center">
-          <p className="text-lg text-left font-bold my-5 mr-3 mt-5 cursor-pointer hover:text-[#989aff]">
+          <p className="text-lg text-left font-bold my-5 mr-3 mt-5 cursor-pointer hover:text-[#989aff]"  onClick={() => {
+              navigate("/study");
+            }}>
             # 모집 중인 스터디
           </p>
           <FontAwesomeIcon
