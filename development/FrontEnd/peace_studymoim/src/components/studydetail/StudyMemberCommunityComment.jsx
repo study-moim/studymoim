@@ -7,7 +7,7 @@ export default function StudyMemberCoummunityComment({ items }) {
 
   return (
     <div className="flex gap-4 items-start">
-      <img className="rounded-full w-11 h-11 border" src={image} />
+      <img className="rounded-full w-11 h-11 border" src={items.saveName? image : "/logo.png"} />
       <div>
         <div className="flex gap-3 items-center">
           <div className="text-[15px] font-bold text-center">

@@ -89,21 +89,16 @@ export default function MemberManage({ propData }) {
                   className="flex w-full h-1/12 relative gap-5 p-5"
                 >
                   <div className="flex flex-col gap-2 w-2/12 items-center justify-start">
-                    {member.user.saveName ? (
-                      <img
-                        className="rounded-full w-24 border"
-                        src={member.user.saveName}
-                      />
-                    ) : (
-                      <img
-                        className="rounded-full w-24 border"
-                        src="/logo.png"
-                      />
-                    )}
+                    <img
+                      className="rounded-full w-24 h-24 border"
+                      src={
+                        member.user.saveName
+                          ? IMAGE_ROOT + member.user.saveName
+                          : "/logo.png"
+                      }
+                    />
 
-                    <p className="text-[16px]">
-                      {member.user.nickname}
-                    </p>
+                    <p className="text-[16px]">{member.user.nickname}</p>
                   </div>
 
                   <div className="flex flex-col gap-2 h-full w-8/12 mr-5">
