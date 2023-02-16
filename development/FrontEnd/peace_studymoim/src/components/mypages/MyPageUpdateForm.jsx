@@ -85,7 +85,7 @@ export default function MyPageUpdateForm({ userId }) {
       body: JSON.stringify(categoryInfo),
     }).then((res) => {
       if (res.ok) {
-        alert("카테고리 수정완!");
+        alert("카테고리 수정이 완료되었습니다.");
         window.location.reload();
       }
     });
@@ -100,7 +100,7 @@ export default function MyPageUpdateForm({ userId }) {
       body: imageData,
     }).then((res) => {
       if (res.ok) {
-        alert("이미지 수정완!");
+        alert("이미지 수정이 완료되었습니다.");
         navigate("/mypagetemp", { state: { fromWhere: userId } });
       }
     });
@@ -143,7 +143,7 @@ export default function MyPageUpdateForm({ userId }) {
         body: JSON.stringify(nicknameInfo),
       }).then((res) => {
         if (res.ok) {
-          alert("닉네임 수정완!");
+          alert("닉네임 수정이 완료되었습니다.");
           navigate("/mypagetemp", { state: { fromWhere: userId } });
         }
       });
