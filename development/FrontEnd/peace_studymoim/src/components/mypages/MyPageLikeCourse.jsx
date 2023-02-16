@@ -17,11 +17,11 @@ export default function MyPageLikeCourse({ getPageName }) {
           ))}
         </div>
       ) : (
-        <div className="w-full h-full flex flex-col justify-start items-start gap-10 mt-24 ml-24">
+        <div className="w-full h-[50%] flex flex-col justify-center items-center gap-10">
           <div className="text-3xl">좋아요한 강좌가 없습니다.</div>
           <Link
             to={"/course"}
-            className="border w-[30%] text-center bg-[#bdbef9] h-[50px] pt-3 hover:bg-[#989aff] rounded-lg text-[#656565] font-bold"
+            className="border w-[30%] text-center border-[#bdbef9] h-[50px] pt-3 hover:bg-[#bdbef9] rounded-lg font-bold"
           >
             강좌 둘러보기
           </Link>
