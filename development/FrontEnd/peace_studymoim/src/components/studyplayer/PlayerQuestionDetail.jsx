@@ -58,7 +58,7 @@ export default function PlayerQuestionDetail({
       {commentToggle ? (
         <div className="w-full">
           <PlayerQuestionCommentCreate questionBoardId={propData.questionBoardId}  getCreateComment={getCreateComment}/>
-          <PlayerQuestionCommentList questionBoardComments={propData.questionBoardComments} />
+          <PlayerQuestionCommentList questionBoardComments={propData.questionBoardComments} getCreateComment={getCreateComment}/>
         </div>
       ) : null}
     </div>
