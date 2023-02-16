@@ -91,23 +91,21 @@ export default function StudyRecruitDetailPage(props) {
       await fetch(
         `http:///${API_SERVER}/api/v1/study/request/${detailId}/${info.userId}`
       )
-      .then((res) => res.json())
-      .then((json) => {
-        setRequestState(json.state);
-        console.log(requestState)
-        getRequestMessage();
-      });
+        .then((res) => res.json())
+        .then((json) => {
+          setRequestState(json.state);
+          console.log(requestState);
+          getRequestMessage();
+        });
     };
     getRequestState();
   }, [detailId, requestState]);
 
   function getRequestMessage() {
-    if (requestState == "waiting")
-      setRequestMessage("신청 대기 중입니다.");
+    if (requestState == "waiting") setRequestMessage("신청 대기 중입니다.");
     else if (requestState == "proceeding")
       setRequestMessage("가입된 스터디입니다.");
-    else if (requestState == "banned")
-      setRequestMessage("신청할 수 없습니다.");
+    else if (requestState == "banned") setRequestMessage("신청할 수 없습니다.");
   }
 
   function closeModalHandler() {
@@ -156,22 +154,23 @@ export default function StudyRecruitDetailPage(props) {
             </div>
             <div className="absolute right-0">
               {/* 방장인 경우에는 스터디 수정창 아니면 스터디 신청  */}
-              {info.userId === userList.userId ? (
-                <Link to={"update"}>
-                  <button className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold">
-                    스터디 정보 수정
+              {info &&
+                (info.userId === userList.userId ? (
+                  <Link to={"update"}>
+                    <button className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold">
+                      스터디 정보 수정
+                    </button>
+                  </Link>
+                ) : requestState == "possible" ? (
+                  <button
+                    onClick={acceptHandler}
+                    className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold"
+                  >
+                    스터디 신청
                   </button>
-                </Link>
-              ) : requestState == "possible" ? (
-                <button
-                  onClick={acceptHandler}
-                  className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold"
-                >
-                  스터디 신청
-                </button>
-              ) : (
-                <div className="text-[15px]">{requestMessage}</div>
-              )}
+                ) : (
+                  <div className="text-[15px]">{requestMessage}</div>
+                ))}
             </div>
           </div>
         </div>
