@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import userInfo from "../zustand/store";
 import LoginModal from "../components/NavBar/LoginModal";
+import { useNavigate } from "react-router";
 
 export default function CourseDetailRoot() {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,7 @@ export default function CourseDetailRoot() {
     setShowModal(false);
   }
 
+  const navigate = useNavigate(); 
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
@@ -152,26 +154,31 @@ export default function CourseDetailRoot() {
       {/* 네비게이션 */}
       <div className="w-[65%]">
         <div className="w-full flex">
-          <div
-            id="curriculum"
-            onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
-          >
-            커리큘럼
+          <div className="w-full flex">
+            <div
+              id="curriculum"
+              onClick={GetClick}
+              className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
+            >
+              커리큘럼
+            </div>
+            <div
+              id="study"
+              onClick={GetClick}
+              className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
+            >
+              스터디
+            </div>
+            <div
+              id="community"
+              onClick={GetClick}
+              className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
+            >
+              커뮤니티
+            </div>
           </div>
-          <div
-            id="study"
-            onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
-          >
-            스터디
-          </div>
-          <div
-            id="community"
-            onClick={GetClick}
-            className="flex justify-center items-center w-[100px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] border-0 text-[15px] text-center text-white cursor-pointer"
-          >
-            커뮤니티
+          <div onClick={() => navigate(-1)} className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold w-[150px] cursor-pointer">
+            목록 가기
           </div>
         </div>
         <NavPagination

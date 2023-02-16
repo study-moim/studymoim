@@ -77,33 +77,43 @@ export default function CommunityDetailRoot() {
             <div className="w-full py-7 text-2xl font-bold text-black">
               {articleDetail.title}
             </div>
-            <div className="flex justify-start items-center relative pb-7 border-b">
-              <img
-                className="w-[50px] h-[50px] object-cover rounded-full border"
-                src={userList.saveName ? image : "/logo.png"}
-              />
-              <div className="pl-3">
-                <NavLink
-                  to={`/mypage/${userList.userId}`}
-                  className="hover:text-[#989aff]"
-                >
-                  <div className="px-2.5 ext-[15px] font-bold">
-                    {userList.nickname}
+            <div className="flex justify-between items-center relative pb-7 border-b">
+              <div className="flex items-center">
+                <img
+                  className="w-[50px] h-[50px] object-cover rounded-full border"
+                  src={userList.saveName ? image : "/logo.png"}
+                />
+                <div className="pl-3">
+                  <NavLink
+                    to={`/mypage/${userList.userId}`}
+                    className="hover:text-[#989aff]"
+                  >
+                    <div className="px-2.5 ext-[15px] font-bold">
+                      {userList.nickname}
+                    </div>
+                  </NavLink>
+                  <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
+                    {Moment(articleDetail.publishTime).format(
+                      "YYYY년 MM월 DD일 HH:mm"
+                    )}
+                    &nbsp; 조회수 {articleDetail.hit}
                   </div>
-                </NavLink>
-                <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
-                  {Moment(articleDetail.publishTime).format(
-                    "YYYY년 MM월 DD일 HH:mm"
-                  )}
-                  &nbsp; 조회수 {articleDetail.hit}
                 </div>
               </div>
-              <div className={thisIsMine ? "absolute right-0" : "invisible"}>
-                <ButtonModifyDelete
-                  handleRemove={handleRemove}
-                  clickModify={clickModify}
-                  isModify={isModify}
-                />
+              <div className="flex flex-col gap-2 justify-end items-end">
+                <div className={thisIsMine ? "" : "invisible"}>
+                  <ButtonModifyDelete
+                    handleRemove={handleRemove}
+                    clickModify={clickModify}
+                    isModify={isModify}
+                  />
+                </div>
+                <div
+                  onClick={() => navigate(-1)}
+                  className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold w-[150px] cursor-pointer"
+                >
+                  목록 가기
+                </div>
               </div>
             </div>
           </div>

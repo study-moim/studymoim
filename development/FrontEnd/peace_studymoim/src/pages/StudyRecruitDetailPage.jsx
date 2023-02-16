@@ -17,6 +17,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./StudyRecruitDetailPage.css";
 import LoginModal from "../components/NavBar/LoginModal";
+import { useNavigate } from "react-router";
 
 export default function StudyRecruitDetailPage(props) {
   const [showModal, setShowModal] = useState(false);
@@ -27,6 +28,7 @@ export default function StudyRecruitDetailPage(props) {
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const navigate = useNavigate(); 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
     <span {...props}>{children}</span>
   );
@@ -152,7 +154,13 @@ export default function StudyRecruitDetailPage(props) {
                 </div>
               </NavLink>
             </div>
-            <div className="absolute right-0">
+            <div className="absolute right-0 flex flex-col gap-2">
+              <button
+                onClick={() => navigate(-1)}
+                className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold"
+              >
+                목록 가기
+              </button>
               {/* 방장인 경우에는 스터디 수정창 아니면 스터디 신청  */}
               {info &&
                 (info.userId === userList.userId ? (
