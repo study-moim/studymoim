@@ -23,7 +23,7 @@ export default function MyPageModal({ showModal, clickModal, setShowModal, getPa
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative my-6 mx-auto min-w-[400px] max-w-[60%]">
+            <div className="relative my-6 mx-auto min-w-[400px] max-w-fit">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
