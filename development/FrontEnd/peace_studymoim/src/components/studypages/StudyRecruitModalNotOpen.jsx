@@ -23,6 +23,10 @@ export default function StudyRecruitModalNotOpen(props) {
     event.preventDefault();
     const enteredRequest = requestRef.current.value;
 
+    if (enteredRequest.trim().length < 1) {
+      alert('공백으로만 구성할 수 없습니다.')
+      return 
+    }
     const requestData = {
       content: enteredRequest,
       userId: info.userId,
@@ -38,6 +42,7 @@ export default function StudyRecruitModalNotOpen(props) {
       }
     ).then((res) => {
       if (res.ok) {
+        alert('스터디 신청이 완료되었습니다.') 
         props.onCancel();
       }
     });
@@ -80,6 +85,7 @@ export default function StudyRecruitModalNotOpen(props) {
                   cols="60"
                   rows="5"
                   maxLength={100}
+                  required
                   ref={requestRef}
                   className="border rounded-[15px] p-5"
                   placeholder="방장에게 보낼 메세지를 입력해주세요."

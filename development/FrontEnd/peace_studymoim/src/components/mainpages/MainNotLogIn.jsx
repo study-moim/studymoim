@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import MainStudy from "./MainStudy";
+import './MainNotLogin.css';
 
 export default function MainNotLogIn() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function MainNotLogIn() {
   const settings = {
     dots: false,
     infinite: true,
-    arrows: true,
+    arrows: true, 
     prevArrow: (
       <SlickButtonFix>
         <img src="/left-arrow.png" alt="" />
@@ -132,7 +133,7 @@ export default function MainNotLogIn() {
         ))}
       </Slider> */}
       {courseInfo && (
-        <Slider {...settings}>
+        <Slider arrows={false} {...settings}>
         {courseInfo.map((course) => (
           <div key={course.course_id}>
             <MainCourse key={course.course_id} propData={course} />
@@ -177,3 +178,4 @@ export default function MainNotLogIn() {
     </>
   );
 }
+

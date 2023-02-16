@@ -16,6 +16,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainSearch from "../components/mainpages/MainSearch";
+import './MainPageRoot.css'; 
 
 export default function MainPageRoot() {
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ export default function MainPageRoot() {
 
   // const tags = useFetch(`http://${API_SERVER}/api/v1/category/`)
   const freeArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/free?size=100000`
+    `http://${API_SERVER}/api/v1/articles/free`
   ).content;
   const courseArticleInfo = useFetch(
-    `http://${API_SERVER}/api/v1/articles/question?size=100000`
+    `http://${API_SERVER}/api/v1/articles/question`
   ).content;
 
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (

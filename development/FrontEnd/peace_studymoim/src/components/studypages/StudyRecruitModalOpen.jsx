@@ -36,7 +36,8 @@ export default function StudyRecruitModalOpen(props) {
         }),
       }
     ).then((res) => {
-      if (res.ok) {
+      if (res.ok) { 
+        alert('스터디에 신청되셨습니다.')
         navigate(`/studyDetail/${studyId.study_recruit_id}`);
       }
     });
