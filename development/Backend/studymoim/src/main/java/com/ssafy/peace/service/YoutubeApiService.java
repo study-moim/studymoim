@@ -135,7 +135,7 @@ public class YoutubeApiService {
                     youtube.playlists().list("id,contentDetails,snippet");
             playlistRequest.setKey(requestKey);
             playlistRequest.setChannelId(channelId);
-            playlistRequest.setMaxResults(1000l);
+            playlistRequest.setMaxResults(50l);
             List<Playlist> playLists = playlistRequest.execute().getItems();
             List<Course> courseList = new ArrayList<>();
             if(!playLists.isEmpty()) {
