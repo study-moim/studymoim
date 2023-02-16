@@ -21,7 +21,7 @@ export default function MemberManage({ propData }) {
             <img
               src={propData.leadUser.saveName ? leaderImage : "/logo.png"}
               alt=""
-              className="w-24 rounded-full border"
+              className="w-24 h-24 rounded-full border"
             />
             <p className="text-[16px] font-bold">
               {propData.leadUser.nickname}
@@ -43,27 +43,29 @@ export default function MemberManage({ propData }) {
                             : "/logo.png"
                         }
                         alt=""
-                        className="w-24 rounded-full border"
+                        className="w-24 h-24 rounded-full border"
                       />
                       <p className="text-[16px]">{member.nickname}</p>
 
                       <button
-                        onClick={() =>
-                          fetch(
-                            `http://${API_SERVER}/api/v1/study/${propData.studyId}/ban/${member.userId}`,
-                            {
-                              method: "PUT",
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
-                            }
-                          ).then((res) => {
-                            if (res.ok) {
-                              location.reload();
-                            }
-                          })
-                        }
-                        className="text-[15px] text-red-600 hover:bg-red-600 hover:text-white border px-6  rounded-md border-red-600"
+                        onClick={() => {
+                          if (window.confirm("정말 강퇴시키겠습니까?")) {
+                            fetch(
+                              `http://${API_SERVER}/api/v1/study/${propData.studyId}/ban/${member.userId}`,
+                              {
+                                method: "PUT",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                              }
+                            ).then((res) => {
+                              if (res.ok) {
+                                location.reload();
+                              }
+                            });
+                          }
+                        }}
+                        className="text-[15px]  hover:bg-red-600 hover:text-white border px-6  rounded-md border"
                       >
                         강퇴
                       </button>
@@ -78,7 +80,6 @@ export default function MemberManage({ propData }) {
         {!propData.public ? (
           <div className="flex w-full flex-col justify-start items-start p-[40px]">
             <p className="w-full text-[20px] font-bold pb-3 border-b mb-5">
-              {" "}
               새로운 신청 총 {requestMembers.length}명
             </p>
 
@@ -132,31 +133,33 @@ export default function MemberManage({ propData }) {
                           }
                         })
                       }
-                      className="w-full px-4 py-2 rounded-md border border-[#ad9dfe] text-[#ad9dfe] text-[15px] text-center hover:text-white hover:bg-[#989aff]"
+                      className="w-full px-4 py-2 rounded-md border border-[#ad9dfe] text-[15px] text-center hover:text-white hover:bg-[#989aff]"
                     >
                       수락
                     </button>
                     <button
-                      onClick={() =>
-                        fetch(
-                          `http://${API_SERVER}/api/v1/study/${propData.studyId}/request/${member.requestId}`,
-                          {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              userId: member.user.userId,
-                              requestStatus: 2,
-                            }),
-                          }
-                        ).then((res) => {
-                          if (res.ok) {
-                            location.reload();
-                          }
-                        })
-                      }
-                      className="w-full px-4 py-2 text-[15px] text-red-600 hover:bg-red-600 hover:text-white border rounded-md border-red-600"
+                      onClick={() => {
+                        if (window.confirm("정말 거절하시겠습니까?")) {
+                          fetch(
+                            `http://${API_SERVER}/api/v1/study/${propData.studyId}/request/${member.requestId}`,
+                            {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                userId: member.user.userId,
+                                requestStatus: 2,
+                              }),
+                            }
+                          ).then((res) => {
+                            if (res.ok) {
+                              location.reload();
+                            }
+                          });
+                        }
+                      }}
+                      className="w-full px-4 py-2 text-[15px]  hover:bg-red-600 hover:text-white border rounded-md border"
                     >
                       거절
                     </button>
