@@ -101,8 +101,9 @@ export default function StudyRecruitDetailPage(props) {
         });
     };
     getRequestState();
+    
   }, [detailId, requestState]);
-
+  
   function getRequestMessage() {
     if (requestState == "waiting") setRequestMessage("신청 대기 중입니다.");
     else if (requestState == "proceeding")
