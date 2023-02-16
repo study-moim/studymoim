@@ -18,9 +18,10 @@ export default function MyPageUpdateForm({ userId }) {
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedField, setSelectedField] = useState([]);
+  // let selectedField = [];
   const saveNameRef = useRef();
   const nicknameRef = useRef(info.nickname);
-  const selectFieldsRef = useRef();
+  // const selectFieldsRef = useRef();
   const navigate = useNavigate();
   useEffect(() => {
     const getTag = async () => {
@@ -31,12 +32,18 @@ export default function MyPageUpdateForm({ userId }) {
             setTags(json);
           });
       } else {
+        let data = [];
         await fetch(`http://${API_SERVER}/api/v1/user/${userId}/tags`)
           .then((res) => res.json())
           .then((json) => {
             setTags(json);
+            for (let i = 0; i < json.length; i++) {
+              data.push(json[i].courseCategoryId);
+              // selectedField.push(json[i].courseCategoryId);
+            }
+            setSelectedField(data);
           });
-      }
+        }
     };
     getTag();
   }, [modifyTag]);
@@ -53,18 +60,23 @@ export default function MyPageUpdateForm({ userId }) {
     }
   }, [image]);
 
-  useEffect(() => {
-    for (let i = 0; i < selectedField.length; i++) {
-      setCategory([...category, selectedField[i]]);
-    }
-  }, [selectedField]);
+  // useEffect(() => {
+  //   for (let i = 0; i < selectedField.length; i++) {
+  //     setCategory([...category, selectedField[i]]);
+  //   }
+  // }, [selectedField]);
 
   function submitCategoryHandler() {
+    let category = [];
+
+    for (let i = 0; i < selectedField.length; i++) {
+      category.push(selectedField[i]);
+    }
+
     const categoryInfo = {
       userId: userId,
       categories: category,
     };
-
     fetch(`http://${API_SERVER}/api/v1/category/like`, {
       method: "POST",
       headers: {
@@ -143,7 +155,10 @@ export default function MyPageUpdateForm({ userId }) {
         <div className="flex flex-row justify-start gap-5">
           <div className="flex flex-col gap-2 items-center pr-5 border-r">
             {preview ? (
-              <img src={preview} className="border rounded-full w-[100px] h-[100px] my-4" />
+              <img
+                src={preview}
+                className="border rounded-full w-[100px] h-[100px] my-4"
+              />
             ) : (
               <img
                 src={IMAGE_ROOT + info.saveName}
@@ -192,7 +207,9 @@ export default function MyPageUpdateForm({ userId }) {
               <p className="text-[14px] font-bold mb-2">닉네임</p>
               {!modifyNickname ? (
                 <>
-                  <p className="text-[13px] max-w-[300px] p-2 border-b">{info.nickname}</p>
+                  <p className="text-[13px] max-w-[300px] p-2 border-b">
+                    {info.nickname}
+                  </p>
                   <button
                     onClick={() => setModifyNickname(true)}
                     className="w-[30%] text-[13px] py-1 rounded-[5px] bg-[#b1b2ff] hover:bg-[#8587eb] text-white my-3"
@@ -215,7 +232,9 @@ export default function MyPageUpdateForm({ userId }) {
                       onKeyDown={(e) => checkKeyCode(e.target)}
                     />
                     {nickname.length > 0 && (
-                      <p className="text-[13px] text-[#8587eb] pl-1 pt-1">{nicknameMessage}</p>
+                      <p className="text-[13px] text-[#8587eb] pl-1 pt-1">
+                        {nicknameMessage}
+                      </p>
                     )}
                   </div>
                   <button
@@ -240,12 +259,18 @@ export default function MyPageUpdateForm({ userId }) {
           </div>
         </div>
         <div className="flex flex-col justify-start my-5 w-ful pl-1">
-          <p className="text-[15px] font-bold text-black mt-5 mb-3">나의 관심 분야</p>
+          <p className="text-[15px] font-bold text-black mt-5 mb-3">
+            나의 관심 분야
+          </p>
           {!modifyTag ? (
             <>
               <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
-                  <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                  <MyPageTagItem
+                    key={tag.courseCategoryId}
+                    tag={tag}
+                    isModify={modifyTag}
+                  />
                 ))}
               </div>
               <button
@@ -260,21 +285,39 @@ export default function MyPageUpdateForm({ userId }) {
               <div className="flex flex-row flex-wrap max-w-[500px] justify-start gap-2">
                 {tags.map((tag) => (
                   <div
-                    ref={selectFieldsRef}
-                    key={tag.courseCategoryId}
+                    keyx={tag.courseCategoryId}
                     onClick={() => {
                       if (selectedField.includes(tag.courseCategoryId)) {
+                        // selectedField.(tag.courseCategoryId);
                         for (let i = 0; i < selectedField.length; i++) {
                           if (selectedField[i] === tag.courseCategoryId) {
                             selectedField.splice(i, 1);
                           }
                         }
                       } else {
-                        setSelectedField([...selectedField, tag.courseCategoryId]);
+                        selectedField.push(tag.courseCategoryId);
+                        // setSelectedField([
+                        //   ...selectedField,
+                        //   tag.courseCategoryId,
+                        // ]);
                       }
                     }}
                   >
-                    <MyPageTagItem key={tag.courseCategoryId} tag={tag} isModify={modifyTag} />
+                    {selectedField.includes(tag.courseCategoryId) ? (
+                      <MyPageTagItem
+                        key={tag.courseCategoryId}
+                        tag={tag}
+                        isModify={modifyTag}
+                        state={true}
+                      />
+                    ) : (
+                      <MyPageTagItem
+                        key={tag.courseCategoryId}
+                        tag={tag}
+                        isModify={modifyTag}
+                        state={false}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
