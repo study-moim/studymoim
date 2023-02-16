@@ -42,10 +42,9 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> getCourseInfoListFindByName(String searchText) {
-        return courseRepository.findAllByTitleContains(searchText).stream()
-                .map(CourseDto.Info::fromEntity)
-                .collect(Collectors.toList());
+    public Page<CourseDto.Info> getCourseInfoListFindByName(String searchText, Pageable pageable) {
+        return courseRepository.findAllByTitleContains(searchText, pageable)
+                .map(CourseDto.Info::fromEntity);
     }
 
     @Transactional(readOnly = true)
