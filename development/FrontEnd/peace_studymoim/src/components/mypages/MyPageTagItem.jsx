@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function Tag({ tag, isModify }) {
-  const [isActive, SetIsActive] = useState(false);
+export default function Tag({ tag, isModify, state }) {
+  const [isActive, SetIsActive] = useState(state);
   return (
     <>
       {!isModify ? (
