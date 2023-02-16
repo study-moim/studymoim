@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 import StudyRecruitModalNotOpen from "../components/studypages/StudyRecruitModalNotOpen";
 import StudyRecruitModalOpen from "../components/studypages/StudyRecruitModalOpen";
 import MainCourse from "../components/mainpages/MainCourse";
@@ -15,12 +16,14 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./StudyRecruitDetailPage.css";
-import LoginModal from '../components/NavBar/LoginModal';    
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function StudyRecruitDetailPage(props) {
   const [showModal, setShowModal] = useState(false);
   const [showOpenModal, setShowOpenModal] = useState(false);
   const [showNotOpenModal, setShowNotOpenModal] = useState(false);
+  const [requestState, setRequestState] = useState("");
+  const [requestMessage, setRequestMessage] = useState("");
   const studyId = useParams();
   const detailId = studyId.study_recruit_id;
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
@@ -67,7 +70,7 @@ export default function StudyRecruitDetailPage(props) {
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      setShowModal(true); 
+      setShowModal(true);
     }
   });
 
@@ -83,11 +86,37 @@ export default function StudyRecruitDetailPage(props) {
       });
   }, [detailId]);
 
+  useEffect(() => {
+    const getRequestState = async () => {
+      await fetch(
+        `http:///${API_SERVER}/api/v1/study/request/${detailId}/${info.userId}`
+      )
+      .then((res) => res.json())
+      .then((json) => {
+        setRequestState(json.state);
+        console.log(requestState)
+        getRequestMessage();
+      });
+    };
+    getRequestState();
+  }, [detailId, requestState]);
+
+  function getRequestMessage() {
+    if (requestState == "waiting")
+      setRequestMessage("신청 대기 중입니다.");
+    else if (requestState == "proceeding")
+      setRequestMessage("가입된 스터디입니다.");
+    else if (requestState == "banned")
+      setRequestMessage("신청할 수 없습니다.");
+  }
+
   function closeModalHandler() {
     if (!studyDetail.public) {
       setShowNotOpenModal(false);
+      window.location.reload();
     } else {
       setShowOpenModal(false);
+      window.location.reload();
     }
   }
 
@@ -100,8 +129,9 @@ export default function StudyRecruitDetailPage(props) {
   }
 
   function closeLoginHandler() {
-    setShowModal(false); 
-  };  
+    setShowModal(false);
+  }
+
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
@@ -111,7 +141,7 @@ export default function StudyRecruitDetailPage(props) {
           </div>
           <div className="flex justify-start items-center relative pb-7 border-b">
             <img
-              className="w-[50px] h-[50px] object-cover rounded-full"
+              className="w-[50px] h-[50px] object-cover rounded-full border"
               src={studyDetail.saveName ? studyDetail.saveName : "/logo.png"}
             />
             <div className="pl-3">
@@ -126,21 +156,22 @@ export default function StudyRecruitDetailPage(props) {
             </div>
             <div className="absolute right-0">
               {/* 방장인 경우에는 스터디 수정창 아니면 스터디 신청  */}
-              {info &&
-                (info.userId === userList.userId ? (
-                  <Link to={"update"}>
-                    <button className="text-[14px] text-center hover:font-bold">
-                      수정하기
-                    </button>
-                  </Link>
-                ) : (
-                  <button
-                    onClick={acceptHandler}
-                    className="text-[14px] text-center hover:font-bold"
-                  >
-                    스터디 신청
+              {info.userId === userList.userId ? (
+                <Link to={"update"}>
+                  <button className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold">
+                    스터디 정보 수정
                   </button>
-                ))}
+                </Link>
+              ) : requestState == "possible" ? (
+                <button
+                  onClick={acceptHandler}
+                  className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold"
+                >
+                  스터디 신청
+                </button>
+              ) : (
+                <div className="text-[15px]">{requestMessage}</div>
+              )}
             </div>
           </div>
         </div>
@@ -210,11 +241,11 @@ export default function StudyRecruitDetailPage(props) {
           <StudyRecruitModalNotOpen onCancel={closeModalHandler} />
         ) : null}
         {showModal ? (
-        <LoginModal
-          onCancel={closeLoginHandler}
-          onConfirm={closeLoginHandler}
-        />
-      ) : null}
+          <LoginModal
+            onCancel={closeLoginHandler}
+            onConfirm={closeLoginHandler}
+          />
+        ) : null}
       </div>
     </>
   );
