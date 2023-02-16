@@ -2,9 +2,13 @@ import { useParams } from "react-router-dom";
 import StudyUpdateForm from "../components/studypages/StudyUpdateForm";
 import { useState, useEffect } from "react";
 import userInfo from "../zustand/store";
-import { useNavigate } from "react-router-dom";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function StudyUpdatePage() {
+  const [showModal, setShowModal] = useState(false);
+    function closeModalHandler() {
+      setShowModal(false);
+    }
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [member, setMember] = useState();
@@ -12,13 +16,10 @@ export default function StudyUpdatePage() {
   const [finish, setFinish] = useState();
   const [close, setClose] = useState();
   const [publics, setPublics] = useState();
-
-  const navigate = useNavigate();
   const { info } = userInfo();
   useEffect(() => {
     if (!info) {
-      navigate("/login");
-      return;
+      setShowModal(true); 
     }
   });
 
@@ -56,6 +57,12 @@ export default function StudyUpdatePage() {
   return (
     <div>
       <StudyUpdateForm propData={propData} />
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </div>
   );
 }
