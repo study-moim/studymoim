@@ -26,7 +26,6 @@ public class UserDto {
         private String nickname;
         private String saveName;
         private LocalDateTime registerDate;
-        private String refreshToken;
         public static Info fromEntity(com.ssafy.peace.entity.User userEntity) {
             return Info.builder()
                     .userId(userEntity.getUserId())
@@ -34,7 +33,6 @@ public class UserDto {
                     .nickname(userEntity.getNickname())
                     .saveName(userEntity.getSaveName())
                     .registerDate(userEntity.getRegisterDate())
-                    .refreshToken(userEntity.getRefreshToken())
                     .build();
         }
 

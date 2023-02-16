@@ -19,7 +19,6 @@ import java.util.List;
 @Entity
 public class User {
 
-    // Todo 컬럼
     @Id
     @GeneratedValue
     private int userId;
@@ -47,8 +46,6 @@ public class User {
 
     private LocalDateTime quitTime;
 
-    @Size(max = 1000)
-    private String refreshToken;
 
     @OneToMany(mappedBy = "user")
     private List<Alarm> alarms = new ArrayList<>();
@@ -96,13 +93,12 @@ public class User {
     private List<UserLikeCourse> userLikeCourses = new ArrayList<>();
 
     @Builder
-    public User(String email, String nickname, String saveName, boolean isQuit, LocalDateTime quitTime, String refreshToken) {
+    public User(String email, String nickname, String saveName, boolean isQuit, LocalDateTime quitTime) {
         this.email = email;
         this.nickname = nickname;
         this.saveName = saveName;
         this.isQuit = isQuit;
         this.quitTime = quitTime;
-        this.refreshToken = refreshToken;
     }
     public User updateNickname(String nickname){
         this.nickname = nickname;
