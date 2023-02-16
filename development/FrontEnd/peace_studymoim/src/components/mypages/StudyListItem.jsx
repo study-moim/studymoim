@@ -10,13 +10,13 @@ export default function StudyListItem({ propData }) {
 
   return (
     <>
-      <div className="rounded-[15px] border px-5 py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md ">
+      <div className="flex-grow-1 flex-shrink-0 rounded-[15px] border px-5 py-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md ">
         <Link
           to={`/studyDetail/${propData.studyId}`}
           state={{
             propData: propData,
           }}
-          className="min-w-[31%] max-w-[31%]"
+          // className="min-w-[31%] max-w-[31%]"
         >
           <div className="font-bold text-[18px] my-3">
             {propData.title.length > 10 ? slicedTitle : propData.title}
