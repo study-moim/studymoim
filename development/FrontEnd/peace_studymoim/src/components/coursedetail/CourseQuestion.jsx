@@ -13,7 +13,6 @@ export default function CourseQuestion({ propData, questionIndex }) {
         <p className="px-5 text-base text-center">{questionIndex}</p>
         <div className="mr-[30px] flex flex-col gap-1 ">
           <p className="text-base font-bold">{propData.title}</p>
-          <p className="text-base">{propData.content}</p>
           <div className="flex flex-row gap-4">
             <p className="text-base">
               작성일: {propData.publishTime ? propData.publishTime.substring(0, 10) : null}
