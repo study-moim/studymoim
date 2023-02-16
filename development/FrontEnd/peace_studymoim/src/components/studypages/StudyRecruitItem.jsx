@@ -30,9 +30,8 @@ export default function StudyRecruitItem({ props }) {
             <p className=" text-[12px]"> 등록된 강좌가 없음 </p>
           )}
         </div>
-      </Link>
-      <NavLink
-        to={`/mypage/${props.leadUser.userId}`}
+      
+      <div
         className="hover:text-[#989aff] flex justify-end items-center gap-2 py-2"
       >
         <img
@@ -40,7 +39,8 @@ export default function StudyRecruitItem({ props }) {
           src={props.leadUser.saveName ? image : "/logo.png"}
         />
         <span className="text-[12px] font-bold">{props.leadUser.nickname}</span>
-      </NavLink>
+      </div>
+      </Link>
     </div>
   );
 }
