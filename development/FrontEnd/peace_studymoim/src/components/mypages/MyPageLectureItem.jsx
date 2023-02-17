@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function MyPageLectureItem({ propData }) {
-  const slicedTitle = propData.title.substring(0, 25) + "...";
 
   return (
     <Link
@@ -21,8 +20,8 @@ export default function MyPageLectureItem({ propData }) {
           className="w-full h-[100px] object-cover rounded-[15px]"
         />
         <div className="w-full">
-          <p className="text-[13px] px-3 pt-3 h-[60px]">
-            {propData.title.length > 30 ? slicedTitle : propData.title}
+          <p className="text-[13px] px-3 pt-3 h-[60px] truncate">
+            {propData.title}
           </p>
           <p className="text-[12px] px-3">
             {propData.courseProviderName}

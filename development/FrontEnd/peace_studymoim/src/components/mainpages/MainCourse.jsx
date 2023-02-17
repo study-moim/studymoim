@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 export default function MainCourse({ propData }) {
   const [isHover, setIsHover] = useState(false);
-  const slicedContent = propData.content.substring(0, 100) + "...";
 
   return (
     <div
@@ -41,8 +40,8 @@ export default function MainCourse({ propData }) {
             <p className="text-[15px] font-bold text-white">
               {propData.title}
             </p>
-            <p className="text-[13px] text-white mt-3">
-              {propData.content.length > 100 ? slicedContent : propData.content}
+            <p className="text-[13px] text-white mt-3 truncate">
+              {propData.content}
             </p>
             <p className="text-[13px] text-white mt-5">
                 채널명: {propData.courseProviderName}
