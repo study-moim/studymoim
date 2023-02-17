@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 export default function MyPageLikeCourseItem({ propData }) {
   const [isHover, setIsHover] = useState(false);
-  const slicedTitle = propData.title.substring(0, 30) + "...";
-  const slicedContent = propData.content.substring(0, 100) + "...";
 
   return (
     <div
@@ -22,8 +20,8 @@ export default function MyPageLikeCourseItem({ propData }) {
           className="w-full h-[100px] object-cover rounded-[15px]"
         />
         <div className="w-full">
-          <p className="text-[13px] px-3 pt-3 h-[60px]">
-            {propData.title.length > 30 ? slicedTitle : propData.title}
+          <p className="text-[13px] px-3 pt-3 h-[60px] truncate">
+            {propData.title}
           </p>
           <p className="text-[12px] px-3">
             {propData.courseProviderName}
@@ -41,8 +39,8 @@ export default function MyPageLikeCourseItem({ propData }) {
             <p className="text-[15px] font-bold text-white">
               {propData.title}
             </p>
-            <p className="text-[13px] text-white mt-3">
-              {propData.content.length > 100 ? slicedContent : propData.content}
+            <p className="text-[13px] text-white mt-3 truncate">
+              {propData.content}
             </p>
             <p className="text-[13px] text-white mt-5">
                 채널명: {propData.courseProviderName}
