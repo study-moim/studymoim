@@ -27,8 +27,8 @@ public class AlarmService {
                 .build()));
     }
 
-    public List<AlarmDto.Info> getAlarmList() {
-        return alarmRepository.findAll().stream()
+    public List<AlarmDto.Info> getAlarmList(Integer userId) {
+        return alarmRepository.findAllByUser_UserIdAndIsCheckedIsFalse(userId).stream()
                 .map(AlarmDto.Info::fromEntity)
                 .collect(Collectors.toList());
     }

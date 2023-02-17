@@ -1,62 +1,50 @@
 import React from "react";
+import RingModalItem from "./RingModalItem.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 
-export default function RingModal() {
+export default function RingModal(props) {
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
-      setShowModal(null)
+      props.onCancel();
     }
   };
+  function cancelHandler() {
+    props.onCancel();
+  }
 
   return (
     <>
-      {showModal ? (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-4xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  {showModal === "follower" ? (
-                    <h3 className="text-3xl font-semibold">팔로워</h3>
-                  ) : null}
-                  {showModal === "following" ? (
-                    <h3 className="text-3xl font-semibold">팔로잉</h3>
-                  ) : null}
-                  {showModal === "modify" ? (
-                    <h3 className="text-3xl font-semibold">프로필 수정</h3>
-                  ) : null}
-                  <button
-                    className="text-red-500 background-transparent text-xl font-bold uppercase px-6 py-2 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 hover:scale-125 hover:text-red-800"
-                    onClick={clickModal}
-                  >
-                    X
-                  </button>
-                </div>
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <div className="my-4 text-slate-500 text-lg leading-relaxed overflow-auto">
-                    {showModal === "follower" ? <FollowerList /> : null}
-                    {showModal === "following" ? <FollowingList /> : null}
-                    {showModal === "modify" ? <MyPageUpdateForm /> : null}
-                  </div>
-                </div>
-                {/* footer */}
-                {/* <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                  <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save Changes
-                  </button>
-                </div> */}
-              </div>
-            </div>
+      {/* 모달 백드롭 여기보고하셈  id배경이랑 모달내용에 absolute 를 주고 / id배경에는 z인덱스를 빼줌(제일 밑으로) */}
+      <div className="justify-center items-center flex overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-16">
+        <div id="배경" onClick={() => cancelHandler()} className="absolute opacity-25 w-full h-full inset-0 bg-black"></div>
+        <div id="모달내용" className="absolute min-w-[400px] max-w-[60%] bg-white shadow-2xl rounded-lg z-45">
+          <div className="flex w-full items-center justify-between px-5 py-3 border-b">
+            <p className="text-[15px] font-semibold flex items-center gap-3">
+              <FontAwesomeIcon icon={faBell} color="ye"/> 새로운 소식
+            </p>
+            <button className="transition-all" onClick={() => cancelHandler()}>
+              <FontAwesomeIcon
+                icon={faXmark}
+                size="lg"
+                className="hover:text-red-500"
+              />
+            </button>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
+          <div className="flex flex-col w-full items-start justify-start">
+            {props.alarmList.map((alarm) => (
+              <RingModalItem
+                key={alarm.alarmId}
+                alarm={alarm}
+                onLinkClick={cancelHandler}
+              />
+            ))}
+            {props.alarmList.length == 0 ? <p className="text-[15px]  px-5 py-3">새로운 소식이 없습니다.</p> : null}
+          </div>
+        </div>
+      </div>
     </>
   );
 }
+

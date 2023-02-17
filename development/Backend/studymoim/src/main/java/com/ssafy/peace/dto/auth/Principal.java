@@ -22,9 +22,9 @@ public class Principal implements UserDetails {
     boolean enabled = false;
     List<GrantedAuthority> roles = new ArrayList<>();
 
-    public Principal(User user) {
+    public Principal(UserDto.Info user) {
         super();
-        this.user = UserDto.Info.fromEntity(user);
+        this.user = user;
     }
 
     public UserDto.Info getUser() {

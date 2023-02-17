@@ -1,17 +1,23 @@
 package com.ssafy.peace.service;
 
 import com.ssafy.peace.dto.CourseDto;
+import com.ssafy.peace.dto.CourseTypeDto;
 import com.ssafy.peace.dto.CurriculumDto;
 import com.ssafy.peace.dto.StudyDto;
+import com.ssafy.peace.entity.Course;
+import com.ssafy.peace.entity.CourseType;
 import com.ssafy.peace.entity.Curriculum;
 import com.ssafy.peace.entity.UserLikeCourse;
 import com.ssafy.peace.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,21 +31,29 @@ public class CourseService {
     private final UserLikeCourseRepository userLikeCourseRepository;
     private final CourseProviderRepository courseProviderRepository;
     private final StudyRepository studyRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> getCourseInfoListFindAll() {
+    public Page<CourseDto.Info> getCourseInfoListFindAll(Pageable pageable) {
         // Course -> CourseDto.Info
-        return courseRepository.findAll().stream()
-                .map(CourseDto.Info::fromEntity)
-                .collect(Collectors.toList());
+        return courseRepository.findAll(pageable)
+                .map(CourseDto.Info::fromEntity);
 
     }
 
     @Transactional(readOnly = true)
-    public List<CourseDto.Info> getCourseInfoListFindByName(String searchText) {
-        return courseRepository.findAllByTitleContains(searchText).stream()
-                .map(CourseDto.Info::fromEntity)
-                .collect(Collectors.toList());
+    public Page<CourseDto.Info> getCourseInfoListFindByName(String searchText, Pageable pageable) {
+        return courseRepository.findAllByTitleContains(searchText, pageable)
+                .map(CourseDto.Info::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CourseDto.Info> courseInfoListCourseCategoryId(int courseCategoryId, Pageable pageable) {
+
+        // courseCategoryId에 맞는 강좌 가져오기
+        return courseTypeRepository.findAllByCourseCategory_CourseCategoryId(courseCategoryId, pageable)
+                .map(CourseType::getCourse)
+                .map(CourseDto.Info::fromEntity);
     }
 
     @Transactional(readOnly = true)
@@ -49,14 +63,25 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<StudyDto.Recruit> getStudyAttendingCourse(Integer courseId){
-        List<StudyDto.Recruit> result = new ArrayList<>();
-        List<Curriculum> curricula = curriculumRepository.findAllByCourse_CourseId(courseId);
-        for (Curriculum curriculum :
-                curricula) {
-            result.add(studyRepository.findById(curriculum.getStudy().getStudyId())
-                    .map(StudyDto.Recruit::fromEntity).get());
-        }
-        return result;
+    public Page<StudyDto.Info> getStudyAttendingCourse(Integer courseId, Pageable pageable) {
+        return studyRepository.findAllByCurriculumContains(courseId, pageable)
+                .map(StudyDto.Info::fromEntity);
+    }
+
+    public boolean getUserLikeCourse(int userId, int courseId) {
+        Optional result = userLikeCourseRepository.findByUser_userIdAndCourse_courseId(userId, courseId);
+        if(!result.isPresent()) return false;
+        return true;
+    }
+
+    public void postUserLikeCourse(int userId, int courseId) {
+        userLikeCourseRepository.save(UserLikeCourse.builder()
+                .user(userRepository.findByUserId(userId))
+                .course(courseRepository.findByCourseId(courseId))
+                .build());
+    }
+
+    public void deleteUserLikeCourse(int userId, int courseId) {
+        userLikeCourseRepository.deleteById(userLikeCourseRepository.findByUser_userIdAndCourse_courseId(userId, courseId).get().getUserLikeCourseId());
     }
 }

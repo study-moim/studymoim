@@ -1,14 +1,49 @@
-import { Link } from "react-router-dom";
-import BellIcon from "./BellIcon";
-import MailIcon from "./MailIcon";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import RingModal from "./RingModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
+
 
 /** @function 로그인된상태네비게이션바 */
 export default function NavBarLogIn() {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { setLogOut } = userInfo();
+  const { setLogOut , info } = userInfo();
+  const [alarmList, setAlarmList] = useState([]);
+  const [alarmIsPresent, setAlarmStatus] = useState(false);
+
+  useEffect(() => {
+      checkAlarms();
+  }, [info])
+  if (!info) {
+    return null
+  }
+  async function checkAlarms() {
+      if(!info.userId){
+          return
+      }
+      let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${info.userId}/check/alarm`)
+      let alarmIsPresent = await resp.json();
+      setAlarmStatus(alarmIsPresent)
+  }
+  async function getAlarmList(userId) {
+      let resp = await fetch(`http:///${API_SERVER}/api/v1/user/${userId}/alarms`)
+      let alarmList = await resp.json();
+      setAlarmList(alarmList);
+  }
+
+  function openModalHandler() {
+      getAlarmList(info.userId)
+      setShowModal(true);
+  }
+  function closeModalHandler() {
+    checkAlarms();
+    setShowModal(false);
+  }
+
   function logoutHandler() {
     setLogOut();
     localStorage.clear();
@@ -16,24 +51,21 @@ export default function NavBarLogIn() {
   }
 
   return (
-    <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 w-[360px] relative gap-[20px]">
-      {/* TODO: 알림모달? 드랍박스? 기능넣고, 필요한 화면 추가 */}
-      <BellIcon />
-      <Link to="/mail">
-        <MailIcon />
-      </Link>
-      <Link to={`/mypage/0`} state={{clickWho: 0}}>
+    <div className="flex justify-end items-center w-[360px] relative gap-[10px]">
+      <div onClick={() => openModalHandler()} className="w-[30px] flex items-center hover:scale-110 cursor-pointer">
+        <FontAwesomeIcon icon={faBell} className="text-[20px]"/>
+        {alarmIsPresent ? (<span className="relative bottom-1 right-2 inline-flex rounded-full h-2 w-2 bg-red-500"></span>) : null}
+      </div>
+      {showModal ? <RingModal alarmList={alarmList} setAlarmList={setAlarmList} onCancel={closeModalHandler} /> : null}
+      <a href={`/mypage/${info.userId}`}>
         <button
-          className="text-[11px] text-white px-3.5 py-[6px] rounded-[14px] bg-[#f0db4f] hover:bg-[#ebd43c] hover:scale-90"
-          style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
+          className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#f0db4f] hover:bg-[#ebd43c]"
         >
           MyPage
         </button>
-      </Link>
-      {/* TODO: 로그아웃 버튼 따로 만들고 기능넣기 */}
+      </a>
       <button
-        className="text-[11px] px-3.5 py-[6px] rounded-[14px] text-white bg-[#ff7262] hover:bg-[#ff5441] hover:scale-90"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
+        className="text-[14px] w-[80px] text-white px-3 py-[5px] rounded-[10px] bg-[#ff7262] hover:bg-[#ff5441]"
         onClick={logoutHandler}
       >
         로그아웃
