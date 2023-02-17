@@ -44,16 +44,7 @@ export default function RingModal(props) {
           </div>
         </div>
       </div>
-      {/* <div onClick={() => cancelHandler()} className="opacity-25 fixed inset-0 z-40 bg-black"></div> */}
     </>
   );
 }
 
-{
-  /* <button
-                className="text-red-500 background-transparent text-xl font-bold uppercase px-6 py-2 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 hover:scale-125 hover:text-red-800"
-                onClick={() => props.onCancel()}
-              >
-                X
-              </button> */
-}

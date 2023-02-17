@@ -94,12 +94,6 @@ export default function StudyRecruitModalNotOpen(props) {
                   제출하기
                 </button>
               </form>
-              {/* <button
-              className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
-              onClick={cancelHandler}
-            >
-              신청 안할래요..
-            </button> */}
             </div>
           </div>
         </div>
