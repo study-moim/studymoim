@@ -17,8 +17,8 @@ export default function StudyListItem({ propData }) {
           }}
           className="min-w-[31%] max-w-[31%]"
         >
-          <div className="font-bold text-[18px] my-3">
-            {propData.title.length > 10 ? slicedTitle : propData.title}
+          <div className="font-bold text-[18px] my-3 truncate">
+            {propData.title} 
           </div>
           <div className="flex flex-col justify-start items-start pb-2 border-b">
             <p className="text-[12px]">

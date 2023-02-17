@@ -14,7 +14,6 @@ export default function MemoCourse({ courseData }) {
     setMemoLectureToggle(!memoLectureToggle);
   };
   const [lectureInfo, setLectureInfo] = useState([]);
-  const slicedTitle = courseData.title.substring(0, 50) + "...";
   useEffect(() => {
     const getLectureMemo = async () => {
       await fetch(
@@ -34,8 +33,8 @@ export default function MemoCourse({ courseData }) {
         onClick={clickTriangle}
         className="cursor-pointer flex justify-between items-center pl-3 pr-5 py-2 bg-white border-b border-[#eef1ff]/[0.98] hover:bg-gray-100"
       >
-        <div className="text-[15px] font-bold text-left text-black min-w-[70%] max-w-[70%]">
-          {courseData.title.length > 50 ? slicedTitle : courseData.title}
+        <div className="text-[15px] font-bold text-left text-black min-w-[70%] max-w-[70%] truncate"> 
+          {courseData.title}
         </div>
         <div className="min-w-[5%] max-w-[5%] text-right">
           {!memoLectureToggle ? (
