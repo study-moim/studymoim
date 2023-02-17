@@ -1,34 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
-export default function StudyRecruitItem(props) {
+export default function StudyRecruitItem({ props }) {
+  const firstcourse = props.curricula.map((e) => {
+    return e.course.title;
+  });
+  const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
+  const image = IMAGE_ROOT + props.leadUser.saveName;
+
   return (
-    <>
-      <Link
-        to={`/study/${props.id}`}
-        className="my-[20px] flex flex-row gap-5 pl-[42px] pr-[29px] py-[20px] bg-white border-t-0 border-r-0 border-b-4 border-l-[11px] border-[#eef1ff]/[0.98] justify-evenly"
-      > 
-      <div className="flex flex-col justify-center w-8/12">
-          <div className="border-t-0 border-r-0 border-b-[0.3px] border-l-0 border-black text-[22px] font-bold text-left text-black mb-4">
-            {props.title}
-          </div>
-          <p className="text-[16px] text-left  text-[#898989]">
-            {/* TODO: 등록강좌 하나만 불러오고 나머지는 등록강좌의 개수로 알려주자  */}
-            등록강좌: 흑 시발
+    <div className="rounded-[15px] border px-5 pt-2 cursor-pointer gap-2 transition ease-in-out duration-300 hover:-translate-y-1.5 hover:shadow-md">
+      <Link to={`/study/${props.studyId}`}>
+        <div className="font-bold text-[18px] my-3 truncate">{props.title}</div>
+        <div className="min-h-[36px] flex flex-col justify-start items-start pb-2 border-b">
+          <p className="text-[12px]">
+            참가인원: {props.userGathered} / {props.userLimit} 명
           </p>
-          <p className="text-[16px] text-left text-[#898989]">
-            <div dangerouslySetInnerHTML={{ __html: props.content}}></div>
-          </p>
+          <p className="text-[12px]">{props.startTime} 시작 예정</p>
+          {props.curricula.length ? (
+            <p className=" text-[12px]">
+              {" "}
+              {firstcourse[0]} 외 {props.curricula.length - 1}개 강좌{" "}
+            </p>
+          ) : (
+            <p className=" text-[12px]"> 등록된 강좌가 없음 </p>
+          )}
         </div>
-        <div className="flex flex-col justify-center items-center gap-3.5 py-[3.5px]">
-          {/* TODO: 나중에 며칠 남았는 지 알려주면 좋을듯?? 추추추추추후에  */}
-          <p className="text-[12px] font-bold text-center text-[#898989]">
-            참가인원: {props.userGathered} / {props.userLimit} 명 
-          </p> 
-          <p className="text-[12px] font-bold text-center text-[#898989]">
-            {props.startTime} 시작 예정 
-          </p>
-        </div>
+      
+      <div
+        className="hover:text-[#989aff] flex justify-end items-center gap-2 py-2"
+      >
+        <img
+          className="w-8 rounded-full border"
+          src={props.leadUser.saveName ? image : "/logo.png"}
+        />
+        <span className="text-[12px] font-bold">{props.leadUser.nickname}</span>
+      </div>
       </Link>
-    </>
+    </div>
   );
 }

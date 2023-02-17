@@ -63,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  .authorizeRequests()
                 .antMatchers("/api/v1" + "/**")
                 .permitAll()
+                .antMatchers("/ws" + "/**")
+                .permitAll()
 //                이 위는 운영 시 주석 처리
 //                이 밑은 운영시 주석 해제
 //                .antMatchers("/api/v1" + "/oauth/**")

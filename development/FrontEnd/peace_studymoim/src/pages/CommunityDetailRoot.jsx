@@ -1,54 +1,156 @@
 import CommunityComment from "../components/communitydetail/CommunityComment";
 import CommunityCommentForm from "../components/communitydetail/CommunityCommentForm";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import userInfo from "../zustand/store";
+import ButtonModifyDelete from "../components/communitydetail/ButtonModifyDelete";
+import ArticleEditForm from "../components/communitypages/ArticleEditForm";
+import Moment from "moment";
+import "moment/locale/ko";
+import LoginModal from "../components/NavBar/LoginModal";
 
 export default function CommunityDetailRoot() {
-  const props = useLocation().state;
-  console.log(props)
-  const commentList = props.comments;
-  const commentLength = props.comments.length;
+  const [showModal, setShowModal] = useState(false);
+  function closeModalHandler() {
+    setShowModal(false);
+  }
+
+  const navigate = useNavigate();
+  const { info } = userInfo();
+  useEffect(() => {
+    if (!info) {
+      setShowModal(true);
+    }
+  });
+
+  const [articleDetail, setArticleDetail] = useState({});
+  const [newCommentList, setNewCommentList] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const IMAGE_ROOT = import.meta.env.VITE_APP_IMAGE_ROOT;
+  const image = IMAGE_ROOT + userList.saveName;
+
+  const wlh = useLocation().pathname.substring(16, 300);
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+
+  const [thisIsMine, setThisIsMine] = useState(false);
+  useEffect(() => {
+    fetch(`http://${API_SERVER}/api/v1/articles/free/${wlh}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setArticleDetail(data);
+        setNewCommentList(data.freeBoardComments);
+        setUserList(data.user);
+        if (info.userId === data.user.userId) {
+          setThisIsMine(true);
+        }
+      });
+  }, [wlh]);
+
+  const commentLength = newCommentList.length;
+  const dateBase = new Date(articleDetail.publishTime);
+  const date = dateBase.toString().substring(0, 24);
+  // 삭제기능
+  const handleRemove = () => {
+    if (window.confirm(`정말로 글을 삭제하시겠습니까?`)) {
+      fetch(`http://${API_SERVER}/api/v1/articles/free/${wlh}/`, {
+        method: "DELETE",
+      }).then((res) => {
+        if (res.ok) {
+          navigate("/temparticle");
+        }
+      });
+    }
+  };
+
+  const [isModify, setIsModify] = useState(false);
+  const clickModify = () => {
+    setIsModify(!isModify);
+  };
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center gap-[20px] mt-[50px] max-w-6xl mx-auto px-4">
-        <div className="flex flex-col w-10/12">
-          <div className="flex justify-start items-end  w-[1162px] relative gap-[15px] px-[30px]">
-            <img className="w-[40px]" src={props.userPicture} />
-            <Link
-              to={`/mypage/${props.userId}`}
-              className="hover:text-cyan-700 text-black hover:scale-105"
-              state={{clickWho: props.userId}}
-            >
-              <div className="text-xl font-bold">{props.userName}</div>
-            </Link>
-            <div className="text-xl text-[#7b7474]">{props.publishTime}</div>
-            <div className="text-xl font-bold text-[#898989]">
-              조회수 {props.hit}
+      {!isModify ? (
+        <div className="flex flex-col justify-center items-center mt-[50px] max-w-6xl mx-auto px-4">
+          <div className="flex flex-col w-9/12">
+            <div className="w-full py-7 text-2xl font-bold text-black">
+              {articleDetail.title}
             </div>
-            <div className="text-xl font-bold text-[#898989]">
-              댓글 {commentLength}
+            <div className="flex justify-between items-center relative pb-7 border-b">
+              <div className="flex items-center">
+                <img
+                  className="w-[50px] h-[50px] object-cover rounded-full border"
+                  src={userList.saveName ? image : "/logo.png"}
+                />
+                <div className="pl-3">
+                  <NavLink
+                    to={`/mypage/${userList.userId}`}
+                    className="hover:text-[#989aff]"
+                  >
+                    <div className="px-2.5 ext-[15px] font-bold">
+                      {userList.nickname}
+                    </div>
+                  </NavLink>
+                  <div className="px-2.5 text-[14px] text-center text-[#7b7474]">
+                    {Moment(articleDetail.publishTime).format(
+                      "YYYY년 MM월 DD일 HH:mm"
+                    )}
+                    &nbsp; 조회수 {articleDetail.hit}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 justify-end items-end">
+                <div className={thisIsMine ? "" : "invisible"}>
+                  <ButtonModifyDelete
+                    handleRemove={handleRemove}
+                    clickModify={clickModify}
+                    isModify={isModify}
+                  />
+                </div>
+                <div
+                  onClick={() => navigate(-1)}
+                  className="border text-[14px] text-center border-[#bdbef9] px-5 py-2 hover:bg-[#bdbef9] rounded-lg font-bold w-[150px] cursor-pointer"
+                >
+                  목록 가기
+                </div>
+              </div>
             </div>
           </div>
-          <div className="w-[1162px] pl-[30px] pr-[269px] py-5 text-2xl font-bold text-black">
-            {props.title}
-          </div>
+          <pre className="w-9/12 py-7 bg-white text-[20px] break-all whitespace-pre-wrap font-sans">
+            {articleDetail.content}
+          </pre>
         </div>
-        {/* TODO: 마크다운 형식으로 적용되게 하기 */}
-        <div
-          className="w-10/12 h-[531px] px-[39px] py-7 bg-white border-[3px] border-[#b1b2ff] text-[20px] font-bold text-left text-black"
-          style={{ boxShadow: "0px 2px 5px 0 rgba(0,0,0,0.25)" }}
-        >
-          {props.content}
+      ) : (
+        <ArticleEditForm
+          title={articleDetail.title}
+          content={articleDetail.content}
+          wlh={articleDetail.freeBoardId}
+          clickModify={clickModify}
+          userId={info.userId}
+        />
+      )}
+
+      <div className="flex flex-col justify-center items-center bg-gray-100 py-[30px] mt-[50px] px-7">
+        <div className="max-w-4xl mx-auto font-bold text-[#7b61ff] my-5 w-9/12">
+          댓글 {commentLength}
         </div>
-        <CommunityCommentForm freeBoardId={props.freeBoardId}/>
-        {commentList.map((comment) => (
+        <CommunityCommentForm freeBoardId={articleDetail.freeBoardId} />
+        {newCommentList.map((comment) => (
           <CommunityComment
             key={comment.freeBoardCommentId}
+            commentUserId={comment.user.userId}
             comment={comment}
+            freeBoardId={articleDetail.freeBoardId}
           />
         ))}
       </div>
+      {showModal ? (
+        <LoginModal
+          onCancel={closeModalHandler}
+          onConfirm={closeModalHandler}
+        />
+      ) : null}
     </>
   );
 }

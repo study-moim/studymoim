@@ -12,7 +12,7 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Intege
     특정 유저가 포함되어 있는 스터디 개수, 스터디 아이디 리스트(방장이든 아니든)
      */
     Long countByUser_userIdAndIsBannedIsFalse(Integer userId);
-    List<StudyMember> findAllByUser_UserId(Integer userId);
+    List<StudyMember> findAllByUser_UserIdAndIsBannedIsFalse(Integer userId);
     /*
     특정 유저가 방장인 스터디 개수(필요할까?)
      */
@@ -36,4 +36,5 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Intege
      */
     boolean existsByUser_userIdAndStudy_studyIdAndIsBannedIsTrue(Integer userId, Integer studyId);
 
+    List<StudyMember> findAllByStudy_StudyId(Integer studyId);
 }

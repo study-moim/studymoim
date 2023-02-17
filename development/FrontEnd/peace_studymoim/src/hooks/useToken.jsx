@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { userInfo } from "../zustand/store";
+import tokenInformation from "../zustand/token";
 
 export default function useToken(url) {
-  const { info, token } = userInfo();
   const [data, setData] = useState([]);
+  const { token } = tokenInformation();
   
   useEffect(() => {
     fetch(url, {

@@ -1,29 +1,23 @@
 import { useState, useRef } from "react";
-import useFetch from "../../hooks/useFetch";
-import { useNavigate } from "react-router";
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 
-export default function CommunityCommentForm({freeBoardId}) {
-  const navigate = useNavigate();
-
+export default function CommunityCommentForm({ freeBoardId }) {
   const { info } = userInfo();
-  if (!info) {
-    alert("로그인이 필요합니다.");
-    navigate("/login");
-  }
-  // 생성시 바로 이동하는 기능
+
   // 생성중에는 create 못하게 하기
   const [isLoading, setIsLoading] = useState(false);
-
   // input창에 있는 값을 얻기, DOM요소에 접근하는 것
-
   const contentRef = useRef(null);
-
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
 
   function onSubmit(e) {
     e.preventDefault();
-
+    // 공백 컷
+    const ccv = contentRef.current.value;
+    if (ccv.trim().length < 1) {
+      alert("공백으로만 구성할 수 없습니다.");
+      return;
+    }
     if (!isLoading) {
       setIsLoading(true);
       // Create 호출
@@ -36,31 +30,32 @@ export default function CommunityCommentForm({freeBoardId}) {
         // body : 수정을 위한 정보를 넣어줘야함
         // + JSON 문자열로도 변환시켜줌
         body: JSON.stringify({
-          "content": contentRef.current.value,
-          "parentCommentId": null,
-          "freeBoardId": freeBoardId,
-          "userId": info.userId
+          content: contentRef.current.value,
+          freeBoardId: freeBoardId,
+          userId: info.userId,
         }),
       }).then((res) => {
         if (res.ok) {
-          alert("자유글 생성완료");
-          navigate("/community");
           setIsLoading(false);
+          alert("댓글이 작성되었습니다.");
+          window.location.reload();
         }
       });
     }
   }
-
   return (
-    <form onSubmit={onSubmit} className="flex flex-col items-end gap-5 w-9/12">
+    <form
+      onSubmit={onSubmit}
+      className="max-w-4xl mx-auto flex flex-col items-end gap-3 w-9/12 "
+    >
       <textarea
-        className="w-full pl-2.5 pr-[100px] pt-[14px] pb-[50px] bg-white border-[3px] border-[#b1b2ff]"
-        style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-        placeholder="댓글을 입력해주세요."
+        className="w-full p-5 bg-white border border-gray-200 rounded-[10px]"
+        placeholder="댓글을 입력해주세요.(400자)"
+        maxLength="400"
         ref={contentRef}
       />
-      <button className="p-2.5 text-[15px] rounded-[10px] font-bold text-left text-white bg-[#b1b2ff] hover:bg-[#9697ff] hover:scale-95">
-        작성하기
+      <button className="p-2.5 w-[100px] rounded-[10px] text-center font-bold text-[14px] text-white bg-[#b1b2ff] hover:bg-[#9697ff] mb-3">
+        등록하기
       </button>
     </form>
   );

@@ -22,11 +22,15 @@ public class FreeBoardCommentDto {
         private int freeBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
+        private boolean isDeleted;
+        private UserDto.Info user;
         public static Info fromEntity(com.ssafy.peace.entity.FreeBoardComment freeBoardCommentEntity) {
             return Info.builder()
                     .freeBoardCommentId(freeBoardCommentEntity.getFreeBoardCommentId())
                     .content(freeBoardCommentEntity.getContent())
                     .publishTime(freeBoardCommentEntity.getPublishTime())
+                    .isDeleted(freeBoardCommentEntity.isDeleted())
+                    .user(UserDto.Info.fromEntity(freeBoardCommentEntity.getUser()))
                     .build();
         }
     }
@@ -53,6 +57,7 @@ public class FreeBoardCommentDto {
         private int freeBoardCommentId;
         private String content;
         private LocalDateTime publishTime;
+        private boolean isDeleted;
         private FreeBoardDto.Info freeBoard;
         private UserDto.Info user;
         public static Detail fromEntity(FreeBoardComment freeBoardCommentEntity) {
@@ -60,6 +65,7 @@ public class FreeBoardCommentDto {
                     .freeBoardCommentId(freeBoardCommentEntity.getFreeBoardCommentId())
                     .content(freeBoardCommentEntity.getContent())
                     .publishTime(freeBoardCommentEntity.getPublishTime())
+                    .isDeleted(freeBoardCommentEntity.isDeleted())
                     .user((UserDto.Info.fromEntity(
                             freeBoardCommentEntity.getUser()
                     )))

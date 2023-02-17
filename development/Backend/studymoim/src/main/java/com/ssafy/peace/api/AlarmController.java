@@ -4,6 +4,7 @@ import com.ssafy.peace.dto.AlarmDto;
 import com.ssafy.peace.service.AlarmService;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,29 +21,15 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    @Operation(summary = "make alarms", description = "사용자 알람 추가")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-    })
-    @PostMapping("/")
-    public ResponseEntity<?> userMakeAlarm(@RequestBody AlarmDto.Write alarm) {
-        try{
-            return new ResponseEntity<>(alarmService.makeAlarm(alarm), HttpStatus.ACCEPTED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @Operation(summary = "get all alarms", description = "모든 알람 불러오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/")
-    public ResponseEntity<?> alarmList() {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> alarmList(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
-            return new ResponseEntity<>(alarmService.getAlarmList(), HttpStatus.OK);
+            return new ResponseEntity<>(alarmService.getAlarmList(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

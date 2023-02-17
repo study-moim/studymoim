@@ -1,5 +1,6 @@
 package com.ssafy.peace.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.peace.dto.UserDto;
 import com.ssafy.peace.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -42,6 +46,59 @@ public class UserController {
         try{
             return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
         } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "create user start information", description = "사용자 시작 정보 입력")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/")
+    public ResponseEntity<?> userStartInfo(@RequestParam(value = "file", required = false) MultipartFile file,
+                                           @RequestParam("dto") String dto) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        UserDto.Start userDto = mapper.readValue(dto, UserDto.Start.class);
+        try{
+            return new ResponseEntity<>(userService.updateUserInfo(file, userDto), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "change user nickname", description = "유저 닉네임 바꾸기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PutMapping("/{userId}/nickname")
+    public ResponseEntity<?> userChangeNickname(@Parameter(description="userId") @PathVariable Integer userId,
+                                                @RequestBody UserDto.Nickname nickname) {
+        try{
+            userService.updateNickname(userId, nickname);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "change user image", description = "유저 이미지 바꾸기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PostMapping("/{userId}/image")
+    public ResponseEntity<?> userChangeImage(@Parameter(description="userId") @PathVariable Integer userId,
+                                             @RequestBody MultipartFile file) throws IOException {
+        try{
+            userService.updateImage(userId, file);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -166,6 +223,33 @@ public class UserController {
     public ResponseEntity<?> getfollowingsCount(@Parameter(description="userId") @PathVariable Integer userId) {
         try{
             return new ResponseEntity<>(userService.countFollowings(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "count followers", description = "팔로워 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follow/follower/list")
+    public ResponseEntity<?> getFollowersList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getFollowers(userId), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "count followings", description = "팔로잉 개수 조회하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/{userId}/follow/following/list")
+    public ResponseEntity<?> getfollowingsList(@Parameter(description="userId") @PathVariable Integer userId) {
+        try{
+            return new ResponseEntity<>(userService.getFollowings(userId), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -307,4 +391,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }

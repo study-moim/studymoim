@@ -25,6 +25,8 @@ public class CourseDto {
 //        private CourseProviderDto.Info courseProvider;
         private String courseProviderName;
         private int likeUserCount;
+//        private List<CourseCategoryDto.Info> categoryList;
+        private List<CourseCategoryDto.Info> categoryList;
 
         public static Info fromEntity(Course courseEntity) {
             return Info.builder()
@@ -35,6 +37,9 @@ public class CourseDto {
 //                    .courseProvider(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()))
                     .courseProviderName(CourseProviderDto.Info.fromEntity(courseEntity.getCourseProvider()).getName())
                     .likeUserCount(courseEntity.getUserLikeCourses().size())
+                    .categoryList(courseEntity.getCourseTypes().stream().map(courseType ->
+                        CourseCategoryDto.Info.fromEntity(courseType.getCourseCategory())
+                    ).collect(Collectors.toList()))
                     .build();
         }
     }
@@ -43,6 +48,28 @@ public class CourseDto {
     @Data
     @Builder
     public static class Recruit {
+        private int course_id;
+        private String title;
+        private String content;
+        private String thumbnail;
+        private List<LectureDto.Info> lectures;
+        private String providerPlatformName;
+        private String providerChannelName;
+
+        public static Recruit fromEntity(Course courseEntity) {
+            return Recruit.builder()
+                    .course_id(courseEntity.getCourseId())
+                    .title(courseEntity.getTitle())
+                    .content(courseEntity.getContent())
+                    .thumbnail(courseEntity.getThumbnail())
+                    .lectures(courseEntity.getLectures().stream().map(LectureDto.Info::fromEntity).collect(Collectors.toList()))
+                    .providerPlatformName(courseEntity.getCourseProvider().getPlatform().getName())
+                    .providerChannelName(courseEntity.getCourseProvider().getName())
+                    .build();
+        }
+    }
+
+    public static class CourseNote {
         private int course_id;
         private String title;
         private String content;

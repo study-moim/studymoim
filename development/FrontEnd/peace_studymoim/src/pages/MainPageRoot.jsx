@@ -1,39 +1,179 @@
-import MainCarousel from "../components/mainpages/MainCarousel";
-import MainSearch from "../components/mainpages/MainSearch";
-import Tag from "../components/overall/Tag";
-import { userInfo, logoImage } from "../zustand/store";
+import userInfo from "../zustand/store";
 import MainLogIn from "../components/mainpages/MainLogIn";
 import MainNotLogIn from "../components/mainpages/MainNotLogIn";
-import MainStudy from "../components/mainpages/MainStudy";
+import getArticles from "../hooks/getArticles";
+import getQuestions from "../hooks/getQuestions";
+import useFetch from "../hooks/useFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleArrowRight,
+  faDivide,
+} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
+import MainFreeArticle from "../components/mainpages/MainFreeArticle";
+import MainLectureQuestion from "../components/mainpages/MainLectureQuestion";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./MainPageRoot.css";
 
 export default function MainPageRoot() {
-  const { info, logIn, setInfo, setLogIn } = userInfo();
-  const { logos } = logoImage();
+  const navigate = useNavigate();
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const freeArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/free`
+  ).content;
+  const courseArticleInfo = useFetch(
+    `http://${API_SERVER}/api/v1/articles/question`
+  ).content;
+
+  const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) => (
+    <span {...props}>{children}</span>
+  );
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    arrows: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
+  const twoSettings = {
+    dots: false,
+    infinite: true,
+    arrows: true,
+    prevArrow: (
+      <SlickButtonFix>
+        <img src="/left-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    nextArrow: (
+      <SlickButtonFix>
+        <img src="/right-arrow.png" alt="" />
+      </SlickButtonFix>
+    ),
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  getArticles();
+  getQuestions();
+  const { logIn } = userInfo();
+
   return (
     <div>
-      <MainCarousel />
-      <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px]">
-        <MainSearch />
-        <div className="w-full flex flex-col justify-between items-center">
-          <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-          {/* TODO: map으로 돌려서 데이터에있는거 다 출력해야함 인기태그를 백에서 주면 좋을듯 */}
-          <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-            {logos.map((logo) => (
-              <Tag key={logo.id} logo={logo} />
-            ))}
+      <div className="max-w-6xl mx-auto px-4 justify-center items-center">
+        <Slider {...settings}>
+          <div>
+            <img src="/banner1.png" alt="" />
           </div>
-        </div>
-        {/* 로그인된 상태라면 MainLogIn를 아니면 MainNotLogIn을 보여준다. */}
+          <div>
+            <img src="/banner2.png" alt="" />
+          </div>
+        </Slider>
+        <div className="w-full my-5 flex flex-col justify-center items-center"></div>
         {logIn ? <MainLogIn /> : <MainNotLogIn />}
-        <p className="text-xl text-left text-gray-400 mt-7">
-          # 구인 중인 스터디
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] overflow-auto">
-          <MainStudy />
-          <MainStudy />
-          <MainStudy />
-          <MainStudy />
+        <div className="flex justify-start items-center">
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 자유 질문
+          </p>
+          <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
+            icon={faCircleArrowRight}
+            size="1x"
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
         </div>
+
+        {freeArticleInfo &&
+          (freeArticleInfo.length > 2 ? (
+            <Slider {...twoSettings}>
+              {freeArticleInfo.map((free) => (
+                <div key={free.freeBoardId}>
+                  <MainFreeArticle key={free.freeBoardId} propData={free} />
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div className="flex justify-start gap-3">
+              {freeArticleInfo.map((free) => (
+                <div key={free.freeBoardId}  className="w-[31%]"> 
+                  <MainFreeArticle key={free.freeBoardId} propData={free} />
+                </div>
+              ))}
+            </div>
+          ))}
+
+        <div className="flex justify-start items-center">
+          <p
+            className="text-lg text-left font-bold my-5 mr-3 cursor-pointer hover:text-[#989aff]"
+            onClick={() => {
+              navigate("/community");
+            }}
+          >
+            # 강의 질문
+          </p>
+          <FontAwesomeIcon
+            className="cursor-pointer hover:text-[#989aff]"
+            icon={faCircleArrowRight}
+            onClick={() => {
+              navigate("/community");
+            }}
+          />
+        </div>
+
+        {courseArticleInfo &&
+          (courseArticleInfo.length > 2 ? (
+            <Slider {...twoSettings}>
+              {courseArticleInfo.map((course) => (
+                <div key={course.questionBoardId}>
+                  <MainLectureQuestion
+                    key={course.questionBoardId}
+                    propData={course}
+                  />
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div className="flex justify-start gap-3">
+              {courseArticleInfo.map((course) => (
+                <div key={course.questionBoardId} className="w-[31%]">
+                  <MainLectureQuestion
+                    key={course.questionBoardId}
+                    propData={course}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+
+        <div className="my-10"></div>
       </div>
     </div>
   );

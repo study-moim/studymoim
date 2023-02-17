@@ -3,25 +3,17 @@ server:
 
 ---
 spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: root
-  jpa:
-    show-sql: false
-    database: mysql
-    hibernate:
-      ddl-auto: create
-  springdoc:
-    use-fqn: true
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:studymoim-gcs.json
 logging:
   level:
-    web: trace
-    sql: trace
+    web: info
+    sql: info
+springdoc:
+  use-fqn: true
 oauth:
   kakao:
     redirect-context: localhost
@@ -32,14 +24,19 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
     show-sql: true
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:studymoim-gcs.json
 logging:
   level:
     web: trace
@@ -56,7 +53,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql_container:3306/example?serverTimezone=KST&characterEncoding=UTF-8
     username: root
     password: SSAFYseoulNo1!
   jpa:
@@ -89,12 +86,12 @@ spring:
             user-name-attribute: id
 ---
 # ssafy-project-team-name-peace-project-full-name-studymoim-service-name-sseuim base64로 인코딩
-# unit is ms. 15 * 24 * 60 * 60 * 1000 = 15days
+# unit is ms. 15 * 24 * 60 * 60 * 1000 = 1day, 86400000ms
 jwt:
   secret: c3NhZnktcHJvamVjdC10ZWFtLW5hbWUtcGVhY2UtcHJvamVjdC1mdWxsLW5hbWUtc3R1ZHltb2ltLXNlcnZpY2UtbmFtZS1zc2V1aW0=
-  expiration: 1296000000
+  expiration: 86400000
 
 
 youtubeapi:
-#  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
-  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g
+  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
+#  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g

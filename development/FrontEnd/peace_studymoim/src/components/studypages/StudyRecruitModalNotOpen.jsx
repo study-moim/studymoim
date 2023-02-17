@@ -1,6 +1,12 @@
-import { useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router";
+import { useRef } from "react";
+import userInfo from "../../zustand/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 export default function StudyRecruitModalNotOpen(props) {
+  const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
+  const studyId = useParams();
+
   window.onkeydown = function (event) {
     if (event.keyCode == 27) {
       props.onCancel();
@@ -10,37 +16,88 @@ export default function StudyRecruitModalNotOpen(props) {
   function cancelHandler() {
     props.onCancel();
   }
+  const { info } = userInfo();
+  const requestRef = useRef("");
 
+  function submitHandler(event) {
+    event.preventDefault();
+    const enteredRequest = requestRef.current.value;
+
+    if (enteredRequest.trim().length < 1) {
+      alert('공백으로만 구성할 수 없습니다.')
+      return 
+    }
+    const requestData = {
+      content: enteredRequest,
+      userId: info.userId,
+    };
+    fetch(
+      `http://${API_SERVER}/api/v1/study/${studyId.study_recruit_id}/request`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        alert('스터디 신청이 완료되었습니다.') 
+        props.onCancel();
+      }
+    });
+  }
   return (
     <>
-      <>
-        <div className="justify-between items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="justify-center items-center relative w-auto my-6 mx-auto max-w-3xl">
-            {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-              <div className="flex flex-col justify-end items-center flex-grow-0 flex-shrink-0 relative gap-2">
-                <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-left text-[#54595e]">
-                  방장에게 보낼 메세지를 작성해주세요.
-                </p>
-              </div>
-              <div className="flex flex-col items-center justify-around p-6 gap-5">
-                <form>
-                  <textarea name="" id="" cols="30" rows="10" maxLength={256}></textarea>
-                  <button className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-white border border-[#4f4f4f] text-sm text-[#4f4f4f]">
-                    제출하기
-                  </button>
-                </form>
-                <button
-                  className="flex justify-center items-center flex-grow h-11 relative gap-2.5 px-1 py-3.5 rounded-lg bg-[#b1b2ff] text-sm text-white"
-                  onClick={cancelHandler}
-                >
-                  신청 안할래요..
+      <div className="justify-center items-center flex fixed inset-0 z-50">
+        <div
+          id="배경"
+          onClick={() => props.onCancel()}
+          className="absolute opacity-25 w-full h-full inset-0 bg-black"
+        ></div>
+        <div className="relative w-auto mx-auto max-w-3xl">
+          {/*content*/}
+          <div className="p-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
+            {/*header*/}
+            <div className="flex items-center justify-between py-5 px-6">
+              <p className="font-bold">스터디 신청</p>
+              <button
+                className="transition-all"
+                onClick={() => cancelHandler()}
+              >
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  size="lg"
+                  className="hover:text-red-500"
+                />
+              </button>
+            </div>
+
+            {/*body*/}
+            <div className="flex flex-col items-center justify-center px-6 gap-5">
+              <form
+                onSubmit={submitHandler}
+                className="flex flex-col justify-center items-center"
+              >
+                <textarea
+                  name=""
+                  id=""
+                  cols="60"
+                  rows="5"
+                  maxLength={100}
+                  required
+                  ref={requestRef}
+                  className="border rounded-[15px] p-5"
+                  placeholder="방장에게 보낼 메세지를 입력해주세요."
+                ></textarea>
+                <button className="m-5 p-2.5 w-[80%] rounded-[10px] text-center text-[14px] border border-[#b1b2ff] hover:bg-[#b1b2ff]">
+                  제출하기
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
-      </>
+      </div>
     </>
   );
 }

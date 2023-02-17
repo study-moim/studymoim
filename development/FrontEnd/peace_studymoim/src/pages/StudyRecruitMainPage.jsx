@@ -1,62 +1,28 @@
-import StudyRecruitList from "../components/studypages/StudyRecruitList";
 import { Link } from "react-router-dom";
-import MainSearch from "../components/mainpages/MainSearch";
-import Tag from "../components/overall/Tag";
-import { logoImage } from "../zustand/store";
-import useFetch from "../hooks/useFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import StudySearch from "../components/studypages/StudySearch";
 
 
-// TODO: 취소 버튼 구현 안함, 강좌 선택도 넣지 않았음
-export default function StudyRecruitMainAll() {
-  const { logos } = logoImage();
-  const LoadedStudyRecruits = useFetch("http://localhost:8080/api/v1/study/")
+export default function StudyRecruitMainPage() {
 
   return (
-    <div className="max-w-6xl mx-auto px-4 flex flex-col justify-start items-center gap-[20px] mt-10">
-      <MainSearch />
-
-        <div className="w-full flex flex-col justify-between items-center">
-          <p className="text-xl text-left text-gray-400 my-3"># 인기태그</p>
-          {/* TODO: map으로 돌려서 데이터에있는거 다 출력해야함 인기태그를 백에서 주면 좋을듯 */}
-          <div className="grid gap-4 grid-cols-5 grid-flow-row auto-rows-auto">
-            {logos.map((logo) => (
-              <Tag key={logo.id} logo={logo} />
-            ))}
-          </div>
+    <>
+      <div className="max-w-6xl mx-auto px-4 bg-white my-[50px]">
+        <div className="flex flex-row justify-between w-full border-b">
+        <p className="text-[18px] font-bold">
+          모집 중인 스터디
+        </p>
+          <Link to="/study/study_recruit_form">
+            <div className="flex justify-center items-center w-[200px] h-[36px] rounded-tl-[15px] rounded-tr-[15px] bg-[#b1b2ff] text-[14px] text-center text-white cursor-pointer hover:bg-[#8871f9]">
+              <FontAwesomeIcon icon={faPenToSquare} /> 스터디 만들기
+            </div>
+          </Link>
         </div>
-
-      <div className="flex flex-col justify-start items-start">
-        <div className="flex justify-end items-center self-stretch  h-[92px] gap-2.5 px-2.5 pb-2.5 bg-white border-t border-r-[0.3px] border-b-0 border-l-[0.3px] border-black">
-          <div className="flex justify-start items-start  gap-[23px]">
-            <Link to="/studyDetail">
-              <div>임시 버튼</div>
-            </Link>
-
-            <Link to="/study/study_recruit_form">
-              <div
-                className="px-8 py-[13px] rounded-[10px] bg-[#b1b2ff]/50 text-xl font-bold text-black hover:bg-[#b1b2ff]/90 hover:scale-95"
-                style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-              >
-                스터디 만들기
-              </div>
-            </Link>
-            
-            <select
-              name="커뮤니티정렬"
-              className="pl-[20px] w-[150px] h-[40px] mt-[10px] bg-[#f2f2f2] cursor-pointer"
-              style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
-            >
-              <option value="">정렬하기</option>
-              <option value="new">최신순</option>
-              <option value="old">오래된순</option>
-            </select>
-          </div>
-        </div>
-      
-      <div className="flex flex-col justify-start items-start w-full border-x-[0.3px] border-b-[0.3px] border-black px-3">
-          <StudyRecruitList recruits={LoadedStudyRecruits} />;
+        <div className="flex flex-col justify-start items-start">
+          <StudySearch />
         </div>
       </div>
-    </div>
+    </>
   );
 }

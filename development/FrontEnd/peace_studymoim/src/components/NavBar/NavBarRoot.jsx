@@ -1,19 +1,24 @@
-import { userInfo } from "../../zustand/store";
+import userInfo from "../../zustand/store";
 import NavBarLogIn from "./NavBarLogIn";
 import NavBarNotLogIn from "./NavBarNotLogIn";
 import NavBarRouter from "./NavBarRouter";
 import NavBarRouterMd from "./NavBarRouterMd";
 import { useState } from "react";
 import classNames from "classnames";
-import RingModal from "./RingModal";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  // 네비바 푸터 안보이기
+  const locationNow = useLocation();
+  if (locationNow.pathname.startsWith("/player") || locationNow.pathname.startsWith("/choice") || locationNow.pathname.startsWith("/login")) return null;
+
+
+
   const { logIn } = userInfo();
   const [menuToggle, setMenuToggle] = useState(false);
-  
   return (
     <>
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto p-4">
         <div className="flex justify-between">
           <div className="flex space-x-4">
             <NavBarRouter />

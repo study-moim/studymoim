@@ -47,5 +47,11 @@ public class UserHistory {
         this.lecture = lecture;
         this.user = user;
     }
+
+    public UserHistory update(int endTimeline, LocalDateTime endTime) {
+        this.endTimeline = endTimeline;
+        this.endTime = endTime;
+        return this;
+    }
 }
 
