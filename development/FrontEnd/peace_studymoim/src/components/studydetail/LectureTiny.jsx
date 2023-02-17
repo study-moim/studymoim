@@ -26,11 +26,6 @@ export default function LectureTiny({
         }}
       >
         <p className="w-[2%] px-5 text-[15px] text-center">{lectureIndex}</p>
-        {/* <img
-          className="w-[10%] h-full rounded-[10px]"
-          src={propData.thumbnail}
-          alt="x"
-        /> */}
         <p className="w-full text-[15px]">{propData.title}</p>
       </div>
     </Link>

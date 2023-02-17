@@ -13,13 +13,11 @@ import {
 export default function StudyMakeForm(props) {
   const [showModal, setShowModal] = useState(false);
   const API_SERVER = import.meta.env.VITE_APP_API_SERVER;
-  const [search, setSearch] = useState([]);  
+  const [search, setSearch] = useState([]);
 
   useEffect(() => {
     const getSearch = async () => {
-      await fetch(
-        `http://${API_SERVER}/api/v1/course?size=1000000`
-      )
+      await fetch(`http://${API_SERVER}/api/v1/course?size=1000000`)
         .then((res) => res.json())
         .then((json) => {
           setSearch(json.content);
@@ -78,16 +76,6 @@ export default function StudyMakeForm(props) {
     <div className="max-w-6xl mx-auto px-4 mt-[50px] mb-[100px]">
       <form className="flex flex-col gap-[50px] " onSubmit={submitHandler}>
         <p className="text-3xl text-center font-bold">스터디원 모집하기</p>
-        <input
-          type="text"
-          ref={titleInput}
-          id="title"
-          required
-          className="text-center px-7 text-2xl font-bold focus:outline-none"
-          placeholder="제목에 스터디 핵심을 요약해 적어보세요."
-          minLength="5"
-          maxLength="20"
-        />
         <div className="flex justify-center items-center gap-[100px]">
           {/* 시작 예정일 (required) */}
           <div className="flex flex-col justify-center items-center w-[140px] gap-3">
@@ -173,14 +161,24 @@ export default function StudyMakeForm(props) {
                 borderRadius: 5,
                 padding: 8,
                 width: 1100,
-                borderColor: state.isFocused ? 'blue' : 'black',
+                borderColor: state.isFocused ? "blue" : "black",
               }),
             }}
           />
         </div>
 
         {/* 설명 */}
-        <div className="flex flex-col w-full justify-start gap-[34px]">
+        <div className="flex flex-col w-full justify-start gap-[20px]">
+          <input
+            type="text"
+            ref={titleInput}
+            id="title"
+            required
+            className="px-7 focus:outline-none border-black py-2 border-2 rounded-[5px]"
+            placeholder="스터디 제목을 써주세요.(최대 30자)"
+            minLength="5"
+            maxLength="30"
+          />
           <textarea
             required
             ref={contentInput}

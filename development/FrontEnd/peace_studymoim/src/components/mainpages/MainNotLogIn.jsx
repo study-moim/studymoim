@@ -94,24 +94,6 @@ export default function MainNotLogIn() {
     ],
   };
 
-  // let filterInfo = courseInfo.filter((course) => {
-  //   if (searchKey == "word") {
-  //     return course.title
-  //       .replace(" ", "")
-  //       .toLocaleLowerCase()
-  //       .includes(searchData.toLocaleLowerCase().replace(" ", ""));
-  //   } else if (searchKey == "tag") {
-  //     if (
-  //       course.categoryList.length != 0 &&
-  //       course.categoryList[0].courseCategoryId == searchData
-  //     ) {
-  //       return course;
-  //     }
-  //   } else {
-  //     return courseInfo;
-  //   }
-  // });
-
   return (
     <>
       <div className="flex justify-start items-center">
@@ -127,13 +109,6 @@ export default function MainNotLogIn() {
         />
       </div>
 
-      {/* <Slider {...settings}>
-        {filterInfo.map((course) => (
-          <div key={course.course_id}>
-            <MainCourse key={course.course_id} propData={course} />
-          </div>
-        ))}
-      </Slider> */}
       {courseInfo && (
         <Slider arrows={false} {...settings}>
         {courseInfo.map((course) => (

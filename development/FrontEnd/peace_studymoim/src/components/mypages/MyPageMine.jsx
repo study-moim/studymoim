@@ -77,13 +77,6 @@ export default function MyPageMine({ getClick, myId, clickModal }) {
         >
           좋아요한 강좌
         </p>
-        {/* <p
-          onClick={getClick}
-          id="static"
-          className="cursor-pointer text-[15px] text-center text-black hover:scale-105"
-        >
-          통계
-        </p> */}
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import CourseMainRoot from "./pages/CourseMainRoot";
 import CommunityMainRoot from "./pages/CommunityMainRoot";
 import LogInMainRoot from "./pages/LogInMainRoot";
 import MyPageRoot from "./pages/MyPageRoot";
-import MailMainRoot from "./pages/MailMainRoot";
 import FieldPage from "./pages/FieldPage";
 import Footer from "./components/overall/Footer";
 import CommunityDetailRoot from "./pages/CommunityDetailRoot";
@@ -20,7 +19,6 @@ import StudyUpdatePage from "./pages/StudyUpdatePage";
 import CourseDetailRoot from "./pages/CourseDetailRoot";
 import KakaoLoginRedirect from "./pages/KakaoLoginRedirect";
 import ScrollToTop from "./components/overall/ScrollToTop";
-import Search from "./pages/Search";
 import TempPage from "./components/overall/TempPage";
 import TempPageForArticle from "./components/communitypages/TempPageForArticle";
 import MyPageRealRoot from "./pages/MyPageRealRoot";
@@ -45,7 +43,6 @@ export default function App() {
         <Route path="/mypage" element={<MyPageRealRoot />}>
           <Route path=":user_id" element={<MyPageRoot />}></Route>
         </Route>
-        <Route path="/mail" element={<MailMainRoot />}></Route>
         <Route path="/choice" element={<FieldPage />}></Route>
         <Route path="/community/create" element={<ArticleCreateForm />}></Route>
         <Route
@@ -73,7 +70,6 @@ export default function App() {
           element={<StudyUpdatePage />}
         ></Route>
         <Route path="/login/kakao" element={<KakaoLoginRedirect />}></Route>
-        <Route path="/search/:word" element={<Search />} />
         <Route path="/temp" element={<TempPage />} />
         <Route path="/mypagetemp" element={<MyPageTempPage />} />
         <Route path="/temparticle" element={<TempPageForArticle />} />
