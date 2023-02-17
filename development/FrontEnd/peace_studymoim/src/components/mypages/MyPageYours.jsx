@@ -86,13 +86,6 @@ export default function MyPageYours({ getClick, yourId, clickModal }) {
         >
           작성한 글
         </p>
-        {/* <p
-          onClick={getClick}
-          id="static"
-          className="cursor-pointer text-[15px] text-center text-black hover:scale-105"
-        >
-          통계
-        </p> */}
       </div>
     </div>
   );

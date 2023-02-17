@@ -1,6 +1,7 @@
 import useFetch from "../../hooks/useFetch";
 import userInfo from "../../zustand/store";
 import MainStudy from "./MainStudy";
+import MainMyStudy from "./MainMyStudy";
 import MainCourse from "./MainCourse";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -104,23 +105,6 @@ export default function MainLogIn() {
   );
   const studyInfo = useFetch(`http://${API_SERVER}/api/v1/study/`);
 
-  // let filterInfo = recommendCourses.filter((course) => {
-  //   if (searchKey == "word") {
-  //     return course.title
-  //       .replace(" ", "")
-  //       .toLocaleLowerCase()
-  //       .includes(searchData.toLocaleLowerCase().replace(" ", ""));
-  //   } else if (searchKey == "tag") {
-  //     if (
-  //       course.categoryList.length != 0 &&
-  //       course.categoryList[0].courseCategoryId == searchData
-  //     ) {
-  //       return course;
-  //     }
-  //   } else {
-  //     return recommendCourses;
-  //   }
-  // });
 
   return (
     <>
@@ -169,14 +153,14 @@ export default function MainLogIn() {
       {myStudies.length > 2 ? (
         <Slider {...twoSettings}>
           {myStudies.map((study) => (
-            <StudyListItem key={study.studyId} propData={study} />
+            <MainMyStudy key={study.studyId} propData={study} />
           ))}
         </Slider>
       ) : (
         <div className="flex justify-start">
           {myStudies.map((study) => (
             <div key={study.studyId} className="w-[31%]">
-            <StudyListItem key={study.studyId} propData={study} />
+            <MainMyStudy key={study.studyId} propData={study} />
             </div> 
           ))}
         </div>

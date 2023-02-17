@@ -58,8 +58,7 @@ export default function StudyListItem({ propData }) {
                 </p>
               ) : (
                 <p className="min-h-[36px] text-[12px] truncate">
-                  {" "}
-                  등록된 강좌가 없음{" "}
+                  등록된 강좌가 없음
                 </p>
               )}
             </div>
