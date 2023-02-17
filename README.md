@@ -156,7 +156,7 @@ Docker Compose
 
 ---
 
-![architecture](docs\images\architecture.png)
+![architecture](docs/images/architecture.png)
 
 # ✔ 프로젝트 파일 구조
 
