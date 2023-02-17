@@ -112,7 +112,7 @@ export default function MainPageRoot() {
         </div>
 
         {freeArticleInfo &&
-          (freeArticleInfo > 2 ? (
+          (freeArticleInfo.length > 2 ? (
             <Slider {...twoSettings}>
               {freeArticleInfo.map((free) => (
                 <div key={free.freeBoardId}>
@@ -149,7 +149,7 @@ export default function MainPageRoot() {
         </div>
 
         {courseArticleInfo &&
-          (courseArticleInfo > 2 ? (
+          (courseArticleInfo.length > 2 ? (
             <Slider {...twoSettings}>
               {courseArticleInfo.map((course) => (
                 <div key={course.questionBoardId}>
