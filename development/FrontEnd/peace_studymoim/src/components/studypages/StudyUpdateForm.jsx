@@ -67,18 +67,7 @@ export default function StudyMakeForm({ propData }) {
     <div className="max-w-6xl mx-auto px-4 mt-[50px] mb-[100px]">
       <form className="flex flex-col gap-[50px] " onSubmit={submitHandler}>
         <p className="text-3xl text-center font-bold">스터디 정보 수정</p>
-        {/* 제목 */}
-        <input
-          type="text"
-          ref={titleInputRef}
-          id="title"
-          required
-          className="text-center px-7 text-2xl font-bold focus:outline-none"
-          placeholder="제목에 스터디 핵심을 요약해 적어보세요."
-          min={5}
-          max={30}
-          defaultValue={propData.title}
-        />
+
         <div className="flex justify-center items-center gap-[80px]">
           {/* 시작 예정일 (required) */}
           <div className="flex flex-col justify-center items-center w-[140px] gap-3">
@@ -195,7 +184,17 @@ export default function StudyMakeForm({ propData }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full justify-start gap-[34px]">
+        <div className="flex flex-col w-full justify-start gap-[20px]">
+          <input
+            type="text"
+            ref={titleInputRef}
+            id="title"
+            required
+            className="px-7 focus:outline-none border-black py-2 border-2 rounded-[5px]"
+            minLength="5"
+            maxLength="30"
+            defaultValue={propData.title}
+          />
           <textarea
             required
             ref={contentRef}
