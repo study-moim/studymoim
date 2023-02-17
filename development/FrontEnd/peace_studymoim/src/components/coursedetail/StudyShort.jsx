@@ -13,7 +13,7 @@ export default function StudyShort({ propData, studyIndex }) {
         <p className="px-5 text-base text-center">{studyIndex}</p>
         <div className="mr-[30px] flex flex-col gap-1">
           <p className="text-base font-bold">{propData.title}</p>
-          <p className="text-base truncate">{propData.content}</p>
+          <p className="text-base">{propData.content.substring(0, 50)}...</p>
           <p className="text-base">시작일{propData.startTime}</p>
         </div>
       </div>
