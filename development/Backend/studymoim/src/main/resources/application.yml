@@ -24,9 +24,9 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql-dev:3306/studymoim?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: SSAFYseoulNo1!
+    url: 
+    username: 
+    password: 
   jpa:
     show-sql: true
     database: mysql
@@ -53,9 +53,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container:3306/example?serverTimezone=KST&characterEncoding=UTF-8
-    username: root
-    password: SSAFYseoulNo1!
+    url: 
+    username: 
+    password: 
   jpa:
     database: mysql
   springdoc:
@@ -71,8 +71,8 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 98268e53473ceb3e11dd6e609a5fa990
-            redirect-uri: http://localhost:8080/oauth/login
+            client-id: 
+            redirect-uri: 
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
@@ -85,13 +85,11 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 ---
-# ssafy-project-team-name-peace-project-full-name-studymoim-service-name-sseuim base64로 인코딩
 # unit is ms. 15 * 24 * 60 * 60 * 1000 = 1day, 86400000ms
 jwt:
-  secret: c3NhZnktcHJvamVjdC10ZWFtLW5hbWUtcGVhY2UtcHJvamVjdC1mdWxsLW5hbWUtc3R1ZHltb2ltLXNlcnZpY2UtbmFtZS1zc2V1aW0=
+  secret: 
   expiration: 86400000
 
 
 youtubeapi:
-  secret: AIzaSyBhWMg2moTtilibBevJSI3M9iWUwmkRImQ
-#  secret: AIzaSyDZq1Regle2P6iMY_oUmaCv4aaZx7X_v4g
+  secret:
