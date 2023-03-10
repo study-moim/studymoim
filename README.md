@@ -1,7 +1,5 @@
 # 🌐 쓰임 링크 : [http://i8a110.p.ssafy.io](http://i8a110.p.ssafy.io/)
 
-# 🎞 소개 영상 보기 :
-
 # 📆 프로젝트 진행 기간
 
 2023/01/16 ~ 2023/02/16
@@ -102,8 +100,6 @@
 
 # ✔ 주요 기술
 
----
-
 **Backend - Spring**
 
 Spring Boot
@@ -154,13 +150,9 @@ Docker Compose
 
 # ✔ 프로젝트 아키텍쳐
 
----
-
 ![architecture](docs/images/architecture.png)
 
 # ✔ 프로젝트 파일 구조
-
----
 
 ### Backend
 
@@ -523,8 +515,6 @@ FRONTEND\PEACE_STUDYMOIM\SRC
 
 # ✔ 협업
 
----
-
 ### Notion 을 통한 협업
 
 - 브레인스토밍, 기능 구현, 링크 공유 등 팀원과 함께 작성해야 할 문서가 있을때 Notion을 활용했어요
@@ -550,8 +540,6 @@ FRONTEND\PEACE_STUDYMOIM\SRC
 - 근무 외 추가적인 작업을 위해 DIscord에 접속하여 팀원과 협업을 이어나갔어요
 
 # ✔ 팀원 역할 분배
-
----
 
 ### 박서영 (팀장)
 
